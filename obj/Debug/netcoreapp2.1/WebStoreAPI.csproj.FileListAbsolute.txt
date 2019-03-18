@@ -1,0 +1,16 @@
+C:\Users\a.shimchukevich\source\repos\WebStoreAPI\WebStoreAPI\bin\Debug\netcoreapp2.1\WebStoreAPI.deps.json
+C:\Users\a.shimchukevich\source\repos\WebStoreAPI\WebStoreAPI\bin\Debug\netcoreapp2.1\WebStoreAPI.runtimeconfig.json
+C:\Users\a.shimchukevich\source\repos\WebStoreAPI\WebStoreAPI\bin\Debug\netcoreapp2.1\WebStoreAPI.runtimeconfig.dev.json
+C:\Users\a.shimchukevich\source\repos\WebStoreAPI\WebStoreAPI\bin\Debug\netcoreapp2.1\WebStoreAPI.dll
+C:\Users\a.shimchukevich\source\repos\WebStoreAPI\WebStoreAPI\bin\Debug\netcoreapp2.1\WebStoreAPI.pdb
+C:\Users\a.shimchukevich\source\repos\WebStoreAPI\WebStoreAPI\obj\Debug\netcoreapp2.1\WebStoreAPI.csproj.CoreCompileInputs.cache
+C:\Users\a.shimchukevich\source\repos\WebStoreAPI\WebStoreAPI\obj\Debug\netcoreapp2.1\WebStoreAPI.RazorAssemblyInfo.cache
+C:\Users\a.shimchukevich\source\repos\WebStoreAPI\WebStoreAPI\obj\Debug\netcoreapp2.1\WebStoreAPI.RazorAssemblyInfo.cs
+C:\Users\a.shimchukevich\source\repos\WebStoreAPI\WebStoreAPI\obj\Debug\netcoreapp2.1\WebStoreAPI.AssemblyInfoInputs.cache
+C:\Users\a.shimchukevich\source\repos\WebStoreAPI\WebStoreAPI\obj\Debug\netcoreapp2.1\WebStoreAPI.AssemblyInfo.cs
+C:\Users\a.shimchukevich\source\repos\WebStoreAPI\WebStoreAPI\obj\Debug\netcoreapp2.1\WebStoreAPI.RazorTargetAssemblyInfo.cache
+C:\Users\a.shimchukevich\source\repos\WebStoreAPI\WebStoreAPI\obj\Debug\netcoreapp2.1\WebStoreAPI.dll
+C:\Users\a.shimchukevich\source\repos\WebStoreAPI\WebStoreAPI\obj\Debug\netcoreapp2.1\WebStoreAPI.pdb
+C:\Users\a.shimchukevich\source\repos\WebStoreAPI\WebStoreAPI\obj\Debug\netcoreapp2.1\WebStoreAPI.csprojAssemblyReference.cache
+C:\Users\a.shimchukevich\source\repos\WebStoreAPI\WebStoreAPI\bin\Debug\netcoreapp2.1\WebStoreAPI.Views.dll
+C:\Users\a.shimchukevich\source\repos\WebStoreAPI\WebStoreAPI\obj\Debug\netcoreapp2.1\WebStoreAPI.csproj.CopyComplete
