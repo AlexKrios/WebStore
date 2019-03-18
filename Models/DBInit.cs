@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace WebStoreAPI.Model
+namespace WebStoreAPI.Models
 {
     public class DBInit
     {

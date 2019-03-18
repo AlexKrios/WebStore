@@ -14,3 +14,10 @@ C:\Users\a.shimchukevich\source\repos\WebStoreAPI\WebStoreAPI\obj\Debug\netcorea
 C:\Users\a.shimchukevich\source\repos\WebStoreAPI\WebStoreAPI\obj\Debug\netcoreapp2.1\WebStoreAPI.csprojAssemblyReference.cache
 C:\Users\a.shimchukevich\source\repos\WebStoreAPI\WebStoreAPI\bin\Debug\netcoreapp2.1\WebStoreAPI.Views.dll
 C:\Users\a.shimchukevich\source\repos\WebStoreAPI\WebStoreAPI\obj\Debug\netcoreapp2.1\WebStoreAPI.csproj.CopyComplete
+C:\Users\a.shimchukevich\source\repos\WebStoreAPI\WebStoreAPI\bin\Debug\netcoreapp2.1\WebStoreAPI.Views.pdb
+C:\Users\a.shimchukevich\source\repos\WebStoreAPI\WebStoreAPI\obj\Debug\netcoreapp2.1\WebStoreAPI.TagHelpers.input.cache
+C:\Users\a.shimchukevich\source\repos\WebStoreAPI\WebStoreAPI\obj\Debug\netcoreapp2.1\WebStoreAPI.TagHelpers.output.cache
+C:\Users\a.shimchukevich\source\repos\WebStoreAPI\WebStoreAPI\obj\Debug\netcoreapp2.1\WebStoreAPI.RazorCoreGenerate.cache
+C:\Users\a.shimchukevich\source\repos\WebStoreAPI\WebStoreAPI\obj\Debug\netcoreapp2.1\WebStoreAPI.RazorTargetAssemblyInfo.cs
+C:\Users\a.shimchukevich\source\repos\WebStoreAPI\WebStoreAPI\obj\Debug\netcoreapp2.1\WebStoreAPI.Views.pdb
+C:\Users\a.shimchukevich\source\repos\WebStoreAPI\WebStoreAPI\obj\Debug\netcoreapp2.1\Razor\Views\Admin\Users.g.cshtml.cs

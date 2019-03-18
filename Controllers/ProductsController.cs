@@ -1,15 +1,16 @@
 ﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using WebStoreAPI.Model;
+using WebStoreAPI.Models;
 
 namespace WebStoreAPI.Controllers
 {
     [Route("api/[controller]")]
-    public class WebStoreController : Controller
+    public class ProductsController : Controller
     {
         WebStoreContext db;
+        ProductModel pm = new ProductModel();
         //Initialization databse and paste start products, users
-        public WebStoreController(WebStoreContext context)
+        public ProductsController(WebStoreContext context)
         {
             this.db = context;
             DBInit.Init(context);
@@ -39,8 +40,7 @@ namespace WebStoreAPI.Controllers
             if (product == null)
                 return BadRequest();
 
-            db.Products.Add(product);
-            db.SaveChanges();
+            pm.Post(db, product);
             return Ok(product);
         }
 
@@ -53,8 +53,7 @@ namespace WebStoreAPI.Controllers
             if (!db.Products.Any(x => x.Id == product.Id))
                 return NotFound();
 
-            db.Update(product);
-            db.SaveChanges();
+            pm.Put(db, product);
             return Ok(product);
         }
 
@@ -66,8 +65,7 @@ namespace WebStoreAPI.Controllers
             if (product == null)
                 return NotFound();
 
-            db.Products.Remove(product);
-            db.SaveChanges();
+            pm.Delete(db, product);
             return Ok(product);
         }
     }

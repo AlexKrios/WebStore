@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using WebStoreAPI.Model;
+using WebStoreAPI.Models;
 
 namespace WebStoreAPI
 {
@@ -21,7 +21,7 @@ namespace WebStoreAPI
         {
             string con = "Server=SHIMCHUKEVICHA\\WEBSTORESERVER;Database=webstoredb;User Id=a.shimchukevich;Password=KPhD8D3r";
             services.AddDbContext<WebStoreContext>(options => options.UseSqlServer(con));
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
