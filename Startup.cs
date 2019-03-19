@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using WebStoreAPI.Commands;
 using WebStoreAPI.Models;
+using WebStoreAPI.Queries;
 
 namespace WebStoreAPI
 {
@@ -22,6 +23,14 @@ namespace WebStoreAPI
             string con = "Server=SHIMCHUKEVICHA\\WEBSTORESERVER;Database=webstoredb;User Id=a.shimchukevich;Password=KPhD8D3r";
             services.AddDbContext<WebStoreContext>(options => options.UseSqlServer(con));
             services.AddMvc();
+
+            //Commamd service for Product and User
+            services.AddTransient<ICommandService<Product>, CommandServiceProduct>();
+            services.AddTransient<ICommandService<User>, CommandServiceUser>();
+
+            //Querie service for Product and User
+            services.AddTransient<IQueriesService<Product>, QueriesServiceProduct>();
+            services.AddTransient<IQueriesService<User>, QueriesServiceUser>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

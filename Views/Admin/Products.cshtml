@@ -16,7 +16,7 @@
             <input class="form-control" name="name" />
         </div>
         <div class="form-group">
-            <label for="model">Возраст:</label>
+            <label for="model">Модель:</label>
             <input class="form-control" name="model" />
         </div>
         <div class="form-group">
@@ -32,142 +32,143 @@
             <a id="reset" class="btn btn-sm btn-primary">Сбросить</a>
         </div>
     </form>
+
     <table class="table table-condensed table-striped table-bordered">
         <thead><tr><th>Id</th><th>Название</th><th>Модель</th><th>Тип</th><th>Цена</th><th>Действия</th></tr></thead>
         <tbody></tbody>
     </table>
 
     <script>
-        // Получение всех пользователей
-        function GetProducts() {
-            $.ajax({
-                url: '/api/products',
-                type: 'GET',
-                contentType: "application/json",
-                success: function (products) {
-                    var rows = "";
+        // Получение всех пользователей
+        function GetProducts() {
+            $.ajax({
+                url: '/api/products',
+                type: 'GET',
+                contentType: "application/json",
+                success: function (products) {
+                    var rows = "";
                     $.each(products, function (index, product) {
                         rows += row(product);
-                    })
-                    $("table tbody").append(rows);
-                 }
-            });
-        }
-        // Получение одного пользователя
-        function GetProduct(id) {
-            $.ajax({
-                url: '/api/products/'+id,
-                type: 'GET',
-                contentType: "application/json",
+                    })
+                    $("table tbody").append(rows);
+                }
+            });
+        }
+        // Получение одного пользователя
+        function GetProduct(id) {
+            $.ajax({
+                url: '/api/products/' + id,
+                type: 'GET',
+                contentType: "application/json",
                 success: function (product) {
-                    var form = document.forms["userForm"];
+                    var form = document.forms["userForm"];
                     form.elements["id"].value = product.id;
                     form.elements["name"].value = product.name;
                     form.elements["model"].value = product.model;
                     form.elements["type"].value = product.type;
                     form.elements["price"].value = product.price;
-                }
-            });
-        }
-        // Добавление пользователя
+                }
+            });
+        }
+        // Добавление пользователя
         function CreateProduct(productName, productModel, productType, productPrice) {
-            $.ajax({
+            $.ajax({
                 url: "api/products",
-                contentType: "application/json",
-                method: "POST",
-                data: JSON.stringify({
+                contentType: "application/json",
+                method: "POST",
+                data: JSON.stringify({
                     name: productName,
                     model: productModel,
                     type: productType,
                     price: productPrice
-                }),
+                }),
                 success: function (product) {
-                    reset();
+                    reset();
                     $("table tbody").append(row(product));
-                }
-            })
-        }
-        // Изменение пользователя
+                }
+            })
+        }
+        // Изменение пользователя
         function EditProduct(productId, productName, productModel, productType, productPrice) {
-            $.ajax({
+            $.ajax({
                 url: "api/products",
-                contentType: "application/json",
-                method: "PUT",
-                data: JSON.stringify({
+                contentType: "application/json",
+                method: "PUT",
+                data: JSON.stringify({
                     id: productId,
                     name: productName,
                     model: productModel,
                     type: productType,
                     price: productPrice
-                }),
+                }),
                 success: function (product) {
-                    reset();
+                    reset();
                     $("tr[data-rowid='" + product.id + "']").replaceWith(row(product));
-                }
-            })
-        }
- 
-        // сброс формы
-        function reset() {
-            var form = document.forms["userForm"];
-            form.reset();
-            form.elements["id"].value = 0;
-        }
- 
-        // Удаление пользователя
+                }
+            })
+        }
+
+        // сброс формы
+        function reset() {
+            var form = document.forms["userForm"];
+            form.reset();
+            form.elements["id"].value = 0;
+        }
+
+        // Удаление пользователя
         function DeleteProduct(id) {
-            $.ajax({
-                url: "api/products/"+id,
-                contentType: "application/json",
-                method: "DELETE",
+            $.ajax({
+                url: "api/products/" + id,
+                contentType: "application/json",
+                method: "DELETE",
                 success: function (product) {
                     $("tr[data-rowid='" + product.id + "']").remove();
-                }
-            })
-        }
-        // создание строки для таблицы
+                }
+            })
+        }
+        // создание строки для таблицы
         var row = function (product) {
             return "<tr data-rowid='" + product.id + "'><td>" + product.id + "</td>" +
                 "<td>" + product.name + "</td> <td>" + product.model + "</td>" +
                 "</td> <td>" + product.type + "</td>" + "</td> <td>" + product.price + "</td>" +
                 "<td><a class='editLink' data-id='" + product.id + "'>Изменить</a> | " +
                 "<a class='removeLink' data-id='" + product.id + "'>Удалить</a></td></tr>";
-        }
-        // сброс значений формы
-        $("#reset").click(function (e) {
- 
-            e.preventDefault();
-            reset();
-        })
- 
-        // отправка формы
-        $("form").submit(function (e) {
-            e.preventDefault();
-            var id = this.elements["id"].value;
+        }
+        // сброс значений формы
+        $("#reset").click(function (e) {
+
+            e.preventDefault();
+            reset();
+        })
+
+        // отправка формы
+        $("form").submit(function (e) {
+            e.preventDefault();
+            var id = this.elements["id"].value;
             var name = this.elements["name"].value;
             var model = this.elements["model"].value;
             var type = this.elements["type"].value;
             var price = this.elements["price"].value;
             if (id == 0)
                 CreateProduct(name, model, type, price);
-            else
+            else
                 EditProduct(id, name, model, type, price);
-        });
- 
-        // нажимаем на ссылку Изменить
-        $("body").on("click", ".editLink", function () {
-            var id = $(this).data("id");
+        });
+
+        // нажимаем на ссылку Изменить
+        $("body").on("click", ".editLink", function () {
+            var id = $(this).data("id");
             GetProduct(id);
-        })
-        // нажимаем на ссылку Удалить
-        $("body").on("click", ".removeLink", function () {
-            var id = $(this).data("id");
+        })
+        // нажимаем на ссылку Удалить
+        $("body").on("click", ".removeLink", function () {
+            var id = $(this).data("id");
             DeleteProduct(id);
-        })
- 
-        // загрузка пользователей
-        GetProducts();
- 
+        })
+
+        // загрузка пользователей
+        GetProducts();
+
     </script>
 
     <style>

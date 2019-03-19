@@ -1,71 +1,75 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using WebStoreAPI.Commands;
 using WebStoreAPI.Models;
+using WebStoreAPI.Queries;
 
 namespace WebStoreAPI.Controllers
 {
     [Route("api/[controller]")]
+    [ApiController]
     public class UsersController : Controller
     {
-        WebStoreContext db;
-        UserModel um = new UserModel();
-        //Initialization databse and paste start products, users
-        public UsersController(WebStoreContext context)
+        private readonly IQueriesService<User> queries;
+        private readonly ICommandService<User> commands;
+
+        //Setup connection
+        public UsersController(ICommandService<User> commands, IQueriesService<User> queries)
         {
-            this.db = context;
-            DBInit.Init(context);
+            this.commands = commands ?? throw new ArgumentNullException(nameof(commands));
+            this.queries = queries ?? throw new ArgumentNullException(nameof(queries));
         }
 
         //Get list of users
         [HttpGet]
-        public IActionResult Get()
+        public IEnumerable<User> Get()
         {
-            return Ok(db.Users);
+            return queries.GetAll();
         }
 
         //Get single user
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            User user = db.Users.FirstOrDefault(x => x.Id == id);
+            User user = queries.GetSingle(id);
             if (user == null)
                 return NotFound();
-            return Ok(user);
+            return Ok(queries.GetSingle(id));
+        }
+
+        //Get group of user
+        [HttpGet("role/{role}")]
+        public IEnumerable<User> GetGroup(string role)
+        {
+            return queries.GetGroup(role);
         }
 
         //Add new user
         [HttpPost]
         public IActionResult Post([FromBody]User user)
         {
-            if (user == null)
-                return BadRequest();
-
-            um.Post(db, user);
+            commands.Post(user);
+            commands.SaveDB();
             return Ok(user);
         }
 
         //Change user
         [HttpPut]
-        public IActionResult Put([FromBody]User user)
+        public IActionResult Put([FromBody]User User)
         {
-            if (user == null)
-                return BadRequest();
-            if (!db.Users.Any(x => x.Id == user.Id))
-                return NotFound();
-
-            um.Put(db, user);
-            return Ok(user);
+            commands.Put(User);
+            commands.SaveDB();
+            return Ok(User);
         }
 
         //Delete user
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            User user = db.Users.FirstOrDefault(x => x.Id == id);
-            if (user == null)
-                return NotFound();
-
-            um.Delete(db, user);
+            User user = queries.GetSingle(id);
+            commands.Delete(user);
+            commands.SaveDB();
             return Ok(user);
         }
     }

@@ -1,46 +1,53 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using WebStoreAPI.Commands;
 using WebStoreAPI.Models;
+using WebStoreAPI.Queries;
 
 namespace WebStoreAPI.Controllers
 {
     [Route("api/[controller]")]
+    [ApiController]
     public class ProductsController : Controller
     {
-        WebStoreContext db;
-        ProductModel pm = new ProductModel();
-        //Initialization databse and paste start products, users
-        public ProductsController(WebStoreContext context)
+        private readonly IQueriesService<Product> queries;
+        private readonly ICommandService<Product> commands;
+
+        //Setup connection
+        public ProductsController(ICommandService<Product> commands, IQueriesService<Product> queries)
         {
-            this.db = context;
-            DBInit.Init(context);
+            this.commands = commands ?? throw new ArgumentNullException(nameof(commands));
+            this.queries = queries ?? throw new ArgumentNullException(nameof(queries));
         }
 
         //Get list of products
         [HttpGet]
-        public IActionResult Get()
+        public IEnumerable<Product> Get()
         {
-            return Ok(db.Products);
+            return queries.GetAll();
         }
 
         //Get single product
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public Product Get(int id)
         {
-            Product product = db.Products.FirstOrDefault(x => x.Id == id);
-            if (product == null)
-                return NotFound();
-            return Ok(product);
+            return queries.GetSingle(id);
+        }
+
+        //Get group of products
+        [HttpGet("group/{type}")]
+        public IEnumerable<Product> GetGroup(string type)
+        {
+            return queries.GetGroup(type);
         }
 
         //Add new product
         [HttpPost]
         public IActionResult Post([FromBody]Product product)
         {
-            if (product == null)
-                return BadRequest();
-
-            pm.Post(db, product);
+            commands.Post(product);
+            commands.SaveDB();
             return Ok(product);
         }
 
@@ -48,12 +55,8 @@ namespace WebStoreAPI.Controllers
         [HttpPut]
         public IActionResult Put([FromBody]Product product)
         {
-            if (product == null)
-                return BadRequest();
-            if (!db.Products.Any(x => x.Id == product.Id))
-                return NotFound();
-
-            pm.Put(db, product);
+            commands.Put(product);
+            commands.SaveDB();
             return Ok(product);
         }
 
@@ -61,11 +64,9 @@ namespace WebStoreAPI.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            Product product = db.Products.FirstOrDefault(x => x.Id == id);
-            if (product == null)
-                return NotFound();
-
-            pm.Delete(db, product);
+            Product product = queries.GetSingle(id);
+            commands.Delete(product);
+            commands.SaveDB();
             return Ok(product);
         }
     }

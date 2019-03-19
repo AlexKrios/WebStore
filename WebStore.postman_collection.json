@@ -76,6 +76,42 @@
 			"response": []
 		},
 		{
+			"name": "GET (group) Product",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:64671/api/products/group/smartphone",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "64671",
+					"path": [
+						"api",
+						"products",
+						"group",
+						"smartphone"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "POST  Product",
 			"request": {
 				"method": "POST",
@@ -226,6 +262,42 @@
 						"api",
 						"users",
 						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET (group) User",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:64671/api/users/role/administrator",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "64671",
+					"path": [
+						"api",
+						"users",
+						"role",
+						"administrator"
 					]
 				}
 			},

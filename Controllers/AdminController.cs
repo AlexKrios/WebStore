@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
+using WebStoreAPI.Models;
 
 namespace WebStoreAPI.Controllers
 {
+    [Route("[controller]")]
     public class AdminController : Controller
     {
-        [Route("[controller]/products")]
         public IActionResult Products()
         {
             return View();
