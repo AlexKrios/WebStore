@@ -5,26 +5,26 @@ namespace WebStoreAPI.Commands
     //Processing command request for user
     public class CommandServiceUser : ICommandService<User>
     {
-        private readonly WebStoreContext db;
+        private readonly WebStoreContext _db;
         public CommandServiceUser(WebStoreContext db)
         {
-            this.db = db;
+            _db = db;
         }
         public void Post(User user)
         {
-            db.Users.Add(user);
+            _db.Users.Add(user);
         }
         public void Put(User product)
         {
-            db.Update(product);
+            _db.Update(product);
         }
         public void Delete(User user)
         {
-            db.Users.Remove(user);
+            _db.Users.Remove(user);
         }
-        public void SaveDB()
+        public void SaveDb()
         {
-            db.SaveChanges();
+            _db.SaveChanges();
         }
     }
 }

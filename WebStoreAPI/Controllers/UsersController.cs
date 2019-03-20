@@ -11,65 +11,67 @@ namespace WebStoreAPI.Controllers
     [ApiController]
     public class UsersController : Controller
     {
-        private readonly IQueriesService<User> queries;
-        private readonly ICommandService<User> commands;
+        private readonly IQueriesService<User> _queries;
+        private readonly ICommandService<User> _commands;
 
         //Setup connection
         public UsersController(ICommandService<User> commands, IQueriesService<User> queries)
         {
-            this.commands = commands ?? throw new ArgumentNullException(nameof(commands));
-            this.queries = queries ?? throw new ArgumentNullException(nameof(queries));
+            _commands = commands ?? throw new ArgumentNullException(nameof(commands));
+            _queries = queries ?? throw new ArgumentNullException(nameof(queries));
         }
 
         //Get list of users
         [HttpGet]
         public IEnumerable<User> Get()
         {
-            return queries.GetAll();
+            return _queries.GetAll();
         }
 
         //Get single user
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            User user = queries.GetSingle(id);
+            var user = _queries.GetSingle(id);
             if (user == null)
+            {
                 return NotFound();
-            return Ok(queries.GetSingle(id));
+            }
+            return Ok(user);
         }
 
         //Get group of user
         [HttpGet("role/{role}")]
         public IEnumerable<User> GetGroup(string role)
         {
-            return queries.GetGroup(role);
+            return _queries.GetGroup(role);
         }
 
         //Add new user
         [HttpPost]
         public IActionResult Post([FromBody]User user)
         {
-            commands.Post(user);
-            commands.SaveDB();
+            _commands.Post(user);
+            _commands.SaveDb();
             return Ok(user);
         }
 
         //Change user
         [HttpPut]
-        public IActionResult Put([FromBody]User User)
+        public IActionResult Put([FromBody]User user)
         {
-            commands.Put(User);
-            commands.SaveDB();
-            return Ok(User);
+            _commands.Put(user);
+            _commands.SaveDb();
+            return Ok(user);
         }
 
         //Delete user
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            User user = queries.GetSingle(id);
-            commands.Delete(user);
-            commands.SaveDB();
+            var user = _queries.GetSingle(id);
+            _commands.Delete(user);
+            _commands.SaveDb();
             return Ok(user);
         }
     }

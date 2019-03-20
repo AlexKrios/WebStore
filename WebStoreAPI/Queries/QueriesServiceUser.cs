@@ -8,23 +8,23 @@ namespace WebStoreAPI.Queries
     //Querie class for User
     public class QueriesServiceUser : Controller, IQueriesService<User>
     {
-        private readonly WebStoreContext context;
+        private readonly WebStoreContext _context;
         public QueriesServiceUser(WebStoreContext context)
         {
-            this.context = context;
+            _context = context;
         }
         public IEnumerable<User> GetAll()
         {
-            return context.Users;
+            return _context.Users;
         }
         public User GetSingle(int id)
         {
-            User user = context.Users.FirstOrDefault(x => x.Id == id);
+            var user = _context.Users.FirstOrDefault(x => x.Id == id);
             return user;
         }
         public IEnumerable<User> GetGroup(string str)
         {
-            IEnumerable<User> users = context.Users.Where(x => x.Role == str);
+            IEnumerable<User> users = _context.Users.Where(x => x.Role == str);
             return users.ToList();
         }
     }

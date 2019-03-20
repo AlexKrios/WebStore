@@ -5,26 +5,26 @@ namespace WebStoreAPI.Commands
     //Processing command request for product
     public class CommandServiceProduct : ICommandService<Product>
     {
-        private readonly WebStoreContext db;
+        private readonly WebStoreContext _db;
         public CommandServiceProduct(WebStoreContext db)
         {
-            this.db = db;
+            _db = db;
         }
         public void Post(Product product)
         {
-            db.Products.Add(product);
+            _db.Products.Add(product);
         }
         public void Put(Product product)
         {
-            db.Update(product);
+            _db.Update(product);
         }
         public void Delete(Product product)
         {
-            db.Products.Remove(product);
+            _db.Products.Remove(product);
         }
-        public void SaveDB()
+        public void SaveDb()
         {
-            db.SaveChanges();
+            _db.SaveChanges();
         }
     }
 }

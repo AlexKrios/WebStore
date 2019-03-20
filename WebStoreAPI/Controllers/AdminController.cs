@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Routing;
-using WebStoreAPI.Models;
 
 namespace WebStoreAPI.Controllers
 {

@@ -6,7 +6,7 @@ namespace WebStoreAPI.Models
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Product> Products { get; set; }
-        public WebStoreContext(DbContextOptions<WebStoreContext> options)
+        public WebStoreContext(DbContextOptions options)
             : base(options)
         { }
     }
