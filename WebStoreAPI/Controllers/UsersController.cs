@@ -11,28 +11,28 @@ namespace WebStoreAPI.Controllers
     [ApiController]
     public class UsersController : Controller
     {
-        private readonly IQueriesService<User> _queries;
-        private readonly ICommandService<User> _commands;
+        private readonly IQueriesService<User> queries;
+        private readonly ICommandService<User> commands;
 
         //Setup connection
         public UsersController(ICommandService<User> commands, IQueriesService<User> queries)
         {
-            _commands = commands ?? throw new ArgumentNullException(nameof(commands));
-            _queries = queries ?? throw new ArgumentNullException(nameof(queries));
+            this.commands = commands ?? throw new ArgumentNullException(nameof(commands));
+            this.queries = queries ?? throw new ArgumentNullException(nameof(queries));
         }
 
         //Get list of users
         [HttpGet]
         public IEnumerable<User> Get()
         {
-            return _queries.GetAll();
+            return this.queries.GetAll();
         }
 
         //Get single user
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var user = _queries.GetSingle(id);
+            var user = this.queries.GetSingle(id);
             if (user == null)
             {
                 return NotFound();
@@ -44,15 +44,15 @@ namespace WebStoreAPI.Controllers
         [HttpGet("role/{role}")]
         public IEnumerable<User> GetGroup(string role)
         {
-            return _queries.GetGroup(role);
+            return this.queries.GetGroup(role);
         }
 
         //Add new user
         [HttpPost]
         public IActionResult Post([FromBody]User user)
         {
-            _commands.Post(user);
-            _commands.SaveDb();
+            this.commands.Post(user);
+            this.commands.SaveDb();
             return Ok(user);
         }
 
@@ -60,8 +60,8 @@ namespace WebStoreAPI.Controllers
         [HttpPut]
         public IActionResult Put([FromBody]User user)
         {
-            _commands.Put(user);
-            _commands.SaveDb();
+            this.commands.Put(user);
+            this.commands.SaveDb();
             return Ok(user);
         }
 
@@ -69,9 +69,9 @@ namespace WebStoreAPI.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            var user = _queries.GetSingle(id);
-            _commands.Delete(user);
-            _commands.SaveDb();
+            var user = this.queries.GetSingle(id);
+            this.commands.Delete(user);
+            this.commands.SaveDb();
             return Ok(user);
         }
     }

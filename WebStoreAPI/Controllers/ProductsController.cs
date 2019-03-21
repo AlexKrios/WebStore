@@ -11,28 +11,28 @@ namespace WebStoreAPI.Controllers
     [ApiController]
     public class ProductsController : Controller
     {
-        private readonly IQueriesService<Product> _queries;
-        private readonly ICommandService<Product> _commands;
+        private readonly IQueriesService<Product> queries;
+        private readonly ICommandService<Product> commands;
 
         //Setup connection
         public ProductsController(ICommandService<Product> commands, IQueriesService<Product> queries)
         {
-            _commands = commands ?? throw new ArgumentNullException(nameof(commands));
-            _queries = queries ?? throw new ArgumentNullException(nameof(queries));
+            this.commands = commands ?? throw new ArgumentNullException(nameof(commands));
+            this.queries = queries ?? throw new ArgumentNullException(nameof(queries));
         }
 
         //Get list of products
         [HttpGet]
         public IEnumerable<Product> Get()
         {
-            return _queries.GetAll();
+            return this.queries.GetAll();
         }
 
         //Get single product
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var product = _queries.GetSingle(id);
+            var product = this.queries.GetSingle(id);
             if (product == null)
             {
                 return NotFound();
@@ -44,15 +44,15 @@ namespace WebStoreAPI.Controllers
         [HttpGet("group/{type}")]
         public IEnumerable<Product> GetGroup(string type)
         {
-            return _queries.GetGroup(type);
+            return this.queries.GetGroup(type);
         }
 
         //Add new product
         [HttpPost]
         public IActionResult Post([FromBody]Product product)
         {
-            _commands.Post(product);
-            _commands.SaveDb();
+            this.commands.Post(product);
+            this.commands.SaveDb();
             return Ok(product);
         }
 
@@ -60,8 +60,8 @@ namespace WebStoreAPI.Controllers
         [HttpPut]
         public IActionResult Put([FromBody]Product product)
         {
-            _commands.Put(product);
-            _commands.SaveDb();
+            this.commands.Put(product);
+            this.commands.SaveDb();
             return Ok(product);
         }
 
@@ -69,9 +69,9 @@ namespace WebStoreAPI.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            var product = _queries.GetSingle(id);
-            _commands.Delete(product);
-            _commands.SaveDb();
+            var product = this.queries.GetSingle(id);
+            this.commands.Delete(product);
+            this.commands.SaveDb();
             return Ok(product);
         }
     }
