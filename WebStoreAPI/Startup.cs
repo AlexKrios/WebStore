@@ -1,8 +1,14 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Controllers;
+using Microsoft.AspNetCore.Mvc.ViewComponents;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SimpleInjector;
+using SimpleInjector.Integration.AspNetCore.Mvc;
+using SimpleInjector.Lifestyles;
 using Swashbuckle.AspNetCore.Swagger;
 using WebStoreAPI.Commands;
 using WebStoreAPI.Models;
@@ -12,6 +18,8 @@ namespace WebStoreAPI
 {
     public class Startup
     {
+        private readonly Container container = new Container();
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -25,13 +33,7 @@ namespace WebStoreAPI
             services.AddDbContext<WebStoreContext>(options => options.UseSqlServer(con));
             services.AddMvc();
 
-            //Commamd service for Product and User
-            services.AddTransient<ICommandService<Product>, CommandServiceProduct>();
-            services.AddTransient<ICommandService<User>, CommandServiceUser>();
-
-            //Querie service for Product and User
-            services.AddTransient<IQueriesService<Product>, QueriesServiceProduct>();
-            services.AddTransient<IQueriesService<User>, QueriesServiceUser>();
+            IntegrateSimpleInjector(services);
 
             services.AddSwaggerGen(c =>
             {
@@ -39,8 +41,26 @@ namespace WebStoreAPI
             });
         }
 
+        private void IntegrateSimpleInjector(IServiceCollection services)
+        {
+            container.Options.DefaultScopedLifestyle = new AsyncScopedLifestyle();
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+            services.AddSingleton<IControllerActivator>(
+                new SimpleInjectorControllerActivator(container));
+            services.AddSingleton<IViewComponentActivator>(
+                new SimpleInjectorViewComponentActivator(container));
+
+            services.EnableSimpleInjectorCrossWiring(container);
+            services.UseSimpleInjectorAspNetRequestScoping(container);
+        }
+
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            InitializeContainer(app);
+            container.Verify();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -58,6 +78,23 @@ namespace WebStoreAPI
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Web Store");
             });
+        }
+
+        //Initialization DI container
+        private void InitializeContainer(IApplicationBuilder app)
+        {
+            container.RegisterMvcControllers(app);
+            container.RegisterMvcViewComponents(app);
+
+            //Commamd and Querie services for Product
+            container.Register<ICommandService<Product>, CommandServiceProduct>();
+            container.Register<IQueriesService<Product>, QueriesServiceProduct>();
+
+            //Commamd and Querie services for User
+            container.Register<ICommandService<User>, CommandServiceUser>();
+            container.Register<IQueriesService<User>, QueriesServiceUser>();
+
+            container.AutoCrossWireAspNetComponents(app);
         }
     }
 }
