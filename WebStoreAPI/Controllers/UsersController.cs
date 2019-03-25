@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using WebStoreAPI.Commands;
-using WebStoreAPI.Commands.UsersFolder.Handlers;
+using WebStoreAPI.Commands.Users;
 using WebStoreAPI.Models;
 using WebStoreAPI.Queries;
-using WebStoreAPI.Queries.UsersFolder;
+using WebStoreAPI.Queries.Users;
 
 namespace WebStoreAPI.Controllers
 {

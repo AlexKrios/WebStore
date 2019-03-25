@@ -1,8 +1,9 @@
 ﻿using System.Linq;
 using WebStoreAPI.Models;
 
-namespace WebStoreAPI.Queries.ProductsFolder.Handlers
+namespace WebStoreAPI.Queries.Products
 {
+    //Query for output single product
     public class GetProductHandler : Query<Product>
     {
         public GetProductHandler(WebStoreContext context) : base(context)

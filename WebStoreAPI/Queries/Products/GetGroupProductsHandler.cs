@@ -2,8 +2,9 @@
 using System.Linq;
 using WebStoreAPI.Models;
 
-namespace WebStoreAPI.Queries.ProductsFolder.Handlers
+namespace WebStoreAPI.Queries.Products
 {
+    //Query for output group of product
     public class GetGroupProductsHandler : Query<IEnumerable<Product>>
     {
         public GetGroupProductsHandler(WebStoreContext context) : base(context)

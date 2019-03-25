@@ -2,6 +2,7 @@
 
 namespace WebStoreAPI.Queries
 {
+    //Parent class for query
     public abstract class Query<T> : IQuery<T>
     {
         public readonly WebStoreContext Context;

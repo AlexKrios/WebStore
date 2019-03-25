@@ -1,10 +1,11 @@
 ﻿using System.Linq;
 using WebStoreAPI.Models;
 
-namespace WebStoreAPI.Queries.UsersFolder
+namespace WebStoreAPI.Queries.Users
 {
     public class GetUserHandler : Query<User>
     {
+        //Query for output single user
         public GetUserHandler(WebStoreContext context) : base(context)
         {
         }

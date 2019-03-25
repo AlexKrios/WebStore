@@ -1,7 +1,8 @@
 ﻿using WebStoreAPI.Models;
 
-namespace WebStoreAPI.Commands.UsersFolder.Handlers
+namespace WebStoreAPI.Commands.Users
 {
+    //Delete command for user model
     public class DeleteUserHandler : Command<User>
     {
         public DeleteUserHandler(WebStoreContext context) : base(context)

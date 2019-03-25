@@ -1,7 +1,8 @@
 ﻿using WebStoreAPI.Models;
 
-namespace WebStoreAPI.Commands.UsersFolder.Handlers
+namespace WebStoreAPI.Commands.Users
 {
+    //Insert command for user model
     public class PostUserHandler : Command<User>
     {
         public PostUserHandler(WebStoreContext context) : base(context)

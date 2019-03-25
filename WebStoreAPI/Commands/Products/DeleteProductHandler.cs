@@ -1,7 +1,8 @@
 ﻿using WebStoreAPI.Models;
 
-namespace WebStoreAPI.Commands.ProductsFolder.Handlers
+namespace WebStoreAPI.Commands.Products
 {
+    //Delete command for product model
     public class DeleteProductHandler : Command<Product>
     {
         public DeleteProductHandler(WebStoreContext context) : base(context)

@@ -1,7 +1,8 @@
 ﻿using WebStoreAPI.Models;
 
-namespace WebStoreAPI.Commands.ProductsFolder.Handlers
+namespace WebStoreAPI.Commands.Products
 {
+    //Change command for product model
     public class PutProductHandler : Command<Product>
     {
         public PutProductHandler(WebStoreContext context) : base(context)

@@ -2,6 +2,7 @@
 
 namespace WebStoreAPI.Queries
 {
+    //Query dispatcher
     public class QueryDispatcher : IQueryDispatcher
     {
         private readonly Container _container;

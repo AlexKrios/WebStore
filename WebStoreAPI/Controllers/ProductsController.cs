@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using WebStoreAPI.Commands;
-using WebStoreAPI.Commands.ProductsFolder.Handlers;
+using WebStoreAPI.Commands.Products;
 using WebStoreAPI.Models;
 using WebStoreAPI.Queries;
-using WebStoreAPI.Queries.ProductsFolder.Handlers;
+using WebStoreAPI.Queries.Products;
 
 namespace WebStoreAPI.Controllers
 {

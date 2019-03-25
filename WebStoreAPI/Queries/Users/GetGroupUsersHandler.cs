@@ -2,8 +2,9 @@
 using System.Linq;
 using WebStoreAPI.Models;
 
-namespace WebStoreAPI.Queries.UsersFolder
+namespace WebStoreAPI.Queries.Users
 {
+    //Query for output user of product
     public class GetGroupUsersHandler : Query<IEnumerable<User>>
     {
         public GetGroupUsersHandler(WebStoreContext context) : base(context)

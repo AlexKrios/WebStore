@@ -2,7 +2,8 @@
 
 namespace WebStoreAPI.Models
 {
-    public class DBInit
+/*
+    public class DbInit
     {
         //Add field in table if table empty
         public static void Init(WebStoreContext context)
@@ -23,4 +24,5 @@ namespace WebStoreAPI.Models
             context.SaveChanges();
         }
     }
+*/
 }
