@@ -2,15 +2,16 @@
 
 namespace WebStoreAPI.Commands.UsersFolder.Handlers
 {
-    public class PutUserHandler : Command
+    public class PutUserHandler : Command<User>
     {
         public PutUserHandler(WebStoreContext context) : base(context)
         {
         }
 
-        /*public override void Execute<T>(User obj)
+        public override void Execute(User user)
         {
-            _context.Update(obj);
-        }*/
+            Context.Update(user);
+            Context.SaveChanges();
+        }
     }
 }

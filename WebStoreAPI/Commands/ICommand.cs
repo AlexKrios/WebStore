@@ -2,9 +2,8 @@
 
 namespace WebStoreAPI.Commands
 {
-    public interface ICommand
+    public interface ICommand<in T> where T : IBaseEntity
     {
-        void Execute();
-        void Execute(Product product);
+        void Execute(T product);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace WebStoreAPI.Commands.ProductsFolder.Handlers
 {
-    public class PutProductHandler : Command
+    public class PutProductHandler : Command<Product>
     {
         public PutProductHandler(WebStoreContext context) : base(context)
         {
@@ -11,6 +11,7 @@ namespace WebStoreAPI.Commands.ProductsFolder.Handlers
         public override void Execute(Product obj)
         {
             Context.Update(obj);
+            Context.SaveChanges();
         }
     }
 }

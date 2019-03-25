@@ -4,10 +4,8 @@ namespace WebStoreAPI.Commands
 {
     public interface ICommandDispatcher
     {
-        void Dispatch<TCommand>() 
-            where TCommand : class, ICommand;
-
-        void Dispatch<TCommand>(Product product)
-            where TCommand : class, ICommand;
+        void Dispatch<TCommand, T>(T product)
+            where TCommand : class, ICommand<T>
+            where T : IBaseEntity;
     }
 }

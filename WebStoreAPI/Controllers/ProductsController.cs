@@ -47,13 +47,7 @@ namespace WebStoreAPI.Controllers
         [HttpPost]
         public IActionResult Post([FromBody]Product product)
         {
-            _commandDispatcher.Dispatch<PostProductHandler>(product);
-            _commandDispatcher.Dispatch<SaveProductHandler>();
-            /*var postProduct = _container.GetInstance<PostProductHandler>();
-            postProduct.Execute(product);
-
-            var saveProduct = _container.GetInstance<SaveProductHandler>();
-            saveProduct.Execute();*/
+            _commandDispatcher.Dispatch<PostProductHandler, Product>(product);
             return Ok(product);
         }
 
@@ -61,14 +55,7 @@ namespace WebStoreAPI.Controllers
         [HttpPut]
         public IActionResult Put([FromBody]Product product)
         {
-            _commandDispatcher.Dispatch<PutProductHandler>(product);
-            _commandDispatcher.Dispatch<SaveProductHandler>();
-
-            /*var putProduct = _container.GetInstance<PutProductHandler>();
-            putProduct.Execute(product);
-
-            var saveProduct = _container.GetInstance<SaveProductHandler>();
-            saveProduct.Execute();*/
+            _commandDispatcher.Dispatch<PutProductHandler, Product>(product);
             return Ok(product);
         }
 
@@ -78,14 +65,7 @@ namespace WebStoreAPI.Controllers
         {
             Product product = _queryDispatcher.Dispatch<GetProductHandler, Product>(id);
 
-            _commandDispatcher.Dispatch<DeleteProductHandler>(product);
-            _commandDispatcher.Dispatch<SaveProductHandler>();
-
-            /*var deleteProduct = _container.GetInstance<DeleteProductHandler>();
-            deleteProduct.Execute(product);
-
-            var saveProduct = _container.GetInstance<SaveProductHandler>();
-            saveProduct.Execute();*/
+            _commandDispatcher.Dispatch<DeleteProductHandler, Product>(product);
             return Ok(product);
         }
     }

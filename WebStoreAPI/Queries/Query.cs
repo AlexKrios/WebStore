@@ -6,7 +6,7 @@ namespace WebStoreAPI.Queries
     {
         public readonly WebStoreContext Context;
 
-        public Query(WebStoreContext context)
+        protected Query(WebStoreContext context)
         {
             Context = context;
         }

@@ -2,11 +2,11 @@
 
 namespace WebStoreAPI.Commands
 {
-    public abstract class Command : ICommand
+    public abstract class Command<T> : ICommand<T> where T : IBaseEntity
     {
         public readonly WebStoreContext Context;
 
-        public Command(WebStoreContext context)
+        protected Command(WebStoreContext context)
         {
             Context = context;
         }
@@ -15,7 +15,7 @@ namespace WebStoreAPI.Commands
         {
         }
 
-        public virtual void Execute(Product product)
+        public virtual void Execute(T product)
         {
         }
     }

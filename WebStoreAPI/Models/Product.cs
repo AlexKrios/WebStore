@@ -1,7 +1,7 @@
 ﻿namespace WebStoreAPI.Models
 {
     //Model for object product
-    public class Product
+    public class Product : IBaseEntity
     {
         public int Id { get; set; }
         public string Name { get; set; }

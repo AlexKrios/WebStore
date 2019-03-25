@@ -2,7 +2,7 @@
 
 namespace WebStoreAPI.Commands.ProductsFolder.Handlers
 {
-    public class DeleteProductHandler : Command
+    public class DeleteProductHandler : Command<Product>
     {
         public DeleteProductHandler(WebStoreContext context) : base(context)
         {
@@ -11,6 +11,7 @@ namespace WebStoreAPI.Commands.ProductsFolder.Handlers
         public override void Execute(Product product)
         {
             Context.Products.Remove(product);
+            Context.SaveChanges();
         }
     }
 }

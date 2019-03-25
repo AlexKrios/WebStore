@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using WebStoreAPI.Commands;
+using WebStoreAPI.Commands.UsersFolder.Handlers;
 using WebStoreAPI.Models;
 using WebStoreAPI.Queries;
 using WebStoreAPI.Queries.UsersFolder;
@@ -10,13 +12,13 @@ namespace WebStoreAPI.Controllers
     [ApiController]
     public class UsersController : Controller
     {
-        //private readonly ICommandDispatcher _commandDispatcher;
+        private readonly ICommandDispatcher _commandDispatcher;
         private readonly IQueryDispatcher _queryDispatcher;
 
         //Setup connection
-        public UsersController(/*CommandDispatcher commandDispatcher, */QueryDispatcher queryDispatcher)
+        public UsersController(CommandDispatcher commandDispatcher, QueryDispatcher queryDispatcher)
         {
-            //_commandDispatcher = commandDispatcher;
+            _commandDispatcher = commandDispatcher;
             _queryDispatcher = queryDispatcher;
         }
 
@@ -42,11 +44,10 @@ namespace WebStoreAPI.Controllers
         }
 
         //Add new user
-        /*[HttpPost]
+        [HttpPost]
         public IActionResult Post([FromBody]User user)
         {
-            _commandDispatcher.Dispatch<PostUserHandler>(user);
-            _commandDispatcher.Dispatch<SaveUserHandler>();
+            _commandDispatcher.Dispatch<PostUserHandler, User>(user);
             return Ok(user);
         }
 
@@ -54,8 +55,7 @@ namespace WebStoreAPI.Controllers
         [HttpPut]
         public IActionResult Put([FromBody]User user)
         {
-            _commandDispatcher.Dispatch<PutProductHandler>(user);
-            _commandDispatcher.Dispatch<SaveProductHandler>();
+            _commandDispatcher.Dispatch<PutUserHandler, User>(user);
             return Ok(user);
         }
 
@@ -65,9 +65,8 @@ namespace WebStoreAPI.Controllers
         {
             User user = _queryDispatcher.Dispatch<GetUserHandler, User>(id);
 
-            _commandDispatcher.Dispatch<DeleteUserHandler>(user);
-            _commandDispatcher.Dispatch<SaveProductHandler>();
+            _commandDispatcher.Dispatch<DeleteUserHandler, User>(user);
             return Ok(user);
-        }*/
+        }
     }
 }

@@ -11,15 +11,9 @@ namespace WebStoreAPI.Commands
             _container = container;
         }
 
-        public void Dispatch<TCommand>()
-            where TCommand : class, ICommand
-        {
-            var handler = _container.GetInstance<TCommand>();
-            handler.Execute();
-        }
-
-        public void Dispatch<TCommand>(Product product) 
-            where TCommand : class, ICommand
+        public void Dispatch<TCommand, T>(T product) 
+            where TCommand : class, ICommand<T>
+            where T : IBaseEntity
         {
             var handler = _container.GetInstance<TCommand>();
             handler.Execute(product);
