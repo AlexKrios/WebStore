@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using SimpleInjector;
-using WebStoreAPI.Commands;
 using WebStoreAPI.Models;
 using WebStoreAPI.Queries;
+using WebStoreAPI.Queries.UsersFolder;
 
 namespace WebStoreAPI.Controllers
 {
@@ -11,48 +10,43 @@ namespace WebStoreAPI.Controllers
     [ApiController]
     public class UsersController : Controller
     {
-        private readonly CommandServiceUser commands;
-        private readonly QueriesServiceUser queries;
+        //private readonly ICommandDispatcher _commandDispatcher;
+        private readonly IQueryDispatcher _queryDispatcher;
 
         //Setup connection
-        public UsersController(Container container)
+        public UsersController(/*CommandDispatcher commandDispatcher, */QueryDispatcher queryDispatcher)
         {
-            commands = container.GetInstance<CommandServiceUser>();
-            queries = container.GetInstance<QueriesServiceUser>();
+            //_commandDispatcher = commandDispatcher;
+            _queryDispatcher = queryDispatcher;
         }
 
         //Get list of users
         [HttpGet]
         public IEnumerable<User> Get()
         {
-            return queries.GetAll();
+            return _queryDispatcher.Dispatch<GetAllUsersHandler, IEnumerable<User>>();
         }
 
         //Get single user
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public User Get(int id)
         {
-            User user = queries.GetSingle(id);
-            if (user == null)
-            {
-                return NotFound();
-            }
-            return Ok(user);
+            return _queryDispatcher.Dispatch<GetUserHandler, User>(id);
         }
 
         //Get group of user
         [HttpGet("role/{role}")]
         public IEnumerable<User> GetGroup(string role)
         {
-            return queries.GetGroup(role);
+            return _queryDispatcher.Dispatch<GetGroupUsersHandler, IEnumerable<User>>(role);
         }
 
         //Add new user
-        [HttpPost]
+        /*[HttpPost]
         public IActionResult Post([FromBody]User user)
         {
-            commands.Post(user);
-            commands.SaveDb();
+            _commandDispatcher.Dispatch<PostUserHandler>(user);
+            _commandDispatcher.Dispatch<SaveUserHandler>();
             return Ok(user);
         }
 
@@ -60,8 +54,8 @@ namespace WebStoreAPI.Controllers
         [HttpPut]
         public IActionResult Put([FromBody]User user)
         {
-            commands.Put(user);
-            commands.SaveDb();
+            _commandDispatcher.Dispatch<PutProductHandler>(user);
+            _commandDispatcher.Dispatch<SaveProductHandler>();
             return Ok(user);
         }
 
@@ -69,10 +63,11 @@ namespace WebStoreAPI.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            User user = queries.GetSingle(id);
-            commands.Delete(user);
-            commands.SaveDb();
+            User user = _queryDispatcher.Dispatch<GetUserHandler, User>(id);
+
+            _commandDispatcher.Dispatch<DeleteUserHandler>(user);
+            _commandDispatcher.Dispatch<SaveProductHandler>();
             return Ok(user);
-        }
+        }*/
     }
 }

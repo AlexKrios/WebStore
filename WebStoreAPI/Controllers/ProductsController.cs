@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using SimpleInjector;
 using WebStoreAPI.Commands;
+using WebStoreAPI.Commands.ProductsFolder.Handlers;
 using WebStoreAPI.Models;
 using WebStoreAPI.Queries;
+using WebStoreAPI.Queries.ProductsFolder.Handlers;
 
 namespace WebStoreAPI.Controllers
 {
@@ -11,48 +12,48 @@ namespace WebStoreAPI.Controllers
     [ApiController]
     public class ProductsController : Controller
     {
-        private readonly CommandServiceProduct commands;
-        private readonly QueriesServiceProduct queries;
+        private readonly ICommandDispatcher _commandDispatcher;
+        private readonly IQueryDispatcher _queryDispatcher;
 
         //Setup connection
-        public ProductsController(Container container)
+        public ProductsController(CommandDispatcher commandDispatcher, QueryDispatcher queryDispatcher)
         {
-            commands = container.GetInstance<CommandServiceProduct>();
-            queries = container.GetInstance<QueriesServiceProduct>();
+            _commandDispatcher = commandDispatcher;
+            _queryDispatcher = queryDispatcher;
         }
 
         //Get list of products
         [HttpGet]
         public IEnumerable<Product> Get()
         {
-            return queries.GetAll();
+            return _queryDispatcher.Dispatch<GetAllProductsHandler, IEnumerable<Product>>();
         }
 
         //Get single product
         [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        public Product Get(int id)
         {
-            Product product = queries.GetSingle(id);
-            if (product == null)
-            {
-                return NotFound();
-            }
-            return Ok(product);
+            return _queryDispatcher.Dispatch<GetProductHandler, Product>(id);
         }
 
         //Get group of products
         [HttpGet("group/{type}")]
         public IEnumerable<Product> GetGroup(string type)
         {
-            return queries.GetGroup(type);
+            return _queryDispatcher.Dispatch<GetGroupProductsHandler, IEnumerable<Product>>(type);
         }
 
         //Add new product
         [HttpPost]
         public IActionResult Post([FromBody]Product product)
         {
-            commands.Post(product);
-            commands.SaveDb();
+            _commandDispatcher.Dispatch<PostProductHandler>(product);
+            _commandDispatcher.Dispatch<SaveProductHandler>();
+            /*var postProduct = _container.GetInstance<PostProductHandler>();
+            postProduct.Execute(product);
+
+            var saveProduct = _container.GetInstance<SaveProductHandler>();
+            saveProduct.Execute();*/
             return Ok(product);
         }
 
@@ -60,8 +61,14 @@ namespace WebStoreAPI.Controllers
         [HttpPut]
         public IActionResult Put([FromBody]Product product)
         {
-            commands.Put(product);
-            commands.SaveDb();
+            _commandDispatcher.Dispatch<PutProductHandler>(product);
+            _commandDispatcher.Dispatch<SaveProductHandler>();
+
+            /*var putProduct = _container.GetInstance<PutProductHandler>();
+            putProduct.Execute(product);
+
+            var saveProduct = _container.GetInstance<SaveProductHandler>();
+            saveProduct.Execute();*/
             return Ok(product);
         }
 
@@ -69,9 +76,16 @@ namespace WebStoreAPI.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            Product product = queries.GetSingle(id);
-            commands.Delete(product);
-            commands.SaveDb();
+            Product product = _queryDispatcher.Dispatch<GetProductHandler, Product>(id);
+
+            _commandDispatcher.Dispatch<DeleteProductHandler>(product);
+            _commandDispatcher.Dispatch<SaveProductHandler>();
+
+            /*var deleteProduct = _container.GetInstance<DeleteProductHandler>();
+            deleteProduct.Execute(product);
+
+            var saveProduct = _container.GetInstance<SaveProductHandler>();
+            saveProduct.Execute();*/
             return Ok(product);
         }
     }
