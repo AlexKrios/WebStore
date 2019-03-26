@@ -4,16 +4,17 @@ using WebStoreAPI.Models;
 
 namespace WebStoreAPI.Queries.Products
 {
-    //Query for output group of product
     public class GetGroupProductsHandler : Query<IEnumerable<Product>>
     {
-        public GetGroupProductsHandler(WebStoreContext context) : base(context)
+        private readonly WebStoreContext _context;
+        public GetGroupProductsHandler(WebStoreContext context)
         {
+            _context = context;
         }
 
         public override IEnumerable<Product> Execute(string type)
         {
-            IEnumerable<Product> products = Context.Products.Where(x => x.Type == type);
+            IEnumerable<Product> products = _context.Products.Where(x => x.Type == type);
             return products.ToList();
         }
     }

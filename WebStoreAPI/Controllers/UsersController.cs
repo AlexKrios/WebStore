@@ -33,7 +33,7 @@ namespace WebStoreAPI.Controllers
         [HttpGet("{id}")]
         public User Get(int id)
         {
-            return _queryDispatcher.Dispatch<GetUserHandler, User>(id);
+            return _queryDispatcher.Dispatch<GetSingleUserHandler, User>(id);
         }
 
         //Get group of user
@@ -63,7 +63,7 @@ namespace WebStoreAPI.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            User user = _queryDispatcher.Dispatch<GetUserHandler, User>(id);
+            User user = _queryDispatcher.Dispatch<GetSingleUserHandler, User>(id);
 
             _commandDispatcher.Dispatch<DeleteUserHandler, User>(user);
             return Ok(user);

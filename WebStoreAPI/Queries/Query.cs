@@ -1,17 +1,7 @@
-﻿using WebStoreAPI.Models;
-
-namespace WebStoreAPI.Queries
+﻿namespace WebStoreAPI.Queries
 {
-    //Parent class for query
     public abstract class Query<T> : IQuery<T>
     {
-        public readonly WebStoreContext Context;
-
-        protected Query(WebStoreContext context)
-        {
-            Context = context;
-        }
-
         public virtual T Execute()
         {
             return default(T);

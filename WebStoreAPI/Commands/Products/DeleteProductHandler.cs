@@ -2,17 +2,18 @@
 
 namespace WebStoreAPI.Commands.Products
 {
-    //Delete command for product model
     public class DeleteProductHandler : Command<Product>
     {
-        public DeleteProductHandler(WebStoreContext context) : base(context)
+        private readonly WebStoreContext _context;
+        public DeleteProductHandler(WebStoreContext context)
         {
+            _context = context;
         }
 
         public override void Execute(Product product)
         {
-            Context.Products.Remove(product);
-            Context.SaveChanges();
+            _context.Products.Remove(product);
+            _context.SaveChanges();
         }
     }
 }
