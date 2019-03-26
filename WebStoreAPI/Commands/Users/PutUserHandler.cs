@@ -3,18 +3,16 @@
 namespace WebStoreAPI.Commands.Users
 {
     //Change command for user model
-    public class PutUserHandler : PutUser<User>
+    public class PutUserHandler : Command<User>
     {
-        private readonly WebStoreContext _context;
-        public PutUserHandler(WebStoreContext context)
+        public PutUserHandler(WebStoreContext context) : base(context)
         {
-            _context = context;
         }
 
         public override void Execute(User user)
         {
-            _context.Update(user);
-            _context.SaveChanges();
+            Context.Update(user);
+            Context.SaveChanges();
         }
     }
 }

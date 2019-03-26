@@ -3,18 +3,16 @@
 namespace WebStoreAPI.Commands.Users
 {
     //Insert command for user model
-    public class PostUserHandler : PostUser<User>
+    public class PostUserHandler : Command<User>
     {
-        private readonly WebStoreContext _context;
-        public PostUserHandler(WebStoreContext context)
+        public PostUserHandler(WebStoreContext context) : base(context)
         {
-            _context = context;
         }
 
         public override void Execute(User user)
         {
-            _context.Users.Add(user);
-            _context.SaveChanges();
+            Context.Users.Add(user);
+            Context.SaveChanges();
         }
     }
 }

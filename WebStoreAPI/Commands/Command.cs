@@ -5,7 +5,7 @@ namespace WebStoreAPI.Commands
     //Parent class for command
     public abstract class Command<T> : ICommand<T> where T : IBaseEntity
     {
-        protected readonly WebStoreContext Context;
+        public readonly WebStoreContext Context;
 
         protected Command(WebStoreContext context)
         {

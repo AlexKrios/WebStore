@@ -3,18 +3,16 @@
 namespace WebStoreAPI.Commands.Products
 {
     //Insert command for product model
-    public class PostProductHandler : PostProduct<Product>
+    public class PostProductHandler : Command<Product>
     {
-        private readonly WebStoreContext _context;
-        public PostProductHandler(WebStoreContext context)
+        public PostProductHandler(WebStoreContext context) : base(context)
         {
-            _context = context;
         }
 
         public override void Execute(Product obj)
         {
-            _context.Products.Add(obj);
-            _context.SaveChanges();
+            Context.Products.Add(obj);
+            Context.SaveChanges();
         }
     }
 }

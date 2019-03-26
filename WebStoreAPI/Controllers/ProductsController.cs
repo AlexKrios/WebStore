@@ -33,7 +33,7 @@ namespace WebStoreAPI.Controllers
         [HttpGet("{id}")]
         public Product Get(int id)
         {
-            return _queryDispatcher.Dispatch<GetSingleProductHandler, Product>(id);
+            return _queryDispatcher.Dispatch<GetProductHandler, Product>(id);
         }
 
         //Get group of products
@@ -63,7 +63,7 @@ namespace WebStoreAPI.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            Product product = _queryDispatcher.Dispatch<GetSingleProductHandler, Product>(id);
+            Product product = _queryDispatcher.Dispatch<GetProductHandler, Product>(id);
 
             _commandDispatcher.Dispatch<DeleteProductHandler, Product>(product);
             return Ok(product);

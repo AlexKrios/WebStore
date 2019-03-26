@@ -3,18 +3,16 @@
 namespace WebStoreAPI.Commands.Users
 {
     //Delete command for user model
-    public class DeleteUserHandler : DeleteUser<User>
+    public class DeleteUserHandler : Command<User>
     {
-        private readonly WebStoreContext _context;
-        public DeleteUserHandler(WebStoreContext context)
+        public DeleteUserHandler(WebStoreContext context) : base(context)
         {
-            _context = context;
         }
 
         public override void Execute(User user)
         {
-            _context.Users.Remove(user);
-            _context.SaveChanges();
+            Context.Users.Remove(user);
+            Context.SaveChanges();
         }
     }
 }

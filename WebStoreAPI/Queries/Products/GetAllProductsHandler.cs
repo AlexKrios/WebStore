@@ -1,21 +1,18 @@
 ﻿using System.Collections.Generic;
 using WebStoreAPI.Models;
-using WebStoreAPI.Queries.Users;
 
 namespace WebStoreAPI.Queries.Products
 {
     //Query for output all products in table
-    public class GetAllProductsHandler : GetAllUsers<IEnumerable<Product>>
+    public class GetAllProductsHandler : Query<IEnumerable<Product>>
     {
-        private readonly WebStoreContext _context;
-        public GetAllProductsHandler(WebStoreContext context)
+        public GetAllProductsHandler(WebStoreContext context) : base(context)
         {
-            _context = context;
         }
 
         public override IEnumerable<Product> Execute()
         {
-            return _context.Products;
+            return Context.Products;
         }
     }
 }
