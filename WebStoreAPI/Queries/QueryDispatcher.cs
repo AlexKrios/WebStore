@@ -1,4 +1,5 @@
 ﻿using SimpleInjector;
+using WebStoreAPI.Queries.Products;
 
 namespace WebStoreAPI.Queries
 {
@@ -12,21 +13,21 @@ namespace WebStoreAPI.Queries
         }
 
         public T Dispatch<TQuery, T>()
-            where TQuery : class, IQuery<T>
+            where TQuery : class, IGetAll<T>
         {
             var handler = _container.GetInstance<TQuery>();
             return handler.Execute();
         }
 
         public T Dispatch<TQuery, T>(int id)
-            where TQuery : class, IQuery<T>
+            where TQuery : class, IGetSingle<T>
         {
             var handler = _container.GetInstance<TQuery>();
             return handler.Execute(id);
         }
 
         public T Dispatch<TQuery, T>(string type)
-            where TQuery : class, IQuery<T>
+            where TQuery : class, IGetGroup<T>
         {
             var handler = _container.GetInstance<TQuery>();
             return handler.Execute(type);
