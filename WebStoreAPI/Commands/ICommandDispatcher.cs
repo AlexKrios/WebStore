@@ -1,8 +1,10 @@
-﻿namespace WebStoreAPI.Commands
+﻿using System.Threading.Tasks;
+
+namespace WebStoreAPI.Commands
 {
     public interface ICommandDispatcher
     {
-        void Execute<TCommand>(TCommand command)
+        Task Execute<TCommand>(TCommand command)
             where TCommand : ICommand;
     }
 }

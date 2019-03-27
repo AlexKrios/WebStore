@@ -1,11 +1,11 @@
 ﻿namespace WebStoreAPI.Queries.Products
 {
     //Get group of products command
-    public class GetGroupProductsCommand : IQuery
+    public class GetGroupProductsQueries : IQuery
     {
         public string Type { get; }
 
-        public GetGroupProductsCommand(string type)
+        public GetGroupProductsQueries(string type)
         {
             Type = type;
         }

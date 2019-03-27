@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using WebStoreAPI.Models;
 
 namespace WebStoreAPI.Queries.Products
 {
     //Get all products handler
-    public class GetAllProductsHandler : IQueryHandler<GetAllProductsCommand, IEnumerable<Product>>
+    public class GetAllProductsHandler : IQueryHandler<GetAllProductsQueries, IEnumerable<Product>>
     {
         private readonly WebStoreContext _context;
 
@@ -13,9 +15,9 @@ namespace WebStoreAPI.Queries.Products
             _context = context;
         }
 
-        public IEnumerable<Product> Execute(GetAllProductsCommand command)
+        public async Task<IEnumerable<Product>> Execute(GetAllProductsQueries command)
         {
-            return _context.Products;
+            return await _context.Products.ToListAsync();
         }
     }
 }

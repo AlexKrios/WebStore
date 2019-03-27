@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using WebStoreAPI.Commands;
 using WebStoreAPI.Commands.Users;
@@ -16,7 +17,7 @@ namespace WebStoreAPI.Controllers
         private readonly IQueryDispatcher _queryDispatcher;
 
         //Setup connection
-        public UsersController(CommandDispatcher commandDispatcher, QueryDispatcher queryDispatcher)
+        public UsersController(ICommandDispatcher commandDispatcher, IQueryDispatcher queryDispatcher)
         {
             _commandDispatcher = commandDispatcher;
             _queryDispatcher = queryDispatcher;
@@ -24,48 +25,48 @@ namespace WebStoreAPI.Controllers
 
         //Get list of users
         [HttpGet]
-        public IEnumerable<User> Get()
+        public async Task<IEnumerable<User>> Get()
         {
-            return _queryDispatcher.Execute<IEnumerable<User>, GetAllUsersCommand>(new GetAllUsersCommand());
+            return await _queryDispatcher.Execute<IEnumerable<User>, GetAllUsersQueries>(new GetAllUsersQueries());
         }
 
         //Get single user
         [HttpGet("{id}")]
-        public User Get(int id)
+        public async Task<User> Get(int id)
         {
-            return _queryDispatcher.Execute<User, GetSingleUserCommand>(new GetSingleUserCommand(id));
+            return await _queryDispatcher.Execute<User, GetSingleUserQueries>(new GetSingleUserQueries(id));
         }
 
         //Get group of user
         [HttpGet("role/{role}")]
-        public IEnumerable<User> GetGroup(string role)
+        public async Task<IEnumerable<User>> GetGroup(string role)
         {
-            return _queryDispatcher.Execute<IEnumerable<User>, GetGroupUsersCommand>(new GetGroupUsersCommand(role));
+            return await _queryDispatcher.Execute<IEnumerable<User>, GetGroupUsersQueries>(new GetGroupUsersQueries(role));
         }
 
         //Add new user
         [HttpPost]
-        public IActionResult Post([FromBody]User user)
+        public async Task<IActionResult> Post([FromBody]User user)
         {
-            _commandDispatcher.Execute(new PostUserCommand(user));
+            await _commandDispatcher.Execute(new PostUserCommand(user));
             return Ok(user);
         }
 
         //Change user
         [HttpPut]
-        public IActionResult Put([FromBody]User user)
+        public async Task<IActionResult> Put([FromBody]User user)
         {
-            _commandDispatcher.Execute(new PutUserCommand(user));
+            await _commandDispatcher.Execute(new PutUserCommand(user));
             return Ok(user);
         }
 
         //Delete user
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            User user = _queryDispatcher.Execute<User, GetSingleUserCommand>(new GetSingleUserCommand(id));
+            User user = await _queryDispatcher.Execute<User, GetSingleUserQueries>(new GetSingleUserQueries(id));
 
-            _commandDispatcher.Execute(new DeleteUserCommand(user));
+            await _commandDispatcher.Execute(new DeleteUserCommand(user));
             return Ok(user);
         }
     }

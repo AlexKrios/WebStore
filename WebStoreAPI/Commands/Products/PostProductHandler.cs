@@ -1,4 +1,5 @@
-﻿using WebStoreAPI.Models;
+﻿using System.Threading.Tasks;
+using WebStoreAPI.Models;
 
 namespace WebStoreAPI.Commands.Products
 {
@@ -12,10 +13,10 @@ namespace WebStoreAPI.Commands.Products
             _context = context;
         }
 
-        public void Execute(PostProductCommand command)
+        public async Task Execute(PostProductCommand command)
         {
             _context.Products.Add(command.Id);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
     }
 }

@@ -1,8 +1,10 @@
-﻿namespace WebStoreAPI.Queries
+﻿using System.Threading.Tasks;
+
+namespace WebStoreAPI.Queries
 {
-    public interface IQueryHandler<in TQuery, out TResult>
+    public interface IQueryHandler<in TQuery, TResult>
         where TQuery : IQuery
     {
-        TResult Execute(TQuery query);
+        Task<TResult> Execute(TQuery query);
     }
 }

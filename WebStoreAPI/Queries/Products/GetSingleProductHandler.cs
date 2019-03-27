@@ -1,10 +1,11 @@
-﻿using System.Linq;
+﻿using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using WebStoreAPI.Models;
 
 namespace WebStoreAPI.Queries.Products
 {
     //Get single product handler
-    public class GetSingleProductHandler : IQueryHandler<GetSingleProductCommand, Product>
+    public class GetSingleProductHandler : IQueryHandler<GetSingleProductQueries, Product>
     {
         private readonly WebStoreContext _context;
 
@@ -13,10 +14,9 @@ namespace WebStoreAPI.Queries.Products
             _context = context;
         }
 
-        public Product Execute(GetSingleProductCommand command)
+        public async Task<Product> Execute(GetSingleProductQueries command)
         {
-            var product = _context.Products.FirstOrDefault(x => x.Id == command.Id);
-            return product;
+            return await _context.Products.FirstOrDefaultAsync(x => x.Id == command.Id);
         }
     }
 }

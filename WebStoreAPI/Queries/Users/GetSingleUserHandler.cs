@@ -1,10 +1,11 @@
-﻿using System.Linq;
+﻿using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using WebStoreAPI.Models;
 
 namespace WebStoreAPI.Queries.Users
 {
     //Get single user handler
-    public class GetSingleUserHandler : IQueryHandler<GetSingleUserCommand, User>
+    public class GetSingleUserHandler : IQueryHandler<GetSingleUserQueries, User>
     {
         private readonly WebStoreContext _context;
 
@@ -13,10 +14,9 @@ namespace WebStoreAPI.Queries.Users
             _context = context;
         }
 
-        public User Execute(GetSingleUserCommand command)
+        public async Task<User> Execute(GetSingleUserQueries command)
         {
-            var user = _context.Users.FirstOrDefault(x => x.Id == command.Id);
-            return user;
+             return await _context.Users.FirstOrDefaultAsync(x => x.Id == command.Id);
         }
     }
 }

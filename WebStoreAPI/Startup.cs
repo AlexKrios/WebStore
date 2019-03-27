@@ -54,6 +54,9 @@ namespace WebStoreAPI
             services.AddSingleton<IControllerActivator>(
                 new SimpleInjectorControllerActivator(_container));
 
+            _container.Register<ICommandDispatcher, CommandDispatcher>();
+            _container.Register<IQueryDispatcher, QueryDispatcher>();
+
             _container.Register<ICommandHandler<DeleteProductCommand>, DeleteProductHandler>();
             _container.Register<ICommandHandler<PostProductCommand>, PostProductHandler>();
             _container.Register<ICommandHandler<PutProductCommand>, PutProductHandler>();
@@ -62,13 +65,13 @@ namespace WebStoreAPI
             _container.Register<ICommandHandler<PostUserCommand>, PostUserHandler>();
             _container.Register<ICommandHandler<PutUserCommand>, PutUserHandler>();
 
-            _container.Register<IQueryHandler<GetAllProductsCommand, IEnumerable<Product>>, GetAllProductsHandler>();
-            _container.Register<IQueryHandler<GetGroupProductsCommand, IEnumerable<Product>>, GetGroupProductsHandler>();
-            _container.Register<IQueryHandler<GetSingleProductCommand, Product>, GetSingleProductHandler>();
+            _container.Register<IQueryHandler<GetAllProductsQueries, IEnumerable<Product>>, GetAllProductsHandler>();
+            _container.Register<IQueryHandler<GetGroupProductsQueries, IEnumerable<Product>>, GetGroupProductsHandler>();
+            _container.Register<IQueryHandler<GetSingleProductQueries, Product>, GetSingleProductHandler>();
 
-            _container.Register<IQueryHandler<GetAllUsersCommand, IEnumerable<User>>, GetAllUsersHandler>();
-            _container.Register<IQueryHandler<GetGroupUsersCommand, IEnumerable<User>>, GetGroupUsersHandler>();
-            _container.Register<IQueryHandler<GetSingleUserCommand, User>, GetSingleUserHandler>();
+            _container.Register<IQueryHandler<GetAllUsersQueries, IEnumerable<User>>, GetAllUsersHandler>();
+            _container.Register<IQueryHandler<GetGroupUsersQueries, IEnumerable<User>>, GetGroupUsersHandler>();
+            _container.Register<IQueryHandler<GetSingleUserQueries, User>, GetSingleUserHandler>();
 
             services.EnableSimpleInjectorCrossWiring(_container);
             services.UseSimpleInjectorAspNetRequestScoping(_container);

@@ -1,4 +1,5 @@
-﻿using SimpleInjector;
+﻿using System.Threading.Tasks;
+using SimpleInjector;
 
 namespace WebStoreAPI.Commands
 {
@@ -12,11 +13,11 @@ namespace WebStoreAPI.Commands
             _container = container;
         }
 
-        public void Execute<TCommand>(TCommand command)
+        public async Task Execute<TCommand>(TCommand command)
             where TCommand : ICommand
         {
             var handler = _container.GetInstance<ICommandHandler<TCommand>>();
-            handler.Execute(command);
+            await handler.Execute(command);
         }
     }
 }

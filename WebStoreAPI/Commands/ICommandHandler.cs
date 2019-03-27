@@ -1,8 +1,10 @@
-﻿namespace WebStoreAPI.Commands
+﻿using System.Threading.Tasks;
+
+namespace WebStoreAPI.Commands
 {
     public interface ICommandHandler<in TCommand>
         where TCommand : ICommand
     {
-        void Execute(TCommand command);
+        Task Execute(TCommand command);
     }
 }

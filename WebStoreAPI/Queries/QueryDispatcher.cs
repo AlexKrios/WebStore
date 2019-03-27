@@ -1,4 +1,5 @@
-﻿using SimpleInjector;
+﻿using System.Threading.Tasks;
+using SimpleInjector;
 
 namespace WebStoreAPI.Queries
 {
@@ -11,11 +12,11 @@ namespace WebStoreAPI.Queries
             _container = container;
         }
 
-        public TResult Execute<TResult, TQuery>(TQuery query)
+        public async Task<TResult> Execute<TResult, TQuery>(TQuery query)
             where TQuery : IQuery
         {
             var handler = _container.GetInstance<IQueryHandler<TQuery, TResult>>();
-            return handler.Execute(query);
+            return await handler.Execute(query);
         }
     }
 }

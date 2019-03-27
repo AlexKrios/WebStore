@@ -1,4 +1,5 @@
-﻿using WebStoreAPI.Models;
+﻿using System.Threading.Tasks;
+using WebStoreAPI.Models;
 
 namespace WebStoreAPI.Commands.Users
 {
@@ -12,10 +13,10 @@ namespace WebStoreAPI.Commands.Users
             _context = context;
         }
 
-        public void Execute(DeleteUserCommand command)
+        public async Task Execute(DeleteUserCommand command)
         {
             _context.Users.Remove(command.Id);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
     }
 }

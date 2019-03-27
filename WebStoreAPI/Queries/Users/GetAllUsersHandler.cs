@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using WebStoreAPI.Models;
 
 namespace WebStoreAPI.Queries.Users
 {
     //Get all users handler
-    public class GetAllUsersHandler : IQueryHandler<GetAllUsersCommand, IEnumerable<User>>
+    public class GetAllUsersHandler : IQueryHandler<GetAllUsersQueries, IEnumerable<User>>
     {
         private readonly WebStoreContext _context;
 
@@ -13,9 +15,9 @@ namespace WebStoreAPI.Queries.Users
             _context = context;
         }
 
-        public IEnumerable<User> Execute(GetAllUsersCommand command)
+        public async Task<IEnumerable<User>> Execute(GetAllUsersQueries command)
         {
-            return _context.Users;
+            return await _context.Users.ToListAsync();
         }
     }
 }

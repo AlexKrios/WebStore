@@ -1,11 +1,11 @@
 ﻿namespace WebStoreAPI.Queries.Users
 {
     //Get group of users command
-    public class GetGroupUsersCommand : IQuery
+    public class GetGroupUsersQueries : IQuery
     {
         public string Role { get; }
 
-        public GetGroupUsersCommand(string role)
+        public GetGroupUsersQueries(string role)
         {
             Role = role;
         }

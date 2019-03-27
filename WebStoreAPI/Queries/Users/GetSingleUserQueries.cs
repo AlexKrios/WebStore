@@ -1,11 +1,11 @@
 ﻿namespace WebStoreAPI.Queries.Users
 {
     //Get single user command
-    public class GetSingleUserCommand : IQuery
+    public class GetSingleUserQueries : IQuery
     {
         public int Id { get; }
 
-        public GetSingleUserCommand(int id)
+        public GetSingleUserQueries(int id)
         {
             Id = id;
         }
