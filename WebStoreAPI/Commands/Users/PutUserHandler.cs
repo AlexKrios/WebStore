@@ -1,10 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using MediatR;
 using WebStoreAPI.Models;
 
 namespace WebStoreAPI.Commands.Users
 {
     //Put request handler for user
-    public class PutUserHandler : ICommandHandler<PutUserCommand>
+    public class PutUserHandler : IRequestHandler<PutUserCommand, User>
     {
         private readonly WebStoreContext _context;
 
@@ -12,10 +14,11 @@ namespace WebStoreAPI.Commands.Users
         {
             _context = context;
         }
-        public async Task Execute(PutUserCommand command)
+        public async Task<User> Handle(PutUserCommand command, CancellationToken cancellationToken)
         {
             _context.Users.Update(command.User);
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellationToken);
+            return command.User;
         }
     }
 }

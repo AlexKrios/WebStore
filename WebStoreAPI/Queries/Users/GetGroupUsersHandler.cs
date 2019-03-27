@@ -1,13 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using WebStoreAPI.Models;
 
 namespace WebStoreAPI.Queries.Users
 {
     //Get group of users handler
-    public class GetGroupUsersHandler : IQueryHandler<GetGroupUsersQueries, IEnumerable<User>>
+    public class GetGroupUsersHandler : IRequestHandler<GetGroupUsersQuery, IEnumerable<User>>
     {
         private readonly WebStoreContext _context;
 
@@ -16,9 +18,9 @@ namespace WebStoreAPI.Queries.Users
             _context = context;
         }
 
-        public async Task<IEnumerable<User>> Execute(GetGroupUsersQueries command)
+        public async Task<IEnumerable<User>> Handle(GetGroupUsersQuery command, CancellationToken cancellationToken)
         {
-            return await _context.Users.Where(x => Equals(x.Role, command.Role)).ToListAsync();
+            return await _context.Users.Where(x => Equals(x.Role, command.Role)).ToListAsync(cancellationToken: cancellationToken);
         }
     }
 }

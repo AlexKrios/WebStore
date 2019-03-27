@@ -1,10 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using MediatR;
 using WebStoreAPI.Models;
 
 namespace WebStoreAPI.Commands.Products
 {
     //Post request handler for product
-    public class PostProductHandler : ICommandHandler<PostProductCommand>
+    public class PostProductHandler : IRequestHandler<PostProductCommand, Product>
     {
         private readonly WebStoreContext _context;
 
@@ -13,10 +15,11 @@ namespace WebStoreAPI.Commands.Products
             _context = context;
         }
 
-        public async Task Execute(PostProductCommand command)
+        public async Task<Product> Handle(PostProductCommand command, CancellationToken cancellationToken)
         {
-            await _context.Products.AddAsync(command.Product);
-            await _context.SaveChangesAsync();
+            await _context.Products.AddAsync(command.Product, cancellationToken);
+            await _context.SaveChangesAsync(cancellationToken);
+            return command.Product;
         }
     }
 }

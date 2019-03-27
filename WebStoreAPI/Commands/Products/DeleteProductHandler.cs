@@ -1,10 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using MediatR;
 using WebStoreAPI.Models;
 
 namespace WebStoreAPI.Commands.Products
 {
     //Delete request handler for product
-    public class DeleteProductHandler : ICommandHandler<DeleteProductCommand>
+    public class DeleteProductHandler : IRequestHandler<DeleteProductCommand, Product>
     {
         private readonly WebStoreContext _context;
 
@@ -13,10 +15,11 @@ namespace WebStoreAPI.Commands.Products
             _context = context;
         }
 
-        public async Task Execute(DeleteProductCommand command)
+        public async Task<Product> Handle(DeleteProductCommand command, CancellationToken cancellationToken)
         {
             _context.Products.Remove(command.Product);
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellationToken);
+            return command.Product;
         }
     }
 }

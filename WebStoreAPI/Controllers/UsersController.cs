@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using WebStoreAPI.Commands;
 using WebStoreAPI.Commands.Users;
 using WebStoreAPI.Models;
-using WebStoreAPI.Queries;
 using WebStoreAPI.Queries.Users;
 
 namespace WebStoreAPI.Controllers
@@ -13,42 +12,40 @@ namespace WebStoreAPI.Controllers
     [ApiController]
     public class UsersController : Controller
     {
-        private readonly ICommandDispatcher _commandDispatcher;
-        private readonly IQueryDispatcher _queryDispatcher;
+        private readonly IMediator _mediator;
 
         //Setup connection
-        public UsersController(ICommandDispatcher commandDispatcher, IQueryDispatcher queryDispatcher)
+        public UsersController(IMediator mediator)
         {
-            _commandDispatcher = commandDispatcher;
-            _queryDispatcher = queryDispatcher;
+            _mediator = mediator;
         }
 
         //Get list of users
         [HttpGet]
         public async Task<IEnumerable<User>> Get()
         {
-            return await _queryDispatcher.Execute<IEnumerable<User>, GetAllUsersQueries>(new GetAllUsersQueries());
+            return await _mediator.Send(new GetAllUsersQuery());
         }
 
         //Get single user
         [HttpGet("{id}")]
         public async Task<User> Get(int id)
         {
-            return await _queryDispatcher.Execute<User, GetSingleUserQueries>(new GetSingleUserQueries(id));
+            return await _mediator.Send(new GetSingleUserQuery(id));
         }
 
         //Get group of user
         [HttpGet("role/{role}")]
         public async Task<IEnumerable<User>> GetGroup(string role)
         {
-            return await _queryDispatcher.Execute<IEnumerable<User>, GetGroupUsersQueries>(new GetGroupUsersQueries(role));
+            return await _mediator.Send(new GetGroupUsersQuery(role));
         }
 
         //Add new user
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]User user)
         {
-            await _commandDispatcher.Execute(new PostUserCommand(user));
+            await _mediator.Send(new PostUserCommand(user));
             return Ok(user);
         }
 
@@ -56,7 +53,7 @@ namespace WebStoreAPI.Controllers
         [HttpPut]
         public async Task<IActionResult> Put([FromBody]User user)
         {
-            await _commandDispatcher.Execute(new PutUserCommand(user));
+            await _mediator.Send(new PutUserCommand(user));
             return Ok(user);
         }
 
@@ -64,9 +61,9 @@ namespace WebStoreAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var user = await _queryDispatcher.Execute<User, GetSingleUserQueries>(new GetSingleUserQueries(id));
+            var user = await _mediator.Send(new GetSingleUserQuery(id));
 
-            await _commandDispatcher.Execute(new DeleteUserCommand(user));
+            await _mediator.Send(new DeleteUserCommand(user));
             return Ok(user);
         }
     }

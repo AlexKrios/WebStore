@@ -1,10 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using MediatR;
 using WebStoreAPI.Models;
 
 namespace WebStoreAPI.Commands.Users
 {
     //Delete request handler for user
-    public class DeleteUserHandler : ICommandHandler<DeleteUserCommand>
+    public class DeleteUserHandler : IRequestHandler<DeleteUserCommand, User>
     {
         private readonly WebStoreContext _context;
 
@@ -13,10 +15,11 @@ namespace WebStoreAPI.Commands.Users
             _context = context;
         }
 
-        public async Task Execute(DeleteUserCommand command)
+        public async Task<User> Handle(DeleteUserCommand command, CancellationToken cancellationToken)
         {
             _context.Users.Remove(command.User);
             await _context.SaveChangesAsync();
+            return command.User;
         }
     }
 }

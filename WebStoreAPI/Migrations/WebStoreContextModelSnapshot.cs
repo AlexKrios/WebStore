@@ -18,9 +18,9 @@ namespace WebStoreAPI.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("WebStoreAPI.Model.Product", b =>
+            modelBuilder.Entity("WebStoreAPI.Models.Product", b =>
                 {
-                    b.Property<int>("Product")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -34,14 +34,14 @@ namespace WebStoreAPI.Migrations
 
                     b.Property<string>("Type");
 
-                    b.HasKey("Product");
+                    b.HasKey("Id");
 
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("WebStoreAPI.Model.User", b =>
+            modelBuilder.Entity("WebStoreAPI.Models.User", b =>
                 {
-                    b.Property<int>("Product")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -53,7 +53,7 @@ namespace WebStoreAPI.Migrations
 
                     b.Property<string>("Role");
 
-                    b.HasKey("Product");
+                    b.HasKey("Id");
 
                     b.ToTable("Users");
                 });

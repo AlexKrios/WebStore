@@ -1,9 +1,10 @@
-﻿using WebStoreAPI.Models;
+﻿using MediatR;
+using WebStoreAPI.Models;
 
 namespace WebStoreAPI.Commands.Users
 {
     //Post request command for user
-    public class PostUserCommand : ICommand
+    public class PostUserCommand : IRequest<User>
     {
         public User User { get; }
 

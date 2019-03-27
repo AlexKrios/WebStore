@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using WebStoreAPI.Commands;
 using WebStoreAPI.Commands.Products;
 using WebStoreAPI.Models;
-using WebStoreAPI.Queries;
 using WebStoreAPI.Queries.Products;
 
 namespace WebStoreAPI.Controllers
@@ -13,42 +12,41 @@ namespace WebStoreAPI.Controllers
     [ApiController]
     public class ProductsController : Controller
     {
-        private readonly ICommandDispatcher _commandDispatcher;
-        private readonly IQueryDispatcher _queryDispatcher;
+        private readonly IMediator _mediator;
 
         //Setup connection
-        public ProductsController(ICommandDispatcher commandDispatcher, IQueryDispatcher queryDispatcher)
+        public ProductsController(IMediator mediator)
         {
-            _commandDispatcher = commandDispatcher;
-            _queryDispatcher = queryDispatcher;
+            _mediator = mediator;
         }
 
         //Get list of products
         [HttpGet]
         public async Task<IEnumerable<Product>> Get()
         {
-            return await _queryDispatcher.Execute<IEnumerable<Product>, GetAllProductsQueries>(new GetAllProductsQueries());
+            return await _mediator.Send(new GetAllProductsQuery());
         }
 
         //Get single product
         [HttpGet("{id}")]
         public async Task<Product> Get(int id)
         {
-            return await _queryDispatcher.Execute<Product, GetSingleProductQueries>(new GetSingleProductQueries(id));
+            return await _mediator.Send(new GetSingleProductQuery(id));
         }
 
         //Get group of products
         [HttpGet("group/{type}")]
         public async Task<IEnumerable<Product>> GetGroup(string type)
         {
-            return await _queryDispatcher.Execute<IEnumerable<Product>, GetGroupProductsQueries>(new GetGroupProductsQueries(type));
+            return await _mediator.Send(new GetGroupProductsQuery(type));
         }
 
         //Add new product
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]Product product)
         {
-            await _commandDispatcher.Execute(new PostProductCommand(product));
+            //await _commandDispatcher.Execute(new PostProductCommand(product));
+            await _mediator.Send(new PostProductCommand(product));
             return Ok(product);
         }
 
@@ -56,7 +54,7 @@ namespace WebStoreAPI.Controllers
         [HttpPut]
         public async Task<IActionResult> Put([FromBody]Product product)
         {
-            await _commandDispatcher.Execute(new PutProductCommand(product));
+            await _mediator.Send(new PutProductCommand(product));
             return Ok(product);
         }
 
@@ -64,9 +62,9 @@ namespace WebStoreAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var product = await _queryDispatcher.Execute<Product, GetSingleProductQueries>(new GetSingleProductQueries(id));
+            var product = await _mediator.Send(new GetSingleProductQuery(id));
 
-            await _commandDispatcher.Execute(new DeleteProductCommand(product));
+            await _mediator.Send(new DeleteProductCommand(product));
             return Ok(product);
         }
     }

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -11,12 +11,9 @@ using SimpleInjector.Integration.AspNetCore.Mvc;
 using SimpleInjector.Lifestyles;
 using Swashbuckle.AspNetCore.Swagger;
 using WebStoreAPI.Commands;
-using WebStoreAPI.Commands.Products;
 using WebStoreAPI.Commands.Users;
 using WebStoreAPI.Models;
 using WebStoreAPI.Queries;
-using WebStoreAPI.Queries.Products;
-using WebStoreAPI.Queries.Users;
 
 namespace WebStoreAPI
 {
@@ -37,6 +34,8 @@ namespace WebStoreAPI
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddMvc();
 
+            services.AddMediatR();
+
             IntegrateSimpleInjector(services);
 
             services.AddSwaggerGen(c =>
@@ -53,25 +52,6 @@ namespace WebStoreAPI
 
             services.AddSingleton<IControllerActivator>(
                 new SimpleInjectorControllerActivator(_container));
-
-            _container.Register<ICommandDispatcher, CommandDispatcher>();
-            _container.Register<IQueryDispatcher, QueryDispatcher>();
-
-            _container.Register<ICommandHandler<DeleteProductCommand>, DeleteProductHandler>();
-            _container.Register<ICommandHandler<PostProductCommand>, PostProductHandler>();
-            _container.Register<ICommandHandler<PutProductCommand>, PutProductHandler>();
-
-            _container.Register<ICommandHandler<DeleteUserCommand>, DeleteUserHandler>();
-            _container.Register<ICommandHandler<PostUserCommand>, PostUserHandler>();
-            _container.Register<ICommandHandler<PutUserCommand>, PutUserHandler>();
-
-            _container.Register<IQueryHandler<GetAllProductsQueries, IEnumerable<Product>>, GetAllProductsHandler>();
-            _container.Register<IQueryHandler<GetGroupProductsQueries, IEnumerable<Product>>, GetGroupProductsHandler>();
-            _container.Register<IQueryHandler<GetSingleProductQueries, Product>, GetSingleProductHandler>();
-
-            _container.Register<IQueryHandler<GetAllUsersQueries, IEnumerable<User>>, GetAllUsersHandler>();
-            _container.Register<IQueryHandler<GetGroupUsersQueries, IEnumerable<User>>, GetGroupUsersHandler>();
-            _container.Register<IQueryHandler<GetSingleUserQueries, User>, GetSingleUserHandler>();
 
             services.EnableSimpleInjectorCrossWiring(_container);
             services.UseSimpleInjectorAspNetRequestScoping(_container);
