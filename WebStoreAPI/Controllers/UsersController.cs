@@ -64,7 +64,7 @@ namespace WebStoreAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            User user = await _queryDispatcher.Execute<User, GetSingleUserQueries>(new GetSingleUserQueries(id));
+            var user = await _queryDispatcher.Execute<User, GetSingleUserQueries>(new GetSingleUserQueries(id));
 
             await _commandDispatcher.Execute(new DeleteUserCommand(user));
             return Ok(user);

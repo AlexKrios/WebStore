@@ -5,11 +5,11 @@ namespace WebStoreAPI.Commands.Products
     //Post request command for product
     public class PostProductCommand : ICommand
     {
-        public Product Id { get; }
+        public Product Product { get; }
 
-        public PostProductCommand(Product id)
+        public PostProductCommand(Product product)
         {
-            Id = id;
+            Product = product;
         }
     }
 }

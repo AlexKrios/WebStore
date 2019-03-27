@@ -15,7 +15,7 @@ namespace WebStoreAPI.Commands.Products
 
         public async Task Execute(DeleteProductCommand command)
         {
-            _context.Products.Remove(command.Id);
+            _context.Products.Remove(command.Product);
             await _context.SaveChangesAsync();
         }
     }

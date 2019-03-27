@@ -5,11 +5,11 @@ namespace WebStoreAPI.Commands.Products
     //Delete request command for product
     public class DeleteProductCommand : ICommand
     {
-        public Product Id { get; }
+        public Product Product { get; }
 
-        public DeleteProductCommand(Product id)
+        public DeleteProductCommand(Product product)
         {
-            Id = id;
+            Product = product;
         }
     }
 }

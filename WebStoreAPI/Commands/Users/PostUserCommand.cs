@@ -5,11 +5,11 @@ namespace WebStoreAPI.Commands.Users
     //Post request command for user
     public class PostUserCommand : ICommand
     {
-        public User Id { get; }
+        public User User { get; }
 
-        public PostUserCommand(User id)
+        public PostUserCommand(User user)
         {
-            Id = id;
+            User = user;
         }
     }
 }

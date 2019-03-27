@@ -15,7 +15,7 @@ namespace WebStoreAPI.Commands.Users
 
         public async Task Execute(DeleteUserCommand command)
         {
-            _context.Users.Remove(command.Id);
+            _context.Users.Remove(command.User);
             await _context.SaveChangesAsync();
         }
     }

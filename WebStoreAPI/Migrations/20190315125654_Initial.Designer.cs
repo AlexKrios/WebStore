@@ -22,7 +22,7 @@ namespace WebStoreAPI.Migrations
 
             modelBuilder.Entity("WebStoreAPI.Model.Product", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("Product")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -36,14 +36,14 @@ namespace WebStoreAPI.Migrations
 
                     b.Property<string>("Type");
 
-                    b.HasKey("Id");
+                    b.HasKey("Product");
 
                     b.ToTable("Products");
                 });
 
             modelBuilder.Entity("WebStoreAPI.Model.User", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("Product")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -55,7 +55,7 @@ namespace WebStoreAPI.Migrations
 
                     b.Property<string>("Role");
 
-                    b.HasKey("Id");
+                    b.HasKey("Product");
 
                     b.ToTable("Users");
                 });
