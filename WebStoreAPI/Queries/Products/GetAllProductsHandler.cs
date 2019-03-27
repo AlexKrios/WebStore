@@ -3,15 +3,17 @@ using WebStoreAPI.Models;
 
 namespace WebStoreAPI.Queries.Products
 {
-    public class GetAllProductsHandler : Query<IEnumerable<Product>>
+    //Get all products handler
+    public class GetAllProductsHandler : IQueryHandler<GetAllProductsCommand, IEnumerable<Product>>
     {
         private readonly WebStoreContext _context;
+
         public GetAllProductsHandler(WebStoreContext context)
         {
             _context = context;
         }
 
-        public override IEnumerable<Product> Execute()
+        public IEnumerable<Product> Execute(GetAllProductsCommand command)
         {
             return _context.Products;
         }

@@ -2,17 +2,19 @@
 
 namespace WebStoreAPI.Commands.Products
 {
-    public class DeleteProductHandler : ICommandHandler<DeleteProduct>
+    //Delete request handler for product
+    public class DeleteProductHandler : ICommandHandler<DeleteProductCommand>
     {
         private readonly WebStoreContext _context;
+
         public DeleteProductHandler(WebStoreContext context)
         {
             _context = context;
         }
 
-        public void Execute(DeleteProduct delete)
+        public void Execute(DeleteProductCommand command)
         {
-            _context.Products.Remove(delete.Id);
+            _context.Products.Remove(command.Id);
             _context.SaveChanges();
         }
     }

@@ -2,16 +2,18 @@
 
 namespace WebStoreAPI.Commands.Users
 {
-    public class PutUserHandler : Command<User>
+    //Put request handler for user
+    public class PutUserHandler : ICommandHandler<PutUserCommand>
     {
         private readonly WebStoreContext _context;
+
         public PutUserHandler(WebStoreContext context)
         {
             _context = context;
         }
-        public override void Execute(User user)
+        public void Execute(PutUserCommand command)
         {
-            _context.Update(user);
+            _context.Update(command.Id);
             _context.SaveChanges();
         }
     }

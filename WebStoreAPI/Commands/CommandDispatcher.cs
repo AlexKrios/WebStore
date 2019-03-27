@@ -1,29 +1,21 @@
 ﻿using SimpleInjector;
-using WebStoreAPI.Models;
 
 namespace WebStoreAPI.Commands
 {
+    //Command dispatcher for all model
     public class CommandDispatcher : ICommandDispatcher
     {
         private readonly Container _container;
+
         public CommandDispatcher(Container container)
         {
             _container = container;
         }
 
-        /*public void Dispatch<TCommand, T>(T product) 
-            where TCommand : class, ICommand<T>
-            where T : IBaseEntity
+        public void Execute<TCommand>(TCommand command)
+            where TCommand : ICommand
         {
-            var handler = _container.GetInstance<TCommand>();
-            handler.Execute(product);
-        }*/
-
-
-        public void Execute<TCommand, TCommandHandler>(TCommand command)
-            where TCommand : class, ICommandTag
-        {
-            var handler = _container.GetInstance<TCommand>();
+            var handler = _container.GetInstance<ICommandHandler<TCommand>>();
             handler.Execute(command);
         }
     }

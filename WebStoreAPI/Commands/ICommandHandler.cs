@@ -1,7 +1,7 @@
 ﻿namespace WebStoreAPI.Commands
 {
     public interface ICommandHandler<in TCommand>
-        where TCommand : ICommandTag
+        where TCommand : ICommand
     {
         void Execute(TCommand command);
     }

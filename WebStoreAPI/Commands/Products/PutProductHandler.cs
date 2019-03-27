@@ -2,17 +2,19 @@
 
 namespace WebStoreAPI.Commands.Products
 {
-    public class PutProductHandler : Command<Product>
+    //Put request handler for product
+    public class PutProductHandler : ICommandHandler<PutProductCommand>
     {
         private readonly WebStoreContext _context;
+
         public PutProductHandler(WebStoreContext context)
         {
             _context = context;
         }
 
-        public override void Execute(Product obj)
+        public void Execute(PutProductCommand command)
         {
-            _context.Update(obj);
+            _context.Update(command.Id);
             _context.SaveChanges();
         }
     }

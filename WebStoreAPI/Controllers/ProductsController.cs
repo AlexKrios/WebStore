@@ -26,28 +26,28 @@ namespace WebStoreAPI.Controllers
         [HttpGet]
         public IEnumerable<Product> Get()
         {
-            return _queryDispatcher.Dispatch<GetAllProductsHandler, IEnumerable<Product>>();
+            return _queryDispatcher.Execute<IEnumerable<Product>, GetAllProductsCommand>(new GetAllProductsCommand());
         }
 
         //Get single product
         [HttpGet("{id}")]
         public Product Get(int id)
         {
-            return _queryDispatcher.Dispatch<GetSingleProductHandler, Product>(id);
+            return _queryDispatcher.Execute<Product, GetSingleProductCommand>(new GetSingleProductCommand(id));
         }
 
         //Get group of products
         [HttpGet("group/{type}")]
         public IEnumerable<Product> GetGroup(string type)
         {
-            return _queryDispatcher.Dispatch<GetGroupProductsHandler, IEnumerable<Product>>(type);
+            return _queryDispatcher.Execute<IEnumerable<Product>, GetGroupProductsCommand>(new GetGroupProductsCommand(type));
         }
 
         //Add new product
-        /*[HttpPost]
+        [HttpPost]
         public IActionResult Post([FromBody]Product product)
         {
-            _commandDispatcher.Dispatch<PostProductHandler, Product>(product);
+            _commandDispatcher.Execute(new PostProductCommand(product));
             return Ok(product);
         }
 
@@ -55,17 +55,17 @@ namespace WebStoreAPI.Controllers
         [HttpPut]
         public IActionResult Put([FromBody]Product product)
         {
-            _commandDispatcher.Dispatch<PutProductHandler, Product>(product);
+            _commandDispatcher.Execute(new PutProductCommand(product));
             return Ok(product);
-        }*/
+        }
 
         //Delete product 
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            Product product = _queryDispatcher.Dispatch<GetSingleProductHandler, Product>(id);
+            Product product = _queryDispatcher.Execute<Product, GetSingleProductCommand>(new GetSingleProductCommand(id));
 
-            _commandDispatcher.Execute(new DeleteProduct(product));
+            _commandDispatcher.Execute(new DeleteProductCommand(product));
             return Ok(product);
         }
     }

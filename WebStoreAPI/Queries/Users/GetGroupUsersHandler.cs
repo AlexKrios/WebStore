@@ -4,17 +4,19 @@ using WebStoreAPI.Models;
 
 namespace WebStoreAPI.Queries.Users
 {
-    public class GetGroupUsersHandler : Query<IEnumerable<User>>
+    //Get group of users handler
+    public class GetGroupUsersHandler : IQueryHandler<GetGroupUsersCommand, IEnumerable<User>>
     {
         private readonly WebStoreContext _context;
+
         public GetGroupUsersHandler(WebStoreContext context)
         {
             _context = context;
         }
 
-        public override IEnumerable<User> Execute(string role)
+        public IEnumerable<User> Execute(GetGroupUsersCommand command)
         {
-            IEnumerable<User> users = _context.Users.Where(x => x.Role == role);
+            IEnumerable<User> users = _context.Users.Where(x => Equals(x.Role, command.Role));
             return users.ToList();
         }
     }

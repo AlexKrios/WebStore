@@ -1,7 +1,8 @@
 ﻿namespace WebStoreAPI.Queries
 {
-    public interface IQueryHandler
+    public interface IQueryHandler<in TQuery, out TResult>
+        where TQuery : IQuery
     {
-        
+        TResult Execute(TQuery query);
     }
 }

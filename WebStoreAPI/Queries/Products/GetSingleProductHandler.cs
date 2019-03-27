@@ -3,18 +3,19 @@ using WebStoreAPI.Models;
 
 namespace WebStoreAPI.Queries.Products
 {
-    //Query for output single product
-    public class GetSingleProductHandler : Query<Product>
+    //Get single product handler
+    public class GetSingleProductHandler : IQueryHandler<GetSingleProductCommand, Product>
     {
         private readonly WebStoreContext _context;
+
         public GetSingleProductHandler(WebStoreContext context)
         {
             _context = context;
         }
 
-        public override Product Execute(int id)
+        public Product Execute(GetSingleProductCommand command)
         {
-            var product = _context.Products.FirstOrDefault(x => x.Id == id);
+            var product = _context.Products.FirstOrDefault(x => x.Id == command.Id);
             return product;
         }
     }

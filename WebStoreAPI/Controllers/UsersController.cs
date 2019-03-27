@@ -26,28 +26,28 @@ namespace WebStoreAPI.Controllers
         [HttpGet]
         public IEnumerable<User> Get()
         {
-            return _queryDispatcher.Dispatch<GetAllUsersHandler, IEnumerable<User>>();
+            return _queryDispatcher.Execute<IEnumerable<User>, GetAllUsersCommand>(new GetAllUsersCommand());
         }
 
         //Get single user
         [HttpGet("{id}")]
         public User Get(int id)
         {
-            return _queryDispatcher.Dispatch<GetSingleUserHandler, User>(id);
+            return _queryDispatcher.Execute<User, GetSingleUserCommand>(new GetSingleUserCommand(id));
         }
 
         //Get group of user
         [HttpGet("role/{role}")]
         public IEnumerable<User> GetGroup(string role)
         {
-            return _queryDispatcher.Dispatch<GetGroupUsersHandler, IEnumerable<User>>(role);
+            return _queryDispatcher.Execute<IEnumerable<User>, GetGroupUsersCommand>(new GetGroupUsersCommand(role));
         }
 
         //Add new user
-        /*[HttpPost]
+        [HttpPost]
         public IActionResult Post([FromBody]User user)
         {
-            _commandDispatcher.Dispatch<PostUserHandler, User>(user);
+            _commandDispatcher.Execute(new PostUserCommand(user));
             return Ok(user);
         }
 
@@ -55,7 +55,7 @@ namespace WebStoreAPI.Controllers
         [HttpPut]
         public IActionResult Put([FromBody]User user)
         {
-            _commandDispatcher.Dispatch<PutUserHandler, User>(user);
+            _commandDispatcher.Execute(new PutUserCommand(user));
             return Ok(user);
         }
 
@@ -63,10 +63,10 @@ namespace WebStoreAPI.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            User user = _queryDispatcher.Dispatch<GetSingleUserHandler, User>(id);
+            User user = _queryDispatcher.Execute<User, GetSingleUserCommand>(new GetSingleUserCommand(id));
 
-            _commandDispatcher.Dispatch<DeleteUserHandler, User>(user);
+            _commandDispatcher.Execute(new DeleteUserCommand(user));
             return Ok(user);
-        }*/
+        }
     }
 }

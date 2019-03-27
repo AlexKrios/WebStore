@@ -1,9 +1,6 @@
 ﻿namespace WebStoreAPI.Queries
 {
-    public interface IQuery<out T>
+    public interface IQuery
     {
-        T Execute();
-        T Execute(int id);
-        T Execute(string type);
     }
 }

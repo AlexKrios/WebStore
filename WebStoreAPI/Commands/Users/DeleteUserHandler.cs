@@ -2,17 +2,19 @@
 
 namespace WebStoreAPI.Commands.Users
 {
-    public class DeleteUserHandler : Command<User>
+    //Delete request handler for user
+    public class DeleteUserHandler : ICommandHandler<DeleteUserCommand>
     {
         private readonly WebStoreContext _context;
+
         public DeleteUserHandler(WebStoreContext context)
         {
             _context = context;
         }
 
-        public override void Execute(User user)
+        public void Execute(DeleteUserCommand command)
         {
-            _context.Users.Remove(user);
+            _context.Users.Remove(command.Id);
             _context.SaveChanges();
         }
     }

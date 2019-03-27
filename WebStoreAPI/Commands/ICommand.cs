@@ -1,9 +1,6 @@
-﻿using WebStoreAPI.Models;
-
-namespace WebStoreAPI.Commands
+﻿namespace WebStoreAPI.Commands
 {
-    public interface ICommand<in T> where T : IBaseEntity
+    public interface ICommand
     {
-        void Execute(T product);
     }
 }

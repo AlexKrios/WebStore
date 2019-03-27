@@ -1,7 +1,7 @@
 ﻿namespace WebStoreAPI.Models
 {
     //Model for object user
-    public class User : IBaseEntity
+    public class User
     {
         public int Id { get; set; }
         public string FirstName { get; set; }
