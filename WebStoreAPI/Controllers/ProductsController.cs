@@ -44,7 +44,7 @@ namespace WebStoreAPI.Controllers
         }
 
         //Add new product
-        [HttpPost]
+        /*[HttpPost]
         public IActionResult Post([FromBody]Product product)
         {
             _commandDispatcher.Dispatch<PostProductHandler, Product>(product);
@@ -57,7 +57,7 @@ namespace WebStoreAPI.Controllers
         {
             _commandDispatcher.Dispatch<PutProductHandler, Product>(product);
             return Ok(product);
-        }
+        }*/
 
         //Delete product 
         [HttpDelete("{id}")]
@@ -65,7 +65,7 @@ namespace WebStoreAPI.Controllers
         {
             Product product = _queryDispatcher.Dispatch<GetSingleProductHandler, Product>(id);
 
-            _commandDispatcher.Dispatch<DeleteProductHandler, Product>(product);
+            _commandDispatcher.Execute(new DeleteProduct(product));
             return Ok(product);
         }
     }

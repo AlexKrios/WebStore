@@ -2,7 +2,7 @@
 
 namespace WebStoreAPI.Commands.Products
 {
-    public class DeleteProductHandler : Command<Product>
+    public class DeleteProductHandler : ICommandHandler<DeleteProduct>
     {
         private readonly WebStoreContext _context;
         public DeleteProductHandler(WebStoreContext context)
@@ -10,9 +10,9 @@ namespace WebStoreAPI.Commands.Products
             _context = context;
         }
 
-        public override void Execute(Product product)
+        public void Execute(DeleteProduct delete)
         {
-            _context.Products.Remove(product);
+            _context.Products.Remove(delete.Id);
             _context.SaveChanges();
         }
     }

@@ -11,12 +11,20 @@ namespace WebStoreAPI.Commands
             _container = container;
         }
 
-        public void Dispatch<TCommand, T>(T product) 
+        /*public void Dispatch<TCommand, T>(T product) 
             where TCommand : class, ICommand<T>
             where T : IBaseEntity
         {
             var handler = _container.GetInstance<TCommand>();
             handler.Execute(product);
+        }*/
+
+
+        public void Execute<TCommand, TCommandHandler>(TCommand command)
+            where TCommand : class, ICommandTag
+        {
+            var handler = _container.GetInstance<TCommand>();
+            handler.Execute(command);
         }
     }
 }

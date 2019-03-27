@@ -44,7 +44,7 @@ namespace WebStoreAPI.Controllers
         }
 
         //Add new user
-        [HttpPost]
+        /*[HttpPost]
         public IActionResult Post([FromBody]User user)
         {
             _commandDispatcher.Dispatch<PostUserHandler, User>(user);
@@ -67,6 +67,6 @@ namespace WebStoreAPI.Controllers
 
             _commandDispatcher.Dispatch<DeleteUserHandler, User>(user);
             return Ok(user);
-        }
+        }*/
     }
 }
