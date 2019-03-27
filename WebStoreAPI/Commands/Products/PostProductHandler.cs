@@ -15,7 +15,7 @@ namespace WebStoreAPI.Commands.Products
 
         public async Task Execute(PostProductCommand command)
         {
-            _context.Products.Add(command.Id);
+            await _context.Products.AddAsync(command.Id);
             await _context.SaveChangesAsync();
         }
     }

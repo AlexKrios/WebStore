@@ -15,7 +15,7 @@ namespace WebStoreAPI.Commands.Users
 
         public async Task Execute(PostUserCommand command)
         {
-            _context.Users.Add(command.Id);
+            await _context.Users.AddAsync(command.Id);
             await _context.SaveChangesAsync();
         }
     }
