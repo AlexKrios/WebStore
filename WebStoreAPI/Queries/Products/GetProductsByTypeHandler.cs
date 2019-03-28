@@ -9,7 +9,7 @@ using WebStoreAPI.Models;
 namespace WebStoreAPI.Queries.Products
 {
     //Get group of products handler
-    public class GetGroupProductsHandler : IRequestHandler<GetGroupProductsQuery, IEnumerable<Product>>
+    public class GetGroupProductsHandler : IRequestHandler<GetProductsByTypeQuery, IEnumerable<Product>>
     {
         private readonly WebStoreContext _context;
 
@@ -18,7 +18,7 @@ namespace WebStoreAPI.Queries.Products
             _context = context;
         }
 
-        public async Task<IEnumerable<Product>> Handle(GetGroupProductsQuery command, CancellationToken cancellationToken)
+        public async Task<IEnumerable<Product>> Handle(GetProductsByTypeQuery command, CancellationToken cancellationToken)
         {
             return await _context.Products.Where(x => Equals(x.Type, command.Type)).ToListAsync(cancellationToken: cancellationToken);
         }

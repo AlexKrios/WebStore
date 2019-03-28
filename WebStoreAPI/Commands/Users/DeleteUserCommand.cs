@@ -6,11 +6,11 @@ namespace WebStoreAPI.Commands.Users
     //Delete request command for user
     public class DeleteUserCommand : IRequest<User>
     {
-        public User User { get; }
+        public int Id { get; }
 
-        public DeleteUserCommand(User user)
+        public DeleteUserCommand(int id)
         {
-            User = user;
+            Id = id;
         }
     }
 }

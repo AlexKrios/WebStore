@@ -5,11 +5,11 @@ using WebStoreAPI.Models;
 namespace WebStoreAPI.Queries.Products
 {
     //Get group of products command
-    public class GetGroupProductsQuery : IRequest<IEnumerable<Product>>
+    public class GetProductsByTypeQuery : IRequest<IEnumerable<Product>>
     {
         public string Type { get; }
 
-        public GetGroupProductsQuery(string type)
+        public GetProductsByTypeQuery(string type)
         {
             Type = type;
         }

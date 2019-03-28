@@ -1,6 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using WebStoreAPI.Models;
 
 namespace WebStoreAPI.Commands.Products
@@ -17,9 +18,11 @@ namespace WebStoreAPI.Commands.Products
 
         public async Task<Product> Handle(DeleteProductCommand command, CancellationToken cancellationToken)
         {
-            _context.Products.Remove(command.Product);
+            var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == command.Id, cancellationToken: cancellationToken);
+
+            _context.Products.Remove(product);
             await _context.SaveChangesAsync(cancellationToken);
-            return command.Product;
+            return product;
         }
     }
 }

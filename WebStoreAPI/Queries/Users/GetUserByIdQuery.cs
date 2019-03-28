@@ -4,11 +4,11 @@ using WebStoreAPI.Models;
 namespace WebStoreAPI.Queries.Users
 {
     //Get single user command
-    public class GetSingleUserQuery : IRequest<User>
+    public class GetUserByIdQuery : IRequest<User>
     {
         public int Id { get; }
 
-        public GetSingleUserQuery(int id)
+        public GetUserByIdQuery(int id)
         {
             Id = id;
         }

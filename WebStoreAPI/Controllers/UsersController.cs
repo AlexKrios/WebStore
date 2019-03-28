@@ -22,28 +22,28 @@ namespace WebStoreAPI.Controllers
 
         //Get list of users
         [HttpGet]
-        public async Task<IEnumerable<User>> Get()
+        public async Task<IEnumerable<User>> GetAll()
         {
             return await _mediator.Send(new GetAllUsersQuery());
         }
 
         //Get single user
         [HttpGet("{id}")]
-        public async Task<User> Get(int id)
+        public async Task<User> GetById(int id)
         {
-            return await _mediator.Send(new GetSingleUserQuery(id));
+            return await _mediator.Send(new GetUserByIdQuery(id));
         }
 
         //Get group of user
         [HttpGet("role/{role}")]
-        public async Task<IEnumerable<User>> GetGroup(string role)
+        public async Task<IEnumerable<User>> GetUserByRole(string role)
         {
-            return await _mediator.Send(new GetGroupUsersQuery(role));
+            return await _mediator.Send(new GetUsersByRoleQuery(role));
         }
 
         //Add new user
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]User user)
+        public async Task<IActionResult> Add([FromBody]User user)
         {
             await _mediator.Send(new PostUserCommand(user));
             return Ok(user);
@@ -51,7 +51,7 @@ namespace WebStoreAPI.Controllers
 
         //Change user
         [HttpPut]
-        public async Task<IActionResult> Put([FromBody]User user)
+        public async Task<IActionResult> Update([FromBody]User user)
         {
             await _mediator.Send(new PutUserCommand(user));
             return Ok(user);
@@ -61,10 +61,8 @@ namespace WebStoreAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var user = await _mediator.Send(new GetSingleUserQuery(id));
-
-            await _mediator.Send(new DeleteUserCommand(user));
-            return Ok(user);
+            await _mediator.Send(new DeleteUserCommand(id));
+            return Ok("Delete user with id: " + id);
         }
     }
 }

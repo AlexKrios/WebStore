@@ -7,16 +7,16 @@ using WebStoreAPI.Models;
 namespace WebStoreAPI.Queries.Products
 {
     //Get single product handler
-    public class GetSingleProductHandler : IRequestHandler<GetSingleProductQuery, Product>
+    public class GetProductByIdHandler : IRequestHandler<GetProductByIdQuery, Product>
     {
         private readonly WebStoreContext _context;
 
-        public GetSingleProductHandler(WebStoreContext context)
+        public GetProductByIdHandler(WebStoreContext context)
         {
             _context = context;
         }
 
-        public async Task<Product> Handle(GetSingleProductQuery command, CancellationToken cancellationToken)
+        public async Task<Product> Handle(GetProductByIdQuery command, CancellationToken cancellationToken)
         {
             return await _context.Products.FirstOrDefaultAsync(x => x.Id == command.Id, cancellationToken: cancellationToken);
         }
