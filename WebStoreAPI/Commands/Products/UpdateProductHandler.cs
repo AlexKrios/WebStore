@@ -6,20 +6,20 @@ using WebStoreAPI.Models;
 namespace WebStoreAPI.Commands.Products
 {
     //Put request handler for product
-    public class PutProductHandler : IRequestHandler<PutProductCommand, Product>
+    public class UpdateProductHandler : IRequestHandler<UpdateProductCommand>
     {
         private readonly WebStoreContext _context;
 
-        public PutProductHandler(WebStoreContext context)
+        public UpdateProductHandler(WebStoreContext context)
         {
             _context = context;
         }
 
-        public async Task<Product> Handle(PutProductCommand command, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(UpdateProductCommand command, CancellationToken cancellationToken)
         {
             _context.Products.Update(command.User);
             await _context.SaveChangesAsync(cancellationToken);
-            return command.User;
+            return Unit.Value;
         }
     }
 }

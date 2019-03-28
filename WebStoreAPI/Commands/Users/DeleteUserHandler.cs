@@ -7,7 +7,7 @@ using WebStoreAPI.Models;
 namespace WebStoreAPI.Commands.Users
 {
     //Delete request handler for user
-    public class DeleteUserHandler : IRequestHandler<DeleteUserCommand, User>
+    public class DeleteUserHandler : IRequestHandler<DeleteUserCommand>
     {
         private readonly WebStoreContext _context;
 
@@ -16,13 +16,13 @@ namespace WebStoreAPI.Commands.Users
             _context = context;
         }
 
-        public async Task<User> Handle(DeleteUserCommand command, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(DeleteUserCommand command, CancellationToken cancellationToken)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == command.Id, cancellationToken: cancellationToken);
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == command.Id, cancellationToken);
 
             _context.Users.Remove(user);
             await _context.SaveChangesAsync(cancellationToken);
-            return user;
+            return Unit.Value;
         }
     }
 }

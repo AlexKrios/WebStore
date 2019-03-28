@@ -4,11 +4,11 @@ using WebStoreAPI.Models;
 namespace WebStoreAPI.Commands.Products
 {
     //Post request command for product
-    public class PostProductCommand : IRequest<Product>
+    public class CreateProductCommand : IRequest<Product>
     {
         public Product Product { get; }
 
-        public PostProductCommand(Product product)
+        public CreateProductCommand(Product product)
         {
             Product = product;
         }

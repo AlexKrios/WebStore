@@ -6,16 +6,16 @@ using WebStoreAPI.Models;
 namespace WebStoreAPI.Commands.Products
 {
     //Post request handler for product
-    public class PostProductHandler : IRequestHandler<PostProductCommand, Product>
+    public class CreateProductHandler : IRequestHandler<CreateProductCommand, Product>
     {
         private readonly WebStoreContext _context;
 
-        public PostProductHandler(WebStoreContext context)
+        public CreateProductHandler(WebStoreContext context)
         {
             _context = context;
         }
 
-        public async Task<Product> Handle(PostProductCommand command, CancellationToken cancellationToken)
+        public async Task<Product> Handle(CreateProductCommand command, CancellationToken cancellationToken)
         {
             await _context.Products.AddAsync(command.Product, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);

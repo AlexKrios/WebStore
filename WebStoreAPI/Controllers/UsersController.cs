@@ -21,48 +21,48 @@ namespace WebStoreAPI.Controllers
         }
 
         //Get list of users
-        [HttpGet]
+        [HttpGet("getAll")]
         public async Task<IEnumerable<User>> GetAll()
         {
             return await _mediator.Send(new GetAllUsersQuery());
         }
 
         //Get single user
-        [HttpGet("{id}")]
+        [HttpGet("getById/{id}")]
         public async Task<User> GetById(int id)
         {
             return await _mediator.Send(new GetUserByIdQuery(id));
         }
 
         //Get group of user
-        [HttpGet("role/{role}")]
+        [HttpGet("getByRole/{role}")]
         public async Task<IEnumerable<User>> GetUserByRole(string role)
         {
             return await _mediator.Send(new GetUsersByRoleQuery(role));
         }
 
         //Add new user
-        [HttpPost]
+        [HttpPost("create")]
         public async Task<IActionResult> Add([FromBody]User user)
         {
-            await _mediator.Send(new PostUserCommand(user));
+            await _mediator.Send(new CreateUserCommand(user));
             return Ok(user);
         }
 
         //Change user
-        [HttpPut]
+        [HttpPut("update")]
         public async Task<IActionResult> Update([FromBody]User user)
         {
-            await _mediator.Send(new PutUserCommand(user));
-            return Ok(user);
+            await _mediator.Send(new UpdateUserCommand(user));
+            return Ok();
         }
 
         //Delete user
-        [HttpDelete("{id}")]
+        [HttpDelete("delete/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             await _mediator.Send(new DeleteUserCommand(id));
-            return Ok("Delete user with id: " + id);
+            return Ok();
         }
     }
 }

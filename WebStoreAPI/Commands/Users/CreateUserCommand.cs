@@ -3,12 +3,12 @@ using WebStoreAPI.Models;
 
 namespace WebStoreAPI.Commands.Users
 {
-    //Put request command for user
-    public class PutUserCommand : IRequest<User>
+    //Post request command for user
+    public class CreateUserCommand : IRequest<User>
     {
         public User User { get; }
 
-        public PutUserCommand(User user)
+        public CreateUserCommand(User user)
         {
             User = user;
         }

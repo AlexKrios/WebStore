@@ -9,11 +9,11 @@ using WebStoreAPI.Models;
 namespace WebStoreAPI.Queries.Products
 {
     //Get group of products handler
-    public class GetGroupProductsHandler : IRequestHandler<GetProductsByTypeQuery, IEnumerable<Product>>
+    public class GetProductsByTypeHandler : IRequestHandler<GetProductsByTypeQuery, IEnumerable<Product>>
     {
         private readonly WebStoreContext _context;
 
-        public GetGroupProductsHandler(WebStoreContext context)
+        public GetProductsByTypeHandler(WebStoreContext context)
         {
             _context = context;
         }
