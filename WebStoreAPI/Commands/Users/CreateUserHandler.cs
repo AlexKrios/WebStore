@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using FluentValidation;
 using MediatR;
 using WebStoreAPI.Models;
 
@@ -9,10 +10,12 @@ namespace WebStoreAPI.Commands.Users
     public class CreateUserHandler : IRequestHandler<CreateUserCommand, User>
     {
         private readonly WebStoreContext _context;
+        private readonly IValidator<User> _userValidator;
 
-        public CreateUserHandler(WebStoreContext context)
+        public CreateUserHandler(WebStoreContext context, IValidator<User> userValidator)
         {
             _context = context;
+            _userValidator = userValidator;
         }
 
         public async Task<User> Handle(CreateUserCommand command, CancellationToken cancellationToken)

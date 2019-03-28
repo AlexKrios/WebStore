@@ -20,6 +20,11 @@ namespace WebStoreAPI.Commands.Products
         {
             var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == command.Id, cancellationToken);
 
+            if (product == null)
+            {
+                return new Unit();
+            }
+
             _context.Products.Remove(product);
             await _context.SaveChangesAsync(cancellationToken);
             return Unit.Value;

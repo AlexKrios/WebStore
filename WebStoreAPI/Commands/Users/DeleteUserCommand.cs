@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using WebStoreAPI.Models;
 
 namespace WebStoreAPI.Commands.Users
 {

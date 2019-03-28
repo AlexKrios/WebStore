@@ -2,13 +2,14 @@
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebStoreAPI.Models;
 
 namespace WebStoreAPI.Queries.Products
 {
     //Get all products handler
-    public class GetAllProductsHandler : IRequestHandler<GetAllProductsQuery, IEnumerable<Product>>
+    public class GetAllProductsHandler : Controller, IRequestHandler<GetAllProductsQuery, IEnumerable<Product>>
     {
         private readonly WebStoreContext _context;
 
@@ -19,7 +20,14 @@ namespace WebStoreAPI.Queries.Products
 
         public async Task<IEnumerable<Product>> Handle(GetAllProductsQuery command, CancellationToken cancellationToken)
         {
-            return await _context.Products.ToListAsync(cancellationToken: cancellationToken);
+            var product = await _context.Products.FirstOrDefaultAsync(cancellationToken);
+
+            if (product == null)
+            {
+                NotFound();
+            }
+
+            return await _context.Products.ToListAsync(cancellationToken);
         }
     }
 }

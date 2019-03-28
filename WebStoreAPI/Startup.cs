@@ -10,10 +10,7 @@ using SimpleInjector;
 using SimpleInjector.Integration.AspNetCore.Mvc;
 using SimpleInjector.Lifestyles;
 using Swashbuckle.AspNetCore.Swagger;
-using WebStoreAPI.Commands;
-using WebStoreAPI.Commands.Users;
 using WebStoreAPI.Models;
-using WebStoreAPI.Queries;
 
 namespace WebStoreAPI
 {
@@ -85,7 +82,7 @@ namespace WebStoreAPI
         private void InitializeContainer(IApplicationBuilder app)
         {
             _container.RegisterMvcControllers(app);
-            _container.AutoCrossWireAspNetComponents(app);
+            _container.AutoCrossWireAspNetComponents(app);           
         }
     }
 }
