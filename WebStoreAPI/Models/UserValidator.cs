@@ -6,11 +6,24 @@ namespace WebStoreAPI.Models
     {
         public UserValidator()
         {
-            //RuleFor(t => t.Id).NotEmpty();
-            //RuleFor(t => t.FirstName).NotEmpty().Length(1, 50);
-            //RuleFor(t => t.LastName).NotEmpty().Length(1, 50);
-            //RuleFor(t => t.Role).NotEmpty().Length(1, 50);
-            //RuleFor(t => t.Age);
+            RuleFor(t => t.FirstName)
+                .NotEmpty()
+                .Length(1, 50)
+                .WithMessage("Please specify a correct first name");
+
+            RuleFor(t => t.LastName)
+                .NotEmpty()
+                .Length(1, 50)
+                .WithMessage("Please specify a correct last name");
+
+            RuleFor(t => t.Role)
+                .NotEmpty()
+                .Length(1, 50)
+                .WithMessage("Please specify a correct role");
+
+            RuleFor(t => t.Age)
+                .NotEmpty()
+                .WithMessage("Please specify correct age");
         }
     }
 }

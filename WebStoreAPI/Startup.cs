@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using FluentValidation.AspNetCore;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -29,7 +30,10 @@ namespace WebStoreAPI
         {
             services.AddDbContext<WebStoreContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddMvc();
+            services.AddMvc().AddFluentValidation(options =>
+            {
+                options.RegisterValidatorsFromAssemblyContaining<Startup>();
+            });
 
             services.AddMediatR();
 
@@ -37,7 +41,7 @@ namespace WebStoreAPI
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "Web Store request", Version = "v1"});
+                c.SwaggerDoc("v1", new Info {Title = "Web Store request", Version = "v1"});
             });
         }
 
@@ -72,17 +76,14 @@ namespace WebStoreAPI
             app.UseMvc();
 
             app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Web Store");
-            });
+            app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "Web Store"); });
         }
 
         //Initialization DI container
         private void InitializeContainer(IApplicationBuilder app)
         {
             _container.RegisterMvcControllers(app);
-            _container.AutoCrossWireAspNetComponents(app);           
+            _container.AutoCrossWireAspNetComponents(app);
         }
     }
 }

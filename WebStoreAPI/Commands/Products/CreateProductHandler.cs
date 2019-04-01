@@ -20,8 +20,6 @@ namespace WebStoreAPI.Commands.Products
 
         public async Task<Product> Handle(CreateProductCommand command, CancellationToken cancellationToken)
         {
-            
-
             await _context.Products.AddAsync(command.Product, cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
             return command.Product;

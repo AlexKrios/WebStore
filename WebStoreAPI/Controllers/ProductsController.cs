@@ -46,6 +46,11 @@ namespace WebStoreAPI.Controllers
         [HttpPost("create")]
         public async Task<IActionResult> Add([FromBody]Product product)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
             await _mediator.Send(new CreateProductCommand(product));
             return Ok(product);
         }
@@ -54,6 +59,11 @@ namespace WebStoreAPI.Controllers
         [HttpPut("update")]
         public async Task<IActionResult> Update([FromBody]Product product)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
             await _mediator.Send(new UpdateProductCommand(product));
             return Ok();
         }

@@ -6,11 +6,26 @@ namespace WebStoreAPI.Models
     {
         public ProductValidator()
         {
-            RuleFor(t => t.Name).NotEmpty().Length(1, 50);
-            RuleFor(t => t.Model).NotEmpty().Length(1, 50);
-            RuleFor(t => t.Type).NotEmpty().Length(1, 50);
-            RuleFor(t => t.Price).NotEmpty();
-            RuleFor(t => t.Path).NotEmpty();
+            RuleFor(x => x.Name)
+                .NotEmpty()
+                .Length(1, 50)
+                .WithMessage("Please specify a correct name");
+
+            RuleFor(x => x.Model)
+                .NotEmpty()
+                .Length(1, 50)
+                .WithMessage("Please specify a correct model");
+
+            RuleFor(x => x.Type)
+                .NotEmpty()
+                .Length(1, 50)
+                .WithMessage("Please specify a correct type");
+
+            RuleFor(x => x.Price)
+                .NotEmpty()
+                .WithMessage("Please specify a correct price");
+
+            RuleFor(x => x.Path);
         }
     }
 }
