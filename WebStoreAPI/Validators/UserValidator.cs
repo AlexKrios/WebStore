@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
+using WebStoreAPI.Models;
 
-namespace WebStoreAPI.Models
+namespace WebStoreAPI.Validators
 {
     public class UserValidator : AbstractValidator<User>
     {
@@ -23,6 +24,7 @@ namespace WebStoreAPI.Models
 
             RuleFor(t => t.Age)
                 .NotEmpty()
+                .GreaterThan(0)
                 .WithMessage("Please specify correct age");
         }
     }

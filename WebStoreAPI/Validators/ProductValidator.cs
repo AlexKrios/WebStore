@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
+using WebStoreAPI.Models;
 
-namespace WebStoreAPI.Models
+namespace WebStoreAPI.Validators
 {
     public class ProductValidator : AbstractValidator<Product>
     {
@@ -8,24 +9,19 @@ namespace WebStoreAPI.Models
         {
             RuleFor(x => x.Name)
                 .NotEmpty()
-                .Length(1, 50)
                 .WithMessage("Please specify a correct name");
 
             RuleFor(x => x.Model)
                 .NotEmpty()
-                .Length(1, 50)
                 .WithMessage("Please specify a correct model");
 
             RuleFor(x => x.Type)
                 .NotEmpty()
-                .Length(1, 50)
                 .WithMessage("Please specify a correct type");
 
             RuleFor(x => x.Price)
-                .NotEmpty()
+                .GreaterThanOrEqualTo(0)
                 .WithMessage("Please specify a correct price");
-
-            RuleFor(x => x.Path);
         }
     }
 }

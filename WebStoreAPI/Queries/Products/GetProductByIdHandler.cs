@@ -19,14 +19,7 @@ namespace WebStoreAPI.Queries.Products
 
         public async Task<Product> Handle(GetProductByIdQuery command, CancellationToken cancellationToken)
         {
-            var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == command.Id, cancellationToken);
-
-            if (product == null)
-            {
-                NotFound();
-            }
-
-            return product;
+            return await _context.Products.FirstOrDefaultAsync(x => x.Id == command.Id, cancellationToken);
         }
     }
 }

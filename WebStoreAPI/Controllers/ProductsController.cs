@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Internal;
 using WebStoreAPI.Commands.Products;
 using WebStoreAPI.Models;
 using WebStoreAPI.Queries.Products;
@@ -23,23 +22,49 @@ namespace WebStoreAPI.Controllers
 
         //Get list of products
         [HttpGet("getAll")]
-        public async Task<IEnumerable<Product>> GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            return await _mediator.Send(new GetAllProductsQuery());
+            var products = await _mediator.Send(new GetAllProductsQuery());
+
+            if (!products.Any())
+            {
+                return NotFound();
+            }
+
+            return Ok(products);
         }
 
         //Get single product
         [HttpGet("getById/{id}")]
-        public async Task<Product> GetById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
-            return await _mediator.Send(new GetProductByIdQuery(id));
+            var product = await _mediator.Send(new GetProductByIdQuery(id));
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(product);
         }
 
         //Get group of products
         [HttpGet("getByType/{type}")]
-        public async Task<IEnumerable<Product>> GetProductByType(string type)
+        public async Task<IActionResult> GetProductByType(string type)
         {
-            return await _mediator.Send(new GetProductsByTypeQuery(type));
+            var products = await _mediator.Send(new GetProductsByTypeQuery(type));
+
+            if (!products.Any())
+            {
+                return NotFound();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            return Ok(products);
         }
 
         //Add new product
@@ -72,6 +97,11 @@ namespace WebStoreAPI.Controllers
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
             await _mediator.Send(new DeleteProductCommand(id));
             return Ok();
         }

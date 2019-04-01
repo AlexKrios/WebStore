@@ -1,6 +1,5 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using FluentValidation;
 using MediatR;
 using WebStoreAPI.Models;
 
@@ -10,12 +9,10 @@ namespace WebStoreAPI.Commands.Products
     public class CreateProductHandler : IRequestHandler<CreateProductCommand, Product>
     {
         private readonly WebStoreContext _context;
-        private readonly IValidator<Product> _productValidator;
 
-        public CreateProductHandler(WebStoreContext context, IValidator<Product> productValidator)
+        public CreateProductHandler(WebStoreContext context)
         {
             _context = context;
-            _productValidator = productValidator;
         }
 
         public async Task<Product> Handle(CreateProductCommand command, CancellationToken cancellationToken)

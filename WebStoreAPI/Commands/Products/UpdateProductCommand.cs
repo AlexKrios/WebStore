@@ -6,11 +6,11 @@ namespace WebStoreAPI.Commands.Products
     //Put request command for product
     public class UpdateProductCommand : IRequest
     {
-        public Product User { get; }
+        public Product Product { get; }
 
-        public UpdateProductCommand(Product user)
+        public UpdateProductCommand(Product product)
         {
-            User = user;
+            Product = product;
         }
     }
 }

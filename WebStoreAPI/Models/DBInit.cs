@@ -15,9 +15,9 @@ namespace WebStoreAPI.Models
             if (!context.Products.Any())
             {
                 context.Products.AddRange(
-                    new Product { Name = "Samsung", Model = "S7", Type = "Smartphone", Price = 1000, Path = "/images/products/img1.jpg" },
-                    new Product { Name = "IPhone", Model = "X", Type = "Smartphone", Price = 1500, Path = "/images/products/img2.jpg" },
-                    new Product { Name = "Lenovo", Model = "Tab 4", Type = "Tablet", Price = 1250, Path = "/images/products/img3.jpg" }
+                    new Product { Name = "Samsung", Model = "S7", Type = "Smartphone", Price = 1000 },
+                    new Product { Name = "IPhone", Model = "X", Type = "Smartphone", Price = 1500 },
+                    new Product { Name = "Lenovo", Model = "Tab 4", Type = "Tablet", Price = 1250 }
                 );
             }
             context.SaveChanges();

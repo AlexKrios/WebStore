@@ -18,7 +18,7 @@ namespace WebStoreAPI.Queries.Users
 
         public async Task<User> Handle(GetUserByIdQuery command, CancellationToken cancellationToken)
         {
-            return await _context.Users.FirstOrDefaultAsync(x => x.Id == command.Id, cancellationToken: cancellationToken);
+            return await _context.Users.FirstOrDefaultAsync(x => x.Id == command.Id, cancellationToken);
         }
     }
 }

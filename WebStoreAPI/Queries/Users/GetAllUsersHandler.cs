@@ -19,7 +19,7 @@ namespace WebStoreAPI.Queries.Users
 
         public async Task<IEnumerable<User>> Handle(GetAllUsersQuery command, CancellationToken cancellationToken)
         {
-            return await _context.Users.ToListAsync(cancellationToken: cancellationToken);
+            return await _context.Users.ToListAsync(cancellationToken);
         }
     }
 }

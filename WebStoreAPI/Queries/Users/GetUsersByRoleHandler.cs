@@ -20,7 +20,7 @@ namespace WebStoreAPI.Queries.Users
 
         public async Task<IEnumerable<User>> Handle(GetUsersByRoleQuery command, CancellationToken cancellationToken)
         {
-            return await _context.Users.Where(x => Equals(x.Role, command.Role)).ToListAsync(cancellationToken: cancellationToken);
+            return await _context.Users.Where(x => Equals(x.Role, command.Role)).ToListAsync(cancellationToken);
         }
     }
 }

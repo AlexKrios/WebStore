@@ -20,13 +20,6 @@ namespace WebStoreAPI.Queries.Products
 
         public async Task<IEnumerable<Product>> Handle(GetAllProductsQuery command, CancellationToken cancellationToken)
         {
-            var product = await _context.Products.FirstOrDefaultAsync(cancellationToken);
-
-            if (product == null)
-            {
-                NotFound();
-            }
-
             return await _context.Products.ToListAsync(cancellationToken);
         }
     }

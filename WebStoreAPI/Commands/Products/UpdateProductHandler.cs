@@ -17,7 +17,7 @@ namespace WebStoreAPI.Commands.Products
 
         public async Task<Unit> Handle(UpdateProductCommand command, CancellationToken cancellationToken)
         {
-            _context.Products.Update(command.User);
+            _context.Products.Update(command.Product);
             await _context.SaveChangesAsync(cancellationToken);
             return Unit.Value;
         }
