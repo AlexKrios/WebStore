@@ -19,12 +19,6 @@ namespace WebStoreAPI.Commands.Users
         public async Task<Unit> Handle(DeleteUserCommand command, CancellationToken cancellationToken)
         {
             var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == command.Id, cancellationToken);
-
-            if (user == null)
-            {
-                return new Unit();
-            }
-
             _context.Users.Remove(user);
             await _context.SaveChangesAsync(cancellationToken);
             return Unit.Value;

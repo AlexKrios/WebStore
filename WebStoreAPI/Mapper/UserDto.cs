@@ -1,12 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WebStoreAPI.Models
+namespace WebStoreAPI.Mapper
 {
-    //Model for object user
-    public class User
+    public class UserDto
     {
-        [Key]
-        public int Id { get; set; }
         [Required]
         public string FirstName { get; set; }
         [Required]

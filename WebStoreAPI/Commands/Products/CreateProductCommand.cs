@@ -1,16 +1,17 @@
 ﻿using MediatR;
-using WebStoreAPI.Models;
+using WebStoreAPI.Mapper;
 
 namespace WebStoreAPI.Commands.Products
 {
     //Post request command for product
-    public class CreateProductCommand : IRequest<Product>
+    public class CreateProductCommand : IRequest<ProductDto>
     {
-        public Product Product { get; }
 
-        public CreateProductCommand(Product product)
+        public ProductDto ProductDto { get; }
+
+        public CreateProductCommand(ProductDto productDto)
         {
-            Product = product;
+            ProductDto = productDto;
         }
     }
 }

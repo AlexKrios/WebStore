@@ -28,8 +28,6 @@ namespace WebStoreAPI.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<string>("Path");
-
                     b.Property<int>("Price");
 
                     b.Property<string>("Type");

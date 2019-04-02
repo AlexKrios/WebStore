@@ -1,10 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Internal;
 using WebStoreAPI.Commands.Users;
+using WebStoreAPI.Mapper;
 using WebStoreAPI.Models;
 using WebStoreAPI.Queries.Users;
+using System.Linq;
 
 namespace WebStoreAPI.Controllers
 {
@@ -13,76 +15,100 @@ namespace WebStoreAPI.Controllers
     public class UsersController : Controller
     {
         private readonly IMediator _mediator;
+        private readonly WebStoreContext _context;
 
         //Setup connection
-        public UsersController(IMediator mediator)
+        public UsersController(IMediator mediator, WebStoreContext context)
         {
             _mediator = mediator;
+            _context = context;
         }
 
         //Get list of users
         [HttpGet("getAll")]
         public async Task<IActionResult> GetAll()
         {
-            var users = await _mediator.Send(new GetAllUsersQuery());
-
-            if (!users.Any())
+            try
             {
-                return NotFound();
-            }
+                var users = await _mediator.Send(new GetAllUsersQuery());
 
-            return Ok(users);
+                if (!users.Any())
+                {
+                    return NotFound();
+                }
+
+                return Ok(users);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
 
         //Get single user
         [HttpGet("getById/{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var user = await _mediator.Send(new GetUserByIdQuery(id));
-
-            if (user == null)
+            try
             {
-                return NotFound();
-            }
+                var user = await _mediator.Send(new GetUserByIdQuery(id));
 
-            if (!ModelState.IsValid)
+                if (user == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(user);
+            }
+            catch (Exception e)
             {
-                return BadRequest();
+                Console.WriteLine(e);
+                throw;
             }
-
-            return Ok(user);
         }
 
         //Get group of user
         [HttpGet("getByRole/{role}")]
         public async Task<IActionResult> GetUserByRole(string role)
         {
-            var users = await _mediator.Send(new GetUsersByRoleQuery(role));
-
-            if (!users.Any())
+            try
             {
-                return NotFound();
-            }
+                var users = await _mediator.Send(new GetUsersByRoleQuery(role));
 
-            if (!ModelState.IsValid)
+                if (!users.Any())
+                {
+                    return NotFound();
+                }
+
+                return Ok(users);
+            }
+            catch (Exception e)
             {
-                return BadRequest();
+                Console.WriteLine(e);
+                throw;
             }
-
-            return Ok(users);
         }
 
         //Add new user
         [HttpPost("create")]
-        public async Task<IActionResult> Add([FromBody]User user)
+        public async Task<IActionResult> Add([FromBody]UserDto userDto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest();
             }
 
-            await _mediator.Send(new CreateUserCommand(user));
-            return Ok(user);
+            try
+            {
+                await _mediator.Send(new CreateUserCommand(userDto));
+                return Ok(userDto);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
 
         //Change user
@@ -91,11 +117,24 @@ namespace WebStoreAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest();
+                return BadRequest(ModelState);
             }
 
-            await _mediator.Send(new UpdateUserCommand(user));
-            return Ok();
+            if (!_context.Users.Any(x => x.Id == user.Id))
+            {
+                return NotFound();
+            }
+
+            try
+            {
+                await _mediator.Send(new UpdateUserCommand(user));
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
 
         //Delete user
@@ -104,11 +143,24 @@ namespace WebStoreAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest();
+                return BadRequest(ModelState);
             }
 
-            await _mediator.Send(new DeleteUserCommand(id));
-            return Ok();
+            if (!_context.Users.Any(x => x.Id == id))
+            {
+                return NotFound();
+            }
+
+            try
+            {
+                await _mediator.Send(new DeleteUserCommand(id));
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
     }
 }

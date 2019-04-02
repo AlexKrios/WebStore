@@ -1,28 +1,29 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using FluentValidation;
+using AutoMapper;
 using MediatR;
+using WebStoreAPI.Mapper;
 using WebStoreAPI.Models;
 
 namespace WebStoreAPI.Commands.Users
 {
     //Post request handler for user
-    public class CreateUserHandler : IRequestHandler<CreateUserCommand, User>
+    public class CreateUserHandler : IRequestHandler<CreateUserCommand, UserDto>
     {
         private readonly WebStoreContext _context;
-        private readonly IValidator<User> _userValidator;
+        private readonly IMapper _mapper;
 
-        public CreateUserHandler(WebStoreContext context, IValidator<User> userValidator)
+        public CreateUserHandler(WebStoreContext context, IMapper mapper)
         {
             _context = context;
-            _userValidator = userValidator;
+            _mapper = mapper;
         }
 
-        public async Task<User> Handle(CreateUserCommand command, CancellationToken cancellationToken)
+        public async Task<UserDto> Handle(CreateUserCommand command, CancellationToken cancellationToken)
         {
-            await _context.Users.AddAsync(command.User, cancellationToken);
+            await _context.Users.AddAsync(_mapper.Map<User>(command.UserDto), cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
-            return command.User;
+            return command.UserDto;
         }
     }
 }

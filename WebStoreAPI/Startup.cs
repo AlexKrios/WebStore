@@ -1,4 +1,5 @@
-﻿using FluentValidation.AspNetCore;
+﻿using AutoMapper;
+using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -11,6 +12,7 @@ using SimpleInjector;
 using SimpleInjector.Integration.AspNetCore.Mvc;
 using SimpleInjector.Lifestyles;
 using Swashbuckle.AspNetCore.Swagger;
+using WebStoreAPI.Mapper;
 using WebStoreAPI.Models;
 
 namespace WebStoreAPI
@@ -34,8 +36,15 @@ namespace WebStoreAPI
             {
                 options.RegisterValidatorsFromAssemblyContaining<Startup>();
             });
-
             services.AddMediatR();
+            services.AddAutoMapper();
+
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new MappingProfile());
+            });
+            var mapper = mappingConfig.CreateMapper();
+            services.AddSingleton(mapper);
 
             IntegrateSimpleInjector(services);
 

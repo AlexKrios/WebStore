@@ -1,10 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Internal;
 using WebStoreAPI.Commands.Products;
+using WebStoreAPI.Mapper;
 using WebStoreAPI.Models;
 using WebStoreAPI.Queries.Products;
+using System.Linq;
 
 namespace WebStoreAPI.Controllers
 {
@@ -13,71 +15,100 @@ namespace WebStoreAPI.Controllers
     public class ProductsController : Controller
     {
         private readonly IMediator _mediator;
+        private readonly WebStoreContext _context;
 
         //Setup connection
-        public ProductsController(IMediator mediator)
+        public ProductsController(IMediator mediator, WebStoreContext context)
         {
             _mediator = mediator;
+            _context = context;
         }
 
         //Get list of products
         [HttpGet("getAll")]
         public async Task<IActionResult> GetAll()
         {
-            var products = await _mediator.Send(new GetAllProductsQuery());
-
-            if (!products.Any())
+            try
             {
-                return NotFound();
-            }
+                var products = await _mediator.Send(new GetAllProductsQuery());
 
-            return Ok(products);
+                if (!products.Any())
+                {
+                    return NotFound();
+                }
+
+                return Ok(products);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
 
         //Get single product
         [HttpGet("getById/{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var product = await _mediator.Send(new GetProductByIdQuery(id));
-
-            if (product == null)
+            try
             {
-                return NotFound();
-            }
+                var product = await _mediator.Send(new GetProductByIdQuery(id));
 
-            return Ok(product);
+                if (product == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(product);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
 
         //Get group of products
         [HttpGet("getByType/{type}")]
         public async Task<IActionResult> GetProductByType(string type)
         {
-            var products = await _mediator.Send(new GetProductsByTypeQuery(type));
-
-            if (!products.Any())
+            try
             {
-                return NotFound();
-            }
+                var products = await _mediator.Send(new GetProductsByTypeQuery(type));
 
-            if (!ModelState.IsValid)
+                if (!products.Any())
+                {
+                    return NotFound();
+                }
+
+                return Ok(products);
+            }
+            catch (Exception e)
             {
-                return BadRequest();
+                Console.WriteLine(e);
+                throw;
             }
-
-            return Ok(products);
         }
 
         //Add new product
         [HttpPost("create")]
-        public async Task<IActionResult> Add([FromBody]Product product)
+        public async Task<IActionResult> Add([FromBody]ProductDto productDto)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest();
+                return BadRequest(ModelState);
             }
 
-            await _mediator.Send(new CreateProductCommand(product));
-            return Ok(product);
+            try
+            {
+                await _mediator.Send(new CreateProductCommand(productDto));
+                return Ok(productDto);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
 
         //Change product
@@ -86,11 +117,24 @@ namespace WebStoreAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest();
+                return BadRequest(ModelState);
             }
 
-            await _mediator.Send(new UpdateProductCommand(product));
-            return Ok();
+            if (!_context.Products.Any(x => x.Id == product.Id))
+            {
+                return NotFound();
+            }
+
+            try
+                {
+                    await _mediator.Send(new UpdateProductCommand(product));
+                    return Ok();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
         }
 
         //Delete product 
@@ -99,11 +143,24 @@ namespace WebStoreAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest();
+                return BadRequest(ModelState);
             }
 
-            await _mediator.Send(new DeleteProductCommand(id));
-            return Ok();
+            if (!_context.Products.Any(x => x.Id == id))
+            {
+                return NotFound();
+            }
+
+            try
+            {
+                await _mediator.Send(new DeleteProductCommand(id));
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
     }
 }

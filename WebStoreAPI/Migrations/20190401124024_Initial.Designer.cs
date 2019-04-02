@@ -9,7 +9,7 @@ using WebStoreAPI.Models;
 namespace WebStoreAPI.Migrations
 {
     [DbContext(typeof(WebStoreContext))]
-    [Migration("20190327142835_Initial")]
+    [Migration("20190401124024_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -29,8 +29,6 @@ namespace WebStoreAPI.Migrations
                     b.Property<string>("Model");
 
                     b.Property<string>("Name");
-
-                    b.Property<string>("Path");
 
                     b.Property<int>("Price");
 

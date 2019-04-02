@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using WebStoreAPI.Models;
 
-namespace WebStoreAPI.Validators
+namespace WebStoreAPI.Validators.Models
 {
     public class UserValidator : AbstractValidator<User>
     {

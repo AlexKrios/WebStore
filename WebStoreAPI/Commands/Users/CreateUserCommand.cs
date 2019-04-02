@@ -1,16 +1,16 @@
 ﻿using MediatR;
-using WebStoreAPI.Models;
+using WebStoreAPI.Mapper;
 
 namespace WebStoreAPI.Commands.Users
 {
     //Post request command for user
-    public class CreateUserCommand : IRequest<User>
+    public class CreateUserCommand : IRequest<UserDto>
     {
-        public User User { get; }
+        public UserDto UserDto { get; }
 
-        public CreateUserCommand(User user)
+        public CreateUserCommand(UserDto userDto)
         {
-            User = user;
+            UserDto = userDto;
         }
     }
 }

@@ -16,8 +16,7 @@ namespace WebStoreAPI.Migrations
                     Name = table.Column<string>(nullable: true),
                     Model = table.Column<string>(nullable: true),
                     Type = table.Column<string>(nullable: true),
-                    Price = table.Column<int>(nullable: false),
-                    Path = table.Column<string>(nullable: true)
+                    Price = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
