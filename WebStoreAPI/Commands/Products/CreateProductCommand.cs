@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using WebStoreAPI.Mapper;
+using WebStoreAPI.Models;
 
 namespace WebStoreAPI.Commands.Products
 {

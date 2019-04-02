@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WebStoreAPI.Mapper
+namespace WebStoreAPI.Models
 {
     public class UserDto
     {

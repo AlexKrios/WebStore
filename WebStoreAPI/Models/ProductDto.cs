@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WebStoreAPI.Mapper
+namespace WebStoreAPI.Models
 {
     public class ProductDto
     {
@@ -11,6 +11,7 @@ namespace WebStoreAPI.Mapper
         [Required]
         public string Type { get; set; }
         [Required]
+        [Range(0, int.MaxValue)]
         public int Price { get; set; }
     }
 }
