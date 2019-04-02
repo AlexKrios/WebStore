@@ -3,10 +3,13 @@ using WebStoreAPI.Models;
 
 namespace WebStoreAPI.Validators.Models
 {
-    public class CreateProductDtoValidator : AbstractValidator<Product>
+    public class ProductValidator : AbstractValidator<Product>
     {
-        public CreateProductDtoValidator()
+        public ProductValidator()
         {
+            RuleFor(x => x.Id)
+                .NotEmpty();
+
             RuleFor(x => x.Name)
                 .NotEmpty()
                 .WithMessage("Please specify a correct name");

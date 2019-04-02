@@ -8,7 +8,7 @@ namespace WebStoreAPI.Validators.Products
         public GetProductByIdValidator()
         {
             RuleFor(x => x.Id)
-                .GreaterThanOrEqualTo(0)
+                .NotEmpty()
                 .WithMessage("Input correct id");
         }
     }

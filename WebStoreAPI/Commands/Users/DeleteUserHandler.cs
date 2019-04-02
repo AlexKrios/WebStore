@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using WebStoreAPI.Models;
 
 namespace WebStoreAPI.Commands.Users
 {

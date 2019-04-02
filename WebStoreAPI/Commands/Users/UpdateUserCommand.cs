@@ -1,16 +1,15 @@
-﻿using MediatR;
-using WebStoreAPI.Models;
+﻿using System.ComponentModel.DataAnnotations;
+using MediatR;
 
 namespace WebStoreAPI.Commands.Users
 {
     //Put request command for user
     public class UpdateUserCommand : IRequest
     {
-        public User User { get; }
-
-        public UpdateUserCommand(User user)
-        {
-            User = user;
-        }
+        public int Id { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Role { get; set; }
+        public int Age { get; set; }
     }
 }

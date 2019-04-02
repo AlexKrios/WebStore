@@ -10,7 +10,10 @@ namespace WebStoreAPI.Mapper
         public MappingProfile()
         {
             CreateMap<CreateProductCommand, Product>();
+            CreateMap<UpdateProductCommand, Product>();
+
             CreateMap<CreateUserCommand, User>();
+            CreateMap<UpdateUserCommand, User>();
         }
     }
 }

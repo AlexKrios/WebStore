@@ -13,7 +13,6 @@ using SimpleInjector.Integration.AspNetCore.Mvc;
 using SimpleInjector.Lifestyles;
 using Swashbuckle.AspNetCore.Swagger;
 using WebStoreAPI.Mapper;
-using WebStoreAPI.Models;
 
 namespace WebStoreAPI
 {
@@ -44,6 +43,7 @@ namespace WebStoreAPI
                 mc.AddProfile(new MappingProfile());
             });
             var mapper = mappingConfig.CreateMapper();
+
             services.AddSingleton(mapper);
 
             IntegrateSimpleInjector(services);

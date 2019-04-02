@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
 using MediatR;
 using WebStoreAPI.Models;
 
@@ -9,14 +10,17 @@ namespace WebStoreAPI.Commands.Users
     public class UpdateUserHandler : IRequestHandler<UpdateUserCommand>
     {
         private readonly WebStoreContext _context;
+        private readonly IMapper _mapper;
 
-        public UpdateUserHandler(WebStoreContext context)
+        public UpdateUserHandler(WebStoreContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
+
         public async Task<Unit> Handle(UpdateUserCommand command, CancellationToken cancellationToken)
         {
-            _context.Users.Update(command.User);
+            _context.Users.Update(_mapper.Map<User>(command));
             await _context.SaveChangesAsync(cancellationToken);
             return Unit.Value;
         }

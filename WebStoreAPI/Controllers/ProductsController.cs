@@ -27,6 +27,7 @@ namespace WebStoreAPI.Controllers
         //Get list of products
         [HttpGet("getAll")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Product>))]
+        [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> GetAll()
         {
             try
@@ -42,14 +43,14 @@ namespace WebStoreAPI.Controllers
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                return StatusCode(500, e.Message);
             }
         }
 
         //Get single product
         [HttpGet("getById/{id}")]
         [ProducesResponseType(200, Type = typeof(Product))]
+        [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> GetById(int id)
         {
             try
@@ -65,14 +66,14 @@ namespace WebStoreAPI.Controllers
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                return StatusCode(500, e.Message);
             }
         }
 
         //Get group of products
         [HttpGet("getByType/{type}")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<User>))]
+        [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> GetProductByType(string type)
         {
             try
@@ -88,14 +89,14 @@ namespace WebStoreAPI.Controllers
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                return StatusCode(500, e.Message);
             }
         }
 
         //Add new product
         [HttpPost("create")]
         [ProducesResponseType(200, Type = typeof(CreateProductCommand))]
+        [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> Add(CreateProductCommand product)
         {
             if (!ModelState.IsValid)
@@ -110,15 +111,15 @@ namespace WebStoreAPI.Controllers
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                return StatusCode(500, e.Message);
             }
         }
 
         //Change product
         [HttpPut("update")]
         [ProducesResponseType(200, Type = typeof(Product))]
-        public async Task<IActionResult> Update(Product product)
+        [ProducesResponseType(500, Type = typeof(string))]
+        public async Task<IActionResult> Update(UpdateProductCommand product)
         {
             if (!ModelState.IsValid)
             {
@@ -132,19 +133,19 @@ namespace WebStoreAPI.Controllers
 
             try
             {
-                await _mediator.Send(new UpdateProductCommand(product));
+                await _mediator.Send(product);
                 return Ok();
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                return StatusCode(500, e.Message);
             }
         }
 
         //Delete product 
         [HttpDelete("delete/{id}")]
         [ProducesResponseType(200, Type = typeof(Product))]
+        [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> Delete(int id)
         {
             if (!ModelState.IsValid)
@@ -164,8 +165,7 @@ namespace WebStoreAPI.Controllers
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                return StatusCode(500, e.Message);
             }
         }
     }

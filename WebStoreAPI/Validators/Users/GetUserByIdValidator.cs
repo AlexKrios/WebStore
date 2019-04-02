@@ -8,7 +8,7 @@ namespace WebStoreAPI.Validators.Users
         public GetUserByIdValidator()
         {
             RuleFor(x => x.Id)
-                .GreaterThanOrEqualTo(0);
+                .NotEmpty();
         }
     }
 }

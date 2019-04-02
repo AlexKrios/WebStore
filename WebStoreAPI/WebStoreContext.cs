@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using WebStoreAPI.Models;
 
-namespace WebStoreAPI.Models
+namespace WebStoreAPI
 {
     public class WebStoreContext : DbContext
     {

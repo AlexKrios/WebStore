@@ -8,7 +8,8 @@ namespace WebStoreAPI.Validators.Products
         public GetProductByTypeValidator()
         {
             RuleFor(x => x.Type)
-                .NotEmpty();
+                .NotEmpty()
+                .WithMessage("Input correct type");
         }
     }
 }
