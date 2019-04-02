@@ -2,13 +2,12 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
-using WebStoreAPI.Mapper;
 using WebStoreAPI.Models;
 
 namespace WebStoreAPI.Commands.Products
 {
     //Post request handler for product
-    public class CreateProductHandler : IRequestHandler<CreateProductCommand, ProductDto>
+    public class CreateProductHandler : IRequestHandler<CreateProductCommand, CreateProductCommand>
     {
         private readonly WebStoreContext _context;
         private readonly IMapper _mapper;
@@ -19,11 +18,11 @@ namespace WebStoreAPI.Commands.Products
             _mapper = mapper;
         }
 
-        public async Task<ProductDto> Handle(CreateProductCommand command, CancellationToken cancellationToken)
+        public async Task<CreateProductCommand> Handle(CreateProductCommand command, CancellationToken cancellationToken)
         {
-            await _context.Products.AddAsync(_mapper.Map<Product>(command.ProductDto), cancellationToken);
+            await _context.Products.AddAsync(_mapper.Map<Product>(command), cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
-            return command.ProductDto;
+            return command;
         }
     }
 }

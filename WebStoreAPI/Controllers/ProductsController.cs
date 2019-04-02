@@ -1,9 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using WebStoreAPI.Commands.Products;
-using WebStoreAPI.Mapper;
 using WebStoreAPI.Models;
 using WebStoreAPI.Queries.Products;
 using System.Linq;
@@ -26,6 +26,7 @@ namespace WebStoreAPI.Controllers
 
         //Get list of products
         [HttpGet("getAll")]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<Product>))]
         public async Task<IActionResult> GetAll()
         {
             try
@@ -48,6 +49,7 @@ namespace WebStoreAPI.Controllers
 
         //Get single product
         [HttpGet("getById/{id}")]
+        [ProducesResponseType(200, Type = typeof(Product))]
         public async Task<IActionResult> GetById(int id)
         {
             try
@@ -70,6 +72,7 @@ namespace WebStoreAPI.Controllers
 
         //Get group of products
         [HttpGet("getByType/{type}")]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<User>))]
         public async Task<IActionResult> GetProductByType(string type)
         {
             try
@@ -92,7 +95,8 @@ namespace WebStoreAPI.Controllers
 
         //Add new product
         [HttpPost("create")]
-        public async Task<IActionResult> Add([FromBody]ProductDto productDto)
+        [ProducesResponseType(200, Type = typeof(CreateProductCommand))]
+        public async Task<IActionResult> Add(CreateProductCommand product)
         {
             if (!ModelState.IsValid)
             {
@@ -101,8 +105,8 @@ namespace WebStoreAPI.Controllers
 
             try
             {
-                await _mediator.Send(new CreateProductCommand(productDto));
-                return Ok(productDto);
+                await _mediator.Send(product);
+                return Ok(product);
             }
             catch (Exception e)
             {
@@ -113,7 +117,8 @@ namespace WebStoreAPI.Controllers
 
         //Change product
         [HttpPut("update")]
-        public async Task<IActionResult> Update([FromBody]Product product)
+        [ProducesResponseType(200, Type = typeof(Product))]
+        public async Task<IActionResult> Update(Product product)
         {
             if (!ModelState.IsValid)
             {
@@ -126,19 +131,20 @@ namespace WebStoreAPI.Controllers
             }
 
             try
-                {
-                    await _mediator.Send(new UpdateProductCommand(product));
-                    return Ok();
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                    throw;
-                }
+            {
+                await _mediator.Send(new UpdateProductCommand(product));
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
 
         //Delete product 
         [HttpDelete("delete/{id}")]
+        [ProducesResponseType(200, Type = typeof(Product))]
         public async Task<IActionResult> Delete(int id)
         {
             if (!ModelState.IsValid)

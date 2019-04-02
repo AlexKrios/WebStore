@@ -1,11 +1,11 @@
 ﻿using FluentValidation;
 using WebStoreAPI.Models;
 
-namespace WebStoreAPI.Validators.Models
+namespace WebStoreAPI.Validators.Products
 {
-    public class ProductDtoValidator : AbstractValidator<Product>
+    public class CreateProductCommandValidator : AbstractValidator<Product>
     {
-        public ProductDtoValidator()
+        public CreateProductCommandValidator()
         {
             RuleFor(x => x.Name)
                 .NotEmpty()

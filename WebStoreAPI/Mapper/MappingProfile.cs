@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using WebStoreAPI.Commands.Products;
+using WebStoreAPI.Commands.Users;
 using WebStoreAPI.Models;
 
 namespace WebStoreAPI.Mapper
@@ -7,8 +9,8 @@ namespace WebStoreAPI.Mapper
     {
         public MappingProfile()
         {
-            CreateMap<Product, ProductDto>().ReverseMap();
-            CreateMap<User, UserDto>().ReverseMap();
+            CreateMap<CreateProductCommand, Product>();
+            CreateMap<CreateUserCommand, User>();
         }
     }
 }

@@ -1,16 +1,18 @@
-﻿using MediatR;
-using WebStoreAPI.Models;
+﻿using System.ComponentModel.DataAnnotations;
+using MediatR;
 
 namespace WebStoreAPI.Commands.Users
 {
     //Post request command for user
-    public class CreateUserCommand : IRequest<UserDto>
+    public class CreateUserCommand : IRequest<CreateUserCommand>
     {
-        public UserDto UserDto { get; }
-
-        public CreateUserCommand(UserDto userDto)
-        {
-            UserDto = userDto;
-        }
+        [Required]
+        public string FirstName { get; set; }
+        [Required]
+        public string LastName { get; set; }
+        [Required]
+        public string Role { get; set; }
+        [Required]
+        public int Age { get; set; }
     }
 }

@@ -1,9 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using WebStoreAPI.Commands.Users;
-using WebStoreAPI.Mapper;
 using WebStoreAPI.Models;
 using WebStoreAPI.Queries.Users;
 using System.Linq;
@@ -26,6 +26,7 @@ namespace WebStoreAPI.Controllers
 
         //Get list of users
         [HttpGet("getAll")]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<User>))]
         public async Task<IActionResult> GetAll()
         {
             try
@@ -48,6 +49,7 @@ namespace WebStoreAPI.Controllers
 
         //Get single user
         [HttpGet("getById/{id}")]
+        [ProducesResponseType(200, Type = typeof(User))]
         public async Task<IActionResult> GetById(int id)
         {
             try
@@ -70,6 +72,7 @@ namespace WebStoreAPI.Controllers
 
         //Get group of user
         [HttpGet("getByRole/{role}")]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<User>))]
         public async Task<IActionResult> GetUserByRole(string role)
         {
             try
@@ -92,7 +95,8 @@ namespace WebStoreAPI.Controllers
 
         //Add new user
         [HttpPost("create")]
-        public async Task<IActionResult> Add([FromBody]UserDto userDto)
+        [ProducesResponseType(200, Type = typeof(CreateUserCommand))]
+        public async Task<IActionResult> Add(CreateUserCommand user)
         {
             if (!ModelState.IsValid)
             {
@@ -101,8 +105,8 @@ namespace WebStoreAPI.Controllers
 
             try
             {
-                await _mediator.Send(new CreateUserCommand(userDto));
-                return Ok(userDto);
+                await _mediator.Send(user);
+                return Ok(user);
             }
             catch (Exception e)
             {
@@ -113,7 +117,8 @@ namespace WebStoreAPI.Controllers
 
         //Change user
         [HttpPut("update")]
-        public async Task<IActionResult> Update([FromBody]User user)
+        [ProducesResponseType(200, Type = typeof(User))]
+        public async Task<IActionResult> Update(User user)
         {
             if (!ModelState.IsValid)
             {
@@ -139,6 +144,7 @@ namespace WebStoreAPI.Controllers
 
         //Delete user
         [HttpDelete("delete/{id}")]
+        [ProducesResponseType(200, Type = typeof(User))]
         public async Task<IActionResult> Delete(int id)
         {
             if (!ModelState.IsValid)

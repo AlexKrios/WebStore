@@ -2,13 +2,12 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using MediatR;
-using WebStoreAPI.Mapper;
 using WebStoreAPI.Models;
 
 namespace WebStoreAPI.Commands.Users
 {
     //Post request handler for user
-    public class CreateUserHandler : IRequestHandler<CreateUserCommand, UserDto>
+    public class CreateUserHandler : IRequestHandler<CreateUserCommand, CreateUserCommand>
     {
         private readonly WebStoreContext _context;
         private readonly IMapper _mapper;
@@ -19,11 +18,11 @@ namespace WebStoreAPI.Commands.Users
             _mapper = mapper;
         }
 
-        public async Task<UserDto> Handle(CreateUserCommand command, CancellationToken cancellationToken)
+        public async Task<CreateUserCommand> Handle(CreateUserCommand command, CancellationToken cancellationToken)
         {
-            await _context.Users.AddAsync(_mapper.Map<User>(command.UserDto), cancellationToken);
+            await _context.Users.AddAsync(_mapper.Map<User>(command), cancellationToken);
             await _context.SaveChangesAsync(cancellationToken);
-            return command.UserDto;
+            return command;
         }
     }
 }
