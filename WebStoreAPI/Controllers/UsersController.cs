@@ -43,7 +43,7 @@ namespace WebStoreAPI.Controllers
             }
             catch (Exception e)
             {
-                return StatusCode(500, e.Message);
+                return StatusCode(500, new { errorMessage = e.Message });
             }
         }
 
@@ -66,7 +66,7 @@ namespace WebStoreAPI.Controllers
             }
             catch (Exception e)
             {
-                return StatusCode(500, e.Message);
+                return StatusCode(500, new { errorMessage = e.Message });
             }
         }
 
@@ -89,7 +89,7 @@ namespace WebStoreAPI.Controllers
             }
             catch (Exception e)
             {
-                return StatusCode(500, e.Message);
+                return StatusCode(500, new { errorMessage = e.Message });
             }
         }
 
@@ -111,7 +111,7 @@ namespace WebStoreAPI.Controllers
             }
             catch (Exception e)
             {
-                return StatusCode(500, e.Message);
+                return StatusCode(500, new { errorMessage = e.Message });
             }
         }
 
@@ -138,7 +138,7 @@ namespace WebStoreAPI.Controllers
             }
             catch (Exception e)
             {
-                return StatusCode(500, e.Message);
+                return StatusCode(500, new { errorMessage = e.Message });
             }
         }
 
@@ -165,7 +165,7 @@ namespace WebStoreAPI.Controllers
             }
             catch (Exception e)
             {
-                return StatusCode(500, e.Message);
+                return StatusCode(500, new { errorMessage = e.Message });
             }
         }
     }

@@ -12,15 +12,15 @@ namespace WebStoreAPI.Validators.Models
 
             RuleFor(x => x.Name)
                 .NotEmpty()
-                .WithMessage("Please specify a correct name");
+                .WithMessage("Name must be entered");
 
             RuleFor(x => x.Model)
                 .NotEmpty()
-                .WithMessage("Please specify a correct model");
+                .WithMessage("Model must be entered");
 
             RuleFor(x => x.Type)
                 .NotEmpty()
-                .WithMessage("Please specify a correct type");
+                .WithMessage("Type must be entered");
 
             RuleFor(x => x.Price)
                 .GreaterThanOrEqualTo(0)

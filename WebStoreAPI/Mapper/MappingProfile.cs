@@ -11,7 +11,6 @@ namespace WebStoreAPI.Mapper
         {
             CreateMap<CreateProductCommand, Product>();
             CreateMap<UpdateProductCommand, Product>();
-
             CreateMap<CreateUserCommand, User>();
             CreateMap<UpdateUserCommand, User>();
         }

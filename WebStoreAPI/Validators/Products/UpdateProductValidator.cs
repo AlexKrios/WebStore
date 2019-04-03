@@ -11,20 +11,20 @@ namespace WebStoreAPI.Validators.Products
                 .NotEmpty();
 
             RuleFor(x => x.Name)
-                .NotEmpty()
-                .WithMessage("Please specify a correct name");
+                .NotNull()
+                .WithMessage("Name must be entered");
 
             RuleFor(x => x.Model)
-                .NotEmpty()
-                .WithMessage("Please specify a correct model");
+                .NotNull()
+                .WithMessage("Model must be entered");
 
             RuleFor(x => x.Type)
-                .NotEmpty()
-                .WithMessage("Please specify a correct type");
+                .NotNull()
+                .WithMessage("Type must be entered");
 
             RuleFor(x => x.Price)
                 .GreaterThanOrEqualTo(0)
-                .WithMessage("Please specify a correct price");
+                .WithMessage("Please specify correct price");
         }
     }
 }

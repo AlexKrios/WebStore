@@ -12,18 +12,16 @@ namespace WebStoreAPI.Validators.Models
 
             RuleFor(x => x.FirstName)
                 .NotEmpty()
-                .Length(1, 50)
-                .WithMessage("Please specify a correct first name");
+                .WithMessage("First name must be entered");
 
             RuleFor(x => x.LastName)
                 .NotEmpty()
-                .Length(1, 50)
-                .WithMessage("Please specify a correct last name");
+                .WithMessage("Last name must be entered");
 
             RuleFor(x => x.Role)
                 .NotEmpty()
                 .Length(1, 50)
-                .WithMessage("Please specify a correct role");
+                .WithMessage("Role must be entered");
 
             RuleFor(x => x.Age)
                 .NotEmpty()

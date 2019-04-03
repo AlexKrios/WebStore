@@ -9,18 +9,16 @@ namespace WebStoreAPI.Validators.Users
         {
             RuleFor(t => t.FirstName)
                 .NotEmpty()
-                .Length(1, 50)
-                .WithMessage("Please specify a correct first name");
+                .WithMessage("First name must be entered");
 
             RuleFor(t => t.LastName)
                 .NotEmpty()
-                .Length(1, 50)
-                .WithMessage("Please specify a correct last name");
+                .WithMessage("Last name must be entered");
 
             RuleFor(t => t.Role)
                 .NotEmpty()
                 .Length(1, 50)
-                .WithMessage("Please specify a correct role");
+                .WithMessage("Role must be entered");
 
             RuleFor(t => t.Age)
                 .NotEmpty()
