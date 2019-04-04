@@ -14,7 +14,7 @@ namespace WebStoreAPI.Models
         [Required]
         public string Role { get; set; }
         [Required]
-        [Range(0, 100)]
+        [Range(0, int.MaxValue)]
         public int Age { get; set; }
     }
 }

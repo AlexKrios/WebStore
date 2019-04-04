@@ -1,14 +1,13 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebStoreAPI.Models;
 
 namespace WebStoreAPI.Queries.Products
 {
     //Get single product handler
-    public class GetProductByIdHandler : Controller, IRequestHandler<GetProductByIdQuery, Product>
+    public class GetProductByIdHandler : IRequestHandler<GetProductByIdQuery, Product>
     {
         private readonly WebStoreContext _context;
 

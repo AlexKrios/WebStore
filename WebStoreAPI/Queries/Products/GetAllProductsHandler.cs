@@ -2,14 +2,13 @@
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebStoreAPI.Models;
 
 namespace WebStoreAPI.Queries.Products
 {
     //Get all products handler
-    public class GetAllProductsHandler : Controller, IRequestHandler<GetAllProductsQuery, IEnumerable<Product>>
+    public class GetAllProductsHandler : IRequestHandler<GetAllProductsQuery, IEnumerable<Product>>
     {
         private readonly WebStoreContext _context;
 
