@@ -15,6 +15,7 @@ namespace WebStoreAPI.Controllers
     public class UsersController : Controller
     {
         private readonly IMediator _mediator;
+
         //Setup connection
         public UsersController(IMediator mediator)
         {
@@ -125,7 +126,12 @@ namespace WebStoreAPI.Controllers
 
             try
             {
-                await _mediator.Send(user);
+                var userSend = await _mediator.Send(user);
+                if (userSend == null)
+                {
+                    return NotFound();
+                }
+
                 return Ok();
             }
             catch (Exception e)
@@ -147,7 +153,12 @@ namespace WebStoreAPI.Controllers
 
             try
             {
-                await _mediator.Send(new DeleteUserCommand(id));
+                var userSend = await _mediator.Send(new DeleteUserCommand(id));
+                if (userSend == null)
+                {
+                    return NotFound();
+                }
+
                 return Ok();
             }
             catch (Exception e)

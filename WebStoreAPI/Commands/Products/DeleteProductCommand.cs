@@ -3,7 +3,7 @@
 namespace WebStoreAPI.Commands.Products
 {
     //Delete request command for product
-    public class DeleteProductCommand : IRequest
+    public class DeleteProductCommand : IRequest<DeleteProductCommand>
     {
         public int Id { get; }
 

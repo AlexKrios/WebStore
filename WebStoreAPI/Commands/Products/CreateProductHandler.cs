@@ -1,7 +1,7 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using MediatR;
+using System.Threading;
+using System.Threading.Tasks;
 using WebStoreAPI.Models;
 
 namespace WebStoreAPI.Commands.Products

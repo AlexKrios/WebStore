@@ -3,7 +3,7 @@
 namespace WebStoreAPI.Commands.Users
 {
     //Put request command for user
-    public class UpdateUserCommand : IRequest
+    public class UpdateUserCommand : IRequest<UpdateUserCommand>
     {
         public int Id { get; set; }
         public string FirstName { get; set; }

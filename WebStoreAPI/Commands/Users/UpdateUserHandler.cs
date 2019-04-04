@@ -1,13 +1,15 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using MediatR;
+using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using WebStoreAPI.Models;
 
 namespace WebStoreAPI.Commands.Users
 {
     //Put request handler for user
-    public class UpdateUserHandler : IRequestHandler<UpdateUserCommand>
+    public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, UpdateUserCommand>
     {
         private readonly WebStoreContext _context;
         private readonly IMapper _mapper;
@@ -18,11 +20,21 @@ namespace WebStoreAPI.Commands.Users
             _mapper = mapper;
         }
 
-        public async Task<Unit> Handle(UpdateUserCommand command, CancellationToken cancellationToken)
+        public async Task<UpdateUserCommand> Handle(UpdateUserCommand command, CancellationToken cancellationToken)
         {
-            _context.Users.Update(_mapper.Map<User>(command));
-            await _context.SaveChangesAsync(cancellationToken);
-            return Unit.Value;
+            try
+            {
+                if (!_context.Users.Any(x => x.Id == command.Id)) return null;
+
+                _context.Users.Update(_mapper.Map<User>(command));
+                await _context.SaveChangesAsync(cancellationToken);
+                return command;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
     }
 }

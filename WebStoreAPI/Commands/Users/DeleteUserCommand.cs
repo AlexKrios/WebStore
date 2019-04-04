@@ -3,7 +3,7 @@
 namespace WebStoreAPI.Commands.Users
 {
     //Delete request command for user
-    public class DeleteUserCommand : IRequest
+    public class DeleteUserCommand : IRequest<DeleteUserCommand>
     {
         public int Id { get; }
 

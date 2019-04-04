@@ -126,7 +126,12 @@ namespace WebStoreAPI.Controllers
 
             try
             {
-                await _mediator.Send(product);
+                var productSend = await _mediator.Send(product);
+                if (productSend == null)
+                {
+                    return NotFound();
+                }
+
                 return Ok();
             }
             catch (Exception e)
@@ -148,7 +153,12 @@ namespace WebStoreAPI.Controllers
 
             try
             {
-                await _mediator.Send(new DeleteProductCommand(id));
+                var productSend = await _mediator.Send(new DeleteProductCommand(id));
+                if (productSend == null)
+                {
+                    return NotFound();
+                }
+
                 return Ok();
             }
             catch (Exception e)
