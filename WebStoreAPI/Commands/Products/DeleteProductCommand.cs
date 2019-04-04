@@ -1,15 +1,15 @@
-﻿using WebStoreAPI.Models;
+﻿using MediatR;
 
 namespace WebStoreAPI.Commands.Products
 {
     //Delete request command for product
-    public class DeleteProductCommand : ICommand
+    public class DeleteProductCommand : IRequest<DeleteProductCommand>
     {
-        public Product Product { get; }
+        public int Id { get; }
 
-        public DeleteProductCommand(Product product)
+        public DeleteProductCommand(int id)
         {
-            Product = product;
+            Id = id;
         }
     }
 }

@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using WebStoreAPI.Commands;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using WebStoreAPI.Commands.Products;
 using WebStoreAPI.Models;
-using WebStoreAPI.Queries;
 using WebStoreAPI.Queries.Products;
 
 namespace WebStoreAPI.Controllers
@@ -13,61 +14,157 @@ namespace WebStoreAPI.Controllers
     [ApiController]
     public class ProductsController : Controller
     {
-        private readonly ICommandDispatcher _commandDispatcher;
-        private readonly IQueryDispatcher _queryDispatcher;
+        private readonly IMediator _mediator;
 
         //Setup connection
-        public ProductsController(ICommandDispatcher commandDispatcher, IQueryDispatcher queryDispatcher)
+        public ProductsController(IMediator mediator)
         {
-            _commandDispatcher = commandDispatcher;
-            _queryDispatcher = queryDispatcher;
+            _mediator = mediator;
         }
 
         //Get list of products
-        [HttpGet]
-        public async Task<IEnumerable<Product>> Get()
+        [HttpGet("getAll")]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<Product>))]
+        [ProducesResponseType(500, Type = typeof(string))]
+        public async Task<IActionResult> GetAll()
         {
-            return await _queryDispatcher.Execute<IEnumerable<Product>, GetAllProductsQueries>(new GetAllProductsQueries());
+            try
+            {
+                var products = await _mediator.Send(new GetAllProductsQuery());
+
+                if (!products.Any())
+                {
+                    return NotFound();
+                }
+
+                return Ok(products);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, new {errorMessage = e.Message});
+            }
         }
 
         //Get single product
-        [HttpGet("{id}")]
-        public async Task<Product> Get(int id)
+        [HttpGet("getById/{id}")]
+        [ProducesResponseType(200, Type = typeof(Product))]
+        [ProducesResponseType(500, Type = typeof(string))]
+        public async Task<IActionResult> GetById(int id)
         {
-            return await _queryDispatcher.Execute<Product, GetSingleProductQueries>(new GetSingleProductQueries(id));
+            try
+            {
+                var product = await _mediator.Send(new GetProductByIdQuery(id));
+
+                if (product == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(product);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, new { errorMessage = e.Message });
+            }
         }
 
         //Get group of products
-        [HttpGet("group/{type}")]
-        public async Task<IEnumerable<Product>> GetGroup(string type)
+        [HttpGet("getByType/{type}")]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<User>))]
+        [ProducesResponseType(500, Type = typeof(string))]
+        public async Task<IActionResult> GetProductByType(string type)
         {
-            return await _queryDispatcher.Execute<IEnumerable<Product>, GetGroupProductsQueries>(new GetGroupProductsQueries(type));
+            try
+            {
+                var products = await _mediator.Send(new GetProductsByTypeQuery(type));
+
+                if (!products.Any())
+                {
+                    return NotFound();
+                }
+
+                return Ok(products);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, new { errorMessage = e.Message });
+            }
         }
 
         //Add new product
-        [HttpPost]
-        public async Task<IActionResult> Post([FromBody]Product product)
+        [HttpPost("create")]
+        [ProducesResponseType(200, Type = typeof(CreateProductCommand))]
+        [ProducesResponseType(500, Type = typeof(string))]
+        public async Task<IActionResult> Add(CreateProductCommand product)
         {
-            await _commandDispatcher.Execute(new PostProductCommand(product));
-            return Ok(product);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                await _mediator.Send(product);
+                return Ok(product);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, new { errorMessage = e.Message });
+            }
         }
 
         //Change product
-        [HttpPut]
-        public async Task<IActionResult> Put([FromBody]Product product)
+        [HttpPut("update")]
+        [ProducesResponseType(200, Type = typeof(Product))]
+        [ProducesResponseType(500, Type = typeof(string))]
+        public async Task<IActionResult> Update(UpdateProductCommand product)
         {
-            await _commandDispatcher.Execute(new PutProductCommand(product));
-            return Ok(product);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                var productSend = await _mediator.Send(product);
+                if (productSend == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, new { errorMessage = e.Message });
+            }
         }
 
         //Delete product 
-        [HttpDelete("{id}")]
+        [HttpDelete("delete/{id}")]
+        [ProducesResponseType(200, Type = typeof(Product))]
+        [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> Delete(int id)
         {
-            var product = await _queryDispatcher.Execute<Product, GetSingleProductQueries>(new GetSingleProductQueries(id));
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
-            await _commandDispatcher.Execute(new DeleteProductCommand(product));
-            return Ok(product);
+            try
+            {
+                var productSend = await _mediator.Send(new DeleteProductCommand(id));
+                if (productSend == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, new { errorMessage = e.Message });
+            }
         }
     }
 }

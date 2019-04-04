@@ -1,10 +1,13 @@
-﻿using System.Threading.Tasks;
-using WebStoreAPI.Models;
+﻿using MediatR;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace WebStoreAPI.Commands.Users
 {
     //Delete request handler for user
-    public class DeleteUserHandler : ICommandHandler<DeleteUserCommand>
+    public class DeleteUserHandler : IRequestHandler<DeleteUserCommand, DeleteUserCommand>
     {
         private readonly WebStoreContext _context;
 
@@ -13,10 +16,23 @@ namespace WebStoreAPI.Commands.Users
             _context = context;
         }
 
-        public async Task Execute(DeleteUserCommand command)
+        public async Task<DeleteUserCommand> Handle(DeleteUserCommand command, CancellationToken cancellationToken)
         {
-            _context.Users.Remove(command.User);
-            await _context.SaveChangesAsync();
+            try
+            {
+                var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == command.Id, cancellationToken);
+
+                if (user == null) return null;
+
+                _context.Users.Remove(user);
+                await _context.SaveChangesAsync(cancellationToken);
+                return command;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
     }
 }

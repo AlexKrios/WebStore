@@ -1,12 +1,14 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using WebStoreAPI.Models;
 
 namespace WebStoreAPI.Queries.Users
 {
     //Get all users handler
-    public class GetAllUsersHandler : IQueryHandler<GetAllUsersQueries, IEnumerable<User>>
+    public class GetAllUsersHandler : IRequestHandler<GetAllUsersQuery, IEnumerable<User>>
     {
         private readonly WebStoreContext _context;
 
@@ -15,9 +17,9 @@ namespace WebStoreAPI.Queries.Users
             _context = context;
         }
 
-        public async Task<IEnumerable<User>> Execute(GetAllUsersQueries command)
+        public async Task<IEnumerable<User>> Handle(GetAllUsersQuery command, CancellationToken cancellationToken)
         {
-            return await _context.Users.ToListAsync();
+            return await _context.Users.ToListAsync(cancellationToken);
         }
     }
 }
