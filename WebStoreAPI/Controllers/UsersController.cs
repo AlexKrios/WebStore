@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using WebStoreAPI.Commands.Users;
 using WebStoreAPI.Models;
 using WebStoreAPI.Queries.Users;
-using System.Linq;
 
 namespace WebStoreAPI.Controllers
 {
@@ -15,13 +15,10 @@ namespace WebStoreAPI.Controllers
     public class UsersController : Controller
     {
         private readonly IMediator _mediator;
-        private readonly WebStoreContext _context;
-
         //Setup connection
-        public UsersController(IMediator mediator, WebStoreContext context)
+        public UsersController(IMediator mediator)
         {
             _mediator = mediator;
-            _context = context;
         }
 
         //Get list of users
@@ -126,11 +123,6 @@ namespace WebStoreAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (!_context.Users.Any(x => x.Id == user.Id))
-            {
-                return NotFound();
-            }
-
             try
             {
                 await _mediator.Send(user);
@@ -151,11 +143,6 @@ namespace WebStoreAPI.Controllers
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
-            }
-
-            if (!_context.Users.Any(x => x.Id == id))
-            {
-                return NotFound();
             }
 
             try
