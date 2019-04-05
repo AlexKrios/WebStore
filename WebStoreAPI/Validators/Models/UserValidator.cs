@@ -10,23 +10,36 @@ namespace WebStoreAPI.Validators.Models
             RuleFor(x => x.Id)
                 .NotEmpty();
 
-            RuleFor(x => x.FirstName)
+            RuleFor(x => x.Name)
                 .NotEmpty()
-                .WithMessage("First name must be entered");
-
-            RuleFor(x => x.LastName)
-                .NotEmpty()
-                .WithMessage("Last name must be entered");
-
-            RuleFor(x => x.Role)
-                .NotEmpty()
-                .Length(1, 50)
-                .WithMessage("Role must be entered");
+                .WithMessage("Name must be entered");
 
             RuleFor(x => x.Age)
                 .NotEmpty()
                 .GreaterThan(0)
                 .WithMessage("Please specify correct age");
+
+            RuleFor(x => x.Email)
+                .NotEmpty()
+                .WithMessage("Email must be entered");
+
+            RuleFor(x => x.TelephoneNumber)
+                .NotEmpty()
+                .WithMessage("Telephone number must be entered");
+
+            RuleFor(x => x.RegistrationTime)
+                .NotEmpty()
+                .WithMessage("Registration time must be entered");
+
+            RuleFor(x => x.Address)
+                .NotEmpty()
+                .WithMessage("Address must be entered");
+
+            RuleFor(x => x.CityId)
+                .NotEmpty();
+
+            RuleFor(x => x.RoleId)
+                .NotEmpty();
         }
     }
 }

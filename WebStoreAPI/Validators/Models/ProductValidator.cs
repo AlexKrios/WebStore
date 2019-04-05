@@ -14,17 +14,23 @@ namespace WebStoreAPI.Validators.Models
                 .NotEmpty()
                 .WithMessage("Name must be entered");
 
-            RuleFor(x => x.Model)
+            RuleFor(x => x.Description)
                 .NotEmpty()
-                .WithMessage("Model must be entered");
+                .WithMessage("Description must be entered");
 
-            RuleFor(x => x.Type)
-                .NotEmpty()
-                .WithMessage("Type must be entered");
+            RuleFor(x => x.Availability)
+                .GreaterThanOrEqualTo(0)
+                .WithMessage("Please specify a correct availability");
 
             RuleFor(x => x.Price)
                 .GreaterThanOrEqualTo(0)
                 .WithMessage("Please specify a correct price");
+
+            RuleFor(x => x.TypeId)
+                .NotEmpty();
+
+            RuleFor(x => x.ManufacturerId)
+                .NotEmpty();
         }
     }
 }

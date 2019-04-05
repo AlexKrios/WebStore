@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using WebStoreAPI.Models;
 
 namespace WebStoreAPI
@@ -10,18 +11,52 @@ namespace WebStoreAPI
         {
             if (!context.Users.Any())
             {
-                context.Users.Add(new User {FirstName = "Alex", LastName = "Admin", Role = "Administrator", Age = 23});
+                context.Users.Add(new User
+                {
+                    Name = "Alex Krios",
+                    Age = 23, Email = "Test@gmail.com",
+                    TelephoneNumber = "+375298807848",
+                    RegistrationTime = DateTime.Now,
+                    Address = "Test address", 
+                    CityId = 1,
+                    RoleId = 1
+                });
             }
 
             if (!context.Products.Any())
             {
                 context.Products.AddRange(
-                    new Product {Name = "Samsung", Model = "S7", Type = "Smartphone", Price = 1000},
-                    new Product {Name = "IPhone", Model = "X", Type = "Smartphone", Price = 1500},
-                    new Product {Name = "Lenovo", Model = "Tab 4", Type = "Tablet", Price = 1250}
+                    new Product
+                    {
+                        Name = "Samsung S7",
+                        Description = "Bla bla bla",
+                        Availability = 100,
+                        Price = 1000m,
+                        TypeId = 1,
+                        ManufacturerId = 1
+                    },
+
+                    new Product
+                    {
+                        Name = "IPhone X",
+                        Description = "Bla bla bla",
+                        Availability = 200,
+                        Price = 1500m,
+                        TypeId = 1,
+                        ManufacturerId = 2
+                    },
+
+                    new Product
+                    {
+                        Name = "Lenovo Tab",
+                        Description = "Bla bla bla",
+                        Availability = 50,
+                        Price = 1250.50m,
+                        TypeId = 2,
+                        ManufacturerId = 3
+                    }
                 );
             }
-
             context.SaveChanges();
         }
     }

@@ -20,7 +20,7 @@ namespace WebStoreAPI.Queries.Products
 
         public async Task<IEnumerable<Product>> Handle(GetProductsByTypeQuery command, CancellationToken cancellationToken)
         {
-            return await _context.Products.Where(x => Equals(x.Type, command.Type)).ToListAsync(cancellationToken);
+            return await _context.Products.Where(x => Equals(x.Name, command.Type)).ToListAsync(cancellationToken);
         }
     }
 }
