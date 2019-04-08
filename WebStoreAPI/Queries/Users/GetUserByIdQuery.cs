@@ -1,5 +1,5 @@
-﻿using MediatR;
-using WebStoreAPI.Models;
+﻿using DataLibrary.Entities;
+using MediatR;
 
 namespace WebStoreAPI.Queries.Users
 {

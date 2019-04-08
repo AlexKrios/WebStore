@@ -4,8 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DataLibrary.Entities;
 using WebStoreAPI.Commands.Users;
-using WebStoreAPI.Models;
 using WebStoreAPI.Queries.Users;
 
 namespace WebStoreAPI.Controllers

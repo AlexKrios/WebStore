@@ -1,7 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using WebStoreAPI.Models;
+﻿using DataLibrary.Entities;
+using Microsoft.EntityFrameworkCore;
 
-namespace WebStoreAPI
+namespace DataLibrary
 {
     public class WebStoreContext : DbContext
     {
@@ -9,7 +9,7 @@ namespace WebStoreAPI
         public DbSet<Product> Products { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<City> Cites { get; set; }
-        public DbSet<Country> Countries { get; set; }
+        //public DbSet<Country> Countries { get; set; }
         public DbSet<Delivery> Deliveries { get; set; }
         public DbSet<Manufacturer> Manufacturers { get; set; }
         public DbSet<OrderList> OrderLists { get; set; }
@@ -21,5 +21,10 @@ namespace WebStoreAPI
         public WebStoreContext(DbContextOptions options)
             : base(options)
         { }
+
+        //protected override void OnModelCreating(ModelBuilder modelBuilder)
+        //{
+        //    base.OnModelCreating(modelBuilder);
+        //}
     }
 }

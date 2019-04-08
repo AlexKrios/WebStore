@@ -4,7 +4,8 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using WebStoreAPI.Models;
+using DataLibrary;
+using DataLibrary.Entities;
 
 namespace WebStoreAPI.Commands.Users
 {

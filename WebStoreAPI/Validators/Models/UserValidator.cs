@@ -1,5 +1,5 @@
-﻿using FluentValidation;
-using WebStoreAPI.Models;
+﻿using DataLibrary.Entities;
+using FluentValidation;
 
 namespace WebStoreAPI.Validators.Models
 {
@@ -34,12 +34,6 @@ namespace WebStoreAPI.Validators.Models
             RuleFor(x => x.Address)
                 .NotEmpty()
                 .WithMessage("Address must be entered");
-
-            RuleFor(x => x.CityId)
-                .NotEmpty();
-
-            RuleFor(x => x.RoleId)
-                .NotEmpty();
         }
     }
 }

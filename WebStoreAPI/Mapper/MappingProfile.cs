@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
+using DataLibrary.Entities;
 using WebStoreAPI.Commands.Products;
 using WebStoreAPI.Commands.Users;
-using WebStoreAPI.Models;
 
 namespace WebStoreAPI.Mapper
 {

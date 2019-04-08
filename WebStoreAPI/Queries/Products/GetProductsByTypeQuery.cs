@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
+using DataLibrary.Entities;
 using MediatR;
-using WebStoreAPI.Models;
 
 namespace WebStoreAPI.Queries.Products
 {

@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace WebStoreAPI.Models
+namespace DataLibrary.Entities
 {
     //Model for object user
     public class User
@@ -22,11 +22,10 @@ namespace WebStoreAPI.Models
         public DateTime RegistrationTime { get; set; }
         [Required]
         public string Address { get; set; }
-        [Required]
-        [ForeignKey("City")]
+
+        [Required, ForeignKey("City")]
         public int CityId { get; set; }
-        [Required]
-        [ForeignKey("Role")]
-        public int RoleId { get; set; }
+
+        public virtual City City { get; set; }
     }
 }

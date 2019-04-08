@@ -4,8 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DataLibrary;
+using DataLibrary.Entities;
 using WebStoreAPI.Commands.Products;
-using WebStoreAPI.Models;
 using WebStoreAPI.Queries.Products;
 
 namespace WebStoreAPI.Controllers
@@ -17,9 +18,10 @@ namespace WebStoreAPI.Controllers
         private readonly IMediator _mediator;
 
         //Setup connection
-        public ProductsController(IMediator mediator)
+        public ProductsController(IMediator mediator, WebStoreContext context)
         {
             _mediator = mediator;
+            DbInit.Init(context);
         }
 
         //Get list of products

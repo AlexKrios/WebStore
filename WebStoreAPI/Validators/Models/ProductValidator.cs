@@ -1,5 +1,5 @@
-﻿using FluentValidation;
-using WebStoreAPI.Models;
+﻿using DataLibrary.Entities;
+using FluentValidation;
 
 namespace WebStoreAPI.Validators.Models
 {
@@ -25,12 +25,6 @@ namespace WebStoreAPI.Validators.Models
             RuleFor(x => x.Price)
                 .GreaterThanOrEqualTo(0)
                 .WithMessage("Please specify a correct price");
-
-            RuleFor(x => x.TypeId)
-                .NotEmpty();
-
-            RuleFor(x => x.ManufacturerId)
-                .NotEmpty();
         }
     }
 }
