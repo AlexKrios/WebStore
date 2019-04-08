@@ -9,7 +9,6 @@ using DataLibrary.Entities;
 
 namespace WebStoreAPI.Commands.Products
 {
-    //Put request handler for product
     public class UpdateProductHandler : IRequestHandler<UpdateProductCommand, UpdateProductCommand>
     {
         private readonly WebStoreContext _context;

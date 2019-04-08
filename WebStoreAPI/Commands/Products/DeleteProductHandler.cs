@@ -7,7 +7,6 @@ using DataLibrary;
 
 namespace WebStoreAPI.Commands.Products
 {
-    //Delete request handler for product
     public class DeleteProductHandler : IRequestHandler<DeleteProductCommand, DeleteProductCommand>
     {
         private readonly WebStoreContext _context;

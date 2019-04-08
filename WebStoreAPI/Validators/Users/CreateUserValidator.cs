@@ -7,23 +7,29 @@ namespace WebStoreAPI.Validators.Users
     {
         public CreateUserValidator()
         {
-            RuleFor(t => t.FirstName)
+            RuleFor(t => t.Name)
                 .NotEmpty()
-                .WithMessage("First name must be entered");
-
-            RuleFor(t => t.LastName)
-                .NotEmpty()
-                .WithMessage("Last name must be entered");
-
-            RuleFor(t => t.Role)
-                .NotEmpty()
-                .Length(1, 50)
-                .WithMessage("Role must be entered");
+                .WithMessage("Name must be entered");
 
             RuleFor(t => t.Age)
                 .NotEmpty()
                 .GreaterThan(0)
                 .WithMessage("Please specify correct age");
+
+            RuleFor(t => t.Email)
+                .NotEmpty()
+                .WithMessage("Email must be entered");
+
+            RuleFor(t => t.TelephoneNumber)
+                .NotEmpty()
+                .WithMessage("Telephone number must be entered");
+
+            RuleFor(t => t.Address)
+                .NotEmpty()
+                .WithMessage("Address must be entered");
+
+            RuleFor(t => t.CityId)
+                .NotEmpty();
         }
     }
 }

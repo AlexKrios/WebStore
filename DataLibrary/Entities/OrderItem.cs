@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DataLibrary.Entities
 {
-    public class OrderList
+    public class OrderItem
     {
         [Key]
         public int Id { get; set; }
@@ -14,7 +14,10 @@ namespace DataLibrary.Entities
 
         [Required, ForeignKey("Product")]
         public int ProductId { get; set; }
+        [Required, ForeignKey("OrderItems")]
+        public int OrderId { get; set; }
 
         public virtual Product Product { get; set; }
+        public virtual Order Order { get; set; }
     }
 }

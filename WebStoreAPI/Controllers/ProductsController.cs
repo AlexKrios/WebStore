@@ -25,7 +25,7 @@ namespace WebStoreAPI.Controllers
         }
 
         //Get list of products
-        [HttpGet("getAll")]
+        [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<Product>))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> GetAll()
@@ -48,7 +48,7 @@ namespace WebStoreAPI.Controllers
         }
 
         //Get single product
-        [HttpGet("getById/{id}")]
+        [HttpGet("{id}")]
         [ProducesResponseType(200, Type = typeof(Product))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> GetById(int id)
@@ -71,30 +71,30 @@ namespace WebStoreAPI.Controllers
         }
 
         //Get group of products
-        [HttpGet("getByType/{type}")]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<User>))]
-        [ProducesResponseType(500, Type = typeof(string))]
-        public async Task<IActionResult> GetProductByType(string type)
-        {
-            try
-            {
-                var products = await _mediator.Send(new GetProductsByTypeQuery(type));
+        //[HttpGet("{type}")]
+        //[ProducesResponseType(200, Type = typeof(IEnumerable<User>))]
+        //[ProducesResponseType(500, Type = typeof(string))]
+        //public async Task<IActionResult> GetProductByType(string type)
+        //{
+        //    try
+        //    {
+        //        var products = await _mediator.Send(new GetProductsByTypeQuery(type));
 
-                if (!products.Any())
-                {
-                    return NotFound();
-                }
+        //        if (!products.Any())
+        //        {
+        //            return NotFound();
+        //        }
 
-                return Ok(products);
-            }
-            catch (Exception e)
-            {
-                return StatusCode(500, new { errorMessage = e.Message });
-            }
-        }
+        //        return Ok(products);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return StatusCode(500, new { errorMessage = e.Message });
+        //    }
+        //}
 
         //Add new product
-        [HttpPost("create")]
+        [HttpPost]
         [ProducesResponseType(200, Type = typeof(CreateProductCommand))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> Add(CreateProductCommand product)
@@ -116,8 +116,8 @@ namespace WebStoreAPI.Controllers
         }
 
         //Change product
-        [HttpPut("update")]
-        [ProducesResponseType(200, Type = typeof(Product))]
+        [HttpPut]
+        [ProducesResponseType(200, Type = typeof(UpdateProductCommand))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> Update(UpdateProductCommand product)
         {
@@ -143,7 +143,7 @@ namespace WebStoreAPI.Controllers
         }
 
         //Delete product 
-        [HttpDelete("delete/{id}")]
+        [HttpDelete("{id}")]
         [ProducesResponseType(200, Type = typeof(Product))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> Delete(int id)

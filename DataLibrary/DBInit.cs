@@ -9,33 +9,38 @@ namespace DataLibrary
         //Add field in table if table empty
         public static void Init(WebStoreContext context)
         {
-            if (!context.Cites.Any())
-            {
-                context.Cites.AddRange(
-                    new City
-                    {
-                        Name = "Grodno"
-                    },
-
-                    new City
-                    {
-                        Name = "Minsk"
-                    },
-
-                    new City
-                    {
-                        Name = "Brest"
-                    });
-            }
-
-            /*if (!context.Countries.Any())
+            if (!context.Countries.Any())
             {
                 context.Countries.Add(
                     new Country
                     {
-                        Name = "Belarus",
+                        Name = "Belarus"
                     });
-            }*/
+            }
+            context.SaveChanges();
+
+            if (!context.Cities.Any())
+            {
+                context.Cities.AddRange(
+                    new City
+                    {
+                        Name = "Grodno",
+                        CountryId = 1
+                    },
+
+                    new City
+                    {
+                        Name = "Minsk",
+                        CountryId = 1
+                    },
+
+                    new City
+                    {
+                        Name = "Brest",
+                        CountryId = 1
+                    });
+            }
+            context.SaveChanges();
 
             if (!context.Deliveries.Any())
             {
@@ -47,10 +52,10 @@ namespace DataLibrary
                         Price = 100m,
                         Rating = 4f,
                         CreatedDateTime = DateTime.Now,
-                        ModifiedDateTime = DateTime.Now,
-                        ModifiedBy = 1
+                        ModifiedDateTime = DateTime.Now
                     });
             }
+            context.SaveChanges();
 
             if (!context.Manufacturers.Any())
             {
@@ -63,6 +68,7 @@ namespace DataLibrary
                         Rating = 3f
                     });
             }
+            context.SaveChanges();
 
             if (!context.Payments.Any())
             {
@@ -73,71 +79,10 @@ namespace DataLibrary
                         Description = "Test description",
                         Taxes = 1m,
                         CreatedDateTime = DateTime.Now,
-                        ModifiedDateTime = DateTime.Now,
-                        ModifiedBy = 1
+                        ModifiedDateTime = DateTime.Now
                     });
             }
-
-            if (!context.Products.Any())
-            {
-                context.Products.AddRange(
-                    new Product
-                    {
-                        Name = "Samsung S7",
-                        Description = "Bla bla bla",
-                        Availability = 100,
-                        Price = 1000m,
-                        TypeId = 1,
-                        ManufacturerId = 1,
-                        UserId = 1,
-                        CreatedDateTime = DateTime.Now,
-                        ModifiedDateTime = DateTime.Now,
-                        ModifiedBy = 1
-                    },
-
-                    new Product
-                    {
-                        Name = "IPhone X",
-                        Description = "Bla bla bla",
-                        Availability = 200,
-                        Price = 1500m,
-                        TypeId = 1,
-                        ManufacturerId = 1,
-                        UserId = 1,
-                        CreatedDateTime = DateTime.Now,
-                        ModifiedDateTime = DateTime.Now,
-                        ModifiedBy = 1
-                    },
-
-                    new Product
-                    {
-                        Name = "Lenovo Tab",
-                        Description = "Bla bla bla",
-                        Availability = 50,
-                        Price = 1250.50m,
-                        TypeId = 1,
-                        ManufacturerId = 1,
-                        UserId = 1,
-                        CreatedDateTime = DateTime.Now,
-                        ModifiedDateTime = DateTime.Now,
-                        ModifiedBy = 1
-                    }
-                );
-            }
-
-            if (!context.Roles.Any())
-            {
-                context.Roles.AddRange(
-                    new Role
-                    {
-                        Name = "Admin"
-                    },
-                    
-                    new Role()
-                    {
-                        Name = "User"
-                    });
-            }
+            context.SaveChanges();
 
             if (!context.Types.Any())
             {
@@ -147,6 +92,22 @@ namespace DataLibrary
                         Name = "Smart-phone"
                     });
             }
+            context.SaveChanges();
+
+            if (!context.Roles.Any())
+            {
+                context.Roles.AddRange(
+                    new Role
+                    {
+                        Name = "Admin"
+                    },
+
+                    new Role()
+                    {
+                        Name = "User"
+                    });
+            }
+            context.SaveChanges();
 
             if (!context.Users.Any())
             {
@@ -161,6 +122,7 @@ namespace DataLibrary
                     CityId = 1
                 });
             }
+            context.SaveChanges();
 
             if (!context.UserRoles.Any())
             {
@@ -171,7 +133,81 @@ namespace DataLibrary
                         RoleId = 1
                     });
             }
+            context.SaveChanges();
 
+            if (!context.Products.Any())
+            {
+                context.Products.AddRange(
+                    new Product
+                    {
+                        Name = "Samsung S7",
+                        Description = "Bla bla bla",
+                        Availability = 100,
+                        Price = 1000m,
+                        TypeId = 1,
+                        ManufacturerId = 1,
+                        UserId = 1,
+                        CreatedDateTime = DateTime.Now,
+                        ModifiedDateTime = DateTime.Now
+                    },
+
+                    new Product
+                    {
+                        Name = "IPhone X",
+                        Description = "Bla bla bla",
+                        Availability = 200,
+                        Price = 1500m,
+                        TypeId = 1,
+                        ManufacturerId = 1,
+                        UserId = 1,
+                        CreatedDateTime = DateTime.Now,
+                        ModifiedDateTime = DateTime.Now
+                    },
+
+                    new Product
+                    {
+                        Name = "Lenovo Tab",
+                        Description = "Bla bla bla",
+                        Availability = 50,
+                        Price = 1250.50m,
+                        TypeId = 1,
+                        ManufacturerId = 1,
+                        UserId = 1,
+                        CreatedDateTime = DateTime.Now,
+                        ModifiedDateTime = DateTime.Now
+                    }
+                );
+            }
+            context.SaveChanges();
+
+            if (!context.Orders.Any())
+            {
+                context.Orders.Add(
+                    new Order
+                    {
+                        CustomerNumber = "Num",
+                        Count = 5,
+                        Note = "Note",
+                        TotalPrice = 5000,
+                        OrderTime = DateTime.Now,
+                        UserId = 1,
+                        DeliveryId = 1,
+                        PaymentId = 1
+                    });
+            }
+            context.SaveChanges();
+
+            if (!context.OrderItems.Any())
+            {
+                context.OrderItems.Add(
+                    new OrderItem
+                    {
+                        Count = 3,
+                        Price = 1500,
+                        ProductId = 1,
+                        OrderId = 1
+                    });
+            }
             context.SaveChanges();
         }
     }

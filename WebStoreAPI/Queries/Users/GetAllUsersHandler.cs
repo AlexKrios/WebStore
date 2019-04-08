@@ -8,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace WebStoreAPI.Queries.Users
 {
-    //Get all users handler
     public class GetAllUsersHandler : IRequestHandler<GetAllUsersQuery, IEnumerable<User>>
     {
         private readonly WebStoreContext _context;

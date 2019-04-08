@@ -4,7 +4,6 @@ using MediatR;
 
 namespace WebStoreAPI.Queries.Products
 {
-    //Get group of products command
     public class GetProductsByTypeQuery : IRequest<IEnumerable<Product>>
     {
         public string Type { get; }

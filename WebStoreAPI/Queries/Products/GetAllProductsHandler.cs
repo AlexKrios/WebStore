@@ -8,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace WebStoreAPI.Queries.Products
 {
-    //Get all products handler
     public class GetAllProductsHandler : IRequestHandler<GetAllProductsQuery, IEnumerable<Product>>
     {
         private readonly WebStoreContext _context;

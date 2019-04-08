@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace WebStoreAPI.Queries.Users
 {
-    //Get single user handler
     public class GetUserByIdHandler : IRequestHandler<GetUserByIdQuery, User>
     {
         private readonly WebStoreContext _context;

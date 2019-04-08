@@ -9,7 +9,6 @@ using DataLibrary.Entities;
 
 namespace WebStoreAPI.Commands.Users
 {
-    //Put request handler for user
     public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, UpdateUserCommand>
     {
         private readonly WebStoreContext _context;

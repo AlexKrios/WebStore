@@ -4,7 +4,6 @@ using MediatR;
 
 namespace WebStoreAPI.Queries.Users
 {
-    //Get group of users command
     public class GetUsersByRoleQuery : IRequest<IEnumerable<User>>
     {
         public string Role { get; }

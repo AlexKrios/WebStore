@@ -4,7 +4,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DataLibrary.Entities
 {
-    //Model for object user
     public class User
     {
         [Key]
@@ -18,7 +17,6 @@ namespace DataLibrary.Entities
         public string Email { get; set; }
         [Required]
         public string TelephoneNumber { get; set; }
-        [Required]
         public DateTime RegistrationTime { get; set; }
         [Required]
         public string Address { get; set; }

@@ -8,8 +8,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace WebStoreAPI.Queries.Products
-{
-    //Get group of products handler
+{  
     public class GetProductsByTypeHandler : IRequestHandler<GetProductsByTypeQuery, IEnumerable<Product>>
     {
         private readonly WebStoreContext _context;

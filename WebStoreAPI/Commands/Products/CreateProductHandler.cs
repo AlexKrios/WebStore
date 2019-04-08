@@ -7,7 +7,6 @@ using DataLibrary.Entities;
 
 namespace WebStoreAPI.Commands.Products
 {
-    //Post request handler for product
     public class CreateProductHandler : IRequestHandler<CreateProductCommand, CreateProductCommand>
     {
         private readonly WebStoreContext _context;

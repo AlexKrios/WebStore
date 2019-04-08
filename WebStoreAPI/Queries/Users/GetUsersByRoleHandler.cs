@@ -9,7 +9,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace WebStoreAPI.Queries.Users
 {
-    //Get group of users handler
     public class GetUsersByRoleHandler : IRequestHandler<GetUsersByRoleQuery, IEnumerable<User>>
     {
         private readonly WebStoreContext _context;

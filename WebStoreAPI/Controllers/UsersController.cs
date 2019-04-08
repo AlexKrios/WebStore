@@ -23,7 +23,7 @@ namespace WebStoreAPI.Controllers
         }
 
         //Get list of users
-        [HttpGet("getAll")]
+        [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<User>))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> GetAll()
@@ -46,7 +46,7 @@ namespace WebStoreAPI.Controllers
         }
 
         //Get single user
-        [HttpGet("getById/{id}")]
+        [HttpGet("{id}")]
         [ProducesResponseType(200, Type = typeof(User))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> GetById(int id)
@@ -69,30 +69,30 @@ namespace WebStoreAPI.Controllers
         }
 
         //Get group of user
-        [HttpGet("getByRole/{role}")]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<User>))]
-        [ProducesResponseType(500, Type = typeof(string))]
-        public async Task<IActionResult> GetUserByRole(string role)
-        {
-            try
-            {
-                var users = await _mediator.Send(new GetUsersByRoleQuery(role));
+        //[HttpGet("{role}")]
+        //[ProducesResponseType(200, Type = typeof(IEnumerable<User>))]
+        //[ProducesResponseType(500, Type = typeof(string))]
+        //public async Task<IActionResult> GetUserByRole(string role)
+        //{
+        //    try
+        //    {
+        //        var users = await _mediator.Send(new GetUsersByRoleQuery(role));
 
-                if (!users.Any())
-                {
-                    return NotFound();
-                }
+        //        if (!users.Any())
+        //        {
+        //            return NotFound();
+        //        }
 
-                return Ok(users);
-            }
-            catch (Exception e)
-            {
-                return StatusCode(500, new { errorMessage = e.Message });
-            }
-        }
+        //        return Ok(users);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return StatusCode(500, new { errorMessage = e.Message });
+        //    }
+        //}
 
         //Add new user
-        [HttpPost("create")]
+        [HttpPost]
         [ProducesResponseType(200, Type = typeof(CreateUserCommand))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> Add(CreateUserCommand user)
@@ -114,7 +114,7 @@ namespace WebStoreAPI.Controllers
         }
 
         //Change user
-        [HttpPut("update")]
+        [HttpPut]
         [ProducesResponseType(200, Type = typeof(User))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> Update(UpdateUserCommand user)
@@ -141,7 +141,7 @@ namespace WebStoreAPI.Controllers
         }
 
         //Delete user
-        [HttpDelete("delete/{id}")]
+        [HttpDelete("{id}")]
         [ProducesResponseType(200, Type = typeof(User))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> Delete(int id)

@@ -7,7 +7,6 @@ using DataLibrary.Entities;
 
 namespace WebStoreAPI.Commands.Users
 {
-    //Post request handler for user
     public class CreateUserHandler : IRequestHandler<CreateUserCommand, CreateUserCommand>
     {
         private readonly WebStoreContext _context;

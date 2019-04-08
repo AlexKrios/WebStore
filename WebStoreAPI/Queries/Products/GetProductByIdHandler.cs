@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace WebStoreAPI.Queries.Products
 {
-    //Get single product handler
     public class GetProductByIdHandler : IRequestHandler<GetProductByIdQuery, Product>
     {
         private readonly WebStoreContext _context;
