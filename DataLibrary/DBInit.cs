@@ -42,21 +42,6 @@ namespace DataLibrary
             }
             context.SaveChanges();
 
-            if (!context.Deliveries.Any())
-            {
-                context.Deliveries.Add(
-                    new Delivery
-                    {
-                        Name = "AutoLight",
-                        Description = "Test description",
-                        Price = 100m,
-                        Rating = 4f,
-                        CreatedDateTime = DateTime.Now,
-                        ModifiedDateTime = DateTime.Now
-                    });
-            }
-            context.SaveChanges();
-
             if (!context.Manufacturers.Any())
             {
                 context.Manufacturers.Add(
@@ -70,26 +55,13 @@ namespace DataLibrary
             }
             context.SaveChanges();
 
-            if (!context.Payments.Any())
-            {
-                context.Payments.Add(
-                    new Payment
-                    {
-                        Name = "Visa",
-                        Description = "Test description",
-                        Taxes = 1m,
-                        CreatedDateTime = DateTime.Now,
-                        ModifiedDateTime = DateTime.Now
-                    });
-            }
-            context.SaveChanges();
-
             if (!context.Types.Any())
             {
                 context.Types.Add(
                     new Entities.Type
                     {
-                        Name = "Smart-phone"
+                        Name = "Smart-phone",
+                        ParentId = null
                     });
             }
             context.SaveChanges();
@@ -124,6 +96,37 @@ namespace DataLibrary
             }
             context.SaveChanges();
 
+            if (!context.Deliveries.Any())
+            {
+                context.Deliveries.Add(
+                    new Delivery
+                    {
+                        Name = "AutoLight",
+                        Description = "Test description",
+                        Price = 100m,
+                        Rating = 4f,
+                        CreatedDateTime = DateTime.Now,
+                        ModifiedDateTime = DateTime.Now,
+                        ModifiedBy = 1
+                    });
+            }
+            context.SaveChanges();
+
+            if (!context.Payments.Any())
+            {
+                context.Payments.Add(
+                    new Payment
+                    {
+                        Name = "Visa",
+                        Description = "Test description",
+                        Taxes = 1m,
+                        CreatedDateTime = DateTime.Now,
+                        ModifiedDateTime = DateTime.Now,
+                        ModifiedBy = 1
+                    });
+            }
+            context.SaveChanges();
+
             if (!context.UserRoles.Any())
             {
                 context.UserRoles.Add(
@@ -148,7 +151,8 @@ namespace DataLibrary
                         ManufacturerId = 1,
                         UserId = 1,
                         CreatedDateTime = DateTime.Now,
-                        ModifiedDateTime = DateTime.Now
+                        ModifiedDateTime = DateTime.Now,
+                        ModifiedBy = 1
                     },
 
                     new Product
@@ -161,7 +165,8 @@ namespace DataLibrary
                         ManufacturerId = 1,
                         UserId = 1,
                         CreatedDateTime = DateTime.Now,
-                        ModifiedDateTime = DateTime.Now
+                        ModifiedDateTime = DateTime.Now,
+                        ModifiedBy = 1
                     },
 
                     new Product
@@ -174,7 +179,8 @@ namespace DataLibrary
                         ManufacturerId = 1,
                         UserId = 1,
                         CreatedDateTime = DateTime.Now,
-                        ModifiedDateTime = DateTime.Now
+                        ModifiedDateTime = DateTime.Now,
+                        ModifiedBy = 1
                     }
                 );
             }

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace WebStoreAPI.Migrations
 {
     [DbContext(typeof(WebStoreContext))]
-    [Migration("20190408150858_Initial")]
+    [Migration("20190409081740_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -64,6 +64,8 @@ namespace WebStoreAPI.Migrations
                     b.Property<string>("Description")
                         .IsRequired();
 
+                    b.Property<int>("ModifiedBy");
+
                     b.Property<DateTime>("ModifiedDateTime");
 
                     b.Property<string>("Name")
@@ -74,6 +76,8 @@ namespace WebStoreAPI.Migrations
                     b.Property<float>("Rating");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ModifiedBy");
 
                     b.ToTable("Deliveries");
                 });
@@ -168,6 +172,8 @@ namespace WebStoreAPI.Migrations
                     b.Property<string>("Description")
                         .IsRequired();
 
+                    b.Property<int>("ModifiedBy");
+
                     b.Property<DateTime>("ModifiedDateTime");
 
                     b.Property<string>("Name")
@@ -176,6 +182,8 @@ namespace WebStoreAPI.Migrations
                     b.Property<decimal>("Taxes");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ModifiedBy");
 
                     b.ToTable("Payments");
                 });
@@ -195,6 +203,8 @@ namespace WebStoreAPI.Migrations
 
                     b.Property<int>("ManufacturerId");
 
+                    b.Property<int>("ModifiedBy");
+
                     b.Property<DateTime>("ModifiedDateTime");
 
                     b.Property<string>("Name")
@@ -210,7 +220,11 @@ namespace WebStoreAPI.Migrations
 
                     b.HasIndex("ManufacturerId");
 
+                    b.HasIndex("ModifiedBy");
+
                     b.HasIndex("TypeId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Products");
                 });
@@ -238,7 +252,11 @@ namespace WebStoreAPI.Migrations
                     b.Property<string>("Name")
                         .IsRequired();
 
+                    b.Property<int?>("ParentId");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("ParentId");
 
                     b.ToTable("Types");
                 });
@@ -301,6 +319,14 @@ namespace WebStoreAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("DataLibrary.Entities.Delivery", b =>
+                {
+                    b.HasOne("DataLibrary.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("ModifiedBy")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("DataLibrary.Entities.Order", b =>
                 {
                     b.HasOne("DataLibrary.Entities.Delivery", "Delivery")
@@ -332,6 +358,14 @@ namespace WebStoreAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
+            modelBuilder.Entity("DataLibrary.Entities.Payment", b =>
+                {
+                    b.HasOne("DataLibrary.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("ModifiedBy")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("DataLibrary.Entities.Product", b =>
                 {
                     b.HasOne("DataLibrary.Entities.Manufacturer", "Manufacturer")
@@ -339,10 +373,27 @@ namespace WebStoreAPI.Migrations
                         .HasForeignKey("ManufacturerId")
                         .OnDelete(DeleteBehavior.Cascade);
 
+                    b.HasOne("DataLibrary.Entities.User", "UserMod")
+                        .WithMany()
+                        .HasForeignKey("ModifiedBy")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("DataLibrary.Entities.Type", "Type")
                         .WithMany()
                         .HasForeignKey("TypeId")
                         .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("DataLibrary.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("DataLibrary.Entities.Type", b =>
+                {
+                    b.HasOne("DataLibrary.Entities.Type", "Parent")
+                        .WithMany()
+                        .HasForeignKey("ParentId");
                 });
 
             modelBuilder.Entity("DataLibrary.Entities.User", b =>

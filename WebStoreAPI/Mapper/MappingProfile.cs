@@ -10,6 +10,7 @@ using WebStoreAPI.Commands.Payments;
 using WebStoreAPI.Commands.Products;
 using WebStoreAPI.Commands.Roles;
 using WebStoreAPI.Commands.Types;
+using WebStoreAPI.Commands.UserRoles;
 using WebStoreAPI.Commands.Users;
 
 namespace WebStoreAPI.Mapper
@@ -40,6 +41,8 @@ namespace WebStoreAPI.Mapper
             CreateMap<UpdateRoleCommand, Role>();
             CreateMap<CreateTypeCommand, Type>();
             CreateMap<UpdateTypeCommand, Type>();
+            CreateMap<CreateUserRoleCommand, UserRole>();
+            CreateMap<UpdateUserRoleCommand, UserRole>();
         }
     }
 }

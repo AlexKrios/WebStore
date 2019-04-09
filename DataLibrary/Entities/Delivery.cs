@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DataLibrary.Entities
 {
@@ -20,5 +21,9 @@ namespace DataLibrary.Entities
         public DateTime CreatedDateTime { get; set; }
         [Required]
         public DateTime ModifiedDateTime { get; set; }
+        [Required, ForeignKey("User")]
+        public int ModifiedBy { get; set; }
+
+        public virtual User User { get; set; }
     }
 }

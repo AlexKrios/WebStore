@@ -29,8 +29,12 @@ namespace DataLibrary.Entities
         public DateTime CreatedDateTime { get; set; }
         [Required]
         public DateTime ModifiedDateTime { get; set; }
+        [Required, ForeignKey("UserMod")]
+        public int ModifiedBy { get; set; }
 
         public virtual Type Type { get; set; }
         public virtual Manufacturer Manufacturer { get; set; }
+        public virtual User User { get; set; }
+        public virtual User UserMod { get; set; }
     }
 }
