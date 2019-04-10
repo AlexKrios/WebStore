@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -22,9 +23,17 @@ namespace CommandAndQuerySeparation.Queries.Deliveries
 
         public async Task<IEnumerable<GetAllDeliveriesQuery>> Handle(GetAllDeliveriesQuery query, CancellationToken cancellationToken)
         {
-            var deliveries  = await _context.Deliveries.ToListAsync(cancellationToken);
-            var result = _mapper.Map<IEnumerable<Delivery>, IEnumerable<GetAllDeliveriesQuery>>(deliveries);
-            return result;
+            try
+            {
+                var deliveries = await _context.Deliveries.ToListAsync(cancellationToken);
+                var result = _mapper.Map<IEnumerable<Delivery>, IEnumerable<GetAllDeliveriesQuery>>(deliveries);
+                return result;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
     }
 }

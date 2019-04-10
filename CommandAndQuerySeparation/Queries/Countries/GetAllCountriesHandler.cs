@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -22,9 +23,17 @@ namespace CommandAndQuerySeparation.Queries.Countries
 
         public async Task<IEnumerable<GetAllCountriesQuery>> Handle(GetAllCountriesQuery query, CancellationToken cancellationToken)
         {
-            var countries = await _context.Countries.ToListAsync(cancellationToken);
-            var result = _mapper.Map<IEnumerable<Country>, IEnumerable<GetAllCountriesQuery>>(countries);
-            return result;
+            try
+            {
+                var countries = await _context.Countries.ToListAsync(cancellationToken);
+                var result = _mapper.Map<IEnumerable<Country>, IEnumerable<GetAllCountriesQuery>>(countries);
+                return result;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
     }
 }

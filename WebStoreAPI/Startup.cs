@@ -70,7 +70,7 @@ namespace WebStoreAPI
             services.UseSimpleInjectorAspNetRequestScoping(_container);
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, WebStoreContext context)
         {
             InitializeContainer(app);
             _container.Verify();
@@ -89,6 +89,8 @@ namespace WebStoreAPI
 
             app.UseSwagger();
             app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "Web Store"); });
+
+            WebStoreInitializer.Seed(context);
         }
 
         //Initialization DI container

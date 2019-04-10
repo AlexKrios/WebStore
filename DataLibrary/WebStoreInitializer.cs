@@ -4,10 +4,10 @@ using DataLibrary.Entities;
 
 namespace DataLibrary
 {
-    public class WebStoreInitializer
+    public static class WebStoreInitializer
     {
         //Add field in table if table empty
-        public static void Init(WebStoreContext context)
+        public static void Seed(WebStoreContext context)
         {
             if (!context.Countries.Any())
             {

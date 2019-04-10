@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using DataLibrary;
@@ -21,9 +22,17 @@ namespace CommandAndQuerySeparation.Queries.Roles
 
         public async Task<GetRoleByIdQuery> Handle(GetRoleByIdQuery query, CancellationToken cancellationToken)
         {
-            var role = await _context.Roles.FirstOrDefaultAsync(x => x.Id == query.Id, cancellationToken);
-            var result = _mapper.Map<Role, GetRoleByIdQuery>(role);
-            return result;
+            try
+            {
+                var role = await _context.Roles.FirstOrDefaultAsync(x => x.Id == query.Id, cancellationToken);
+                var result = _mapper.Map<Role, GetRoleByIdQuery>(role);
+                return result;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
     }
 }

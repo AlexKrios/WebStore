@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using DataLibrary;
-using DataLibrary.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Type = DataLibrary.Entities.Type;
 
 namespace CommandAndQuerySeparation.Queries.Types
 {
@@ -22,9 +23,17 @@ namespace CommandAndQuerySeparation.Queries.Types
 
         public async Task<IEnumerable<GetAllTypesQuery>> Handle(GetAllTypesQuery query, CancellationToken cancellationToken)
         {
-            var types = await _context.Types.ToListAsync(cancellationToken);
-            var result = _mapper.Map<IEnumerable<Type>, IEnumerable<GetAllTypesQuery>>(types);
-            return result;
+            try
+            {
+                var types = await _context.Types.ToListAsync(cancellationToken);
+                var result = _mapper.Map<IEnumerable<Type>, IEnumerable<GetAllTypesQuery>>(types);
+                return result;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
     }
 }

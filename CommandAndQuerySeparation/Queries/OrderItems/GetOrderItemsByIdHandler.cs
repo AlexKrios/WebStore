@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using DataLibrary;
@@ -21,9 +22,17 @@ namespace CommandAndQuerySeparation.Queries.OrderItems
 
         public async Task<GetOrderItemsByIdQuery> Handle(GetOrderItemsByIdQuery query, CancellationToken cancellationToken)
         {
-            var orderItem = await _context.OrderItems.FirstOrDefaultAsync(x => x.Id == query.Id, cancellationToken);
-            var result = _mapper.Map<OrderItem, GetOrderItemsByIdQuery>(orderItem);
-            return result;
+            try
+            {
+                var orderItem = await _context.OrderItems.FirstOrDefaultAsync(x => x.Id == query.Id, cancellationToken);
+                var result = _mapper.Map<OrderItem, GetOrderItemsByIdQuery>(orderItem);
+                return result;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
     }
 }

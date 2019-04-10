@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using DataLibrary;
@@ -21,9 +22,17 @@ namespace CommandAndQuerySeparation.Queries.Products
 
         public async Task<GetProductByIdQuery> Handle(GetProductByIdQuery query, CancellationToken cancellationToken)
         {
-            var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == query.Id, cancellationToken);
-            var result = _mapper.Map<Product, GetProductByIdQuery> (product);
-            return result;
+            try
+            {
+                var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == query.Id, cancellationToken);
+                var result = _mapper.Map<Product, GetProductByIdQuery>(product);
+                return result;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
     }
 }

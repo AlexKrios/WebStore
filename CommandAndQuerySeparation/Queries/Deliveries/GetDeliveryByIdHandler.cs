@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using DataLibrary;
@@ -21,9 +22,17 @@ namespace CommandAndQuerySeparation.Queries.Deliveries
 
         public async Task<GetDeliveryByIdQuery> Handle(GetDeliveryByIdQuery query, CancellationToken cancellationToken)
         {
-            var delivery = await _context.Deliveries.FirstOrDefaultAsync(x => x.Id == query.Id, cancellationToken);
-            var result = _mapper.Map<Delivery, GetDeliveryByIdQuery>(delivery);
-            return result;
+            try
+            {
+                var delivery = await _context.Deliveries.FirstOrDefaultAsync(x => x.Id == query.Id, cancellationToken);
+                var result = _mapper.Map<Delivery, GetDeliveryByIdQuery>(delivery);
+                return result;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
     }
 }

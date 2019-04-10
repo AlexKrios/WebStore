@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -22,9 +23,17 @@ namespace CommandAndQuerySeparation.Queries.Payments
 
         public async Task<IEnumerable<GetAllPaymentsQuery>> Handle(GetAllPaymentsQuery query, CancellationToken cancellationToken)
         {
-            var payments = await _context.Payments.ToListAsync(cancellationToken);
-            var result = _mapper.Map<IEnumerable<Payment>, IEnumerable<GetAllPaymentsQuery>>(payments);
-            return result;
+            try
+            {
+                var payments = await _context.Payments.ToListAsync(cancellationToken);
+                var result = _mapper.Map<IEnumerable<Payment>, IEnumerable<GetAllPaymentsQuery>>(payments);
+                return result;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
     }
 }

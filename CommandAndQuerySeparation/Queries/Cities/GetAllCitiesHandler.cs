@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -22,9 +23,17 @@ namespace CommandAndQuerySeparation.Queries.Cities
 
         public async Task<IEnumerable<GetAllCitiesQuery>> Handle(GetAllCitiesQuery query, CancellationToken cancellationToken)
         {
-            var cities = await _context.Cities.ToListAsync(cancellationToken);
-            var result = _mapper.Map<IEnumerable<City>, IEnumerable<GetAllCitiesQuery>>(cities);
-            return result;
+            try
+            {
+                var cities = await _context.Cities.ToListAsync(cancellationToken);
+                var result = _mapper.Map<IEnumerable<City>, IEnumerable<GetAllCitiesQuery>>(cities);
+                return result;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
     }
 }

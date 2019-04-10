@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using DataLibrary;
@@ -21,9 +22,17 @@ namespace CommandAndQuerySeparation.Queries.Payments
 
         public async Task<GetPaymentByIdQuery> Handle(GetPaymentByIdQuery query, CancellationToken cancellationToken)
         {
-            var payment = await _context.Payments.FirstOrDefaultAsync(x => x.Id == query.Id, cancellationToken);
-            var result = _mapper.Map<Payment, GetPaymentByIdQuery>(payment);
-            return result;
+            try
+            {
+                var payment = await _context.Payments.FirstOrDefaultAsync(x => x.Id == query.Id, cancellationToken);
+                var result = _mapper.Map<Payment, GetPaymentByIdQuery>(payment);
+                return result;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
     }
 }

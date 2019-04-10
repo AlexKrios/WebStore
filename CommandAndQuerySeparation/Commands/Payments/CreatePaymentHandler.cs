@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using DataLibrary;
@@ -20,9 +21,17 @@ namespace CommandAndQuerySeparation.Commands.Payments
 
         public async Task<CreatePaymentCommand> Handle(CreatePaymentCommand command, CancellationToken cancellationToken)
         {
-            await _context.Payments.AddAsync(_mapper.Map<Payment>(command), cancellationToken);
-            await _context.SaveChangesAsync(cancellationToken);
-            return command;
+            try
+            {
+                await _context.Payments.AddAsync(_mapper.Map<Payment>(command), cancellationToken);
+                await _context.SaveChangesAsync(cancellationToken);
+                return command;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
     }
 }

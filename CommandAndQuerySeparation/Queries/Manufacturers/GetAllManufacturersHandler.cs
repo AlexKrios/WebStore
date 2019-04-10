@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -22,9 +23,17 @@ namespace CommandAndQuerySeparation.Queries.Manufacturers
 
         public async Task<IEnumerable<GetAllManufacturersQuery>> Handle(GetAllManufacturersQuery query, CancellationToken cancellationToken)
         {
-            var manufacturers = await _context.Manufacturers.ToListAsync(cancellationToken);
-            var result = _mapper.Map<IEnumerable<Manufacturer>, IEnumerable<GetAllManufacturersQuery>>(manufacturers);
-            return result;
+            try
+            {
+                var manufacturers = await _context.Manufacturers.ToListAsync(cancellationToken);
+                var result = _mapper.Map<IEnumerable<Manufacturer>, IEnumerable<GetAllManufacturersQuery>>(manufacturers);
+                return result;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
     }
 }

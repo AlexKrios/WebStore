@@ -18,10 +18,9 @@ namespace WebStoreAPI.Controllers
         private readonly IMediator _mediator;
 
         //Setup connection
-        public ProductsController(IMediator mediator, WebStoreContext context)
+        public ProductsController(IMediator mediator)
         {
             _mediator = mediator;
-            WebStoreInitializer.Init(context);
         }
 
         //Get list of products

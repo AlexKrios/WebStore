@@ -1,9 +1,10 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using DataLibrary;
-using DataLibrary.Entities;
 using MediatR;
+using Type = DataLibrary.Entities.Type;
 
 namespace CommandAndQuerySeparation.Commands.Types
 {
@@ -20,9 +21,17 @@ namespace CommandAndQuerySeparation.Commands.Types
 
         public async Task<CreateTypeCommand> Handle(CreateTypeCommand command, CancellationToken cancellationToken)
         {
-            await _context.Types.AddAsync(_mapper.Map<Type>(command), cancellationToken);
-            await _context.SaveChangesAsync(cancellationToken);
-            return command;
+            try
+            {
+                await _context.Types.AddAsync(_mapper.Map<Type>(command), cancellationToken);
+                await _context.SaveChangesAsync(cancellationToken);
+                return command;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
     }
 }

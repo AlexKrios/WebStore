@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using DataLibrary;
@@ -20,9 +21,17 @@ namespace CommandAndQuerySeparation.Commands.Products
 
         public async Task<CreateProductCommand> Handle(CreateProductCommand command, CancellationToken cancellationToken)
         {
-            await _context.Products.AddAsync(_mapper.Map<Product>(command), cancellationToken);
-            await _context.SaveChangesAsync(cancellationToken);
-            return command;
+            try
+            {
+                await _context.Products.AddAsync(_mapper.Map<Product>(command), cancellationToken);
+                await _context.SaveChangesAsync(cancellationToken);
+                return command;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
     }
 }

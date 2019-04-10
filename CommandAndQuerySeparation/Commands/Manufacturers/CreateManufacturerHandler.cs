@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using DataLibrary;
@@ -20,9 +21,17 @@ namespace CommandAndQuerySeparation.Commands.Manufacturers
 
         public async Task<CreateManufacturerCommand> Handle(CreateManufacturerCommand command, CancellationToken cancellationToken)
         {
-            await _context.Manufacturers.AddAsync(_mapper.Map<Manufacturer>(command), cancellationToken);
-            await _context.SaveChangesAsync(cancellationToken);
-            return command;
+            try
+            {
+                await _context.Manufacturers.AddAsync(_mapper.Map<Manufacturer>(command), cancellationToken);
+                await _context.SaveChangesAsync(cancellationToken);
+                return command;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
     }
 }

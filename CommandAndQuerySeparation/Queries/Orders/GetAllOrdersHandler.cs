@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -22,9 +23,17 @@ namespace CommandAndQuerySeparation.Queries.Orders
 
         public async Task<IEnumerable<GetAllOrdersQuery>> Handle(GetAllOrdersQuery query, CancellationToken cancellationToken)
         {
-            var orders = await _context.Orders.ToListAsync(cancellationToken);
-            var result = _mapper.Map<IEnumerable<Order>, IEnumerable<GetAllOrdersQuery>>(orders);
-            return result;
+            try
+            {
+                var orders = await _context.Orders.ToListAsync(cancellationToken);
+                var result = _mapper.Map<IEnumerable<Order>, IEnumerable<GetAllOrdersQuery>>(orders);
+                return result;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
     }
 }

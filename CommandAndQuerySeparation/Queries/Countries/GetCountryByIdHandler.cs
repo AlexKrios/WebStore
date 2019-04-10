@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using DataLibrary;
@@ -21,9 +22,17 @@ namespace CommandAndQuerySeparation.Queries.Countries
 
         public async Task<GetCountryByIdQuery> Handle(GetCountryByIdQuery query, CancellationToken cancellationToken)
         {
-            var country = await _context.Countries.FirstOrDefaultAsync(x => x.Id == query.Id, cancellationToken);
-            var result = _mapper.Map<Country, GetCountryByIdQuery>(country);
-            return result;
+            try
+            {
+                var country = await _context.Countries.FirstOrDefaultAsync(x => x.Id == query.Id, cancellationToken);
+                var result = _mapper.Map<Country, GetCountryByIdQuery>(country);
+                return result;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
     }
 }
