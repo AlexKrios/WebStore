@@ -130,7 +130,7 @@ namespace WebStoreAPI.Controllers
 
             try
             {
-                var orderSend = await _mediator.Send(new DeleteOrderCommand(id));
+                var orderSend = await _mediator.Send(new DeleteOrderCommand { Id = id });
                 if (orderSend == null)
                 {
                     return NotFound();

@@ -130,7 +130,7 @@ namespace WebStoreAPI.Controllers
 
             try
             {
-                var countrySend = await _mediator.Send(new DeleteCountryCommand(id));
+                var countrySend = await _mediator.Send(new DeleteCountryCommand { Id = id });
                 if (countrySend == null)
                 {
                     return NotFound();

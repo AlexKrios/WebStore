@@ -130,7 +130,7 @@ namespace WebStoreAPI.Controllers
 
             try
             {
-                var userRoleSend = await _mediator.Send(new DeleteUserRoleCommand(id));
+                var userRoleSend = await _mediator.Send(new DeleteUserRoleCommand { Id = id });
                 if (userRoleSend == null)
                 {
                     return NotFound();

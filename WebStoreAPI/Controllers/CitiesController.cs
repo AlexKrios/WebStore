@@ -130,7 +130,7 @@ namespace WebStoreAPI.Controllers
 
             try
             {
-                var citySend = await _mediator.Send(new DeleteCityCommand(id));
+                var citySend = await _mediator.Send(new DeleteCityCommand { Id = id });
                 if (citySend == null)
                 {
                     return NotFound();

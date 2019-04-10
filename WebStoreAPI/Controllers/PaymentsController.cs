@@ -130,7 +130,7 @@ namespace WebStoreAPI.Controllers
 
             try
             {
-                var paymentSend = await _mediator.Send(new DeletePaymentCommand(id));
+                var paymentSend = await _mediator.Send(new DeletePaymentCommand { Id = id });
                 if (paymentSend == null)
                 {
                     return NotFound();

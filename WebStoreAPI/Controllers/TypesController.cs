@@ -131,7 +131,7 @@ namespace WebStoreAPI.Controllers
 
             try
             {
-                var typeSend = await _mediator.Send(new DeleteTypeCommand(id));
+                var typeSend = await _mediator.Send(new DeleteTypeCommand { Id = id});
                 if (typeSend == null)
                 {
                     return NotFound();

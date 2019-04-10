@@ -4,8 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CommandAndQuerySeparation.Commands.Orders;
-using CommandAndQuerySeparation.Queries.Orders;
+using CommandAndQuerySeparation.Commands.OrderItems;
+using CommandAndQuerySeparation.Queries.OrderItems;
 using DataLibrary.Entities;
 
 namespace WebStoreAPI.Controllers
@@ -30,7 +30,7 @@ namespace WebStoreAPI.Controllers
         {
             try
             {
-                var ordersItem = await _mediator.Send(new GetAllOrdersQuery());
+                var ordersItem = await _mediator.Send(new GetAllOrderItemsQuery());
 
                 if (!ordersItem.Any())
                 {
@@ -53,7 +53,7 @@ namespace WebStoreAPI.Controllers
         {
             try
             {
-                var orderItem = await _mediator.Send(new GetOrderByIdQuery(id));
+                var orderItem = await _mediator.Send(new GetOrderItemsByIdQuery(id));
 
                 if (orderItem == null)
                 {
@@ -70,9 +70,9 @@ namespace WebStoreAPI.Controllers
 
         //Add new orderItem
         [HttpPost]
-        [ProducesResponseType(200, Type = typeof(CreateOrderCommand))]
+        [ProducesResponseType(200, Type = typeof(CreateOrderItemsCommand))]
         [ProducesResponseType(500, Type = typeof(string))]
-        public async Task<IActionResult> Add(CreateOrderCommand orderItem)
+        public async Task<IActionResult> Add(CreateOrderItemsCommand orderItem)
         {
             if (!ModelState.IsValid)
             {
@@ -92,9 +92,9 @@ namespace WebStoreAPI.Controllers
 
         //Change order
         [HttpPut]
-        [ProducesResponseType(200, Type = typeof(UpdateOrderCommand))]
+        [ProducesResponseType(200, Type = typeof(UpdateOrderItemsCommand))]
         [ProducesResponseType(500, Type = typeof(string))]
-        public async Task<IActionResult> Update(UpdateOrderCommand orderItem)
+        public async Task<IActionResult> Update(UpdateOrderItemsCommand orderItem)
         {
             if (!ModelState.IsValid)
             {
@@ -130,7 +130,7 @@ namespace WebStoreAPI.Controllers
 
             try
             {
-                var orderItemSend = await _mediator.Send(new DeleteOrderCommand(id));
+                var orderItemSend = await _mediator.Send(new DeleteOrderItemsCommand { Id = id });
                 if (orderItemSend == null)
                 {
                     return NotFound();

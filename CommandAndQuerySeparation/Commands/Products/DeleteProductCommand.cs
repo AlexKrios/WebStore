@@ -4,11 +4,6 @@ namespace CommandAndQuerySeparation.Commands.Products
 {
     public class DeleteProductCommand : IRequest<DeleteProductCommand>
     {
-        public int Id { get; }
-
-        public DeleteProductCommand(int id)
-        {
-            Id = id;
-        }
+        public int Id { get; set; }
     }
 }

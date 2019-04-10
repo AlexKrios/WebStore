@@ -1,5 +1,4 @@
 ﻿using System;
-using DataLibrary.Entities;
 using MediatR;
 
 namespace CommandAndQuerySeparation.Queries.Deliveries

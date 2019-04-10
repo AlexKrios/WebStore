@@ -1,5 +1,4 @@
-﻿using DataLibrary.Entities;
-using MediatR;
+﻿using MediatR;
 
 namespace CommandAndQuerySeparation.Queries.OrderItems
 {

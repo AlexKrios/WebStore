@@ -130,7 +130,7 @@ namespace WebStoreAPI.Controllers
 
             try
             {
-                var manufacturerSend = await _mediator.Send(new DeleteManufacturerCommand(id));
+                var manufacturerSend = await _mediator.Send(new DeleteManufacturerCommand { Id = id });
                 if (manufacturerSend == null)
                 {
                     return NotFound();
