@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -25,5 +26,11 @@ namespace DataLibrary.Entities
         public int CityId { get; set; }
 
         public virtual City City { get; set; }
+        public virtual ICollection<Delivery> Deliveries { get; set; }
+        public virtual ICollection<Manufacturer> Manufacturers { get; set; }
+        public virtual ICollection<Order> Orders { get; set; }
+        public virtual ICollection<Payment> Payments { get; set; }
+        public virtual ICollection<Product> Products { get; set; }
+        public virtual ICollection<UserRole> UserRoles { get; set; }
     }
 }

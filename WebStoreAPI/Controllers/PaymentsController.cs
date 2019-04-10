@@ -4,9 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CommandAndQuerySeparation.Commands.Payments;
+using CommandAndQuerySeparation.Queries.Payments;
 using DataLibrary.Entities;
-using WebStoreAPI.Commands.Payments;
-using WebStoreAPI.Queries.Payments;
 
 namespace WebStoreAPI.Controllers
 {

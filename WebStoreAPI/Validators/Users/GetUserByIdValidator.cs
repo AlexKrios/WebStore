@@ -1,5 +1,5 @@
-﻿using FluentValidation;
-using WebStoreAPI.Queries.Users;
+﻿using CommandAndQuerySeparation.Queries.Users;
+using FluentValidation;
 
 namespace WebStoreAPI.Validators.Users 
 {

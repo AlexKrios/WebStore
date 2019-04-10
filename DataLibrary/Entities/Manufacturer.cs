@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace DataLibrary.Entities
 {
@@ -14,5 +15,7 @@ namespace DataLibrary.Entities
         public string Contact { get; set; }
         [Required]
         public float Rating { get; set; }
+
+        public virtual ICollection<Product> Products { get; set; }
     }
 }

@@ -4,9 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CommandAndQuerySeparation.Commands.Cities;
+using CommandAndQuerySeparation.Queries.Cities;
 using DataLibrary.Entities;
-using WebStoreAPI.Commands.Cities;
-using WebStoreAPI.Queries.Cities;
 
 namespace WebStoreAPI.Controllers
 {

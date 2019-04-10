@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -22,19 +23,18 @@ namespace DataLibrary.Entities
         public int TypeId { get; set; }
         [Required, ForeignKey("Manufacturer")]
         public int ManufacturerId { get; set; }
-        [Required, ForeignKey("User")]
-        public int UserId { get; set; }
 
-        [Required]
+        [Column(TypeName = "datetime2")]
         public DateTime CreatedDateTime { get; set; }
-        [Required]
+        [Column(TypeName = "datetime2")]
         public DateTime ModifiedDateTime { get; set; }
-        [Required, ForeignKey("UserMod")]
+        [ForeignKey("User")]
         public int ModifiedBy { get; set; }
 
         public virtual Type Type { get; set; }
         public virtual Manufacturer Manufacturer { get; set; }
         public virtual User User { get; set; }
-        public virtual User UserMod { get; set; }
+        public virtual ICollection<OrderItem> OrderItems { get; set; }
+
     }
 }

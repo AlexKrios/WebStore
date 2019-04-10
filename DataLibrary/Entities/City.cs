@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DataLibrary.Entities
@@ -14,5 +15,6 @@ namespace DataLibrary.Entities
         public int CountryId { get; set; }
 
         public virtual Country Country { get; set; }
+        public virtual ICollection<User> Users { get; set; }
     }
 }

@@ -1,5 +1,5 @@
-﻿using FluentValidation;
-using WebStoreAPI.Commands.Products;
+﻿using CommandAndQuerySeparation.Commands.Products;
+using FluentValidation;
 
 namespace WebStoreAPI.Validators.Products
 {
@@ -27,9 +27,6 @@ namespace WebStoreAPI.Validators.Products
                 .NotEmpty();
 
             RuleFor(x => x.ManufacturerId)
-                .NotEmpty();
-
-            RuleFor(x => x.UserId)
                 .NotEmpty();
         }
     }

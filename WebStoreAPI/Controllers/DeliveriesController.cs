@@ -4,9 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CommandAndQuerySeparation.Commands.Deliveries;
+using CommandAndQuerySeparation.Queries.Deliveries;
 using DataLibrary.Entities;
-using WebStoreAPI.Commands.Deliveries;
-using WebStoreAPI.Queries.Deliveries;
 
 namespace WebStoreAPI.Controllers
 {
@@ -78,16 +78,8 @@ namespace WebStoreAPI.Controllers
             {
                 return BadRequest();
             }
-
-            try
-            {
                 await _mediator.Send(delivery);
                 return Ok(delivery);
-            }
-            catch (Exception e)
-            {
-                return StatusCode(500, new { errorMessage = e.Message });
-            }
         }
 
         //Change delivery

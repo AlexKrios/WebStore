@@ -4,9 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CommandAndQuerySeparation.Commands.Countries;
+using CommandAndQuerySeparation.Queries.Countries;
 using DataLibrary.Entities;
-using WebStoreAPI.Commands.Countries;
-using WebStoreAPI.Queries.Countries;
 
 namespace WebStoreAPI.Controllers
 {

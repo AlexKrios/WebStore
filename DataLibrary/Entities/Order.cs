@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -11,7 +12,6 @@ namespace DataLibrary.Entities
         [Required]
         public string CustomerNumber { get; set; }
         [Required]
-        public int Count { get; set; }
         public string Note { get; set; }
         [Required]
         public decimal TotalPrice { get; set; }
@@ -28,5 +28,6 @@ namespace DataLibrary.Entities
         public virtual User User { get; set; }       
         public virtual Delivery Delivery { get; set; }
         public virtual Payment Payment { get; set; }
+        public virtual ICollection<OrderItem> OrderItems { get; set; }
     }
 }

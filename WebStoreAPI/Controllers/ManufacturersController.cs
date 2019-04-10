@@ -4,9 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CommandAndQuerySeparation.Commands.Manufacturers;
+using CommandAndQuerySeparation.Queries.Manufacturers;
 using DataLibrary.Entities;
-using WebStoreAPI.Commands.Manufacturers;
-using WebStoreAPI.Queries.Manufacturers;
 
 namespace WebStoreAPI.Controllers
 {

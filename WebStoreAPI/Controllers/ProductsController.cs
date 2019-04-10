@@ -4,10 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CommandAndQuerySeparation.Commands.Products;
+using CommandAndQuerySeparation.Queries.Products;
 using DataLibrary;
 using DataLibrary.Entities;
-using WebStoreAPI.Commands.Products;
-using WebStoreAPI.Queries.Products;
 
 namespace WebStoreAPI.Controllers
 {
@@ -21,7 +21,7 @@ namespace WebStoreAPI.Controllers
         public ProductsController(IMediator mediator, WebStoreContext context)
         {
             _mediator = mediator;
-            DbInit.Init(context);
+            WebStoreInitializer.Init(context);
         }
 
         //Get list of products
@@ -66,32 +66,9 @@ namespace WebStoreAPI.Controllers
             }
             catch (Exception e)
             {
-                return StatusCode(500, new { errorMessage = e.Message });
+                return StatusCode(500, new {errorMessage = e.Message});
             }
         }
-
-        //Get group of products
-        //[HttpGet("{type}")]
-        //[ProducesResponseType(200, Type = typeof(IEnumerable<User>))]
-        //[ProducesResponseType(500, Type = typeof(string))]
-        //public async Task<IActionResult> GetProductByType(string type)
-        //{
-        //    try
-        //    {
-        //        var products = await _mediator.Send(new GetProductsByTypeQuery(type));
-
-        //        if (!products.Any())
-        //        {
-        //            return NotFound();
-        //        }
-
-        //        return Ok(products);
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        return StatusCode(500, new { errorMessage = e.Message });
-        //    }
-        //}
 
         //Add new product
         [HttpPost]
@@ -111,7 +88,7 @@ namespace WebStoreAPI.Controllers
             }
             catch (Exception e)
             {
-                return StatusCode(500, new { errorMessage = e.Message });
+                return StatusCode(500, new {errorMessage = e.Message});
             }
         }
 
@@ -138,7 +115,7 @@ namespace WebStoreAPI.Controllers
             }
             catch (Exception e)
             {
-                return StatusCode(500, new { errorMessage = e.Message });
+                return StatusCode(500, new {errorMessage = e.Message});
             }
         }
 
@@ -165,7 +142,7 @@ namespace WebStoreAPI.Controllers
             }
             catch (Exception e)
             {
-                return StatusCode(500, new { errorMessage = e.Message });
+                return StatusCode(500, new {errorMessage = e.Message});
             }
         }
     }

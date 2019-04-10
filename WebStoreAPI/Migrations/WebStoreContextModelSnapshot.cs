@@ -57,14 +57,16 @@ namespace WebStoreAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("CreatedDateTime");
+                    b.Property<DateTime>("CreatedDateTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .IsRequired();
 
                     b.Property<int>("ModifiedBy");
 
-                    b.Property<DateTime>("ModifiedDateTime");
+                    b.Property<DateTime>("ModifiedDateTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
                         .IsRequired();
@@ -97,7 +99,11 @@ namespace WebStoreAPI.Migrations
 
                     b.Property<float>("Rating");
 
+                    b.Property<int?>("UserId");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Manufacturers");
                 });
@@ -108,14 +114,13 @@ namespace WebStoreAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Count");
-
                     b.Property<string>("CustomerNumber")
                         .IsRequired();
 
                     b.Property<int>("DeliveryId");
 
-                    b.Property<string>("Note");
+                    b.Property<string>("Note")
+                        .IsRequired();
 
                     b.Property<DateTime>("OrderTime");
 
@@ -165,14 +170,16 @@ namespace WebStoreAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime>("CreatedDateTime");
+                    b.Property<DateTime>("CreatedDateTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .IsRequired();
 
                     b.Property<int>("ModifiedBy");
 
-                    b.Property<DateTime>("ModifiedDateTime");
+                    b.Property<DateTime>("ModifiedDateTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
                         .IsRequired();
@@ -194,7 +201,8 @@ namespace WebStoreAPI.Migrations
 
                     b.Property<int>("Availability");
 
-                    b.Property<DateTime>("CreatedDateTime");
+                    b.Property<DateTime>("CreatedDateTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .IsRequired();
@@ -203,7 +211,8 @@ namespace WebStoreAPI.Migrations
 
                     b.Property<int>("ModifiedBy");
 
-                    b.Property<DateTime>("ModifiedDateTime");
+                    b.Property<DateTime>("ModifiedDateTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
                         .IsRequired();
@@ -212,8 +221,6 @@ namespace WebStoreAPI.Migrations
 
                     b.Property<int>("TypeId");
 
-                    b.Property<int>("UserId");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ManufacturerId");
@@ -221,8 +228,6 @@ namespace WebStoreAPI.Migrations
                     b.HasIndex("ModifiedBy");
 
                     b.HasIndex("TypeId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Products");
                 });
@@ -250,11 +255,7 @@ namespace WebStoreAPI.Migrations
                     b.Property<string>("Name")
                         .IsRequired();
 
-                    b.Property<int?>("ParentId");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("ParentId");
 
                     b.ToTable("Types");
                 });
@@ -312,7 +313,7 @@ namespace WebStoreAPI.Migrations
             modelBuilder.Entity("DataLibrary.Entities.City", b =>
                 {
                     b.HasOne("DataLibrary.Entities.Country", "Country")
-                        .WithMany()
+                        .WithMany("Cities")
                         .HasForeignKey("CountryId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -320,46 +321,53 @@ namespace WebStoreAPI.Migrations
             modelBuilder.Entity("DataLibrary.Entities.Delivery", b =>
                 {
                     b.HasOne("DataLibrary.Entities.User", "User")
-                        .WithMany()
+                        .WithMany("Deliveries")
                         .HasForeignKey("ModifiedBy")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("DataLibrary.Entities.Manufacturer", b =>
+                {
+                    b.HasOne("DataLibrary.Entities.User")
+                        .WithMany("Manufacturers")
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("DataLibrary.Entities.Order", b =>
                 {
                     b.HasOne("DataLibrary.Entities.Delivery", "Delivery")
-                        .WithMany()
+                        .WithMany("Orders")
                         .HasForeignKey("DeliveryId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("DataLibrary.Entities.Payment", "Payment")
-                        .WithMany()
+                        .WithMany("Orders")
                         .HasForeignKey("PaymentId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("DataLibrary.Entities.User", "User")
-                        .WithMany()
+                        .WithMany("Orders")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("DataLibrary.Entities.OrderItem", b =>
                 {
                     b.HasOne("DataLibrary.Entities.Order", "Order")
-                        .WithMany()
+                        .WithMany("OrderItems")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("DataLibrary.Entities.Product", "Product")
-                        .WithMany()
+                        .WithMany("OrderItems")
                         .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("DataLibrary.Entities.Payment", b =>
                 {
                     b.HasOne("DataLibrary.Entities.User", "User")
-                        .WithMany()
+                        .WithMany("Payments")
                         .HasForeignKey("ModifiedBy")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -367,37 +375,25 @@ namespace WebStoreAPI.Migrations
             modelBuilder.Entity("DataLibrary.Entities.Product", b =>
                 {
                     b.HasOne("DataLibrary.Entities.Manufacturer", "Manufacturer")
-                        .WithMany()
+                        .WithMany("Products")
                         .HasForeignKey("ManufacturerId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("DataLibrary.Entities.User", "UserMod")
-                        .WithMany()
+                    b.HasOne("DataLibrary.Entities.User", "User")
+                        .WithMany("Products")
                         .HasForeignKey("ModifiedBy")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("DataLibrary.Entities.Type", "Type")
-                        .WithMany()
+                        .WithMany("Products")
                         .HasForeignKey("TypeId")
                         .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("DataLibrary.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("DataLibrary.Entities.Type", b =>
-                {
-                    b.HasOne("DataLibrary.Entities.Type", "Parent")
-                        .WithMany()
-                        .HasForeignKey("ParentId");
                 });
 
             modelBuilder.Entity("DataLibrary.Entities.User", b =>
                 {
                     b.HasOne("DataLibrary.Entities.City", "City")
-                        .WithMany()
+                        .WithMany("Users")
                         .HasForeignKey("CityId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
@@ -405,12 +401,12 @@ namespace WebStoreAPI.Migrations
             modelBuilder.Entity("DataLibrary.Entities.UserRole", b =>
                 {
                     b.HasOne("DataLibrary.Entities.Role", "Role")
-                        .WithMany()
+                        .WithMany("UserRoles")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("DataLibrary.Entities.User", "User")
-                        .WithMany()
+                        .WithMany("UserRoles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

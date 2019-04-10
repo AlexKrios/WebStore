@@ -1,5 +1,5 @@
-﻿using FluentValidation;
-using WebStoreAPI.Commands.Products;
+﻿using CommandAndQuerySeparation.Commands.Products;
+using FluentValidation;
 
 namespace WebStoreAPI.Validators.Products
 {
