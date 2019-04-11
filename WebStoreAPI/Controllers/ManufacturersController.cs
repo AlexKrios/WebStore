@@ -4,8 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using CommandAndQuerySeparation.Commands.Manufacturers;
 using CommandAndQuerySeparation.Queries.Manufacturers;
+using CommandAndQuerySeparation.Response.Manufacturers;
 using DataLibrary.Entities;
 
 namespace WebStoreAPI.Controllers
@@ -15,16 +17,18 @@ namespace WebStoreAPI.Controllers
     public class ManufacturersController : Controller
     {
         private readonly IMediator _mediator;
+        private readonly IMapper _mapper;
 
         //Setup connection
-        public ManufacturersController(IMediator mediator)
+        public ManufacturersController(IMediator mediator, IMapper mapper)
         {
             _mediator = mediator;
+            _mapper = mapper;
         }
 
         //Get list of cities
         [HttpGet]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<Manufacturer>))]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<GetAllManufacturersResponse>))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> GetAll()
         {
@@ -37,7 +41,7 @@ namespace WebStoreAPI.Controllers
                     return NotFound();
                 }
 
-                return Ok(manufacturers);
+                return Ok(_mapper.Map<IEnumerable<GetAllManufacturersResponse>>(manufacturers));
             }
             catch (Exception e)
             {
@@ -47,20 +51,20 @@ namespace WebStoreAPI.Controllers
 
         //Get single city
         [HttpGet("{id}")]
-        [ProducesResponseType(200, Type = typeof(Manufacturer))]
+        [ProducesResponseType(200, Type = typeof(GetManufacturerByIdResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> GetById(int id)
         {
             try
             {
-                var manufacturer = await _mediator.Send(new GetManufacturerByIdQuery(id));
+                var manufacturer = await _mediator.Send(new GetManufacturerByIdQuery { Id = id } );
 
                 if (manufacturer == null)
                 {
                     return NotFound();
                 }
 
-                return Ok(manufacturer);
+                return Ok(_mapper.Map<GetManufacturerByIdResponse>(manufacturer));
             }
             catch (Exception e)
             {

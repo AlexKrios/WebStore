@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using AutoMapper;
 using DataLibrary;
 using DataLibrary.Entities;
 using MediatR;
@@ -10,24 +9,20 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CommandAndQuerySeparation.Queries.Countries
 {
-    public class GetAllCountriesHandler : IRequestHandler<GetAllCountriesQuery, IEnumerable<GetAllCountriesQuery>>
+    public class GetAllCountriesHandler : IRequestHandler<GetAllCountriesQuery, IEnumerable<Country>>
     {
         private readonly WebStoreContext _context;
-        private readonly IMapper _mapper;
 
-        public GetAllCountriesHandler(WebStoreContext context, IMapper mapper)
+        public GetAllCountriesHandler(WebStoreContext context)
         {
             _context = context;
-            _mapper = mapper;
         }
 
-        public async Task<IEnumerable<GetAllCountriesQuery>> Handle(GetAllCountriesQuery query, CancellationToken cancellationToken)
+        public async Task<IEnumerable<Country>> Handle(GetAllCountriesQuery query, CancellationToken cancellationToken)
         {
             try
             {
-                var countries = await _context.Countries.ToListAsync(cancellationToken);
-                var result = _mapper.Map<IEnumerable<Country>, IEnumerable<GetAllCountriesQuery>>(countries);
-                return result;
+                return await _context.Countries.ToListAsync(cancellationToken);
             }
             catch (Exception e)
             {

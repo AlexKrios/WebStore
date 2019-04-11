@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
+using DataLibrary.Entities;
 using MediatR;
 
 namespace CommandAndQuerySeparation.Queries.Countries
 {
-    public class GetAllCountriesQuery : IRequest<IEnumerable<GetAllCountriesQuery>>
+    public class GetAllCountriesQuery : IRequest<IEnumerable<Country>>
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
+
     }
 }

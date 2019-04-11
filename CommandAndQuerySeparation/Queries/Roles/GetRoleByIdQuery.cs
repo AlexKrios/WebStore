@@ -3,14 +3,8 @@ using MediatR;
 
 namespace CommandAndQuerySeparation.Queries.Roles
 {
-    public class GetRoleByIdQuery : IRequest<GetRoleByIdQuery>
+    public class GetRoleByIdQuery : IRequest<Role>
     {
-        public int Id { get; }
-        public string Name { get; set; }
-
-        public GetRoleByIdQuery(int id)
-        {
-            Id = id;
-        }
+        public int Id { get; set; }
     }
 }

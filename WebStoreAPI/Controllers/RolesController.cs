@@ -4,8 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using CommandAndQuerySeparation.Commands.Roles;
 using CommandAndQuerySeparation.Queries.Roles;
+using CommandAndQuerySeparation.Response.Roles;
 using DataLibrary.Entities;
 
 namespace WebStoreAPI.Controllers
@@ -15,16 +17,18 @@ namespace WebStoreAPI.Controllers
     public class RolesController : Controller
     {
         private readonly IMediator _mediator;
+        private readonly IMapper _mapper;
 
         //Setup connection
-        public RolesController(IMediator mediator)
+        public RolesController(IMediator mediator, IMapper mapper)
         {
             _mediator = mediator;
+            _mapper = mapper;
         }
 
         //Get list of roles
         [HttpGet]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<Role>))]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<GetAllRolesResponse>))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> GetAll()
         {
@@ -37,7 +41,7 @@ namespace WebStoreAPI.Controllers
                     return NotFound();
                 }
 
-                return Ok(roles);
+                return Ok(_mapper.Map<IEnumerable<GetAllRolesResponse>>(roles));
             }
             catch (Exception e)
             {
@@ -47,20 +51,20 @@ namespace WebStoreAPI.Controllers
 
         //Get single role
         [HttpGet("{id}")]
-        [ProducesResponseType(200, Type = typeof(Role))]
+        [ProducesResponseType(200, Type = typeof(GetRoleByIdResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> GetById(int id)
         {
             try
             {
-                var role = await _mediator.Send(new GetRoleByIdQuery(id));
+                var role = await _mediator.Send(new GetRoleByIdQuery { Id = id } );
 
                 if (role == null)
                 {
                     return NotFound();
                 }
 
-                return Ok(role);
+                return Ok(_mapper.Map<GetRoleByIdResponse>(role));
             }
             catch (Exception e)
             {

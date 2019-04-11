@@ -20,11 +20,11 @@ namespace CommandAndQuerySeparation.Commands.Deliveries
         {
             try
             {
-                var delivery = await _context.Users.FirstOrDefaultAsync(x => x.Id == command.Id, cancellationToken);
+                var delivery = await _context.Deliveries.FirstOrDefaultAsync(x => x.Id == command.Id, cancellationToken);
 
                 if (delivery == null) return null;
 
-                _context.Users.Remove(delivery);
+                _context.Deliveries.Remove(delivery);
                 await _context.SaveChangesAsync(cancellationToken);
                 return command;
             }

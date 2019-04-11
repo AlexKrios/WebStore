@@ -4,8 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using CommandAndQuerySeparation.Commands.UserRoles;
 using CommandAndQuerySeparation.Queries.UserRoles;
+using CommandAndQuerySeparation.Response.UserRoles;
 using DataLibrary.Entities;
 
 namespace WebStoreAPI.Controllers
@@ -15,29 +17,31 @@ namespace WebStoreAPI.Controllers
     public class UserRolesController : Controller
     {
         private readonly IMediator _mediator;
+        private readonly IMapper _mapper;
 
         //Setup connection
-        public UserRolesController(IMediator mediator)
+        public UserRolesController(IMediator mediator, IMapper mapper)
         {
             _mediator = mediator;
+            _mapper = mapper;
         }
 
         //Get list of userRoles
         [HttpGet]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<UserRole>))]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<GetAllUsersRolesResponse>))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> GetAll()
         {
             try
             {
-                var userRoles = await _mediator.Send(new GetAllUserRolesQuery());
+                var usersRoles = await _mediator.Send(new GetAllUserRolesQuery());
 
-                if (!userRoles.Any())
+                if (!usersRoles.Any())
                 {
                     return NotFound();
                 }
 
-                return Ok(userRoles);
+                return Ok(_mapper.Map<IEnumerable<GetAllUsersRolesResponse>>(usersRoles));
             }
             catch (Exception e)
             {
@@ -47,20 +51,20 @@ namespace WebStoreAPI.Controllers
 
         //Get single userRole
         [HttpGet("{id}")]
-        [ProducesResponseType(200, Type = typeof(UserRole))]
+        [ProducesResponseType(200, Type = typeof(GetUserRolesByIdResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> GetById(int id)
         {
             try
             {
-                var userRole = await _mediator.Send(new GetUserRoleByIdQuery(id));
+                var userRoles = await _mediator.Send(new GetUserRoleByIdQuery { Id = id } );
 
-                if (userRole == null)
+                if (userRoles == null)
                 {
                     return NotFound();
                 }
 
-                return Ok(userRole);
+                return Ok(_mapper.Map<GetUserRolesByIdResponse>(userRoles));
             }
             catch (Exception e)
             {

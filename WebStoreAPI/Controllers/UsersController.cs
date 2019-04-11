@@ -4,8 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using CommandAndQuerySeparation.Commands.Users;
 using CommandAndQuerySeparation.Queries.Users;
+using CommandAndQuerySeparation.Response.Users;
 using DataLibrary.Entities;
 
 namespace WebStoreAPI.Controllers
@@ -15,16 +17,18 @@ namespace WebStoreAPI.Controllers
     public class UsersController : Controller
     {
         private readonly IMediator _mediator;
+        private readonly IMapper _mapper;
 
         //Setup connection
-        public UsersController(IMediator mediator)
+        public UsersController(IMediator mediator, IMapper mapper)
         {
             _mediator = mediator;
+            _mapper = mapper;
         }
 
         //Get list of users
         [HttpGet]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<User>))]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<GetAllUsersResponse>))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> GetAll()
         {
@@ -37,7 +41,7 @@ namespace WebStoreAPI.Controllers
                     return NotFound();
                 }
 
-                return Ok(users);
+                return Ok(_mapper.Map<IEnumerable<GetAllUsersResponse>>(users));
             }
             catch (Exception e)
             {
@@ -47,20 +51,20 @@ namespace WebStoreAPI.Controllers
 
         //Get single user
         [HttpGet("{id}")]
-        [ProducesResponseType(200, Type = typeof(User))]
+        [ProducesResponseType(200, Type = typeof(GetUserByIdResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> GetById(int id)
         {
             try
             {
-                var user = await _mediator.Send(new GetUserByIdQuery(id));
+                var user = await _mediator.Send(new GetUserByIdQuery { Id = id } );
 
                 if (user == null)
                 {
                     return NotFound();
                 }
 
-                return Ok(user);
+                return Ok(_mapper.Map<GetUserByIdResponse>(user));
             }
             catch (Exception e)
             {

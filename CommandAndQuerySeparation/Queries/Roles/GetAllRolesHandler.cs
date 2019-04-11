@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using AutoMapper;
 using DataLibrary;
 using DataLibrary.Entities;
 using MediatR;
@@ -10,24 +9,20 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CommandAndQuerySeparation.Queries.Roles
 {
-    public class GetAllRolesHandler : IRequestHandler<GetAllRolesQuery, IEnumerable<GetAllRolesQuery>>
+    public class GetAllRolesHandler : IRequestHandler<GetAllRolesQuery, IEnumerable<Role>>
     {
         private readonly WebStoreContext _context;
-        private readonly IMapper _mapper;
 
-        public GetAllRolesHandler(WebStoreContext context, IMapper mapper)
+        public GetAllRolesHandler(WebStoreContext context)
         {
             _context = context;
-            _mapper = mapper;
         }
 
-        public async Task<IEnumerable<GetAllRolesQuery>> Handle(GetAllRolesQuery query, CancellationToken cancellationToken)
+        public async Task<IEnumerable<Role>> Handle(GetAllRolesQuery query, CancellationToken cancellationToken)
         {
             try
             {
-                var roles = await _context.Roles.ToListAsync(cancellationToken);
-                var result = _mapper.Map<IEnumerable<Role>, IEnumerable<GetAllRolesQuery>>(roles);
-                return result;
+                return await _context.Roles.ToListAsync(cancellationToken);
             }
             catch (Exception e)
             {

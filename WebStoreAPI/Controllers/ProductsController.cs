@@ -4,9 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using CommandAndQuerySeparation.Commands.Products;
 using CommandAndQuerySeparation.Queries.Products;
-using DataLibrary;
+using CommandAndQuerySeparation.Response.Products;
 using DataLibrary.Entities;
 
 namespace WebStoreAPI.Controllers
@@ -16,16 +17,18 @@ namespace WebStoreAPI.Controllers
     public class ProductsController : Controller
     {
         private readonly IMediator _mediator;
+        private readonly IMapper _mapper;
 
         //Setup connection
-        public ProductsController(IMediator mediator)
+        public ProductsController(IMediator mediator, IMapper mapper)
         {
             _mediator = mediator;
+            _mapper = mapper;
         }
 
         //Get list of products
         [HttpGet]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<Product>))]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<GetAllProductsResponse>))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> GetAll()
         {
@@ -38,7 +41,7 @@ namespace WebStoreAPI.Controllers
                     return NotFound();
                 }
 
-                return Ok(products);
+                return Ok(_mapper.Map<IEnumerable<GetAllProductsResponse>>(products));
             }
             catch (Exception e)
             {
@@ -48,20 +51,20 @@ namespace WebStoreAPI.Controllers
 
         //Get single product
         [HttpGet("{id}")]
-        [ProducesResponseType(200, Type = typeof(Product))]
+        [ProducesResponseType(200, Type = typeof(GetProductByIdResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> GetById(int id)
         {
             try
             {
-                var product = await _mediator.Send(new GetProductByIdQuery(id));
+                var product = await _mediator.Send(new GetProductByIdQuery { Id = id } );
 
                 if (product == null)
                 {
                     return NotFound();
                 }
 
-                return Ok(product);
+                return Ok(_mapper.Map<GetProductByIdResponse>(product));
             }
             catch (Exception e)
             {

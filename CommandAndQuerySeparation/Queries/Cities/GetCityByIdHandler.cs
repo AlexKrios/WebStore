@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using AutoMapper;
 using DataLibrary;
 using DataLibrary.Entities;
 using MediatR;
@@ -9,24 +8,20 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CommandAndQuerySeparation.Queries.Cities
 {
-    public class GetCityByIdHandler : IRequestHandler<GetCityByIdQuery, GetCityByIdQuery>
+    public class GetCityByIdHandler : IRequestHandler<GetCityByIdQuery, City>
     {
         private readonly WebStoreContext _context;
-        private readonly IMapper _mapper;
 
-        public GetCityByIdHandler(WebStoreContext context, IMapper mapper)
+        public GetCityByIdHandler(WebStoreContext context)
         {
             _context = context;
-            _mapper = mapper;
         }
 
-        public async Task<GetCityByIdQuery> Handle(GetCityByIdQuery query, CancellationToken cancellationToken)
+        public async Task<City> Handle(GetCityByIdQuery query, CancellationToken cancellationToken)
         {
             try
             {
-                var city = await _context.Cities.FirstOrDefaultAsync(x => x.Id == query.Id, cancellationToken);
-                var result = _mapper.Map<City, GetCityByIdQuery>(city);
-                return result;
+                return await _context.Cities.FirstOrDefaultAsync(x => x.Id == query.Id, cancellationToken);
             }
             catch (Exception e)
             {

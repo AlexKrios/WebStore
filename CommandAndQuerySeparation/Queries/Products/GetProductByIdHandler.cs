@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CommandAndQuerySeparation.Queries.Products
 {
-    public class GetProductByIdHandler : IRequestHandler<GetProductByIdQuery, GetProductByIdQuery>
+    public class GetProductByIdHandler : IRequestHandler<GetProductByIdQuery, Product>
     {
         private readonly WebStoreContext _context;
         private readonly IMapper _mapper;
@@ -20,13 +20,11 @@ namespace CommandAndQuerySeparation.Queries.Products
             _mapper = mapper;
         }
 
-        public async Task<GetProductByIdQuery> Handle(GetProductByIdQuery query, CancellationToken cancellationToken)
+        public async Task<Product> Handle(GetProductByIdQuery query, CancellationToken cancellationToken)
         {
             try
             {
-                var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == query.Id, cancellationToken);
-                var result = _mapper.Map<Product, GetProductByIdQuery>(product);
-                return result;
+                return await _context.Products.FirstOrDefaultAsync(x => x.Id == query.Id, cancellationToken);
             }
             catch (Exception e)
             {

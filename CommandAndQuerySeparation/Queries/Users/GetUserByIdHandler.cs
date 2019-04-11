@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using AutoMapper;
 using DataLibrary;
 using DataLibrary.Entities;
 using MediatR;
@@ -9,24 +8,20 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CommandAndQuerySeparation.Queries.Users
 {
-    public class GetUserByIdHandler : IRequestHandler<GetUserByIdQuery, GetUserByIdQuery>
+    public class GetUserByIdHandler : IRequestHandler<GetUserByIdQuery, User>
     {
         private readonly WebStoreContext _context;
-        private readonly IMapper _mapper;
 
-        public GetUserByIdHandler(WebStoreContext context, IMapper mapper)
+        public GetUserByIdHandler(WebStoreContext context)
         {
             _context = context;
-            _mapper = mapper;
         }
 
-        public async Task<GetUserByIdQuery> Handle(GetUserByIdQuery query, CancellationToken cancellationToken)
+        public async Task<User> Handle(GetUserByIdQuery query, CancellationToken cancellationToken)
         {
             try
             {
-                var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == query.Id, cancellationToken);
-                var result = _mapper.Map<User, GetUserByIdQuery>(user);
-                return result;
+                return await _context.Users.FirstOrDefaultAsync(x => x.Id == query.Id, cancellationToken);
             }
             catch (Exception e)
             {

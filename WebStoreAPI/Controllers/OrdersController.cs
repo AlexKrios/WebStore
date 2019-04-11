@@ -4,8 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using CommandAndQuerySeparation.Commands.Orders;
 using CommandAndQuerySeparation.Queries.Orders;
+using CommandAndQuerySeparation.Response.Orders;
 using DataLibrary.Entities;
 
 namespace WebStoreAPI.Controllers
@@ -15,16 +17,18 @@ namespace WebStoreAPI.Controllers
     public class OrdersController : Controller
     {
         private readonly IMediator _mediator;
+        private readonly IMapper _mapper;
 
         //Setup connection
-        public OrdersController(IMediator mediator)
+        public OrdersController(IMediator mediator, IMapper mapper)
         {
             _mediator = mediator;
+            _mapper = mapper;
         }
 
         //Get list of orders
         [HttpGet]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<Order>))]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<GetAllOrdersResponse>))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> GetAll()
         {
@@ -37,7 +41,7 @@ namespace WebStoreAPI.Controllers
                     return NotFound();
                 }
 
-                return Ok(orders);
+                return Ok(_mapper.Map<IEnumerable<GetAllOrdersResponse>>(orders));
             }
             catch (Exception e)
             {
@@ -47,20 +51,20 @@ namespace WebStoreAPI.Controllers
 
         //Get single order
         [HttpGet("{id}")]
-        [ProducesResponseType(200, Type = typeof(Order))]
+        [ProducesResponseType(200, Type = typeof(GetOrderByIdResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> GetById(int id)
         {
             try
             {
-                var order = await _mediator.Send(new GetOrderByIdQuery(id));
+                var order = await _mediator.Send(new GetOrderByIdQuery { Id = id } );
 
                 if (order == null)
                 {
                     return NotFound();
                 }
 
-                return Ok(order);
+                return Ok(_mapper.Map<GetOrderByIdResponse>(order));
             }
             catch (Exception e)
             {

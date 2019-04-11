@@ -4,8 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using CommandAndQuerySeparation.Commands.Cities;
 using CommandAndQuerySeparation.Queries.Cities;
+using CommandAndQuerySeparation.Response.Cities;
 using DataLibrary.Entities;
 
 namespace WebStoreAPI.Controllers
@@ -15,29 +17,31 @@ namespace WebStoreAPI.Controllers
     public class CitiesController : Controller
     {
         private readonly IMediator _mediator;
+        private readonly IMapper _mapper;
 
         //Setup connection
-        public CitiesController(IMediator mediator)
+        public CitiesController(IMediator mediator, IMapper mapper)
         {
             _mediator = mediator;
+            _mapper = mapper;
         }
 
         //Get list of cities
         [HttpGet]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<City>))]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<GetAllCitiesResponse>))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> GetAll()
         {
             try
             {
-                var users = await _mediator.Send(new GetAllCitiesQuery());
+                var cities = await _mediator.Send(new GetAllCitiesQuery());
 
-                if (!users.Any())
+                if (!cities.Any())
                 {
                     return NotFound();
                 }
 
-                return Ok(users);
+                return Ok(_mapper.Map<IEnumerable<GetAllCitiesResponse>>(cities));
             }
             catch (Exception e)
             {
@@ -47,20 +51,20 @@ namespace WebStoreAPI.Controllers
 
         //Get single city
         [HttpGet("{id}")]
-        [ProducesResponseType(200, Type = typeof(City))]
+        [ProducesResponseType(200, Type = typeof(GetCityByIdResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> GetById(int id)
         {
             try
             {
-                var user = await _mediator.Send(new GetCityByIdQuery(id));
+                var city = await _mediator.Send(new GetCityByIdQuery { Id = id } );
 
-                if (user == null)
+                if (city == null)
                 {
                     return NotFound();
                 }
 
-                return Ok(user);
+                return Ok(_mapper.Map<GetCityByIdResponse>(city));
             }
             catch (Exception e)
             {

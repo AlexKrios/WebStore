@@ -4,8 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using CommandAndQuerySeparation.Commands.Countries;
 using CommandAndQuerySeparation.Queries.Countries;
+using CommandAndQuerySeparation.Response.Countries;
 using DataLibrary.Entities;
 
 namespace WebStoreAPI.Controllers
@@ -15,16 +17,18 @@ namespace WebStoreAPI.Controllers
     public class CountriesController : Controller
     {
         private readonly IMediator _mediator;
+        private readonly IMapper _mapper;
 
         //Setup connection
-        public CountriesController(IMediator mediator)
+        public CountriesController(IMediator mediator, IMapper mapper)
         {
             _mediator = mediator;
+            _mapper = mapper;
         }
 
         //Get list of countries
         [HttpGet]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<Country>))]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<GetAllCountriesResponse>))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> GetAll()
         {
@@ -37,7 +41,7 @@ namespace WebStoreAPI.Controllers
                     return NotFound();
                 }
 
-                return Ok(countries);
+                return Ok(_mapper.Map<IEnumerable<GetAllCountriesResponse>>(countries));
             }
             catch (Exception e)
             {
@@ -47,20 +51,20 @@ namespace WebStoreAPI.Controllers
 
         //Get single country
         [HttpGet("{id}")]
-        [ProducesResponseType(200, Type = typeof(Country))]
+        [ProducesResponseType(200, Type = typeof(GetCountryByIdResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> GetById(int id)
         {
             try
             {
-                var country = await _mediator.Send(new GetCountryByIdQuery(id));
+                var country = await _mediator.Send(new GetCountryByIdQuery { Id = id } );
 
                 if (country == null)
                 {
                     return NotFound();
                 }
 
-                return Ok(country);
+                return Ok(_mapper.Map<GetCountryByIdResponse>(country));
             }
             catch (Exception e)
             {

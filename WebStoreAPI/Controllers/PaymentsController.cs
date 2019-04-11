@@ -4,8 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using CommandAndQuerySeparation.Commands.Payments;
 using CommandAndQuerySeparation.Queries.Payments;
+using CommandAndQuerySeparation.Response.Payments;
 using DataLibrary.Entities;
 
 namespace WebStoreAPI.Controllers
@@ -15,16 +17,18 @@ namespace WebStoreAPI.Controllers
     public class PaymentsController : Controller
     {
         private readonly IMediator _mediator;
+        private readonly IMapper _mapper;
 
         //Setup connection
-        public PaymentsController(IMediator mediator)
+        public PaymentsController(IMediator mediator, IMapper mapper)
         {
             _mediator = mediator;
+            _mapper = mapper;
         }
 
         //Get list of payments
         [HttpGet]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<Payment>))]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<GetAllPaymentsResponse>))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> GetAll()
         {
@@ -37,7 +41,7 @@ namespace WebStoreAPI.Controllers
                     return NotFound();
                 }
 
-                return Ok(payments);
+                return Ok(_mapper.Map<IEnumerable<GetAllPaymentsResponse>>(payments));
             }
             catch (Exception e)
             {
@@ -47,20 +51,20 @@ namespace WebStoreAPI.Controllers
 
         //Get single payment
         [HttpGet("{id}")]
-        [ProducesResponseType(200, Type = typeof(Payment))]
+        [ProducesResponseType(200, Type = typeof(GetPaymentByIdResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> GetById(int id)
         {
             try
             {
-                var payment = await _mediator.Send(new GetPaymentByIdQuery(id));
+                var payment = await _mediator.Send(new GetPaymentByIdQuery { Id = id } );
 
                 if (payment == null)
                 {
                     return NotFound();
                 }
 
-                return Ok(payment);
+                return Ok(_mapper.Map<GetPaymentByIdResponse>(payment));
             }
             catch (Exception e)
             {

@@ -1,16 +1,10 @@
-﻿using MediatR;
+﻿using DataLibrary.Entities;
+using MediatR;
 
 namespace CommandAndQuerySeparation.Queries.Cities
 {
-    public class GetCityByIdQuery : IRequest<GetCityByIdQuery>
+    public class GetCityByIdQuery : IRequest<City>
     {
-        public int Id { get; }
-        public string Name { get; set; }
-        public int CountryId { get; set; }
-
-        public GetCityByIdQuery(int id)
-        {
-            Id = id;
-        }
+        public int Id { get; set; }
     }
 }

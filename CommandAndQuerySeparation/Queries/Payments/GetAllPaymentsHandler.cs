@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using AutoMapper;
 using DataLibrary;
 using DataLibrary.Entities;
 using MediatR;
@@ -10,24 +9,20 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CommandAndQuerySeparation.Queries.Payments
 {
-    public class GetAllPaymentsHandler : IRequestHandler<GetAllPaymentsQuery, IEnumerable<GetAllPaymentsQuery>>
+    public class GetAllPaymentsHandler : IRequestHandler<GetAllPaymentsQuery, IEnumerable<Payment>>
     {
         private readonly WebStoreContext _context;
-        private readonly IMapper _mapper;
 
-        public GetAllPaymentsHandler(WebStoreContext context, IMapper mapper)
+        public GetAllPaymentsHandler(WebStoreContext context)
         {
             _context = context;
-            _mapper = mapper;
         }
 
-        public async Task<IEnumerable<GetAllPaymentsQuery>> Handle(GetAllPaymentsQuery query, CancellationToken cancellationToken)
+        public async Task<IEnumerable<Payment>> Handle(GetAllPaymentsQuery query, CancellationToken cancellationToken)
         {
             try
             {
-                var payments = await _context.Payments.ToListAsync(cancellationToken);
-                var result = _mapper.Map<IEnumerable<Payment>, IEnumerable<GetAllPaymentsQuery>>(payments);
-                return result;
+                return await _context.Payments.ToListAsync(cancellationToken);
             }
             catch (Exception e)
             {

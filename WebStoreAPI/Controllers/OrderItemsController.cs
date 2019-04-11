@@ -4,8 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using CommandAndQuerySeparation.Commands.OrderItems;
 using CommandAndQuerySeparation.Queries.OrderItems;
+using CommandAndQuerySeparation.Response.OrderItems;
 using DataLibrary.Entities;
 
 namespace WebStoreAPI.Controllers
@@ -15,29 +17,31 @@ namespace WebStoreAPI.Controllers
     public class OrderItemsController : Controller
     {
         private readonly IMediator _mediator;
+        private readonly IMapper _mapper;
 
         //Setup connection
-        public OrderItemsController(IMediator mediator)
+        public OrderItemsController(IMediator mediator, IMapper mapper)
         {
             _mediator = mediator;
+            _mapper = mapper;
         }
 
         //Get list of ordersItems
         [HttpGet]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<OrderItem>))]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<GetAllOrdersItemsResponse>))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> GetAll()
         {
             try
             {
-                var ordersItem = await _mediator.Send(new GetAllOrderItemsQuery());
+                var ordersItems = await _mediator.Send(new GetAllOrderItemsQuery());
 
-                if (!ordersItem.Any())
+                if (!ordersItems.Any())
                 {
                     return NotFound();
                 }
 
-                return Ok(ordersItem);
+                return Ok(_mapper.Map<IEnumerable<GetAllOrdersItemsResponse>>(ordersItems));
             }
             catch (Exception e)
             {
@@ -47,20 +51,20 @@ namespace WebStoreAPI.Controllers
 
         //Get single orderItem
         [HttpGet("{id}")]
-        [ProducesResponseType(200, Type = typeof(OrderItem))]
+        [ProducesResponseType(200, Type = typeof(GetOrderItemsByIdResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> GetById(int id)
         {
             try
             {
-                var orderItem = await _mediator.Send(new GetOrderItemsByIdQuery(id));
+                var orderItems = await _mediator.Send(new GetOrderItemsByIdQuery { Id = id } );
 
-                if (orderItem == null)
+                if (orderItems == null)
                 {
                     return NotFound();
                 }
 
-                return Ok(orderItem);
+                return Ok(_mapper.Map<GetOrderItemsByIdResponse>(orderItems));
             }
             catch (Exception e)
             {

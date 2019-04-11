@@ -4,10 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using CommandAndQuerySeparation.Commands.Types;
 using CommandAndQuerySeparation.Queries.Types;
+using CommandAndQuerySeparation.Response.Types;
 using DataLibrary.Entities;
-using Type = DataLibrary.Entities.Type;
 
 namespace WebStoreAPI.Controllers
 {
@@ -16,16 +17,18 @@ namespace WebStoreAPI.Controllers
     public class TypesController : Controller
     {
         private readonly IMediator _mediator;
+        private readonly IMapper _mapper;
 
         //Setup connection
-        public TypesController(IMediator mediator)
+        public TypesController(IMediator mediator, IMapper mapper)
         {
             _mediator = mediator;
+            _mapper = mapper;
         }
 
         //Get list of types
         [HttpGet]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<Type>))]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<GetAllTypesResponse>))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> GetAll()
         {
@@ -38,7 +41,7 @@ namespace WebStoreAPI.Controllers
                     return NotFound();
                 }
 
-                return Ok(types);
+                return Ok(_mapper.Map<IEnumerable<GetAllTypesResponse>>(types));
             }
             catch (Exception e)
             {
@@ -48,20 +51,20 @@ namespace WebStoreAPI.Controllers
 
         //Get single type
         [HttpGet("{id}")]
-        [ProducesResponseType(200, Type = typeof(City))]
+        [ProducesResponseType(200, Type = typeof(GetAllTypesResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> GetById(int id)
         {
             try
             {
-                var type = await _mediator.Send(new GetTypeByIdQuery(id));
+                var type = await _mediator.Send(new GetTypeByIdQuery { Id = id } );
 
                 if (type == null)
                 {
                     return NotFound();
                 }
 
-                return Ok(type);
+                return Ok(_mapper.Map<GetTypeByIdResponse>(type));
             }
             catch (Exception e)
             {

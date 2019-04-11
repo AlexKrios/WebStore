@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using AutoMapper;
 using DataLibrary;
 using DataLibrary.Entities;
 using MediatR;
@@ -10,24 +9,20 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CommandAndQuerySeparation.Queries.Products
 {
-    public class GetAllProductsHandler : IRequestHandler<GetAllProductsQuery, IEnumerable<GetAllProductsQuery>>
+    public class GetAllProductsHandler : IRequestHandler<GetAllProductsQuery, IEnumerable<Product>>
     {
         private readonly WebStoreContext _context;
-        private readonly IMapper _mapper;
 
-        public GetAllProductsHandler(WebStoreContext context, IMapper mapper)
+        public GetAllProductsHandler(WebStoreContext context)
         {
             _context = context;
-            _mapper = mapper;
         }
 
-        public async Task<IEnumerable<GetAllProductsQuery>> Handle(GetAllProductsQuery query, CancellationToken cancellationToken)
+        public async Task<IEnumerable<Product>> Handle(GetAllProductsQuery query, CancellationToken cancellationToken)
         {
             try
             {
-                var products = await _context.Products.ToListAsync(cancellationToken);
-                var result = _mapper.Map<IEnumerable<Product>, IEnumerable<GetAllProductsQuery>>(products);
-                return result;
+                return await _context.Products.ToListAsync(cancellationToken);
             }
             catch (Exception e)
             {

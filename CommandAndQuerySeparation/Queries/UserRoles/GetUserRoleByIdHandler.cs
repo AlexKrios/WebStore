@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using AutoMapper;
 using DataLibrary;
 using DataLibrary.Entities;
 using MediatR;
@@ -9,24 +8,20 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CommandAndQuerySeparation.Queries.UserRoles
 {
-    public class GetUserRoleByIdHandler : IRequestHandler<GetUserRoleByIdQuery, GetUserRoleByIdQuery>
+    public class GetUserRoleByIdHandler : IRequestHandler<GetUserRoleByIdQuery, UserRole>
     {
         private readonly WebStoreContext _context;
-        private readonly IMapper _mapper;
 
-        public GetUserRoleByIdHandler(WebStoreContext context, IMapper mapper)
+        public GetUserRoleByIdHandler(WebStoreContext context)
         {
             _context = context;
-            _mapper = mapper;
         }
 
-        public async Task<GetUserRoleByIdQuery> Handle(GetUserRoleByIdQuery query, CancellationToken cancellationToken)
+        public async Task<UserRole> Handle(GetUserRoleByIdQuery query, CancellationToken cancellationToken)
         {
             try
             {
-                var userRole = await _context.UserRoles.FirstOrDefaultAsync(x => x.Id == query.Id, cancellationToken);
-                var result = _mapper.Map<UserRole, GetUserRoleByIdQuery>(userRole);
-                return result;
+                return await _context.UserRoles.FirstOrDefaultAsync(x => x.Id == query.Id, cancellationToken);
             }
             catch (Exception e)
             {

@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
+using DataLibrary.Entities;
 using MediatR;
 
 namespace CommandAndQuerySeparation.Queries.Types
 {
-    public class GetAllTypesQuery : IRequest<IEnumerable<GetAllTypesQuery>>
+    public class GetAllTypesQuery : IRequest<IEnumerable<Type>>
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
+
     }
 }

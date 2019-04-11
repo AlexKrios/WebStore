@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using AutoMapper;
 using DataLibrary;
 using DataLibrary.Entities;
 using MediatR;
@@ -9,24 +8,20 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CommandAndQuerySeparation.Queries.Countries
 {
-    public class GetCountryByIdHandler : IRequestHandler<GetCountryByIdQuery, GetCountryByIdQuery>
+    public class GetCountryByIdHandler : IRequestHandler<GetCountryByIdQuery, Country>
     {
         private readonly WebStoreContext _context;
-        private readonly IMapper _mapper;
 
-        public GetCountryByIdHandler(WebStoreContext context, IMapper mapper)
+        public GetCountryByIdHandler(WebStoreContext context)
         {
             _context = context;
-            _mapper = mapper;
         }
 
-        public async Task<GetCountryByIdQuery> Handle(GetCountryByIdQuery query, CancellationToken cancellationToken)
+        public async Task<Country> Handle(GetCountryByIdQuery query, CancellationToken cancellationToken)
         {
             try
             {
-                var country = await _context.Countries.FirstOrDefaultAsync(x => x.Id == query.Id, cancellationToken);
-                var result = _mapper.Map<Country, GetCountryByIdQuery>(country);
-                return result;
+                return await _context.Countries.FirstOrDefaultAsync(x => x.Id == query.Id, cancellationToken);
             }
             catch (Exception e)
             {

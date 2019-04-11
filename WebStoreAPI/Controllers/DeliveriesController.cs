@@ -4,8 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using CommandAndQuerySeparation.Commands.Deliveries;
 using CommandAndQuerySeparation.Queries.Deliveries;
+using CommandAndQuerySeparation.Response.Deliveries;
 using DataLibrary.Entities;
 
 namespace WebStoreAPI.Controllers
@@ -15,16 +17,18 @@ namespace WebStoreAPI.Controllers
     public class DeliveriesController : Controller
     {
         private readonly IMediator _mediator;
+        private readonly IMapper _mapper;
 
         //Setup connection
-        public DeliveriesController(IMediator mediator)
+        public DeliveriesController(IMediator mediator, IMapper mapper)
         {
             _mediator = mediator;
+            _mapper = mapper;
         }
 
         //Get list of deliveries
         [HttpGet]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<Delivery>))]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<GetAllDeliveriesResponse>))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> GetAll()
         {
@@ -37,7 +41,7 @@ namespace WebStoreAPI.Controllers
                     return NotFound();
                 }
 
-                return Ok(deliveries);
+                return Ok(_mapper.Map<IEnumerable<GetAllDeliveriesResponse>>(deliveries));
             }
             catch (Exception e)
             {
@@ -47,20 +51,20 @@ namespace WebStoreAPI.Controllers
 
         //Get single delivery
         [HttpGet("{id}")]
-        [ProducesResponseType(200, Type = typeof(Delivery))]
+        [ProducesResponseType(200, Type = typeof(GetDeliveryByIdResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> GetById(int id)
         {
             try
             {
-                var delivery = await _mediator.Send(new GetDeliveryByIdQuery(id));
+                var delivery = await _mediator.Send(new GetDeliveryByIdQuery { Id = id } );
 
                 if (delivery == null)
                 {
                     return NotFound();
                 }
 
-                return Ok(delivery);
+                return Ok(_mapper.Map<GetDeliveryByIdResponse>(delivery));
             }
             catch (Exception e)
             {
