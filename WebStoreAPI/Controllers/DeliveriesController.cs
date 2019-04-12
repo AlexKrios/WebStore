@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CommandAndQuerySeparation.Commands.Deliveries;
 using CommandAndQuerySeparation.Queries.Deliveries;
-using CommandAndQuerySeparation.Response.Deliveries;
-using DataLibrary.Entities;
+using WebStoreAPI.Response.Deliveries;
 
 namespace WebStoreAPI.Controllers
 {
@@ -28,20 +27,20 @@ namespace WebStoreAPI.Controllers
 
         //Get list of deliveries
         [HttpGet]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<GetAllDeliveriesResponse>))]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<GetDeliveriesResponse>))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> GetAll()
         {
             try
             {
-                var deliveries = await _mediator.Send(new GetAllDeliveriesQuery());
+                var deliveries = await _mediator.Send(new GetDeliveriesQuery());
 
                 if (!deliveries.Any())
                 {
                     return NotFound();
                 }
 
-                return Ok(_mapper.Map<IEnumerable<GetAllDeliveriesResponse>>(deliveries));
+                return Ok(_mapper.Map<IEnumerable<GetDeliveriesResponse>>(deliveries));
             }
             catch (Exception e)
             {
@@ -51,20 +50,20 @@ namespace WebStoreAPI.Controllers
 
         //Get single delivery
         [HttpGet("{id}")]
-        [ProducesResponseType(200, Type = typeof(GetDeliveryByIdResponse))]
+        [ProducesResponseType(200, Type = typeof(GetDeliveryResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> GetById(int id)
         {
             try
             {
-                var delivery = await _mediator.Send(new GetDeliveryByIdQuery { Id = id } );
+                var delivery = await _mediator.Send(new GetDeliveryQuery { Id = id } );
 
                 if (delivery == null)
                 {
                     return NotFound();
                 }
 
-                return Ok(_mapper.Map<GetDeliveryByIdResponse>(delivery));
+                return Ok(_mapper.Map<GetDeliveryResponse>(delivery));
             }
             catch (Exception e)
             {
@@ -74,7 +73,7 @@ namespace WebStoreAPI.Controllers
 
         //Add new delivery
         [HttpPost]
-        [ProducesResponseType(200, Type = typeof(CreateDeliveryCommand))]
+        [ProducesResponseType(200, Type = typeof(CreateDeliveryResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> Add(CreateDeliveryCommand delivery)
         {
@@ -82,13 +81,21 @@ namespace WebStoreAPI.Controllers
             {
                 return BadRequest();
             }
+
+            try
+            {
                 await _mediator.Send(delivery);
-                return Ok(delivery);
+                return Ok(_mapper.Map<CreateDeliveryResponse>(delivery));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, new { errorMessage = e.Message });
+            }
         }
 
         //Change delivery
         [HttpPut]
-        [ProducesResponseType(200, Type = typeof(UpdateDeliveryCommand))]
+        [ProducesResponseType(200, Type = typeof(UpdateDeliveryResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> Update(UpdateDeliveryCommand delivery)
         {
@@ -115,7 +122,7 @@ namespace WebStoreAPI.Controllers
 
         //Delete delivery
         [HttpDelete("{id}")]
-        [ProducesResponseType(200, Type = typeof(Delivery))]
+        [ProducesResponseType(200, Type = typeof(DeleteDeliveryResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> Delete(int id)
         {

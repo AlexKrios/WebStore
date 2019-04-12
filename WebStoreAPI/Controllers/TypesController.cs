@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CommandAndQuerySeparation.Commands.Types;
 using CommandAndQuerySeparation.Queries.Types;
-using CommandAndQuerySeparation.Response.Types;
-using DataLibrary.Entities;
+using WebStoreAPI.Response.Types;
 
 namespace WebStoreAPI.Controllers
 {
@@ -28,20 +27,20 @@ namespace WebStoreAPI.Controllers
 
         //Get list of types
         [HttpGet]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<GetAllTypesResponse>))]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<GetTypesResponse>))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> GetAll()
         {
             try
             {
-                var types = await _mediator.Send(new GetAllTypesQuery());
+                var types = await _mediator.Send(new GetTypesQuery());
 
                 if (!types.Any())
                 {
                     return NotFound();
                 }
 
-                return Ok(_mapper.Map<IEnumerable<GetAllTypesResponse>>(types));
+                return Ok(_mapper.Map<IEnumerable<GetTypesResponse>>(types));
             }
             catch (Exception e)
             {
@@ -51,20 +50,20 @@ namespace WebStoreAPI.Controllers
 
         //Get single type
         [HttpGet("{id}")]
-        [ProducesResponseType(200, Type = typeof(GetAllTypesResponse))]
+        [ProducesResponseType(200, Type = typeof(GetTypeResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> GetById(int id)
         {
             try
             {
-                var type = await _mediator.Send(new GetTypeByIdQuery { Id = id } );
+                var type = await _mediator.Send(new GetTypeQuery { Id = id } );
 
                 if (type == null)
                 {
                     return NotFound();
                 }
 
-                return Ok(_mapper.Map<GetTypeByIdResponse>(type));
+                return Ok(_mapper.Map<GetTypeResponse>(type));
             }
             catch (Exception e)
             {
@@ -74,7 +73,7 @@ namespace WebStoreAPI.Controllers
 
         //Add new type
         [HttpPost]
-        [ProducesResponseType(200, Type = typeof(CreateTypeCommand))]
+        [ProducesResponseType(200, Type = typeof(CreateTypeResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> Add(CreateTypeCommand type)
         {
@@ -86,7 +85,7 @@ namespace WebStoreAPI.Controllers
             try
             {
                 await _mediator.Send(type);
-                return Ok(type);
+                return Ok(_mapper.Map<CreateTypeResponse>(type));
             }
             catch (Exception e)
             {
@@ -96,7 +95,7 @@ namespace WebStoreAPI.Controllers
 
         //Change type
         [HttpPut]
-        [ProducesResponseType(200, Type = typeof(UpdateTypeCommand))]
+        [ProducesResponseType(200, Type = typeof(UpdateTypeResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> Update(UpdateTypeCommand type)
         {
@@ -123,7 +122,7 @@ namespace WebStoreAPI.Controllers
 
         //Delete city
         [HttpDelete("{id}")]
-        [ProducesResponseType(200, Type = typeof(City))]
+        [ProducesResponseType(200, Type = typeof(DeleteTypeResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> Delete(int id)
         {

@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace Validators.Validators.Orders 
 {
-    public class GetOrderByIdValidator : AbstractValidator<GetOrderByIdQuery>
+    public class GetOrderByIdValidator : AbstractValidator<GetOrderQuery>
     {
         public GetOrderByIdValidator()
         {

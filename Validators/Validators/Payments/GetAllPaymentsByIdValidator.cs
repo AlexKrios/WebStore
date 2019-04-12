@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace Validators.Validators.Payments 
 {
-    public class GetAllPaymentsByIdValidator : AbstractValidator<GetAllPaymentsQuery>
+    public class GetAllPaymentsByIdValidator : AbstractValidator<GetPaymentsQuery>
     {
         public GetAllPaymentsByIdValidator()
         {

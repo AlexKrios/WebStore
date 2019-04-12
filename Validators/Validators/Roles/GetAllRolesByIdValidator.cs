@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace Validators.Validators.Roles 
 {
-    public class GetAllRolesByIdValidator : AbstractValidator<GetAllRolesQuery>
+    public class GetAllRolesByIdValidator : AbstractValidator<GetRolesQuery>
     {
         public GetAllRolesByIdValidator()
         {

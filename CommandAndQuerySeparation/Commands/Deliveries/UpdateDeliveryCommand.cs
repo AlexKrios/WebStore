@@ -1,8 +1,9 @@
-﻿using MediatR;
+﻿using DataLibrary.Entities;
+using MediatR;
 
 namespace CommandAndQuerySeparation.Commands.Deliveries
 {
-    public class UpdateDeliveryCommand : IRequest<UpdateDeliveryCommand>
+    public class UpdateDeliveryCommand : IRequest<Delivery>
     {
         public int Id { get; set; }
         public string Name { get; set; }

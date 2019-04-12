@@ -1,8 +1,9 @@
-﻿using MediatR;
+﻿using DataLibrary.Entities;
+using MediatR;
 
 namespace CommandAndQuerySeparation.Commands.Manufacturers
 {
-    public class UpdateManufacturerCommand : IRequest<UpdateManufacturerCommand>
+    public class UpdateManufacturerCommand : IRequest<Manufacturer>
     {
         public int Id { get; set; }
         public string Name { get; set; }

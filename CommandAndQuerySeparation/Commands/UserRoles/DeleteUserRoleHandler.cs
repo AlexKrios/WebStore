@@ -2,12 +2,13 @@
 using System.Threading;
 using System.Threading.Tasks;
 using DataLibrary;
+using DataLibrary.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace CommandAndQuerySeparation.Commands.UserRoles
 {
-    public class DeleteUserRoleHandler : IRequestHandler<DeleteUserRoleCommand, DeleteUserRoleCommand>
+    public class DeleteUserRoleHandler : IRequestHandler<DeleteUserRoleCommand, UserRole>
     {
         private readonly WebStoreContext _context;
 
@@ -16,7 +17,7 @@ namespace CommandAndQuerySeparation.Commands.UserRoles
             _context = context;
         }
 
-        public async Task<DeleteUserRoleCommand> Handle(DeleteUserRoleCommand command, CancellationToken cancellationToken)
+        public async Task<UserRole> Handle(DeleteUserRoleCommand command, CancellationToken cancellationToken)
         {
             try
             {
@@ -26,7 +27,7 @@ namespace CommandAndQuerySeparation.Commands.UserRoles
 
                 _context.UserRoles.Remove(userRole);
                 await _context.SaveChangesAsync(cancellationToken);
-                return command;
+                return userRole;
             }
             catch (Exception e)
             {

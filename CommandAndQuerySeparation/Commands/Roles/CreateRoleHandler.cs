@@ -8,7 +8,7 @@ using MediatR;
 
 namespace CommandAndQuerySeparation.Commands.Roles
 {
-    public class CreateRoleHandler : IRequestHandler<CreateRoleCommand, CreateRoleCommand>
+    public class CreateRoleHandler : IRequestHandler<CreateRoleCommand, Role>
     {
         private readonly WebStoreContext _context;
         private readonly IMapper _mapper;
@@ -19,13 +19,15 @@ namespace CommandAndQuerySeparation.Commands.Roles
             _mapper = mapper;
         }
 
-        public async Task<CreateRoleCommand> Handle(CreateRoleCommand command, CancellationToken cancellationToken)
+        public async Task<Role> Handle(CreateRoleCommand command, CancellationToken cancellationToken)
         {
             try
             {
-                await _context.Roles.AddAsync(_mapper.Map<Role>(command), cancellationToken);
+                var role = _mapper.Map<Role>(command);
+
+                await _context.Roles.AddAsync(role, cancellationToken);
                 await _context.SaveChangesAsync(cancellationToken);
-                return command;
+                return role;
             }
             catch (Exception e)
             {

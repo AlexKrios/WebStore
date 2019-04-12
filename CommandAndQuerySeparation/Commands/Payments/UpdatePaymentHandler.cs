@@ -9,7 +9,7 @@ using MediatR;
 
 namespace CommandAndQuerySeparation.Commands.Payments
 {
-    public class UpdatePaymentHandler : IRequestHandler<UpdatePaymentCommand, UpdatePaymentCommand>
+    public class UpdatePaymentHandler : IRequestHandler<UpdatePaymentCommand, Payment>
     {
         private readonly WebStoreContext _context;
         private readonly IMapper _mapper;
@@ -20,15 +20,17 @@ namespace CommandAndQuerySeparation.Commands.Payments
             _mapper = mapper;
         }
 
-        public async Task<UpdatePaymentCommand> Handle(UpdatePaymentCommand command, CancellationToken cancellationToken)
+        public async Task<Payment> Handle(UpdatePaymentCommand command, CancellationToken cancellationToken)
         {
             try
             {
                 if (!_context.Payments.Any(x => x.Id == command.Id)) return null;
 
-                _context.Payments.Update(_mapper.Map<Payment>(command));
+                var payment = _mapper.Map<Payment>(command);
+
+                _context.Payments.Update(payment);
                 await _context.SaveChangesAsync(cancellationToken);
-                return command;
+                return payment;
             }
             catch (Exception e)
             {

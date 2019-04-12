@@ -9,7 +9,7 @@ using Type = DataLibrary.Entities.Type;
 
 namespace CommandAndQuerySeparation.Commands.Types
 {
-    public class UpdateTypeHandler : IRequestHandler<UpdateTypeCommand, UpdateTypeCommand>
+    public class UpdateTypeHandler : IRequestHandler<UpdateTypeCommand, Type>
     {
         private readonly WebStoreContext _context;
         private readonly IMapper _mapper;
@@ -20,15 +20,17 @@ namespace CommandAndQuerySeparation.Commands.Types
             _mapper = mapper;
         }
 
-        public async Task<UpdateTypeCommand> Handle(UpdateTypeCommand command, CancellationToken cancellationToken)
+        public async Task<Type> Handle(UpdateTypeCommand command, CancellationToken cancellationToken)
         {
             try
             {
                 if (!_context.Types.Any(x => x.Id == command.Id)) return null;
 
-                _context.Types.Update(_mapper.Map<Type>(command));
+                var type = _mapper.Map<Type>(command);
+
+                _context.Types.Update(type);
                 await _context.SaveChangesAsync(cancellationToken);
-                return command;
+                return type;
             }
             catch (Exception e)
             {

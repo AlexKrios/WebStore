@@ -8,7 +8,7 @@ using MediatR;
 
 namespace CommandAndQuerySeparation.Commands.Products
 {
-    public class CreateProductHandler : IRequestHandler<CreateProductCommand, CreateProductCommand>
+    public class CreateProductHandler : IRequestHandler<CreateProductCommand, Product>
     {
         private readonly WebStoreContext _context;
         private readonly IMapper _mapper;
@@ -19,13 +19,15 @@ namespace CommandAndQuerySeparation.Commands.Products
             _mapper = mapper;
         }
 
-        public async Task<CreateProductCommand> Handle(CreateProductCommand command, CancellationToken cancellationToken)
+        public async Task<Product> Handle(CreateProductCommand command, CancellationToken cancellationToken)
         {
             try
             {
-                await _context.Products.AddAsync(_mapper.Map<Product>(command), cancellationToken);
+                var product = _mapper.Map<Product>(command);
+
+                await _context.Products.AddAsync(product, cancellationToken);
                 await _context.SaveChangesAsync(cancellationToken);
-                return command;
+                return product;
             }
             catch (Exception e)
             {

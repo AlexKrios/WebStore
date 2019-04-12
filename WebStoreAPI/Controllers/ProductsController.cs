@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CommandAndQuerySeparation.Commands.Products;
 using CommandAndQuerySeparation.Queries.Products;
-using CommandAndQuerySeparation.Response.Products;
-using DataLibrary.Entities;
+using WebStoreAPI.Response.Products;
 
 namespace WebStoreAPI.Controllers
 {
@@ -28,20 +27,20 @@ namespace WebStoreAPI.Controllers
 
         //Get list of products
         [HttpGet]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<GetAllProductsResponse>))]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<GetProductsResponse>))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> GetAll()
         {
             try
             {
-                var products = await _mediator.Send(new GetAllProductsQuery());
+                var products = await _mediator.Send(new GetProductsQuery());
 
                 if (!products.Any())
                 {
                     return NotFound();
                 }
 
-                return Ok(_mapper.Map<IEnumerable<GetAllProductsResponse>>(products));
+                return Ok(_mapper.Map<IEnumerable<GetProductsResponse>>(products));
             }
             catch (Exception e)
             {
@@ -51,20 +50,20 @@ namespace WebStoreAPI.Controllers
 
         //Get single product
         [HttpGet("{id}")]
-        [ProducesResponseType(200, Type = typeof(GetProductByIdResponse))]
+        [ProducesResponseType(200, Type = typeof(GetProductResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> GetById(int id)
         {
             try
             {
-                var product = await _mediator.Send(new GetProductByIdQuery { Id = id } );
+                var product = await _mediator.Send(new GetProductQuery { Id = id } );
 
                 if (product == null)
                 {
                     return NotFound();
                 }
 
-                return Ok(_mapper.Map<GetProductByIdResponse>(product));
+                return Ok(_mapper.Map<GetProductResponse>(product));
             }
             catch (Exception e)
             {
@@ -74,7 +73,7 @@ namespace WebStoreAPI.Controllers
 
         //Add new product
         [HttpPost]
-        [ProducesResponseType(200, Type = typeof(CreateProductCommand))]
+        [ProducesResponseType(200, Type = typeof(CreateProductResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> Add(CreateProductCommand product)
         {
@@ -86,7 +85,7 @@ namespace WebStoreAPI.Controllers
             try
             {
                 await _mediator.Send(product);
-                return Ok(product);
+                return Ok(_mapper.Map<CreateProductResponse>(product));
             }
             catch (Exception e)
             {
@@ -96,7 +95,7 @@ namespace WebStoreAPI.Controllers
 
         //Change product
         [HttpPut]
-        [ProducesResponseType(200, Type = typeof(UpdateProductCommand))]
+        [ProducesResponseType(200, Type = typeof(UpdateProductResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> Update(UpdateProductCommand product)
         {
@@ -123,7 +122,7 @@ namespace WebStoreAPI.Controllers
 
         //Delete product 
         [HttpDelete("{id}")]
-        [ProducesResponseType(200, Type = typeof(Product))]
+        [ProducesResponseType(200, Type = typeof(DeleteProductResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> Delete(int id)
         {

@@ -2,12 +2,13 @@
 using System.Threading;
 using System.Threading.Tasks;
 using DataLibrary;
+using DataLibrary.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace CommandAndQuerySeparation.Commands.Countries
 {
-    public class DeleteCountryHandler : IRequestHandler<DeleteCountryCommand, DeleteCountryCommand>
+    public class DeleteCountryHandler : IRequestHandler<DeleteCountryCommand, Country>
     {
         private readonly WebStoreContext _context;
 
@@ -16,7 +17,7 @@ namespace CommandAndQuerySeparation.Commands.Countries
             _context = context;
         }
 
-        public async Task<DeleteCountryCommand> Handle(DeleteCountryCommand command, CancellationToken cancellationToken)
+        public async Task<Country> Handle(DeleteCountryCommand command, CancellationToken cancellationToken)
         {
             try
             {
@@ -26,7 +27,7 @@ namespace CommandAndQuerySeparation.Commands.Countries
 
                 _context.Countries.Remove(country);
                 await _context.SaveChangesAsync(cancellationToken);
-                return command;
+                return country;
             }
             catch (Exception e)
             {

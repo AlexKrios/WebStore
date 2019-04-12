@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace Validators.Validators.Products 
 {
-    public class GetAllProductsByIdValidator : AbstractValidator<GetAllProductsQuery>
+    public class GetAllProductsByIdValidator : AbstractValidator<GetProductsQuery>
     {
         public GetAllProductsByIdValidator()
         {

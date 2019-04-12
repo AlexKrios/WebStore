@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CommandAndQuerySeparation.Commands.Payments;
 using CommandAndQuerySeparation.Queries.Payments;
-using CommandAndQuerySeparation.Response.Payments;
-using DataLibrary.Entities;
+using WebStoreAPI.Response.Payments;
 
 namespace WebStoreAPI.Controllers
 {
@@ -28,20 +27,20 @@ namespace WebStoreAPI.Controllers
 
         //Get list of payments
         [HttpGet]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<GetAllPaymentsResponse>))]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<GetPaymentsResponse>))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> GetAll()
         {
             try
             {
-                var payments = await _mediator.Send(new GetAllPaymentsQuery());
+                var payments = await _mediator.Send(new GetPaymentsQuery());
 
                 if (!payments.Any())
                 {
                     return NotFound();
                 }
 
-                return Ok(_mapper.Map<IEnumerable<GetAllPaymentsResponse>>(payments));
+                return Ok(_mapper.Map<IEnumerable<GetPaymentsResponse>>(payments));
             }
             catch (Exception e)
             {
@@ -51,20 +50,20 @@ namespace WebStoreAPI.Controllers
 
         //Get single payment
         [HttpGet("{id}")]
-        [ProducesResponseType(200, Type = typeof(GetPaymentByIdResponse))]
+        [ProducesResponseType(200, Type = typeof(GetPaymentResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> GetById(int id)
         {
             try
             {
-                var payment = await _mediator.Send(new GetPaymentByIdQuery { Id = id } );
+                var payment = await _mediator.Send(new GetPaymentQuery { Id = id } );
 
                 if (payment == null)
                 {
                     return NotFound();
                 }
 
-                return Ok(_mapper.Map<GetPaymentByIdResponse>(payment));
+                return Ok(_mapper.Map<GetPaymentResponse>(payment));
             }
             catch (Exception e)
             {
@@ -74,7 +73,7 @@ namespace WebStoreAPI.Controllers
 
         //Add new payment
         [HttpPost]
-        [ProducesResponseType(200, Type = typeof(CreatePaymentCommand))]
+        [ProducesResponseType(200, Type = typeof(CreatePaymentResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> Add(CreatePaymentCommand payment)
         {
@@ -86,7 +85,7 @@ namespace WebStoreAPI.Controllers
             try
             {
                 await _mediator.Send(payment);
-                return Ok(payment);
+                return Ok(_mapper.Map<CreatePaymentResponse>(payment));
             }
             catch (Exception e)
             {
@@ -96,7 +95,7 @@ namespace WebStoreAPI.Controllers
 
         //Change payment
         [HttpPut]
-        [ProducesResponseType(200, Type = typeof(UpdatePaymentCommand))]
+        [ProducesResponseType(200, Type = typeof(UpdatePaymentResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> Update(UpdatePaymentCommand payment)
         {
@@ -123,7 +122,7 @@ namespace WebStoreAPI.Controllers
 
         //Delete payment
         [HttpDelete("{id}")]
-        [ProducesResponseType(200, Type = typeof(Payment))]
+        [ProducesResponseType(200, Type = typeof(DeletePaymentResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> Delete(int id)
         {

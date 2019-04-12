@@ -1,8 +1,9 @@
-﻿using MediatR;
+﻿using DataLibrary.Entities;
+using MediatR;
 
 namespace CommandAndQuerySeparation.Commands.Payments
 {
-    public class UpdatePaymentCommand : IRequest<UpdatePaymentCommand>
+    public class UpdatePaymentCommand : IRequest<Payment>
     {
         public int Id { get; set; }
         public string Name { get; set; }

@@ -18,6 +18,7 @@ namespace DataLibrary.Entities
         public string Email { get; set; }
         [Required]
         public string TelephoneNumber { get; set; }
+        [Required, Column(TypeName = "datetime2")]
         public DateTime RegistrationTime { get; set; }
         [Required]
         public string Address { get; set; }

@@ -8,7 +8,7 @@ using MediatR;
 
 namespace CommandAndQuerySeparation.Commands.Cities
 {
-    public class CreateCityHandler : IRequestHandler<CreateCityCommand, CreateCityCommand>
+    public class CreateCityHandler : IRequestHandler<CreateCityCommand, City>
     {
         private readonly WebStoreContext _context;
         private readonly IMapper _mapper;
@@ -19,13 +19,15 @@ namespace CommandAndQuerySeparation.Commands.Cities
             _mapper = mapper;
         }
 
-        public async Task<CreateCityCommand> Handle(CreateCityCommand command, CancellationToken cancellationToken)
+        public async Task<City> Handle(CreateCityCommand command, CancellationToken cancellationToken)
         {
             try
             {
-                await _context.Cities.AddAsync(_mapper.Map<City>(command), cancellationToken);
+                var city = _mapper.Map<City>(command);
+
+                await _context.Cities.AddAsync(city, cancellationToken);
                 await _context.SaveChangesAsync(cancellationToken);
-                return command;
+                return city;
             }
             catch (Exception e)
             {

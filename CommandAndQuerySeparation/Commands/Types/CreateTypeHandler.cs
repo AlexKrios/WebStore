@@ -8,7 +8,7 @@ using Type = DataLibrary.Entities.Type;
 
 namespace CommandAndQuerySeparation.Commands.Types
 {
-    public class CreateTypeHandler : IRequestHandler<CreateTypeCommand, CreateTypeCommand>
+    public class CreateTypeHandler : IRequestHandler<CreateTypeCommand, Type>
     {
         private readonly WebStoreContext _context;
         private readonly IMapper _mapper;
@@ -19,13 +19,15 @@ namespace CommandAndQuerySeparation.Commands.Types
             _mapper = mapper;
         }
 
-        public async Task<CreateTypeCommand> Handle(CreateTypeCommand command, CancellationToken cancellationToken)
+        public async Task<Type> Handle(CreateTypeCommand command, CancellationToken cancellationToken)
         {
             try
             {
-                await _context.Types.AddAsync(_mapper.Map<Type>(command), cancellationToken);
+                var type = _mapper.Map<Type>(command);
+
+                await _context.Types.AddAsync(type, cancellationToken);
                 await _context.SaveChangesAsync(cancellationToken);
-                return command;
+                return type;
             }
             catch (Exception e)
             {

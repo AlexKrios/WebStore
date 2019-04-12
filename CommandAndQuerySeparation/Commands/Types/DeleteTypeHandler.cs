@@ -4,10 +4,11 @@ using System.Threading.Tasks;
 using DataLibrary;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Type = DataLibrary.Entities.Type;
 
 namespace CommandAndQuerySeparation.Commands.Types
 {
-    public class DeleteTypeHandler : IRequestHandler<DeleteTypeCommand, DeleteTypeCommand>
+    public class DeleteTypeHandler : IRequestHandler<DeleteTypeCommand, Type>
     {
         private readonly WebStoreContext _context;
 
@@ -16,7 +17,7 @@ namespace CommandAndQuerySeparation.Commands.Types
             _context = context;
         }
 
-        public async Task<DeleteTypeCommand> Handle(DeleteTypeCommand command, CancellationToken cancellationToken)
+        public async Task<Type> Handle(DeleteTypeCommand command, CancellationToken cancellationToken)
         {
             try
             {
@@ -26,7 +27,7 @@ namespace CommandAndQuerySeparation.Commands.Types
 
                 _context.Types.Remove(type);
                 await _context.SaveChangesAsync(cancellationToken);
-                return command;
+                return type;
             }
             catch (Exception e)
             {

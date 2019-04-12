@@ -8,7 +8,7 @@ using MediatR;
 
 namespace CommandAndQuerySeparation.Commands.Users
 {
-    public class CreateUserHandler : IRequestHandler<CreateUserCommand, CreateUserCommand>
+    public class CreateUserHandler : IRequestHandler<CreateUserCommand, User>
     {
         private readonly WebStoreContext _context;
         private readonly IMapper _mapper;
@@ -19,13 +19,15 @@ namespace CommandAndQuerySeparation.Commands.Users
             _mapper = mapper;
         }
 
-        public async Task<CreateUserCommand> Handle(CreateUserCommand command, CancellationToken cancellationToken)
+        public async Task<User> Handle(CreateUserCommand command, CancellationToken cancellationToken)
         {
             try
             {
-                await _context.Users.AddAsync(_mapper.Map<User>(command), cancellationToken);
+                var user = _mapper.Map<User>(command);
+
+                await _context.Users.AddAsync(user, cancellationToken);
                 await _context.SaveChangesAsync(cancellationToken);
-                return command;
+                return user;
             }
             catch (Exception e)
             {

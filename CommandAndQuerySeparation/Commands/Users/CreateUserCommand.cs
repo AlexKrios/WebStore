@@ -1,8 +1,9 @@
-﻿using MediatR;
+﻿using DataLibrary.Entities;
+using MediatR;
 
 namespace CommandAndQuerySeparation.Commands.Users
 {
-    public class CreateUserCommand : IRequest<CreateUserCommand>
+    public class CreateUserCommand : IRequest<User>
     {
         public string Name { get; set; }
         public int Age { get; set; }

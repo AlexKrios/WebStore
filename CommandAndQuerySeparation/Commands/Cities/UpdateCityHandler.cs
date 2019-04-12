@@ -9,7 +9,7 @@ using MediatR;
 
 namespace CommandAndQuerySeparation.Commands.Cities
 {
-    public class UpdateCityHandler : IRequestHandler<UpdateCityCommand, UpdateCityCommand>
+    public class UpdateCityHandler : IRequestHandler<UpdateCityCommand, City>
     {
         private readonly WebStoreContext _context;
         private readonly IMapper _mapper;
@@ -20,15 +20,17 @@ namespace CommandAndQuerySeparation.Commands.Cities
             _mapper = mapper;
         }
 
-        public async Task<UpdateCityCommand> Handle(UpdateCityCommand command, CancellationToken cancellationToken)
+        public async Task<City> Handle(UpdateCityCommand command, CancellationToken cancellationToken)
         {
             try
             {
                 if (!_context.Cities.Any(x => x.Id == command.Id)) return null;
 
-                _context.Cities.Update(_mapper.Map<City>(command));
+                var city = _mapper.Map<City>(command);
+
+                _context.Cities.Update(city);
                 await _context.SaveChangesAsync(cancellationToken);
-                return command;
+                return city;
             }
             catch (Exception e)
             {

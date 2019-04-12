@@ -2,12 +2,13 @@
 using System.Threading;
 using System.Threading.Tasks;
 using DataLibrary;
+using DataLibrary.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace CommandAndQuerySeparation.Commands.Orders
 {
-    public class DeleteCityHandler : IRequestHandler<DeleteOrderCommand, DeleteOrderCommand>
+    public class DeleteCityHandler : IRequestHandler<DeleteOrderCommand, Order>
     {
         private readonly WebStoreContext _context;
 
@@ -16,7 +17,7 @@ namespace CommandAndQuerySeparation.Commands.Orders
             _context = context;
         }
 
-        public async Task<DeleteOrderCommand> Handle(DeleteOrderCommand command, CancellationToken cancellationToken)
+        public async Task<Order> Handle(DeleteOrderCommand command, CancellationToken cancellationToken)
         {
             try
             {
@@ -26,7 +27,7 @@ namespace CommandAndQuerySeparation.Commands.Orders
 
                 _context.Orders.Remove(order);
                 await _context.SaveChangesAsync(cancellationToken);
-                return command;
+                return order;
             }
             catch (Exception e)
             {

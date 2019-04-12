@@ -4,7 +4,7 @@ using FluentValidation;
 
 namespace Validators.Validators.UserRoles 
 {
-    public class GetUserRoleByIdValidator : AbstractValidator<GetUserRoleByIdQuery>
+    public class GetUserRoleByIdValidator : AbstractValidator<GetUserRoleQuery>
     {
         public GetUserRoleByIdValidator()
         {

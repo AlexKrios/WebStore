@@ -9,7 +9,7 @@ using MediatR;
 
 namespace CommandAndQuerySeparation.Commands.UserRoles
 {
-    public class UpdateUserRoleHandler : IRequestHandler<UpdateUserRoleCommand, UpdateUserRoleCommand>
+    public class UpdateUserRoleHandler : IRequestHandler<UpdateUserRoleCommand, UserRole>
     {
         private readonly WebStoreContext _context;
         private readonly IMapper _mapper;
@@ -20,15 +20,17 @@ namespace CommandAndQuerySeparation.Commands.UserRoles
             _mapper = mapper;
         }
 
-        public async Task<UpdateUserRoleCommand> Handle(UpdateUserRoleCommand command, CancellationToken cancellationToken)
+        public async Task<UserRole> Handle(UpdateUserRoleCommand command, CancellationToken cancellationToken)
         {
             try
             {
                 if (!_context.UserRoles.Any(x => x.Id == command.Id)) return null;
 
-                _context.UserRoles.Update(_mapper.Map<UserRole>(command));
+                var userRole = _mapper.Map<UserRole>(command);
+
+                _context.UserRoles.Update(userRole);
                 await _context.SaveChangesAsync(cancellationToken);
-                return command;
+                return userRole;
             }
             catch (Exception e)
             {

@@ -1,8 +1,9 @@
-﻿using MediatR;
+﻿using DataLibrary.Entities;
+using MediatR;
 
 namespace CommandAndQuerySeparation.Commands.Products
 {
-    public class CreateProductCommand : IRequest<CreateProductCommand>
+    public class CreateProductCommand : IRequest<Product>
     {
         public string Name { get; set; }
         public string Description { get; set; }

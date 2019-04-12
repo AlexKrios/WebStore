@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CommandAndQuerySeparation.Commands.Countries;
 using CommandAndQuerySeparation.Queries.Countries;
-using CommandAndQuerySeparation.Response.Countries;
-using DataLibrary.Entities;
+using WebStoreAPI.Response.Countries;
 
 namespace WebStoreAPI.Controllers
 {
@@ -28,20 +27,20 @@ namespace WebStoreAPI.Controllers
 
         //Get list of countries
         [HttpGet]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<GetAllCountriesResponse>))]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<GetCountriesResponse>))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> GetAll()
         {
             try
             {
-                var countries = await _mediator.Send(new GetAllCountriesQuery());
+                var countries = await _mediator.Send(new GetCountriesQuery());
 
                 if (!countries.Any())
                 {
                     return NotFound();
                 }
 
-                return Ok(_mapper.Map<IEnumerable<GetAllCountriesResponse>>(countries));
+                return Ok(_mapper.Map<IEnumerable<GetCountriesResponse>>(countries));
             }
             catch (Exception e)
             {
@@ -51,20 +50,20 @@ namespace WebStoreAPI.Controllers
 
         //Get single country
         [HttpGet("{id}")]
-        [ProducesResponseType(200, Type = typeof(GetCountryByIdResponse))]
+        [ProducesResponseType(200, Type = typeof(GetCountryResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> GetById(int id)
         {
             try
             {
-                var country = await _mediator.Send(new GetCountryByIdQuery { Id = id } );
+                var country = await _mediator.Send(new GetCountryQuery { Id = id } );
 
                 if (country == null)
                 {
                     return NotFound();
                 }
 
-                return Ok(_mapper.Map<GetCountryByIdResponse>(country));
+                return Ok(_mapper.Map<GetCountryResponse>(country));
             }
             catch (Exception e)
             {
@@ -74,7 +73,7 @@ namespace WebStoreAPI.Controllers
 
         //Add new country
         [HttpPost]
-        [ProducesResponseType(200, Type = typeof(CreateCountryCommand))]
+        [ProducesResponseType(200, Type = typeof(CreateCountryResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> Add(CreateCountryCommand country)
         {
@@ -86,7 +85,7 @@ namespace WebStoreAPI.Controllers
             try
             {
                 await _mediator.Send(country);
-                return Ok(country);
+                return Ok(_mapper.Map<CreateCountryResponse>(country));
             }
             catch (Exception e)
             {
@@ -96,7 +95,7 @@ namespace WebStoreAPI.Controllers
 
         //Change country
         [HttpPut]
-        [ProducesResponseType(200, Type = typeof(UpdateCountryCommand))]
+        [ProducesResponseType(200, Type = typeof(UpdateCountryResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> Update(UpdateCountryCommand country)
         {
@@ -123,7 +122,7 @@ namespace WebStoreAPI.Controllers
 
         //Delete country
         [HttpDelete("{id}")]
-        [ProducesResponseType(200, Type = typeof(Country))]
+        [ProducesResponseType(200, Type = typeof(DeleteCountryResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> Delete(int id)
         {

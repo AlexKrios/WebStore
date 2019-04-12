@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CommandAndQuerySeparation.Commands.OrderItems;
 using CommandAndQuerySeparation.Queries.OrderItems;
-using CommandAndQuerySeparation.Response.OrderItems;
-using DataLibrary.Entities;
+using WebStoreAPI.Response.OrderItems;
 
 namespace WebStoreAPI.Controllers
 {
@@ -28,20 +27,20 @@ namespace WebStoreAPI.Controllers
 
         //Get list of ordersItems
         [HttpGet]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<GetAllOrdersItemsResponse>))]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<GetOrdersItemsResponse>))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> GetAll()
         {
             try
             {
-                var ordersItems = await _mediator.Send(new GetAllOrderItemsQuery());
+                var ordersItems = await _mediator.Send(new GetOrdersItemsQuery());
 
                 if (!ordersItems.Any())
                 {
                     return NotFound();
                 }
 
-                return Ok(_mapper.Map<IEnumerable<GetAllOrdersItemsResponse>>(ordersItems));
+                return Ok(_mapper.Map<IEnumerable<GetOrdersItemsResponse>>(ordersItems));
             }
             catch (Exception e)
             {
@@ -51,20 +50,20 @@ namespace WebStoreAPI.Controllers
 
         //Get single orderItem
         [HttpGet("{id}")]
-        [ProducesResponseType(200, Type = typeof(GetOrderItemsByIdResponse))]
+        [ProducesResponseType(200, Type = typeof(GetOrderItemsResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> GetById(int id)
         {
             try
             {
-                var orderItems = await _mediator.Send(new GetOrderItemsByIdQuery { Id = id } );
+                var orderItems = await _mediator.Send(new GetOrderItemsQuery { Id = id } );
 
                 if (orderItems == null)
                 {
                     return NotFound();
                 }
 
-                return Ok(_mapper.Map<GetOrderItemsByIdResponse>(orderItems));
+                return Ok(_mapper.Map<GetOrderItemsResponse>(orderItems));
             }
             catch (Exception e)
             {
@@ -74,7 +73,7 @@ namespace WebStoreAPI.Controllers
 
         //Add new orderItem
         [HttpPost]
-        [ProducesResponseType(200, Type = typeof(CreateOrderItemsCommand))]
+        [ProducesResponseType(200, Type = typeof(CreateOrderItemsResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> Add(CreateOrderItemsCommand orderItem)
         {
@@ -86,7 +85,7 @@ namespace WebStoreAPI.Controllers
             try
             {
                 await _mediator.Send(orderItem);
-                return Ok(orderItem);
+                return Ok(_mapper.Map<CreateOrderItemsResponse>(orderItem));
             }
             catch (Exception e)
             {
@@ -96,7 +95,7 @@ namespace WebStoreAPI.Controllers
 
         //Change order
         [HttpPut]
-        [ProducesResponseType(200, Type = typeof(UpdateOrderItemsCommand))]
+        [ProducesResponseType(200, Type = typeof(UpdateOrderItemsResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> Update(UpdateOrderItemsCommand orderItem)
         {
@@ -123,7 +122,7 @@ namespace WebStoreAPI.Controllers
 
         //Delete order
         [HttpDelete("{id}")]
-        [ProducesResponseType(200, Type = typeof(OrderItem))]
+        [ProducesResponseType(200, Type = typeof(DeleteOrderItemsResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> Delete(int id)
         {

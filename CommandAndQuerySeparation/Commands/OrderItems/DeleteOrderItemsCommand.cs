@@ -1,8 +1,9 @@
-﻿using MediatR;
+﻿using DataLibrary.Entities;
+using MediatR;
 
 namespace CommandAndQuerySeparation.Commands.OrderItems
 {
-    public class DeleteOrderItemsCommand : IRequest<DeleteOrderItemsCommand>
+    public class DeleteOrderItemsCommand : IRequest<OrderItem>
     {
         public int Id { get; set; }
     }

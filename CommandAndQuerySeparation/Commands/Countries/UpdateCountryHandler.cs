@@ -9,7 +9,7 @@ using MediatR;
 
 namespace CommandAndQuerySeparation.Commands.Countries
 {
-    public class UpdateCountryHandler : IRequestHandler<UpdateCountryCommand, UpdateCountryCommand>
+    public class UpdateCountryHandler : IRequestHandler<UpdateCountryCommand, Country>
     {
         private readonly WebStoreContext _context;
         private readonly IMapper _mapper;
@@ -20,15 +20,17 @@ namespace CommandAndQuerySeparation.Commands.Countries
             _mapper = mapper;
         }
 
-        public async Task<UpdateCountryCommand> Handle(UpdateCountryCommand command, CancellationToken cancellationToken)
+        public async Task<Country> Handle(UpdateCountryCommand command, CancellationToken cancellationToken)
         {
             try
             {
                 if (!_context.Countries.Any(x => x.Id == command.Id)) return null;
 
-                _context.Countries.Update(_mapper.Map<Country>(command));
+                var country = _mapper.Map<Country>(command);
+
+                _context.Countries.Update(country);
                 await _context.SaveChangesAsync(cancellationToken);
-                return command;
+                return country;
             }
             catch (Exception e)
             {

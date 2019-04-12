@@ -2,12 +2,13 @@
 using System.Threading;
 using System.Threading.Tasks;
 using DataLibrary;
+using DataLibrary.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace CommandAndQuerySeparation.Commands.Users
 {
-    public class DeleteUserHandler : IRequestHandler<DeleteUserCommand, DeleteUserCommand>
+    public class DeleteUserHandler : IRequestHandler<DeleteUserCommand, User>
     {
         private readonly WebStoreContext _context;
 
@@ -16,7 +17,7 @@ namespace CommandAndQuerySeparation.Commands.Users
             _context = context;
         }
 
-        public async Task<DeleteUserCommand> Handle(DeleteUserCommand command, CancellationToken cancellationToken)
+        public async Task<User> Handle(DeleteUserCommand command, CancellationToken cancellationToken)
         {
             try
             {
@@ -26,7 +27,7 @@ namespace CommandAndQuerySeparation.Commands.Users
 
                 _context.Users.Remove(user);
                 await _context.SaveChangesAsync(cancellationToken);
-                return command;
+                return user;
             }
             catch (Exception e)
             {

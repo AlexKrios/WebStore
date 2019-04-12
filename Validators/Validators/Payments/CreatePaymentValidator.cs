@@ -19,4 +19,5 @@ namespace Validators.Validators.Payments
                 .GreaterThanOrEqualTo(0)
                 .WithMessage("Please specify a correct taxes");
         }
+    }
 }

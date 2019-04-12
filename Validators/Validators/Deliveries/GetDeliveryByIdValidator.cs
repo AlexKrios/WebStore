@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace Validators.Validators.Deliveries 
 {
-    public class GetDeliveryByIdValidator : AbstractValidator<GetDeliveryByIdQuery>
+    public class GetDeliveryByIdValidator : AbstractValidator<GetDeliveryQuery>
     {
         public GetDeliveryByIdValidator()
         {

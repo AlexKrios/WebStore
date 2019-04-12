@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace Validators.Validators.Types 
 {
-    public class GetAllTypesByIdValidator : AbstractValidator<GetAllTypesQuery>
+    public class GetAllTypesByIdValidator : AbstractValidator<GetTypesQuery>
     {
         public GetAllTypesByIdValidator()
         {

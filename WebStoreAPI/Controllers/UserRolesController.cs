@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CommandAndQuerySeparation.Commands.UserRoles;
 using CommandAndQuerySeparation.Queries.UserRoles;
-using CommandAndQuerySeparation.Response.UserRoles;
-using DataLibrary.Entities;
+using WebStoreAPI.Response.UserRoles;
 
 namespace WebStoreAPI.Controllers
 {
@@ -28,20 +27,20 @@ namespace WebStoreAPI.Controllers
 
         //Get list of userRoles
         [HttpGet]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<GetAllUsersRolesResponse>))]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<GetUsersRolesResponse>))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> GetAll()
         {
             try
             {
-                var usersRoles = await _mediator.Send(new GetAllUserRolesQuery());
+                var usersRoles = await _mediator.Send(new GetUsersRolesQuery());
 
                 if (!usersRoles.Any())
                 {
                     return NotFound();
                 }
 
-                return Ok(_mapper.Map<IEnumerable<GetAllUsersRolesResponse>>(usersRoles));
+                return Ok(_mapper.Map<IEnumerable<GetUsersRolesResponse>>(usersRoles));
             }
             catch (Exception e)
             {
@@ -51,20 +50,20 @@ namespace WebStoreAPI.Controllers
 
         //Get single userRole
         [HttpGet("{id}")]
-        [ProducesResponseType(200, Type = typeof(GetUserRolesByIdResponse))]
+        [ProducesResponseType(200, Type = typeof(GetUserRolesResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> GetById(int id)
         {
             try
             {
-                var userRoles = await _mediator.Send(new GetUserRoleByIdQuery { Id = id } );
+                var userRoles = await _mediator.Send(new GetUserRoleQuery { Id = id } );
 
                 if (userRoles == null)
                 {
                     return NotFound();
                 }
 
-                return Ok(_mapper.Map<GetUserRolesByIdResponse>(userRoles));
+                return Ok(_mapper.Map<GetUserRolesResponse>(userRoles));
             }
             catch (Exception e)
             {
@@ -74,7 +73,7 @@ namespace WebStoreAPI.Controllers
 
         //Add new userRole
         [HttpPost]
-        [ProducesResponseType(200, Type = typeof(CreateUserRoleCommand))]
+        [ProducesResponseType(200, Type = typeof(CreateUserRolesResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> Add(CreateUserRoleCommand userRole)
         {
@@ -86,7 +85,7 @@ namespace WebStoreAPI.Controllers
             try
             {
                 await _mediator.Send(userRole);
-                return Ok(userRole);
+                return Ok(_mapper.Map<CreateUserRolesResponse>(userRole));
             }
             catch (Exception e)
             {
@@ -96,7 +95,7 @@ namespace WebStoreAPI.Controllers
 
         //Change userRole
         [HttpPut]
-        [ProducesResponseType(200, Type = typeof(UpdateUserRoleCommand))]
+        [ProducesResponseType(200, Type = typeof(UpdateUserRolesResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> Update(UpdateUserRoleCommand userRole)
         {
@@ -123,7 +122,7 @@ namespace WebStoreAPI.Controllers
 
         //Delete userRole
         [HttpDelete("{id}")]
-        [ProducesResponseType(200, Type = typeof(UserRole))]
+        [ProducesResponseType(200, Type = typeof(DeleteUserRolesResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> Delete(int id)
         {

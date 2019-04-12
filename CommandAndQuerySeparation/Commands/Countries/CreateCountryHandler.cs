@@ -8,7 +8,7 @@ using MediatR;
 
 namespace CommandAndQuerySeparation.Commands.Countries
 {
-    public class CreateCountryHandler : IRequestHandler<CreateCountryCommand, CreateCountryCommand>
+    public class CreateCountryHandler : IRequestHandler<CreateCountryCommand, Country>
     {
         private readonly WebStoreContext _context;
         private readonly IMapper _mapper;
@@ -19,13 +19,15 @@ namespace CommandAndQuerySeparation.Commands.Countries
             _mapper = mapper;
         }
 
-        public async Task<CreateCountryCommand> Handle(CreateCountryCommand command, CancellationToken cancellationToken)
+        public async Task<Country> Handle(CreateCountryCommand command, CancellationToken cancellationToken)
         {
             try
             {
-                await _context.Countries.AddAsync(_mapper.Map<Country>(command), cancellationToken);
+                var country = _mapper.Map<Country>(command);
+
+                await _context.Countries.AddAsync(country, cancellationToken);
                 await _context.SaveChangesAsync(cancellationToken);
-                return command;
+                return country;
             }
             catch (Exception e)
             {

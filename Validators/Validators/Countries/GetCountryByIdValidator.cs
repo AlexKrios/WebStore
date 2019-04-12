@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace Validators.Validators.Countries 
 {
-    public class GetCountryByIdValidator : AbstractValidator<GetCountryByIdQuery>
+    public class GetCountryByIdValidator : AbstractValidator<GetCountryQuery>
     {
         public GetCountryByIdValidator()
         {

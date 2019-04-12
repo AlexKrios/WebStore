@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CommandAndQuerySeparation.Commands.Manufacturers;
 using CommandAndQuerySeparation.Queries.Manufacturers;
-using CommandAndQuerySeparation.Response.Manufacturers;
-using DataLibrary.Entities;
+using WebStoreAPI.Response.Manufacturers;
 
 namespace WebStoreAPI.Controllers
 {
@@ -28,20 +27,20 @@ namespace WebStoreAPI.Controllers
 
         //Get list of cities
         [HttpGet]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<GetAllManufacturersResponse>))]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<GetManufacturersResponse>))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> GetAll()
         {
             try
             {
-                var manufacturers = await _mediator.Send(new GetAllManufacturersQuery());
+                var manufacturers = await _mediator.Send(new GetManufacturersQuery());
 
                 if (!manufacturers.Any())
                 {
                     return NotFound();
                 }
 
-                return Ok(_mapper.Map<IEnumerable<GetAllManufacturersResponse>>(manufacturers));
+                return Ok(_mapper.Map<IEnumerable<GetManufacturersResponse>>(manufacturers));
             }
             catch (Exception e)
             {
@@ -51,20 +50,20 @@ namespace WebStoreAPI.Controllers
 
         //Get single city
         [HttpGet("{id}")]
-        [ProducesResponseType(200, Type = typeof(GetManufacturerByIdResponse))]
+        [ProducesResponseType(200, Type = typeof(GetManufacturerResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> GetById(int id)
         {
             try
             {
-                var manufacturer = await _mediator.Send(new GetManufacturerByIdQuery { Id = id } );
+                var manufacturer = await _mediator.Send(new GetManufacturerQuery { Id = id } );
 
                 if (manufacturer == null)
                 {
                     return NotFound();
                 }
 
-                return Ok(_mapper.Map<GetManufacturerByIdResponse>(manufacturer));
+                return Ok(_mapper.Map<GetManufacturerResponse>(manufacturer));
             }
             catch (Exception e)
             {
@@ -74,7 +73,7 @@ namespace WebStoreAPI.Controllers
 
         //Add new city
         [HttpPost]
-        [ProducesResponseType(200, Type = typeof(CreateManufacturerCommand))]
+        [ProducesResponseType(200, Type = typeof(CreateManufacturerResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> Add(CreateManufacturerCommand manufacturer)
         {
@@ -86,7 +85,7 @@ namespace WebStoreAPI.Controllers
             try
             {
                 await _mediator.Send(manufacturer);
-                return Ok(manufacturer);
+                return Ok(_mapper.Map<CreateManufacturerResponse>(manufacturer));
             }
             catch (Exception e)
             {
@@ -96,7 +95,7 @@ namespace WebStoreAPI.Controllers
 
         //Change city
         [HttpPut]
-        [ProducesResponseType(200, Type = typeof(UpdateManufacturerCommand))]
+        [ProducesResponseType(200, Type = typeof(UpdateManufacturerResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> Update(UpdateManufacturerCommand manufacturer)
         {
@@ -123,7 +122,7 @@ namespace WebStoreAPI.Controllers
 
         //Delete city
         [HttpDelete("{id}")]
-        [ProducesResponseType(200, Type = typeof(Manufacturer))]
+        [ProducesResponseType(200, Type = typeof(DeleteManufacturerResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> Delete(int id)
         {

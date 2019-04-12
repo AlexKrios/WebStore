@@ -122,7 +122,8 @@ namespace WebStoreAPI.Migrations
                     b.Property<string>("Note")
                         .IsRequired();
 
-                    b.Property<DateTime>("OrderTime");
+                    b.Property<DateTime>("OrderTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("PaymentId");
 
@@ -279,7 +280,8 @@ namespace WebStoreAPI.Migrations
                     b.Property<string>("Name")
                         .IsRequired();
 
-                    b.Property<DateTime>("RegistrationTime");
+                    b.Property<DateTime>("RegistrationTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("TelephoneNumber")
                         .IsRequired();

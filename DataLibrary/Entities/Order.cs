@@ -15,7 +15,7 @@ namespace DataLibrary.Entities
         public string Note { get; set; }
         [Required]
         public decimal TotalPrice { get; set; }
-        [Required]
+        [Required, Column(TypeName = "datetime2")]
         public DateTime OrderTime { get; set; }
 
         [Required, ForeignKey("User")]

@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace Validators.Validators.Cities 
 {
-    public class GetCityByIdValidator : AbstractValidator<GetCityByIdQuery>
+    public class GetCityByIdValidator : AbstractValidator<GetCityQuery>
     {
         public GetCityByIdValidator()
         {

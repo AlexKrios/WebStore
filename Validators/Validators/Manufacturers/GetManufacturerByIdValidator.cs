@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace Validators.Validators.Manufacturers 
 {
-    public class GetManufacturerByIdValidator : AbstractValidator<GetManufacturerByIdQuery>
+    public class GetManufacturerByIdValidator : AbstractValidator<GetManufacturerQuery>
     {
         public GetManufacturerByIdValidator()
         {

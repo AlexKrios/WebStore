@@ -2,12 +2,13 @@
 using System.Threading;
 using System.Threading.Tasks;
 using DataLibrary;
+using DataLibrary.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace CommandAndQuerySeparation.Commands.Payments
 {
-    public class DeletePaymentHandler : IRequestHandler<DeletePaymentCommand, DeletePaymentCommand>
+    public class DeletePaymentHandler : IRequestHandler<DeletePaymentCommand, Payment>
     {
         private readonly WebStoreContext _context;
 
@@ -16,7 +17,7 @@ namespace CommandAndQuerySeparation.Commands.Payments
             _context = context;
         }
 
-        public async Task<DeletePaymentCommand> Handle(DeletePaymentCommand command, CancellationToken cancellationToken)
+        public async Task<Payment> Handle(DeletePaymentCommand command, CancellationToken cancellationToken)
         {
             try
             {
@@ -26,7 +27,7 @@ namespace CommandAndQuerySeparation.Commands.Payments
 
                 _context.Payments.Remove(payment);
                 await _context.SaveChangesAsync(cancellationToken);
-                return command;
+                return payment;
             }
             catch (Exception e)
             {
