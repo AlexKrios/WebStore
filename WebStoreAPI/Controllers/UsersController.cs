@@ -4,9 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WebStoreAPI.Commands.Users;
-using WebStoreAPI.Models;
-using WebStoreAPI.Queries.Users;
+using AutoMapper;
+using CommandAndQuerySeparation.Commands.Users;
+using CommandAndQuerySeparation.Queries.Users;
+using WebStoreAPI.Response.Users;
 
 namespace WebStoreAPI.Controllers
 {
@@ -15,29 +16,31 @@ namespace WebStoreAPI.Controllers
     public class UsersController : Controller
     {
         private readonly IMediator _mediator;
+        private readonly IMapper _mapper;
 
         //Setup connection
-        public UsersController(IMediator mediator)
+        public UsersController(IMediator mediator, IMapper mapper)
         {
             _mediator = mediator;
+            _mapper = mapper;
         }
 
         //Get list of users
-        [HttpGet("getAll")]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<User>))]
+        [HttpGet]
+        [ProducesResponseType(200, Type = typeof(IEnumerable<GetUsersResponse>))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> GetAll()
         {
             try
             {
-                var users = await _mediator.Send(new GetAllUsersQuery());
+                var users = await _mediator.Send(new GetUsersQuery());
 
                 if (!users.Any())
                 {
                     return NotFound();
                 }
 
-                return Ok(users);
+                return Ok(_mapper.Map<IEnumerable<GetUsersResponse>>(users));
             }
             catch (Exception e)
             {
@@ -46,21 +49,21 @@ namespace WebStoreAPI.Controllers
         }
 
         //Get single user
-        [HttpGet("getById/{id}")]
-        [ProducesResponseType(200, Type = typeof(User))]
+        [HttpGet("{id}")]
+        [ProducesResponseType(200, Type = typeof(GetUserResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> GetById(int id)
         {
             try
             {
-                var user = await _mediator.Send(new GetUserByIdQuery(id));
+                var user = await _mediator.Send(new GetUserQuery { Id = id } );
 
                 if (user == null)
                 {
                     return NotFound();
                 }
 
-                return Ok(user);
+                return Ok(_mapper.Map<GetUserResponse>(user));
             }
             catch (Exception e)
             {
@@ -69,31 +72,31 @@ namespace WebStoreAPI.Controllers
         }
 
         //Get group of user
-        [HttpGet("getByRole/{role}")]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<User>))]
-        [ProducesResponseType(500, Type = typeof(string))]
-        public async Task<IActionResult> GetUserByRole(string role)
-        {
-            try
-            {
-                var users = await _mediator.Send(new GetUsersByRoleQuery(role));
+        //[HttpGet("{role}")]
+        //[ProducesResponseType(200, Type = typeof(IEnumerable<User>))]
+        //[ProducesResponseType(500, Type = typeof(string))]
+        //public async Task<IActionResult> GetUserByRole(string role)
+        //{
+        //    try
+        //    {
+        //        var users = await _mediator.Send(new GetUsersByRoleQuery(role));
 
-                if (!users.Any())
-                {
-                    return NotFound();
-                }
+        //        if (!users.Any())
+        //        {
+        //            return NotFound();
+        //        }
 
-                return Ok(users);
-            }
-            catch (Exception e)
-            {
-                return StatusCode(500, new { errorMessage = e.Message });
-            }
-        }
+        //        return Ok(users);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return StatusCode(500, new { errorMessage = e.Message });
+        //    }
+        //}
 
         //Add new user
-        [HttpPost("create")]
-        [ProducesResponseType(200, Type = typeof(CreateUserCommand))]
+        [HttpPost]
+        [ProducesResponseType(200, Type = typeof(CreateUserResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> Add(CreateUserCommand user)
         {
@@ -105,7 +108,7 @@ namespace WebStoreAPI.Controllers
             try
             {
                 await _mediator.Send(user);
-                return Ok(user);
+                return Ok(_mapper.Map<CreateUserResponse>(user));
             }
             catch (Exception e)
             {
@@ -114,8 +117,8 @@ namespace WebStoreAPI.Controllers
         }
 
         //Change user
-        [HttpPut("update")]
-        [ProducesResponseType(200, Type = typeof(User))]
+        [HttpPut]
+        [ProducesResponseType(200, Type = typeof(UpdateUserResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> Update(UpdateUserCommand user)
         {
@@ -141,8 +144,8 @@ namespace WebStoreAPI.Controllers
         }
 
         //Delete user
-        [HttpDelete("delete/{id}")]
-        [ProducesResponseType(200, Type = typeof(User))]
+        [HttpDelete("{id}")]
+        [ProducesResponseType(200, Type = typeof(DeleteUserResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> Delete(int id)
         {
@@ -153,7 +156,7 @@ namespace WebStoreAPI.Controllers
 
             try
             {
-                var userSend = await _mediator.Send(new DeleteUserCommand(id));
+                var userSend = await _mediator.Send(new DeleteUserCommand{ Id = id });
                 if (userSend == null)
                 {
                     return NotFound();

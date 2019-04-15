@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DataLibrary;
 using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -30,7 +31,9 @@ namespace WebStoreAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<WebStoreContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString(
+                    "DefaultConnection"),
+                    b => b.MigrationsAssembly("WebStoreAPI")));
             services.AddMvc().AddFluentValidation(options =>
             {
                 options.RegisterValidatorsFromAssemblyContaining<Startup>();
@@ -67,7 +70,7 @@ namespace WebStoreAPI
             services.UseSimpleInjectorAspNetRequestScoping(_container);
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, WebStoreContext context)
         {
             InitializeContainer(app);
             _container.Verify();
@@ -86,6 +89,8 @@ namespace WebStoreAPI
 
             app.UseSwagger();
             app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "Web Store"); });
+
+            WebStoreInitializer.Seed(context);
         }
 
         //Initialization DI container
