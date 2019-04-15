@@ -1,7 +1,7 @@
 ﻿using DataLibrary.Entities;
 using MediatR;
 
-namespace CommandAndQuerySeparation.Queries.Payments
+namespace CQS.Queries.Payments
 {
     public class GetPaymentQuery : IRequest<Payment>
     {

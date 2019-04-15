@@ -1,7 +1,7 @@
 ﻿using DataLibrary.Entities;
 using MediatR;
 
-namespace CommandAndQuerySeparation.Commands.UserRoles
+namespace CQS.Commands.UserRoles
 {
     public class DeleteUserRoleCommand : IRequest<UserRole>
     {

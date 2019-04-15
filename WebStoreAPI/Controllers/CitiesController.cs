@@ -5,9 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using CommandAndQuerySeparation.Commands.Cities;
-using CommandAndQuerySeparation.Queries.Cities;
-using DataLibrary;
+using CQS.Commands.Cities;
+using CQS.Queries.Cities;
 using WebStoreAPI.Response.Cities;
 
 namespace WebStoreAPI.Controllers
@@ -18,14 +17,12 @@ namespace WebStoreAPI.Controllers
     {
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
-        private readonly WebStoreContext _context;
 
         //Setup connection
-        public CitiesController(IMediator mediator, IMapper mapper, WebStoreContext context)
+        public CitiesController(IMediator mediator, IMapper mapper)
         {
             _mediator = mediator;
             _mapper = mapper;
-            _context = context;
         }
 
         //Get list of cities
@@ -87,8 +84,8 @@ namespace WebStoreAPI.Controllers
 
             try
             {
-                await _mediator.Send(city);
-                return Ok(_mapper.Map<CreateCityResponse>(city));
+                var citySend = await _mediator.Send(city);
+                return Created($"api/cities/{citySend.Id}", _mapper.Map<CreateCityResponse>(city));
             }
             catch (Exception e)
             {

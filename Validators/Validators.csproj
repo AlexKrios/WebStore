@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CommandAndQuerySeparation\CommandAndQuerySeparation.csproj" />
+    <ProjectReference Include="..\CommandAndQuerySeparation\CQS.csproj" />
     <ProjectReference Include="..\DataLibrary\DataLibrary.csproj" />
   </ItemGroup>
 

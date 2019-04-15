@@ -1,7 +1,7 @@
 ﻿using DataLibrary.Entities;
 using MediatR;
 
-namespace CommandAndQuerySeparation.Commands.Cities
+namespace CQS.Commands.Cities
 {
     public class UpdateCityCommand : IRequest<City>
     {

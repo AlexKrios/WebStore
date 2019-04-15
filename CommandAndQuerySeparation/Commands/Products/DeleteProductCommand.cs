@@ -1,7 +1,7 @@
 ﻿using DataLibrary.Entities;
 using MediatR;
 
-namespace CommandAndQuerySeparation.Commands.Products
+namespace CQS.Commands.Products
 {
     public class DeleteProductCommand : IRequest<Product>
     {

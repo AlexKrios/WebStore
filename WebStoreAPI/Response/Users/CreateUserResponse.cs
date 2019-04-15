@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace WebStoreAPI.Response.Users
+﻿namespace WebStoreAPI.Response.Users
 {
     public class CreateUserResponse
     {
@@ -8,7 +6,6 @@ namespace WebStoreAPI.Response.Users
         public int Age { get; set; }
         public string Email { get; set; }
         public string TelephoneNumber { get; set; }
-        public DateTime RegistrationTime { get; set; }
         public string Address { get; set; }
         public int CityId { get; set; }
     }

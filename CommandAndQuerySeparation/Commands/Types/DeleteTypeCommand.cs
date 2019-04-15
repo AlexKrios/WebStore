@@ -1,7 +1,7 @@
 ﻿using DataLibrary.Entities;
 using MediatR;
 
-namespace CommandAndQuerySeparation.Commands.Types
+namespace CQS.Commands.Types
 {
     public class DeleteTypeCommand : IRequest<Type>
     {

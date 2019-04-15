@@ -1,7 +1,7 @@
 ﻿using DataLibrary.Entities;
 using MediatR;
 
-namespace CommandAndQuerySeparation.Commands.Users
+namespace CQS.Commands.Users
 {
     public class UpdateUserCommand : IRequest<User>
     {

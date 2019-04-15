@@ -1,4 +1,4 @@
-﻿using CommandAndQuerySeparation.Commands.Cities;
+﻿using CQS.Commands.Cities;
 using FluentValidation;
 
 namespace Validators.Validators.Cities

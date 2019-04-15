@@ -5,8 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using CommandAndQuerySeparation.Commands.OrderItems;
-using CommandAndQuerySeparation.Queries.OrderItems;
+using CQS.Commands.OrderItems;
+using CQS.Queries.OrderItems;
 using WebStoreAPI.Response.OrderItems;
 
 namespace WebStoreAPI.Controllers
@@ -84,8 +84,8 @@ namespace WebStoreAPI.Controllers
 
             try
             {
-                await _mediator.Send(orderItem);
-                return Ok(_mapper.Map<CreateOrderItemsResponse>(orderItem));
+                var orderItemSend = await _mediator.Send(orderItem);
+                return Created($"api/orderitems/{orderItemSend.Id}", _mapper.Map<CreateOrderItemsResponse>(orderItem));
             }
             catch (Exception e)
             {

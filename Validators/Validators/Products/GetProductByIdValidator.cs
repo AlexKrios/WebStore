@@ -1,4 +1,4 @@
-﻿using CommandAndQuerySeparation.Queries.Products;
+﻿using CQS.Queries.Products;
 using FluentValidation;
 
 namespace Validators.Validators.Products 

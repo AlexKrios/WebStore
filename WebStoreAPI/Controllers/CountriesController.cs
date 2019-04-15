@@ -5,8 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using CommandAndQuerySeparation.Commands.Countries;
-using CommandAndQuerySeparation.Queries.Countries;
+using CQS.Commands.Countries;
+using CQS.Queries.Countries;
 using WebStoreAPI.Response.Countries;
 
 namespace WebStoreAPI.Controllers
@@ -84,8 +84,8 @@ namespace WebStoreAPI.Controllers
 
             try
             {
-                await _mediator.Send(country);
-                return Ok(_mapper.Map<CreateCountryResponse>(country));
+                var countrySend = await _mediator.Send(country);
+                return Created($"api/countries/{countrySend.Id}", _mapper.Map<CreateCountryResponse>(country));
             }
             catch (Exception e)
             {

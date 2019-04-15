@@ -1,4 +1,4 @@
-﻿using CommandAndQuerySeparation.Commands.Deliveries;
+﻿using CQS.Commands.Deliveries;
 using FluentValidation;
 
 namespace Validators.Validators.Deliveries

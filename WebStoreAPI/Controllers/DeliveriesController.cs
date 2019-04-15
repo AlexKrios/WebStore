@@ -5,8 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using CommandAndQuerySeparation.Commands.Deliveries;
-using CommandAndQuerySeparation.Queries.Deliveries;
+using CQS.Commands.Deliveries;
+using CQS.Queries.Deliveries;
 using WebStoreAPI.Response.Deliveries;
 
 namespace WebStoreAPI.Controllers
@@ -84,8 +84,8 @@ namespace WebStoreAPI.Controllers
 
             try
             {
-                await _mediator.Send(delivery);
-                return Ok(_mapper.Map<CreateDeliveryResponse>(delivery));
+                var deliverySend = await _mediator.Send(delivery);
+                return Created($"api/deliveries/{deliverySend.Id}", _mapper.Map<CreateDeliveryResponse>(delivery));
             }
             catch (Exception e)
             {

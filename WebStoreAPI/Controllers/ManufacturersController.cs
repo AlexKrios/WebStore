@@ -5,8 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using CommandAndQuerySeparation.Commands.Manufacturers;
-using CommandAndQuerySeparation.Queries.Manufacturers;
+using CQS.Commands.Manufacturers;
+using CQS.Queries.Manufacturers;
 using WebStoreAPI.Response.Manufacturers;
 
 namespace WebStoreAPI.Controllers
@@ -84,8 +84,8 @@ namespace WebStoreAPI.Controllers
 
             try
             {
-                await _mediator.Send(manufacturer);
-                return Ok(_mapper.Map<CreateManufacturerResponse>(manufacturer));
+                var manufacturerSend = await _mediator.Send(manufacturer);
+                return Created($"api/manufacturers/{manufacturerSend.Id}", _mapper.Map<CreateManufacturerResponse>(manufacturer));
             }
             catch (Exception e)
             {

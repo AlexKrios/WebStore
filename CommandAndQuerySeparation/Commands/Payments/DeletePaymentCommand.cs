@@ -1,7 +1,7 @@
 ﻿using DataLibrary.Entities;
 using MediatR;
 
-namespace CommandAndQuerySeparation.Commands.Payments
+namespace CQS.Commands.Payments
 {
     public class DeletePaymentCommand : IRequest<Payment>
     {

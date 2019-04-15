@@ -2,7 +2,7 @@
 using DataLibrary.Entities;
 using MediatR;
 
-namespace CommandAndQuerySeparation.Queries.Cities
+namespace CQS.Queries.Cities
 {
     public class GetCitiesQuery : IRequest<IEnumerable<City>>
     {

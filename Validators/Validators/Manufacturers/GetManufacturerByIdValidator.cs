@@ -1,4 +1,4 @@
-﻿using CommandAndQuerySeparation.Queries.Manufacturers;
+﻿using CQS.Queries.Manufacturers;
 using FluentValidation;
 
 namespace Validators.Validators.Manufacturers 

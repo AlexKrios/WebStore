@@ -5,8 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using CommandAndQuerySeparation.Commands.Payments;
-using CommandAndQuerySeparation.Queries.Payments;
+using CQS.Commands.Payments;
+using CQS.Queries.Payments;
 using WebStoreAPI.Response.Payments;
 
 namespace WebStoreAPI.Controllers
@@ -84,8 +84,8 @@ namespace WebStoreAPI.Controllers
 
             try
             {
-                await _mediator.Send(payment);
-                return Ok(_mapper.Map<CreatePaymentResponse>(payment));
+                var paymentSend = await _mediator.Send(payment);
+                return Created($"api/payments/{paymentSend.Id}", _mapper.Map<CreatePaymentResponse>(payment));
             }
             catch (Exception e)
             {

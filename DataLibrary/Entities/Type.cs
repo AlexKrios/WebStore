@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DataLibrary.Entities
 {
+    //DTO model Type
     public class Type
     {
         [Key]

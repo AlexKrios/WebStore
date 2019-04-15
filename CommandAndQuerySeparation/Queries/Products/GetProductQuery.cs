@@ -1,7 +1,7 @@
 ﻿using DataLibrary.Entities;
 using MediatR;
 
-namespace CommandAndQuerySeparation.Queries.Products
+namespace CQS.Queries.Products
 {
     public class GetProductQuery : IRequest<Product>
     {

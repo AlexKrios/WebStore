@@ -1,4 +1,4 @@
-﻿using CommandAndQuerySeparation.Commands.OrderItems;
+﻿using CQS.Commands.OrderItems;
 using FluentValidation;
 
 namespace Validators.Validators.OrderItems

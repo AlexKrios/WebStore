@@ -1,7 +1,7 @@
 ﻿using DataLibrary.Entities;
 using MediatR;
 
-namespace CommandAndQuerySeparation.Queries.UserRoles
+namespace CQS.Queries.UserRoles
 {
     public class GetUserRoleQuery : IRequest<UserRole>
     {

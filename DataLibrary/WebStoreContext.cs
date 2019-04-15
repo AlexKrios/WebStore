@@ -26,12 +26,14 @@ namespace DataLibrary
         {
             base.OnModelCreating(modelBuilder);
 
+            //Remove cycles path in Delivery
             modelBuilder.Entity<Delivery>()
                 .HasOne(d => d.User)
                 .WithMany(u => u.Deliveries)
                 .HasForeignKey(d => d.ModifiedBy)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            //Remove cycles path in Order
             modelBuilder.Entity<Order>(x =>
                 {
                     x.HasOne(o => o.Payment)
@@ -46,6 +48,7 @@ namespace DataLibrary
                 }
             );
 
+            //Remove cycles path in OrderItem
             modelBuilder.Entity<OrderItem>()
                 .HasOne(o => o.Product)
                 .WithMany(p => p.OrderItems)

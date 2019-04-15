@@ -5,8 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using CommandAndQuerySeparation.Commands.Users;
-using CommandAndQuerySeparation.Queries.Users;
+using CQS.Commands.Users;
+using CQS.Queries.Users;
 using WebStoreAPI.Response.Users;
 
 namespace WebStoreAPI.Controllers
@@ -107,8 +107,8 @@ namespace WebStoreAPI.Controllers
 
             try
             {
-                await _mediator.Send(user);
-                return Ok(_mapper.Map<CreateUserResponse>(user));
+                var userSend = await _mediator.Send(user);
+                return Created($"api/users/{userSend.Id}", _mapper.Map<CreateUserResponse>(user));
             }
             catch (Exception e)
             {

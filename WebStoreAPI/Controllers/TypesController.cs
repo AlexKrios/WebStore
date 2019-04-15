@@ -5,8 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using CommandAndQuerySeparation.Commands.Types;
-using CommandAndQuerySeparation.Queries.Types;
+using CQS.Commands.Types;
+using CQS.Queries.Types;
 using WebStoreAPI.Response.Types;
 
 namespace WebStoreAPI.Controllers
@@ -84,8 +84,8 @@ namespace WebStoreAPI.Controllers
 
             try
             {
-                await _mediator.Send(type);
-                return Ok(_mapper.Map<CreateTypeResponse>(type));
+                var typeSend = await _mediator.Send(type);
+                return Created($"api/types/{typeSend.Id}", _mapper.Map<CreateTypeResponse>(type));
             }
             catch (Exception e)
             {

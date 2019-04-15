@@ -1,7 +1,7 @@
 ﻿using DataLibrary.Entities;
 using MediatR;
 
-namespace CommandAndQuerySeparation.Commands.Orders
+namespace CQS.Commands.Orders
 {
     public class DeleteOrderCommand : IRequest<Order>
     {

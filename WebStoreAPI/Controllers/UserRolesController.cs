@@ -5,8 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using CommandAndQuerySeparation.Commands.UserRoles;
-using CommandAndQuerySeparation.Queries.UserRoles;
+using CQS.Commands.UserRoles;
+using CQS.Queries.UserRoles;
 using WebStoreAPI.Response.UserRoles;
 
 namespace WebStoreAPI.Controllers
@@ -84,8 +84,8 @@ namespace WebStoreAPI.Controllers
 
             try
             {
-                await _mediator.Send(userRole);
-                return Ok(_mapper.Map<CreateUserRolesResponse>(userRole));
+                var userRoleSend = await _mediator.Send(userRole);
+                return Created($"api/userroles/{userRoleSend.Id}", _mapper.Map<CreateUserRolesResponse>(userRole));
             }
             catch (Exception e)
             {
