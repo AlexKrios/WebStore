@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CQS.Commands.Cities;
 using CQS.Queries.Cities;
+using WebStoreAPI.Requests.Cities;
 using WebStoreAPI.Response.Cities;
 
 namespace WebStoreAPI.Controllers
@@ -18,14 +19,16 @@ namespace WebStoreAPI.Controllers
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
 
-        //Setup connection
         public CitiesController(IMediator mediator, IMapper mapper)
         {
             _mediator = mediator;
             _mapper = mapper;
         }
 
-        //Get list of cities
+        /// <summary>
+        /// Return all Cities.
+        /// </summary>
+        /// <returns>List with all Cities.</returns>
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<GetCitiesResponse>))]
         [ProducesResponseType(500, Type = typeof(string))]
@@ -48,7 +51,11 @@ namespace WebStoreAPI.Controllers
             }
         }
 
-        //Get single city
+        /// <summary>
+        /// Retrieve the City by their ID.
+        /// </summary>
+        /// <param name="id">The ID of the desired City.</param>
+        /// <returns>Info about City with selected Id.</returns>
         [HttpGet("{id}")]
         [ProducesResponseType(200, Type = typeof(GetCityResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
@@ -71,11 +78,15 @@ namespace WebStoreAPI.Controllers
             }
         }
 
-        //Add new city
+        /// <summary>
+        /// Create a new City.
+        /// </summary>
+        /// <param name="city">The body of new City.</param>
+        /// <returns>Info about created City.</returns>
         [HttpPost]
         [ProducesResponseType(200, Type = typeof(CreateCityResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
-        public async Task<IActionResult> Add(CreateCityCommand city)
+        public async Task<IActionResult> Add(CreateCityRequest city)
         {
             if (!ModelState.IsValid)
             {
@@ -84,7 +95,7 @@ namespace WebStoreAPI.Controllers
 
             try
             {
-                var citySend = await _mediator.Send(city);
+                var citySend = await _mediator.Send(_mapper.Map<CreateCityCommand>(city));
                 return Created($"api/cities/{citySend.Id}", _mapper.Map<CreateCityResponse>(city));
             }
             catch (Exception e)
@@ -93,11 +104,15 @@ namespace WebStoreAPI.Controllers
             }
         }
 
-        //Change city
+        /// <summary>
+        /// Update existing City.
+        /// </summary>
+        /// <param name="city">The body of new City.</param>
+        /// <returns>Nothing</returns>
         [HttpPut]
         [ProducesResponseType(200, Type = typeof(UpdateCityResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
-        public async Task<IActionResult> Update(UpdateCityCommand city)
+        public async Task<IActionResult> Update(UpdateCityRequest city)
         {
             if (!ModelState.IsValid)
             {
@@ -106,7 +121,7 @@ namespace WebStoreAPI.Controllers
 
             try
             {
-                var citySend = await _mediator.Send(city);
+                var citySend = await _mediator.Send(_mapper.Map<UpdateCityCommand>(city));
                 if (citySend == null)
                 {
                     return NotFound();
@@ -120,7 +135,11 @@ namespace WebStoreAPI.Controllers
             }
         }
 
-        //Delete city
+        /// <summary>
+        /// Delete existing City.
+        /// </summary>
+        /// <param name="id">The ID of the desired City.</param>
+        /// <returns>Nothing</returns>
         [HttpDelete("{id}")]
         [ProducesResponseType(200, Type = typeof(DeleteCityResponse))]
         [ProducesResponseType(500, Type = typeof(string))]

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CQS.Commands.Manufacturers;
 using CQS.Queries.Manufacturers;
+using WebStoreAPI.Requests.Manufacturers;
 using WebStoreAPI.Response.Manufacturers;
 
 namespace WebStoreAPI.Controllers
@@ -18,14 +19,16 @@ namespace WebStoreAPI.Controllers
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
 
-        //Setup connection
         public ManufacturersController(IMediator mediator, IMapper mapper)
         {
             _mediator = mediator;
             _mapper = mapper;
         }
 
-        //Get list of cities
+        /// <summary>
+        /// Return all Manufacturers.
+        /// </summary>
+        /// <returns>List with all Manufacturers.</returns>
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<GetManufacturersResponse>))]
         [ProducesResponseType(500, Type = typeof(string))]
@@ -48,7 +51,11 @@ namespace WebStoreAPI.Controllers
             }
         }
 
-        //Get single city
+        /// <summary>
+        /// Retrieve the Manufacturer by their ID.
+        /// </summary>
+        /// <param name="id">The ID of the desired Manufacturer.</param>
+        /// <returns>Info about Manufacturer with selected Id.</returns>
         [HttpGet("{id}")]
         [ProducesResponseType(200, Type = typeof(GetManufacturerResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
@@ -71,11 +78,15 @@ namespace WebStoreAPI.Controllers
             }
         }
 
-        //Add new city
+        /// <summary>
+        /// Create a new Manufacturer.
+        /// </summary>
+        /// <param name="manufacturer">The body of new Manufacturer.</param>
+        /// <returns>Info about created Manufacturer.</returns>
         [HttpPost]
         [ProducesResponseType(200, Type = typeof(CreateManufacturerResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
-        public async Task<IActionResult> Add(CreateManufacturerCommand manufacturer)
+        public async Task<IActionResult> Add(CreateManufacturerRequest manufacturer)
         {
             if (!ModelState.IsValid)
             {
@@ -84,7 +95,7 @@ namespace WebStoreAPI.Controllers
 
             try
             {
-                var manufacturerSend = await _mediator.Send(manufacturer);
+                var manufacturerSend = await _mediator.Send(_mapper.Map<CreateManufacturerCommand>(manufacturer));
                 return Created($"api/manufacturers/{manufacturerSend.Id}", _mapper.Map<CreateManufacturerResponse>(manufacturer));
             }
             catch (Exception e)
@@ -93,11 +104,15 @@ namespace WebStoreAPI.Controllers
             }
         }
 
-        //Change city
+        /// <summary>
+        /// Update existing Manufacturer.
+        /// </summary>
+        /// <param name="manufacturer">The body of new Manufacturer.</param>
+        /// <returns>Nothing</returns>
         [HttpPut]
         [ProducesResponseType(200, Type = typeof(UpdateManufacturerResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
-        public async Task<IActionResult> Update(UpdateManufacturerCommand manufacturer)
+        public async Task<IActionResult> Update(UpdateManufacturerRequest manufacturer)
         {
             if (!ModelState.IsValid)
             {
@@ -106,7 +121,7 @@ namespace WebStoreAPI.Controllers
 
             try
             {
-                var manufacturerSend = await _mediator.Send(manufacturer);
+                var manufacturerSend = await _mediator.Send(_mapper.Map<UpdateManufacturerCommand>(manufacturer));
                 if (manufacturerSend == null)
                 {
                     return NotFound();
@@ -120,7 +135,11 @@ namespace WebStoreAPI.Controllers
             }
         }
 
-        //Delete city
+        /// <summary>
+        /// Delete existing Manufacturer.
+        /// </summary>
+        /// <param name="id">The ID of the desired Manufacturer.</param>
+        /// <returns>Nothing</returns>
         [HttpDelete("{id}")]
         [ProducesResponseType(200, Type = typeof(DeleteManufacturerResponse))]
         [ProducesResponseType(500, Type = typeof(string))]

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CQS.Commands.Orders;
 using CQS.Queries.Orders;
+using WebStoreAPI.Requests.Orders;
 using WebStoreAPI.Response.Orders;
 
 namespace WebStoreAPI.Controllers
@@ -18,14 +19,16 @@ namespace WebStoreAPI.Controllers
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
 
-        //Setup connection
         public OrdersController(IMediator mediator, IMapper mapper)
         {
             _mediator = mediator;
             _mapper = mapper;
         }
 
-        //Get list of orders
+        /// <summary>
+        /// Return all Orders.
+        /// </summary>
+        /// <returns>List with all Orders.</returns>
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<GetOrdersResponse>))]
         [ProducesResponseType(500, Type = typeof(string))]
@@ -48,7 +51,11 @@ namespace WebStoreAPI.Controllers
             }
         }
 
-        //Get single order
+        /// <summary>
+        /// Retrieve the Order by their ID.
+        /// </summary>
+        /// <param name="id">The ID of the desired Order.</param>
+        /// <returns>Info about Order with selected Id.</returns>
         [HttpGet("{id}")]
         [ProducesResponseType(200, Type = typeof(GetOrderResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
@@ -71,11 +78,15 @@ namespace WebStoreAPI.Controllers
             }
         }
 
-        //Add new order
+        /// <summary>
+        /// Create a new Order.
+        /// </summary>
+        /// <param name="order">The body of new Order.</param>
+        /// <returns>Info about created Order.</returns>
         [HttpPost]
         [ProducesResponseType(200, Type = typeof(CreateOrderResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
-        public async Task<IActionResult> Add(CreateOrderCommand order)
+        public async Task<IActionResult> Add(CreateOrderRequest order)
         {
             if (!ModelState.IsValid)
             {
@@ -84,7 +95,7 @@ namespace WebStoreAPI.Controllers
 
             try
             {
-                var orderSend = await _mediator.Send(order);
+                var orderSend = await _mediator.Send(_mapper.Map<CreateOrderCommand>(order));
                 return Created($"api/orders/{orderSend.Id}", _mapper.Map<CreateOrderResponse>(order));
             }
             catch (Exception e)
@@ -93,11 +104,15 @@ namespace WebStoreAPI.Controllers
             }
         }
 
-        //Change order
+        /// <summary>
+        /// Update existing Order.
+        /// </summary>
+        /// <param name="order">The body of new Order.</param>
+        /// <returns>Nothing</returns>
         [HttpPut]
         [ProducesResponseType(200, Type = typeof(UpdateOrderResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
-        public async Task<IActionResult> Update(UpdateOrderCommand order)
+        public async Task<IActionResult> Update(UpdateOrderRequest order)
         {
             if (!ModelState.IsValid)
             {
@@ -106,7 +121,7 @@ namespace WebStoreAPI.Controllers
 
             try
             {
-                var orderSend = await _mediator.Send(order);
+                var orderSend = await _mediator.Send(_mapper.Map<UpdateOrderCommand>(order));
                 if (orderSend == null)
                 {
                     return NotFound();
@@ -120,7 +135,11 @@ namespace WebStoreAPI.Controllers
             }
         }
 
-        //Delete order
+        /// <summary>
+        /// Delete existing Order.
+        /// </summary>
+        /// <param name="id">The ID of the desired Order.</param>
+        /// <returns>Nothing</returns>
         [HttpDelete("{id}")]
         [ProducesResponseType(200, Type = typeof(DeleteOrderResponse))]
         [ProducesResponseType(500, Type = typeof(string))]

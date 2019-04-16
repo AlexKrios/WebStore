@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CQS.Commands.Countries;
 using CQS.Queries.Countries;
+using WebStoreAPI.Requests.Countries;
 using WebStoreAPI.Response.Countries;
 
 namespace WebStoreAPI.Controllers
@@ -18,14 +19,16 @@ namespace WebStoreAPI.Controllers
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
 
-        //Setup connection
         public CountriesController(IMediator mediator, IMapper mapper)
         {
             _mediator = mediator;
             _mapper = mapper;
         }
 
-        //Get list of countries
+        /// <summary>
+        /// Return all Countries.
+        /// </summary>
+        /// <returns>List with all Countries.</returns>
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<GetCountriesResponse>))]
         [ProducesResponseType(500, Type = typeof(string))]
@@ -48,7 +51,11 @@ namespace WebStoreAPI.Controllers
             }
         }
 
-        //Get single country
+        /// <summary>
+        /// Retrieve the Country by their ID.
+        /// </summary>
+        /// <param name="id">The ID of the desired Country.</param>
+        /// <returns>Info about Country with selected Id.</returns>
         [HttpGet("{id}")]
         [ProducesResponseType(200, Type = typeof(GetCountryResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
@@ -71,11 +78,15 @@ namespace WebStoreAPI.Controllers
             }
         }
 
-        //Add new country
+        /// <summary>
+        /// Create a new Country.
+        /// </summary>
+        /// <param name="country">The body of new Country.</param>
+        /// <returns>Info about created Country.</returns>
         [HttpPost]
         [ProducesResponseType(200, Type = typeof(CreateCountryResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
-        public async Task<IActionResult> Add(CreateCountryCommand country)
+        public async Task<IActionResult> Add(CreateCountryRequest country)
         {
             if (!ModelState.IsValid)
             {
@@ -84,7 +95,7 @@ namespace WebStoreAPI.Controllers
 
             try
             {
-                var countrySend = await _mediator.Send(country);
+                var countrySend = await _mediator.Send(_mapper.Map<CreateCountryCommand>(country));
                 return Created($"api/countries/{countrySend.Id}", _mapper.Map<CreateCountryResponse>(country));
             }
             catch (Exception e)
@@ -93,11 +104,15 @@ namespace WebStoreAPI.Controllers
             }
         }
 
-        //Change country
+        /// <summary>
+        /// Update existing Country.
+        /// </summary>
+        /// <param name="country">The body of new Country.</param>
+        /// <returns>Nothing</returns>
         [HttpPut]
         [ProducesResponseType(200, Type = typeof(UpdateCountryResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
-        public async Task<IActionResult> Update(UpdateCountryCommand country)
+        public async Task<IActionResult> Update(UpdateCountryRequest country)
         {
             if (!ModelState.IsValid)
             {
@@ -106,7 +121,7 @@ namespace WebStoreAPI.Controllers
 
             try
             {
-                var countrySend = await _mediator.Send(country);
+                var countrySend = await _mediator.Send(_mapper.Map<UpdateCountryCommand>(country));
                 if (countrySend == null)
                 {
                     return NotFound();
@@ -120,7 +135,11 @@ namespace WebStoreAPI.Controllers
             }
         }
 
-        //Delete country
+        /// <summary>
+        /// Delete existing Country.
+        /// </summary>
+        /// <param name="id">The ID of the desired Country.</param>
+        /// <returns>Nothing</returns>
         [HttpDelete("{id}")]
         [ProducesResponseType(200, Type = typeof(DeleteCountryResponse))]
         [ProducesResponseType(500, Type = typeof(string))]

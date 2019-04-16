@@ -1,4 +1,7 @@
-﻿using AutoMapper;
+﻿using System;
+using System.IO;
+using System.Reflection;
+using AutoMapper;
 using DataLibrary;
 using FluentValidation.AspNetCore;
 using MediatR;
@@ -49,7 +52,12 @@ namespace WebStoreAPI
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info {Title = "Web Store request", Version = "v1"});
+                c.SwaggerDoc("v1", new Info { Title = "Web Store request", Version = "v1" });
+
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.XML";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+
+                c.IncludeXmlComments(xmlPath);
             });
 
             services.AddDbContext<WebStoreContext>(options =>

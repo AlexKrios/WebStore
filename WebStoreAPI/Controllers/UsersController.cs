@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CQS.Commands.Users;
 using CQS.Queries.Users;
+using WebStoreAPI.Requests.Users;
 using WebStoreAPI.Response.Users;
 
 namespace WebStoreAPI.Controllers
@@ -18,14 +19,16 @@ namespace WebStoreAPI.Controllers
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
 
-        //Setup connection
         public UsersController(IMediator mediator, IMapper mapper)
         {
             _mediator = mediator;
             _mapper = mapper;
         }
 
-        //Get list of users
+        /// <summary>
+        /// Return all Users.
+        /// </summary>
+        /// <returns>List with all Users.</returns>
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<GetUsersResponse>))]
         [ProducesResponseType(500, Type = typeof(string))]
@@ -48,7 +51,11 @@ namespace WebStoreAPI.Controllers
             }
         }
 
-        //Get single user
+        /// <summary>
+        /// Retrieve the User by their ID.
+        /// </summary>
+        /// <param name="id">The ID of the desired User.</param>
+        /// <returns>Info about User with selected Id.</returns>
         [HttpGet("{id}")]
         [ProducesResponseType(200, Type = typeof(GetUserResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
@@ -71,34 +78,15 @@ namespace WebStoreAPI.Controllers
             }
         }
 
-        //Get group of user
-        //[HttpGet("{role}")]
-        //[ProducesResponseType(200, Type = typeof(IEnumerable<User>))]
-        //[ProducesResponseType(500, Type = typeof(string))]
-        //public async Task<IActionResult> GetUserByRole(string role)
-        //{
-        //    try
-        //    {
-        //        var users = await _mediator.Send(new GetUsersByRoleQuery(role));
-
-        //        if (!users.Any())
-        //        {
-        //            return NotFound();
-        //        }
-
-        //        return Ok(users);
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        return StatusCode(500, new { errorMessage = e.Message });
-        //    }
-        //}
-
-        //Add new user
+        /// <summary>
+        /// Create a new User.
+        /// </summary>
+        /// <param name="user">The body of new User.</param>
+        /// <returns>Info about created User.</returns>
         [HttpPost]
         [ProducesResponseType(200, Type = typeof(CreateUserResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
-        public async Task<IActionResult> Add(CreateUserCommand user)
+        public async Task<IActionResult> Add(CreateUserRequest user)
         {
             if (!ModelState.IsValid)
             {
@@ -107,7 +95,7 @@ namespace WebStoreAPI.Controllers
 
             try
             {
-                var userSend = await _mediator.Send(user);
+                var userSend = await _mediator.Send(_mapper.Map<CreateUserCommand>(user));
                 return Created($"api/users/{userSend.Id}", _mapper.Map<CreateUserResponse>(user));
             }
             catch (Exception e)
@@ -116,11 +104,15 @@ namespace WebStoreAPI.Controllers
             }
         }
 
-        //Change user
+        /// <summary>
+        /// Update existing User.
+        /// </summary>
+        /// <param name="user">The body of new User.</param>
+        /// <returns>Nothing</returns>
         [HttpPut]
         [ProducesResponseType(200, Type = typeof(UpdateUserResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
-        public async Task<IActionResult> Update(UpdateUserCommand user)
+        public async Task<IActionResult> Update(UpdateUserRequest user)
         {
             if (!ModelState.IsValid)
             {
@@ -129,7 +121,7 @@ namespace WebStoreAPI.Controllers
 
             try
             {
-                var userSend = await _mediator.Send(user);
+                var userSend = await _mediator.Send(_mapper.Map<UpdateUserCommand>(user));
                 if (userSend == null)
                 {
                     return NotFound();
@@ -143,7 +135,11 @@ namespace WebStoreAPI.Controllers
             }
         }
 
-        //Delete user
+        /// <summary>
+        /// Delete existing User.
+        /// </summary>
+        /// <param name="id">The ID of the desired User.</param>
+        /// <returns>Nothing</returns>
         [HttpDelete("{id}")]
         [ProducesResponseType(200, Type = typeof(DeleteUserResponse))]
         [ProducesResponseType(500, Type = typeof(string))]

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CQS.Commands.Types;
 using CQS.Queries.Types;
+using WebStoreAPI.Requests.Types;
 using WebStoreAPI.Response.Types;
 
 namespace WebStoreAPI.Controllers
@@ -18,14 +19,16 @@ namespace WebStoreAPI.Controllers
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
 
-        //Setup connection
         public TypesController(IMediator mediator, IMapper mapper)
         {
             _mediator = mediator;
             _mapper = mapper;
         }
 
-        //Get list of types
+        /// <summary>
+        /// Return all Types.
+        /// </summary>
+        /// <returns>List with all Types.</returns>
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<GetTypesResponse>))]
         [ProducesResponseType(500, Type = typeof(string))]
@@ -48,7 +51,11 @@ namespace WebStoreAPI.Controllers
             }
         }
 
-        //Get single type
+        /// <summary>
+        /// Retrieve the Type by their ID.
+        /// </summary>
+        /// <param name="id">The ID of the desired Type.</param>
+        /// <returns>Info about Type with selected Id.</returns>
         [HttpGet("{id}")]
         [ProducesResponseType(200, Type = typeof(GetTypeResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
@@ -71,11 +78,15 @@ namespace WebStoreAPI.Controllers
             }
         }
 
-        //Add new type
+        /// <summary>
+        /// Create a new Type.
+        /// </summary>
+        /// <param name="type">The body of new Type.</param>
+        /// <returns>Info about created Type.</returns>
         [HttpPost]
         [ProducesResponseType(200, Type = typeof(CreateTypeResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
-        public async Task<IActionResult> Add(CreateTypeCommand type)
+        public async Task<IActionResult> Add(CreateTypeRequest type)
         {
             if (!ModelState.IsValid)
             {
@@ -84,7 +95,7 @@ namespace WebStoreAPI.Controllers
 
             try
             {
-                var typeSend = await _mediator.Send(type);
+                var typeSend = await _mediator.Send(_mapper.Map<CreateTypeCommand>(type));
                 return Created($"api/types/{typeSend.Id}", _mapper.Map<CreateTypeResponse>(type));
             }
             catch (Exception e)
@@ -93,11 +104,15 @@ namespace WebStoreAPI.Controllers
             }
         }
 
-        //Change type
+        /// <summary>
+        /// Update existing Type.
+        /// </summary>
+        /// <param name="type">The body of new Type.</param>
+        /// <returns>Nothing</returns>
         [HttpPut]
         [ProducesResponseType(200, Type = typeof(UpdateTypeResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
-        public async Task<IActionResult> Update(UpdateTypeCommand type)
+        public async Task<IActionResult> Update(UpdateTypeRequest type)
         {
             if (!ModelState.IsValid)
             {
@@ -106,7 +121,7 @@ namespace WebStoreAPI.Controllers
 
             try
             {
-                var typeSend = await _mediator.Send(type);
+                var typeSend = await _mediator.Send(_mapper.Map<UpdateTypeCommand>(type));
                 if (typeSend == null)
                 {
                     return NotFound();
@@ -120,7 +135,11 @@ namespace WebStoreAPI.Controllers
             }
         }
 
-        //Delete city
+        /// <summary>
+        /// Delete existing Type.
+        /// </summary>
+        /// <param name="id">The ID of the desired Type.</param>
+        /// <returns>Nothing</returns>
         [HttpDelete("{id}")]
         [ProducesResponseType(200, Type = typeof(DeleteTypeResponse))]
         [ProducesResponseType(500, Type = typeof(string))]

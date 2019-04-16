@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CQS.Commands.Payments;
 using CQS.Queries.Payments;
+using WebStoreAPI.Requests.Payments;
 using WebStoreAPI.Response.Payments;
 
 namespace WebStoreAPI.Controllers
@@ -18,14 +19,16 @@ namespace WebStoreAPI.Controllers
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
 
-        //Setup connection
         public PaymentsController(IMediator mediator, IMapper mapper)
         {
             _mediator = mediator;
             _mapper = mapper;
         }
 
-        //Get list of payments
+        /// <summary>
+        /// Return all Payments.
+        /// </summary>
+        /// <returns>List with all Payments.</returns>
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<GetPaymentsResponse>))]
         [ProducesResponseType(500, Type = typeof(string))]
@@ -48,7 +51,11 @@ namespace WebStoreAPI.Controllers
             }
         }
 
-        //Get single payment
+        /// <summary>
+        /// Retrieve the Payment by their ID.
+        /// </summary>
+        /// <param name="id">The ID of the desired Payment.</param>
+        /// <returns>Info about Payment with selected Id.</returns>
         [HttpGet("{id}")]
         [ProducesResponseType(200, Type = typeof(GetPaymentResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
@@ -71,11 +78,15 @@ namespace WebStoreAPI.Controllers
             }
         }
 
-        //Add new payment
+        /// <summary>
+        /// Create a new Payment.
+        /// </summary>
+        /// <param name="payment">The body of new Payment.</param>
+        /// <returns>Info about created Payment.</returns>
         [HttpPost]
         [ProducesResponseType(200, Type = typeof(CreatePaymentResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
-        public async Task<IActionResult> Add(CreatePaymentCommand payment)
+        public async Task<IActionResult> Add(CreatePaymentRequest payment)
         {
             if (!ModelState.IsValid)
             {
@@ -84,7 +95,7 @@ namespace WebStoreAPI.Controllers
 
             try
             {
-                var paymentSend = await _mediator.Send(payment);
+                var paymentSend = await _mediator.Send(_mapper.Map<CreatePaymentCommand>(payment));
                 return Created($"api/payments/{paymentSend.Id}", _mapper.Map<CreatePaymentResponse>(payment));
             }
             catch (Exception e)
@@ -93,11 +104,15 @@ namespace WebStoreAPI.Controllers
             }
         }
 
-        //Change payment
+        /// <summary>
+        /// Update existing Payment.
+        /// </summary>
+        /// <param name="payment">The body of new Payment.</param>
+        /// <returns>Nothing</returns>
         [HttpPut]
         [ProducesResponseType(200, Type = typeof(UpdatePaymentResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
-        public async Task<IActionResult> Update(UpdatePaymentCommand payment)
+        public async Task<IActionResult> Update(UpdatePaymentRequest payment)
         {
             if (!ModelState.IsValid)
             {
@@ -106,7 +121,7 @@ namespace WebStoreAPI.Controllers
 
             try
             {
-                var paymentSend = await _mediator.Send(payment);
+                var paymentSend = await _mediator.Send(_mapper.Map<UpdatePaymentCommand>(payment));
                 if (paymentSend == null)
                 {
                     return NotFound();
@@ -120,7 +135,11 @@ namespace WebStoreAPI.Controllers
             }
         }
 
-        //Delete payment
+        /// <summary>
+        /// Delete existing Payment.
+        /// </summary>
+        /// <param name="id">The ID of the desired Payment.</param>
+        /// <returns>Nothing</returns>
         [HttpDelete("{id}")]
         [ProducesResponseType(200, Type = typeof(DeletePaymentResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
