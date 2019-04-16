@@ -26,7 +26,7 @@ namespace WebStoreAPI.Controllers
         }
 
         /// <summary>
-        /// Return all Users.
+        /// Get all Users.
         /// </summary>
         /// <returns>List with all Users.</returns>
         [HttpGet]
@@ -52,7 +52,7 @@ namespace WebStoreAPI.Controllers
         }
 
         /// <summary>
-        /// Retrieve the User by their ID.
+        /// Get User by their ID.
         /// </summary>
         /// <param name="id">The ID of the desired User.</param>
         /// <returns>Info about User with selected Id.</returns>

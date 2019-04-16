@@ -26,7 +26,7 @@ namespace WebStoreAPI.Controllers
         }
 
         /// <summary>
-        /// Return all Types.
+        /// Get all Types.
         /// </summary>
         /// <returns>List with all Types.</returns>
         [HttpGet]
@@ -52,7 +52,7 @@ namespace WebStoreAPI.Controllers
         }
 
         /// <summary>
-        /// Retrieve the Type by their ID.
+        /// Get Type by their ID.
         /// </summary>
         /// <param name="id">The ID of the desired Type.</param>
         /// <returns>Info about Type with selected Id.</returns>

@@ -26,7 +26,7 @@ namespace WebStoreAPI.Controllers
         }
 
         /// <summary>
-        /// Return all Deliveries.
+        /// Get all Deliveries.
         /// </summary>
         /// <returns>List with all Deliveries.</returns>
         [HttpGet]
@@ -52,7 +52,7 @@ namespace WebStoreAPI.Controllers
         }
 
         /// <summary>
-        /// Retrieve the Delivery by their ID.
+        /// Get Delivery by their ID.
         /// </summary>
         /// <param name="id">The ID of the desired Delivery.</param>
         /// <returns>Info about Delivery with selected Id.</returns>

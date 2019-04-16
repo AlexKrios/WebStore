@@ -26,7 +26,7 @@ namespace WebStoreAPI.Controllers
         }
 
         /// <summary>
-        /// Return all Cities.
+        /// Get all Cities.
         /// </summary>
         /// <returns>List with all Cities.</returns>
         [HttpGet]
@@ -52,7 +52,7 @@ namespace WebStoreAPI.Controllers
         }
 
         /// <summary>
-        /// Retrieve the City by their ID.
+        /// Get City by their ID.
         /// </summary>
         /// <param name="id">The ID of the desired City.</param>
         /// <returns>Info about City with selected Id.</returns>

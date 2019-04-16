@@ -26,7 +26,7 @@ namespace WebStoreAPI.Controllers
         }
 
         /// <summary>
-        /// Return all Payments.
+        /// Get all Payments.
         /// </summary>
         /// <returns>List with all Payments.</returns>
         [HttpGet]
@@ -52,7 +52,7 @@ namespace WebStoreAPI.Controllers
         }
 
         /// <summary>
-        /// Retrieve the Payment by their ID.
+        /// Get Payment by their ID.
         /// </summary>
         /// <param name="id">The ID of the desired Payment.</param>
         /// <returns>Info about Payment with selected Id.</returns>

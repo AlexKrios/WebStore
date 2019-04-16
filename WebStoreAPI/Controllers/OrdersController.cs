@@ -26,7 +26,7 @@ namespace WebStoreAPI.Controllers
         }
 
         /// <summary>
-        /// Return all Orders.
+        /// Get all Orders.
         /// </summary>
         /// <returns>List with all Orders.</returns>
         [HttpGet]
@@ -52,7 +52,7 @@ namespace WebStoreAPI.Controllers
         }
 
         /// <summary>
-        /// Retrieve the Order by their ID.
+        /// Get Order by their ID.
         /// </summary>
         /// <param name="id">The ID of the desired Order.</param>
         /// <returns>Info about Order with selected Id.</returns>

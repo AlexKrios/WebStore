@@ -26,7 +26,7 @@ namespace WebStoreAPI.Controllers
         }
 
         /// <summary>
-        /// Return all Manufacturers.
+        /// Get all Manufacturers.
         /// </summary>
         /// <returns>List with all Manufacturers.</returns>
         [HttpGet]
@@ -52,7 +52,7 @@ namespace WebStoreAPI.Controllers
         }
 
         /// <summary>
-        /// Retrieve the Manufacturer by their ID.
+        /// Get Manufacturer by their ID.
         /// </summary>
         /// <param name="id">The ID of the desired Manufacturer.</param>
         /// <returns>Info about Manufacturer with selected Id.</returns>

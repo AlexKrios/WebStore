@@ -26,7 +26,7 @@ namespace WebStoreAPI.Controllers
         }
 
         /// <summary>
-        /// Return all Countries.
+        /// Get all Countries.
         /// </summary>
         /// <returns>List with all Countries.</returns>
         [HttpGet]
@@ -52,7 +52,7 @@ namespace WebStoreAPI.Controllers
         }
 
         /// <summary>
-        /// Retrieve the Country by their ID.
+        /// Get Country by their ID.
         /// </summary>
         /// <param name="id">The ID of the desired Country.</param>
         /// <returns>Info about Country with selected Id.</returns>

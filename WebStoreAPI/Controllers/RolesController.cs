@@ -26,7 +26,7 @@ namespace WebStoreAPI.Controllers
         }
 
         /// <summary>
-        /// Return all Roles.
+        /// Get all Roles.
         /// </summary>
         /// <returns>List with all Roles.</returns>
         [HttpGet]
@@ -52,7 +52,7 @@ namespace WebStoreAPI.Controllers
         }
 
         /// <summary>
-        /// Retrieve the Role by their ID.
+        /// Get Role by their ID.
         /// </summary>
         /// <param name="id">The ID of the desired Role.</param>
         /// <returns>Info about Role with selected Id.</returns>
