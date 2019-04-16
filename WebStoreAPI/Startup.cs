@@ -1,4 +1,7 @@
-﻿using AutoMapper;
+﻿using System;
+using System.IO;
+using System.Reflection;
+using AutoMapper;
 using DataLibrary;
 using FluentValidation.AspNetCore;
 using MediatR;
@@ -30,10 +33,6 @@ namespace WebStoreAPI
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<WebStoreContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString(
-                    "DefaultConnection"),
-                    b => b.MigrationsAssembly("WebStoreAPI")));
             services.AddMvc().AddFluentValidation(options =>
             {
                 options.RegisterValidatorsFromAssemblyContaining<Startup>();
@@ -53,8 +52,18 @@ namespace WebStoreAPI
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info {Title = "Web Store request", Version = "v1"});
+                c.SwaggerDoc("v1", new Info { Title = "Web Store request", Version = "v1" });
+
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.XML";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+
+                c.IncludeXmlComments(xmlPath);
             });
+
+            services.AddDbContext<WebStoreContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString(
+                        "DefaultConnection"),
+                    b => b.MigrationsAssembly("WebStoreAPI")));
         }
 
         private void IntegrateSimpleInjector(IServiceCollection services)
@@ -72,7 +81,8 @@ namespace WebStoreAPI
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, WebStoreContext context)
         {
-            InitializeContainer(app);
+            _container.RegisterMvcControllers(app);
+            _container.AutoCrossWireAspNetComponents(app);
             _container.Verify();
 
             if (env.IsDevelopment())
@@ -90,14 +100,8 @@ namespace WebStoreAPI
             app.UseSwagger();
             app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "Web Store"); });
 
+            //Db initialization
             WebStoreInitializer.Seed(context);
-        }
-
-        //Initialization DI container
-        private void InitializeContainer(IApplicationBuilder app)
-        {
-            _container.RegisterMvcControllers(app);
-            _container.AutoCrossWireAspNetComponents(app);
         }
     }
 }

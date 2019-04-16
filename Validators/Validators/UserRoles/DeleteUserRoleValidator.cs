@@ -1,4 +1,4 @@
-﻿using CommandAndQuerySeparation.Commands.UserRoles;
+﻿using CQS.Commands.UserRoles;
 using FluentValidation;
 
 namespace Validators.Validators.UserRoles

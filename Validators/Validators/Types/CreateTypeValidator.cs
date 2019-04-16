@@ -1,4 +1,4 @@
-﻿using CommandAndQuerySeparation.Commands.Types;
+﻿using CQS.Commands.Types;
 using FluentValidation;
 
 namespace Validators.Validators.Types

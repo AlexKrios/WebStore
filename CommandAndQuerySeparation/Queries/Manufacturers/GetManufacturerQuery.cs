@@ -1,7 +1,7 @@
 ﻿using DataLibrary.Entities;
 using MediatR;
 
-namespace CommandAndQuerySeparation.Queries.Manufacturers
+namespace CQS.Queries.Manufacturers
 {
     public class GetManufacturerQuery : IRequest<Manufacturer>
     {

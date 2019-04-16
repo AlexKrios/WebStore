@@ -1,7 +1,7 @@
 ﻿using DataLibrary.Entities;
 using MediatR;
 
-namespace CommandAndQuerySeparation.Queries.Orders
+namespace CQS.Queries.Orders
 {
     public class GetOrderQuery : IRequest<Order>
     {

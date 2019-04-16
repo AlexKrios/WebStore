@@ -1,4 +1,4 @@
-﻿using CommandAndQuerySeparation.Commands.Payments;
+﻿using CQS.Commands.Payments;
 using FluentValidation;
 
 namespace Validators.Validators.Payments

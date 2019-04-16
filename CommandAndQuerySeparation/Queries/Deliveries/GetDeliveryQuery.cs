@@ -1,7 +1,7 @@
 ﻿using DataLibrary.Entities;
 using MediatR;
 
-namespace CommandAndQuerySeparation.Queries.Deliveries
+namespace CQS.Queries.Deliveries
 {
     public class GetDeliveryQuery : IRequest<Delivery>
     {

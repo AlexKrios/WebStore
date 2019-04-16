@@ -1,0 +1,416 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>WebStoreAPI</name>
+    </assembly>
+    <members>
+        <member name="M:WebStoreAPI.Controllers.CitiesController.GetAll">
+            <summary>
+            Return all Cities.
+            </summary>
+            <returns>List with all Cities.</returns>
+        </member>
+        <member name="M:WebStoreAPI.Controllers.CitiesController.GetById(System.Int32)">
+            <summary>
+            Retrieve the City by their ID.
+            </summary>
+            <param name="id">The ID of the desired City.</param>
+            <returns>Info about City with selected Id.</returns>
+        </member>
+        <member name="M:WebStoreAPI.Controllers.CitiesController.Add(WebStoreAPI.Requests.Cities.CreateCityRequest)">
+            <summary>
+            Create a new City.
+            </summary>
+            <param name="city">The body of new City.</param>
+            <returns>Info about created City.</returns>
+        </member>
+        <member name="M:WebStoreAPI.Controllers.CitiesController.Update(WebStoreAPI.Requests.Cities.UpdateCityRequest)">
+            <summary>
+            Update existing City.
+            </summary>
+            <param name="city">The body of new City.</param>
+            <returns>Nothing</returns>
+        </member>
+        <member name="M:WebStoreAPI.Controllers.CitiesController.Delete(System.Int32)">
+            <summary>
+            Delete existing City.
+            </summary>
+            <param name="id">The ID of the desired City.</param>
+            <returns>Nothing</returns>
+        </member>
+        <member name="M:WebStoreAPI.Controllers.CountriesController.GetAll">
+            <summary>
+            Return all Countries.
+            </summary>
+            <returns>List with all Countries.</returns>
+        </member>
+        <member name="M:WebStoreAPI.Controllers.CountriesController.GetById(System.Int32)">
+            <summary>
+            Retrieve the Country by their ID.
+            </summary>
+            <param name="id">The ID of the desired Country.</param>
+            <returns>Info about Country with selected Id.</returns>
+        </member>
+        <member name="M:WebStoreAPI.Controllers.CountriesController.Add(WebStoreAPI.Requests.Countries.CreateCountryRequest)">
+            <summary>
+            Create a new Country.
+            </summary>
+            <param name="country">The body of new Country.</param>
+            <returns>Info about created Country.</returns>
+        </member>
+        <member name="M:WebStoreAPI.Controllers.CountriesController.Update(WebStoreAPI.Requests.Countries.UpdateCountryRequest)">
+            <summary>
+            Update existing Country.
+            </summary>
+            <param name="country">The body of new Country.</param>
+            <returns>Nothing</returns>
+        </member>
+        <member name="M:WebStoreAPI.Controllers.CountriesController.Delete(System.Int32)">
+            <summary>
+            Delete existing Country.
+            </summary>
+            <param name="id">The ID of the desired Country.</param>
+            <returns>Nothing</returns>
+        </member>
+        <member name="M:WebStoreAPI.Controllers.DeliveriesController.GetAll">
+            <summary>
+            Return all Deliveries.
+            </summary>
+            <returns>List with all Deliveries.</returns>
+        </member>
+        <member name="M:WebStoreAPI.Controllers.DeliveriesController.GetById(System.Int32)">
+            <summary>
+            Retrieve the Delivery by their ID.
+            </summary>
+            <param name="id">The ID of the desired Delivery.</param>
+            <returns>Info about Delivery with selected Id.</returns>
+        </member>
+        <member name="M:WebStoreAPI.Controllers.DeliveriesController.Add(WebStoreAPI.Requests.Deliveries.CreateDeliveryRequest)">
+            <summary>
+            Create a new Delivery.
+            </summary>
+            <param name="delivery">The body of new Delivery.</param>
+            <returns>Info about created Delivery.</returns>
+        </member>
+        <member name="M:WebStoreAPI.Controllers.DeliveriesController.Update(WebStoreAPI.Requests.Deliveries.UpdateDeliveryRequest)">
+            <summary>
+            Update existing Delivery.
+            </summary>
+            <param name="delivery">The body of new Delivery.</param>
+            <returns>Nothing</returns>
+        </member>
+        <member name="M:WebStoreAPI.Controllers.DeliveriesController.Delete(System.Int32)">
+            <summary>
+            Delete existing Delivery.
+            </summary>
+            <param name="id">The ID of the desired Delivery.</param>
+            <returns>Nothing</returns>
+        </member>
+        <member name="M:WebStoreAPI.Controllers.ManufacturersController.GetAll">
+            <summary>
+            Return all Manufacturers.
+            </summary>
+            <returns>List with all Manufacturers.</returns>
+        </member>
+        <member name="M:WebStoreAPI.Controllers.ManufacturersController.GetById(System.Int32)">
+            <summary>
+            Retrieve the Manufacturer by their ID.
+            </summary>
+            <param name="id">The ID of the desired Manufacturer.</param>
+            <returns>Info about Manufacturer with selected Id.</returns>
+        </member>
+        <member name="M:WebStoreAPI.Controllers.ManufacturersController.Add(WebStoreAPI.Requests.Manufacturers.CreateManufacturerRequest)">
+            <summary>
+            Create a new Manufacturer.
+            </summary>
+            <param name="manufacturer">The body of new Manufacturer.</param>
+            <returns>Info about created Manufacturer.</returns>
+        </member>
+        <member name="M:WebStoreAPI.Controllers.ManufacturersController.Update(WebStoreAPI.Requests.Manufacturers.UpdateManufacturerRequest)">
+            <summary>
+            Update existing Manufacturer.
+            </summary>
+            <param name="manufacturer">The body of new Manufacturer.</param>
+            <returns>Nothing</returns>
+        </member>
+        <member name="M:WebStoreAPI.Controllers.ManufacturersController.Delete(System.Int32)">
+            <summary>
+            Delete existing Manufacturer.
+            </summary>
+            <param name="id">The ID of the desired Manufacturer.</param>
+            <returns>Nothing</returns>
+        </member>
+        <member name="M:WebStoreAPI.Controllers.OrderItemsController.GetAll">
+            <summary>
+            Return all OrdersItems.
+            </summary>
+            <returns>List with all OrdersItems.</returns>
+        </member>
+        <member name="M:WebStoreAPI.Controllers.OrderItemsController.GetById(System.Int32)">
+            <summary>
+            Retrieve the OrderItems by their ID.
+            </summary>
+            <param name="id">The ID of the desired OrderItems.</param>
+            <returns>Info about OrderItems with selected Id.</returns>
+        </member>
+        <member name="M:WebStoreAPI.Controllers.OrderItemsController.Add(WebStoreAPI.Requests.OrderItems.CreateOrderItemsRequest)">
+            <summary>
+            Create a new OrderItems.
+            </summary>
+            <param name="orderItem">The body of new OrderItems.</param>
+            <returns>Info about created OrderItems.</returns>
+        </member>
+        <member name="M:WebStoreAPI.Controllers.OrderItemsController.Update(WebStoreAPI.Requests.OrderItems.UpdateOrderItemsRequest)">
+            <summary>
+            Update existing OrderItems.
+            </summary>
+            <param name="orderItem">The body of new OrderItems.</param>
+            <returns>Nothing</returns>
+        </member>
+        <member name="M:WebStoreAPI.Controllers.OrderItemsController.Delete(System.Int32)">
+            <summary>
+            Delete existing OrderItems.
+            </summary>
+            <param name="id">The ID of the desired OrderItems.</param>
+            <returns>Nothing</returns>
+        </member>
+        <member name="M:WebStoreAPI.Controllers.OrdersController.GetAll">
+            <summary>
+            Return all Orders.
+            </summary>
+            <returns>List with all Orders.</returns>
+        </member>
+        <member name="M:WebStoreAPI.Controllers.OrdersController.GetById(System.Int32)">
+            <summary>
+            Retrieve the Order by their ID.
+            </summary>
+            <param name="id">The ID of the desired Order.</param>
+            <returns>Info about Order with selected Id.</returns>
+        </member>
+        <member name="M:WebStoreAPI.Controllers.OrdersController.Add(WebStoreAPI.Requests.Orders.CreateOrderRequest)">
+            <summary>
+            Create a new Order.
+            </summary>
+            <param name="order">The body of new Order.</param>
+            <returns>Info about created Order.</returns>
+        </member>
+        <member name="M:WebStoreAPI.Controllers.OrdersController.Update(WebStoreAPI.Requests.Orders.UpdateOrderRequest)">
+            <summary>
+            Update existing Order.
+            </summary>
+            <param name="order">The body of new Order.</param>
+            <returns>Nothing</returns>
+        </member>
+        <member name="M:WebStoreAPI.Controllers.OrdersController.Delete(System.Int32)">
+            <summary>
+            Delete existing Order.
+            </summary>
+            <param name="id">The ID of the desired Order.</param>
+            <returns>Nothing</returns>
+        </member>
+        <member name="M:WebStoreAPI.Controllers.PaymentsController.GetAll">
+            <summary>
+            Return all Payments.
+            </summary>
+            <returns>List with all Payments.</returns>
+        </member>
+        <member name="M:WebStoreAPI.Controllers.PaymentsController.GetById(System.Int32)">
+            <summary>
+            Retrieve the Payment by their ID.
+            </summary>
+            <param name="id">The ID of the desired Payment.</param>
+            <returns>Info about Payment with selected Id.</returns>
+        </member>
+        <member name="M:WebStoreAPI.Controllers.PaymentsController.Add(WebStoreAPI.Requests.Payments.CreatePaymentRequest)">
+            <summary>
+            Create a new Payment.
+            </summary>
+            <param name="payment">The body of new Payment.</param>
+            <returns>Info about created Payment.</returns>
+        </member>
+        <member name="M:WebStoreAPI.Controllers.PaymentsController.Update(WebStoreAPI.Requests.Payments.UpdatePaymentRequest)">
+            <summary>
+            Update existing Payment.
+            </summary>
+            <param name="payment">The body of new Payment.</param>
+            <returns>Nothing</returns>
+        </member>
+        <member name="M:WebStoreAPI.Controllers.PaymentsController.Delete(System.Int32)">
+            <summary>
+            Delete existing Payment.
+            </summary>
+            <param name="id">The ID of the desired Payment.</param>
+            <returns>Nothing</returns>
+        </member>
+        <member name="M:WebStoreAPI.Controllers.ProductsController.GetAll">
+            <summary>
+            Return all Products.
+            </summary>
+            <returns>List with all Products.</returns>
+        </member>
+        <member name="M:WebStoreAPI.Controllers.ProductsController.GetById(System.Int32)">
+            <summary>
+            Retrieve the Product by their ID.
+            </summary>
+            <param name="id">The ID of the desired Product.</param>
+            <returns>Info about Product with selected Id.</returns>
+        </member>
+        <member name="M:WebStoreAPI.Controllers.ProductsController.Add(WebStoreAPI.Requests.Products.CreateProductRequest)">
+            <summary>
+            Create a new Product.
+            </summary>
+            <param name="product">The body of new Product.</param>
+            <returns>Info about created Product.</returns>
+        </member>
+        <member name="M:WebStoreAPI.Controllers.ProductsController.Update(WebStoreAPI.Requests.Products.UpdateProductRequest)">
+            <summary>
+            Update existing Product.
+            </summary>
+            <param name="product">The body of new Product.</param>
+            <returns>Nothing</returns>
+        </member>
+        <member name="M:WebStoreAPI.Controllers.ProductsController.Delete(System.Int32)">
+            <summary>
+            Delete existing Product.
+            </summary>
+            <param name="id">The ID of the desired Product.</param>
+            <returns>Nothing</returns>
+        </member>
+        <member name="M:WebStoreAPI.Controllers.RolesController.GetAll">
+            <summary>
+            Return all Roles.
+            </summary>
+            <returns>List with all Roles.</returns>
+        </member>
+        <member name="M:WebStoreAPI.Controllers.RolesController.GetById(System.Int32)">
+            <summary>
+            Retrieve the Role by their ID.
+            </summary>
+            <param name="id">The ID of the desired Role.</param>
+            <returns>Info about Role with selected Id.</returns>
+        </member>
+        <member name="M:WebStoreAPI.Controllers.RolesController.Add(WebStoreAPI.Requests.Roles.CreateRoleRequest)">
+            <summary>
+            Create a new Role.
+            </summary>
+            <param name="role">The body of new Role.</param>
+            <returns>Info about created Role.</returns>
+        </member>
+        <member name="M:WebStoreAPI.Controllers.RolesController.Update(WebStoreAPI.Requests.Roles.UpdateRoleRequest)">
+            <summary>
+            Update existing Role.
+            </summary>
+            <param name="role">The body of new Role.</param>
+            <returns>Nothing</returns>
+        </member>
+        <member name="M:WebStoreAPI.Controllers.RolesController.Delete(System.Int32)">
+            <summary>
+            Delete existing Role.
+            </summary>
+            <param name="id">The ID of the desired Role.</param>
+            <returns>Nothing</returns>
+        </member>
+        <member name="M:WebStoreAPI.Controllers.TypesController.GetAll">
+            <summary>
+            Return all Types.
+            </summary>
+            <returns>List with all Types.</returns>
+        </member>
+        <member name="M:WebStoreAPI.Controllers.TypesController.GetById(System.Int32)">
+            <summary>
+            Retrieve the Type by their ID.
+            </summary>
+            <param name="id">The ID of the desired Type.</param>
+            <returns>Info about Type with selected Id.</returns>
+        </member>
+        <member name="M:WebStoreAPI.Controllers.TypesController.Add(WebStoreAPI.Requests.Types.CreateTypeRequest)">
+            <summary>
+            Create a new Type.
+            </summary>
+            <param name="type">The body of new Type.</param>
+            <returns>Info about created Type.</returns>
+        </member>
+        <member name="M:WebStoreAPI.Controllers.TypesController.Update(WebStoreAPI.Requests.Types.UpdateTypeRequest)">
+            <summary>
+            Update existing Type.
+            </summary>
+            <param name="type">The body of new Type.</param>
+            <returns>Nothing</returns>
+        </member>
+        <member name="M:WebStoreAPI.Controllers.TypesController.Delete(System.Int32)">
+            <summary>
+            Delete existing Type.
+            </summary>
+            <param name="id">The ID of the desired Type.</param>
+            <returns>Nothing</returns>
+        </member>
+        <member name="M:WebStoreAPI.Controllers.UserRolesController.GetAll">
+            <summary>
+            Return all UsersRoles.
+            </summary>
+            <returns>List with all UsersRoles.</returns>
+        </member>
+        <member name="M:WebStoreAPI.Controllers.UserRolesController.GetById(System.Int32)">
+            <summary>
+            Retrieve the UserRoles by their ID.
+            </summary>
+            <param name="id">The ID of the desired UserRoles.</param>
+            <returns>Info about UserRoles with selected Id.</returns>
+        </member>
+        <member name="M:WebStoreAPI.Controllers.UserRolesController.Add(WebStoreAPI.Requests.UserRoles.CreateUserRolesRequest)">
+            <summary>
+            Create a new UserRoles.
+            </summary>
+            <param name="userRole">The body of new UserRoles.</param>
+            <returns>Info about created UserRoles.</returns>
+        </member>
+        <member name="M:WebStoreAPI.Controllers.UserRolesController.Update(WebStoreAPI.Requests.UserRoles.UpdateUserRolesRequest)">
+            <summary>
+            Update existing UserRoles.
+            </summary>
+            <param name="userRole">The body of new UserRoles.</param>
+            <returns>Nothing</returns>
+        </member>
+        <member name="M:WebStoreAPI.Controllers.UserRolesController.Delete(System.Int32)">
+            <summary>
+            Delete existing UserRoles.
+            </summary>
+            <param name="id">The ID of the desired UserRoles.</param>
+            <returns>Nothing</returns>
+        </member>
+        <member name="M:WebStoreAPI.Controllers.UsersController.GetAll">
+            <summary>
+            Return all Users.
+            </summary>
+            <returns>List with all Users.</returns>
+        </member>
+        <member name="M:WebStoreAPI.Controllers.UsersController.GetById(System.Int32)">
+            <summary>
+            Retrieve the User by their ID.
+            </summary>
+            <param name="id">The ID of the desired User.</param>
+            <returns>Info about User with selected Id.</returns>
+        </member>
+        <member name="M:WebStoreAPI.Controllers.UsersController.Add(WebStoreAPI.Requests.Users.CreateUserRequest)">
+            <summary>
+            Create a new User.
+            </summary>
+            <param name="user">The body of new User.</param>
+            <returns>Info about created User.</returns>
+        </member>
+        <member name="M:WebStoreAPI.Controllers.UsersController.Update(WebStoreAPI.Requests.Users.UpdateUserRequest)">
+            <summary>
+            Update existing User.
+            </summary>
+            <param name="user">The body of new User.</param>
+            <returns>Nothing</returns>
+        </member>
+        <member name="M:WebStoreAPI.Controllers.UsersController.Delete(System.Int32)">
+            <summary>
+            Delete existing User.
+            </summary>
+            <param name="id">The ID of the desired User.</param>
+            <returns>Nothing</returns>
+        </member>
+    </members>
+</doc>

@@ -1,4 +1,4 @@
-﻿using CommandAndQuerySeparation.Queries.Countries;
+﻿using CQS.Queries.Countries;
 using FluentValidation;
 
 namespace Validators.Validators.Countries 

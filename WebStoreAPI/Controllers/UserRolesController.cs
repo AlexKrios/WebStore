@@ -5,8 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using CommandAndQuerySeparation.Commands.UserRoles;
-using CommandAndQuerySeparation.Queries.UserRoles;
+using CQS.Commands.UserRoles;
+using CQS.Queries.UserRoles;
+using WebStoreAPI.Requests.UserRoles;
 using WebStoreAPI.Response.UserRoles;
 
 namespace WebStoreAPI.Controllers
@@ -18,14 +19,16 @@ namespace WebStoreAPI.Controllers
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
 
-        //Setup connection
         public UserRolesController(IMediator mediator, IMapper mapper)
         {
             _mediator = mediator;
             _mapper = mapper;
         }
 
-        //Get list of userRoles
+        /// <summary>
+        /// Get all UsersRoles.
+        /// </summary>
+        /// <returns>List with all UsersRoles.</returns>
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<GetUsersRolesResponse>))]
         [ProducesResponseType(500, Type = typeof(string))]
@@ -48,7 +51,11 @@ namespace WebStoreAPI.Controllers
             }
         }
 
-        //Get single userRole
+        /// <summary>
+        /// Get UserRoles by their ID.
+        /// </summary>
+        /// <param name="id">The ID of the desired UserRoles.</param>
+        /// <returns>Info about UserRoles with selected Id.</returns>
         [HttpGet("{id}")]
         [ProducesResponseType(200, Type = typeof(GetUserRolesResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
@@ -71,11 +78,15 @@ namespace WebStoreAPI.Controllers
             }
         }
 
-        //Add new userRole
+        /// <summary>
+        /// Create a new UserRoles.
+        /// </summary>
+        /// <param name="userRole">The body of new UserRoles.</param>
+        /// <returns>Info about created UserRoles.</returns>
         [HttpPost]
         [ProducesResponseType(200, Type = typeof(CreateUserRolesResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
-        public async Task<IActionResult> Add(CreateUserRoleCommand userRole)
+        public async Task<IActionResult> Add(CreateUserRolesRequest userRole)
         {
             if (!ModelState.IsValid)
             {
@@ -84,8 +95,8 @@ namespace WebStoreAPI.Controllers
 
             try
             {
-                await _mediator.Send(userRole);
-                return Ok(_mapper.Map<CreateUserRolesResponse>(userRole));
+                var userRoleSend = await _mediator.Send(_mapper.Map<CreateUserRoleCommand>(userRole));
+                return Created($"api/userroles/{userRoleSend.Id}", _mapper.Map<CreateUserRolesResponse>(userRole));
             }
             catch (Exception e)
             {
@@ -93,11 +104,15 @@ namespace WebStoreAPI.Controllers
             }
         }
 
-        //Change userRole
+        /// <summary>
+        /// Update existing UserRoles.
+        /// </summary>
+        /// <param name="userRole">The body of new UserRoles.</param>
+        /// <returns>Nothing</returns>
         [HttpPut]
         [ProducesResponseType(200, Type = typeof(UpdateUserRolesResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
-        public async Task<IActionResult> Update(UpdateUserRoleCommand userRole)
+        public async Task<IActionResult> Update(UpdateUserRolesRequest userRole)
         {
             if (!ModelState.IsValid)
             {
@@ -106,7 +121,7 @@ namespace WebStoreAPI.Controllers
 
             try
             {
-                var userRoleSend = await _mediator.Send(userRole);
+                var userRoleSend = await _mediator.Send(_mapper.Map<UpdateUserRoleCommand>(userRole));
                 if (userRoleSend == null)
                 {
                     return NotFound();
@@ -120,7 +135,11 @@ namespace WebStoreAPI.Controllers
             }
         }
 
-        //Delete userRole
+        /// <summary>
+        /// Delete existing UserRoles.
+        /// </summary>
+        /// <param name="id">The ID of the desired UserRoles.</param>
+        /// <returns>Nothing</returns>
         [HttpDelete("{id}")]
         [ProducesResponseType(200, Type = typeof(DeleteUserRolesResponse))]
         [ProducesResponseType(500, Type = typeof(string))]

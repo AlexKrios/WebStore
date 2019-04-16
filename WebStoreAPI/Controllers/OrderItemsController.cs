@@ -5,8 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using CommandAndQuerySeparation.Commands.OrderItems;
-using CommandAndQuerySeparation.Queries.OrderItems;
+using CQS.Commands.OrderItems;
+using CQS.Queries.OrderItems;
+using WebStoreAPI.Requests.OrderItems;
 using WebStoreAPI.Response.OrderItems;
 
 namespace WebStoreAPI.Controllers
@@ -18,14 +19,16 @@ namespace WebStoreAPI.Controllers
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
 
-        //Setup connection
         public OrderItemsController(IMediator mediator, IMapper mapper)
         {
             _mediator = mediator;
             _mapper = mapper;
         }
 
-        //Get list of ordersItems
+        /// <summary>
+        /// Get all OrdersItems.
+        /// </summary>
+        /// <returns>List with all OrdersItems.</returns>
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<GetOrdersItemsResponse>))]
         [ProducesResponseType(500, Type = typeof(string))]
@@ -48,7 +51,11 @@ namespace WebStoreAPI.Controllers
             }
         }
 
-        //Get single orderItem
+        /// <summary>
+        /// Get OrderItems by their ID.
+        /// </summary>
+        /// <param name="id">The ID of the desired OrderItems.</param>
+        /// <returns>Info about OrderItems with selected Id.</returns>
         [HttpGet("{id}")]
         [ProducesResponseType(200, Type = typeof(GetOrderItemsResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
@@ -71,11 +78,15 @@ namespace WebStoreAPI.Controllers
             }
         }
 
-        //Add new orderItem
+        /// <summary>
+        /// Create a new OrderItems.
+        /// </summary>
+        /// <param name="orderItem">The body of new OrderItems.</param>
+        /// <returns>Info about created OrderItems.</returns>
         [HttpPost]
         [ProducesResponseType(200, Type = typeof(CreateOrderItemsResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
-        public async Task<IActionResult> Add(CreateOrderItemsCommand orderItem)
+        public async Task<IActionResult> Add(CreateOrderItemsRequest orderItem)
         {
             if (!ModelState.IsValid)
             {
@@ -84,8 +95,8 @@ namespace WebStoreAPI.Controllers
 
             try
             {
-                await _mediator.Send(orderItem);
-                return Ok(_mapper.Map<CreateOrderItemsResponse>(orderItem));
+                var orderItemSend = await _mediator.Send(_mapper.Map<CreateOrderItemsCommand>(orderItem));
+                return Created($"api/orderitems/{orderItemSend.Id}", _mapper.Map<CreateOrderItemsResponse>(orderItem));
             }
             catch (Exception e)
             {
@@ -93,11 +104,15 @@ namespace WebStoreAPI.Controllers
             }
         }
 
-        //Change order
+        /// <summary>
+        /// Update existing OrderItems.
+        /// </summary>
+        /// <param name="orderItem">The body of new OrderItems.</param>
+        /// <returns>Nothing</returns>
         [HttpPut]
         [ProducesResponseType(200, Type = typeof(UpdateOrderItemsResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
-        public async Task<IActionResult> Update(UpdateOrderItemsCommand orderItem)
+        public async Task<IActionResult> Update(UpdateOrderItemsRequest orderItem)
         {
             if (!ModelState.IsValid)
             {
@@ -106,7 +121,7 @@ namespace WebStoreAPI.Controllers
 
             try
             {
-                var orderItemSend = await _mediator.Send(orderItem);
+                var orderItemSend = await _mediator.Send(_mapper.Map<UpdateOrderItemsCommand>(orderItem));
                 if (orderItemSend == null)
                 {
                     return NotFound();
@@ -120,7 +135,11 @@ namespace WebStoreAPI.Controllers
             }
         }
 
-        //Delete order
+        /// <summary>
+        /// Delete existing OrderItems.
+        /// </summary>
+        /// <param name="id">The ID of the desired OrderItems.</param>
+        /// <returns>Nothing</returns>
         [HttpDelete("{id}")]
         [ProducesResponseType(200, Type = typeof(DeleteOrderItemsResponse))]
         [ProducesResponseType(500, Type = typeof(string))]

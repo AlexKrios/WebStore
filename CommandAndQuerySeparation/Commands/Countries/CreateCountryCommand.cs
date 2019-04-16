@@ -1,7 +1,7 @@
 ﻿using DataLibrary.Entities;
 using MediatR;
 
-namespace CommandAndQuerySeparation.Commands.Countries
+namespace CQS.Commands.Countries
 {
     public class CreateCountryCommand : IRequest<Country>
     {

@@ -1,7 +1,7 @@
 ﻿using DataLibrary.Entities;
 using MediatR;
 
-namespace CommandAndQuerySeparation.Commands.Roles
+namespace CQS.Commands.Roles
 {
     public class CreateRoleCommand : IRequest<Role>
     {

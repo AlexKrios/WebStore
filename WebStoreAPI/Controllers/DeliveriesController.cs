@@ -5,8 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using CommandAndQuerySeparation.Commands.Deliveries;
-using CommandAndQuerySeparation.Queries.Deliveries;
+using CQS.Commands.Deliveries;
+using CQS.Queries.Deliveries;
+using WebStoreAPI.Requests.Deliveries;
 using WebStoreAPI.Response.Deliveries;
 
 namespace WebStoreAPI.Controllers
@@ -18,14 +19,16 @@ namespace WebStoreAPI.Controllers
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
 
-        //Setup connection
         public DeliveriesController(IMediator mediator, IMapper mapper)
         {
             _mediator = mediator;
             _mapper = mapper;
         }
 
-        //Get list of deliveries
+        /// <summary>
+        /// Get all Deliveries.
+        /// </summary>
+        /// <returns>List with all Deliveries.</returns>
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<GetDeliveriesResponse>))]
         [ProducesResponseType(500, Type = typeof(string))]
@@ -48,7 +51,11 @@ namespace WebStoreAPI.Controllers
             }
         }
 
-        //Get single delivery
+        /// <summary>
+        /// Get Delivery by their ID.
+        /// </summary>
+        /// <param name="id">The ID of the desired Delivery.</param>
+        /// <returns>Info about Delivery with selected Id.</returns>
         [HttpGet("{id}")]
         [ProducesResponseType(200, Type = typeof(GetDeliveryResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
@@ -71,11 +78,15 @@ namespace WebStoreAPI.Controllers
             }
         }
 
-        //Add new delivery
+        /// <summary>
+        /// Create a new Delivery.
+        /// </summary>
+        /// <param name="delivery">The body of new Delivery.</param>
+        /// <returns>Info about created Delivery.</returns>
         [HttpPost]
         [ProducesResponseType(200, Type = typeof(CreateDeliveryResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
-        public async Task<IActionResult> Add(CreateDeliveryCommand delivery)
+        public async Task<IActionResult> Add(CreateDeliveryRequest delivery)
         {
             if (!ModelState.IsValid)
             {
@@ -84,8 +95,8 @@ namespace WebStoreAPI.Controllers
 
             try
             {
-                await _mediator.Send(delivery);
-                return Ok(_mapper.Map<CreateDeliveryResponse>(delivery));
+                var deliverySend = await _mediator.Send(_mapper.Map<CreateDeliveryCommand>(delivery));
+                return Created($"api/deliveries/{deliverySend.Id}", _mapper.Map<CreateDeliveryResponse>(delivery));
             }
             catch (Exception e)
             {
@@ -93,11 +104,15 @@ namespace WebStoreAPI.Controllers
             }
         }
 
-        //Change delivery
+        /// <summary>
+        /// Update existing Delivery.
+        /// </summary>
+        /// <param name="delivery">The body of new Delivery.</param>
+        /// <returns>Nothing</returns>
         [HttpPut]
         [ProducesResponseType(200, Type = typeof(UpdateDeliveryResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
-        public async Task<IActionResult> Update(UpdateDeliveryCommand delivery)
+        public async Task<IActionResult> Update(UpdateDeliveryRequest delivery)
         {
             if (!ModelState.IsValid)
             {
@@ -106,7 +121,7 @@ namespace WebStoreAPI.Controllers
 
             try
             {
-                var deliverySend = await _mediator.Send(delivery);
+                var deliverySend = await _mediator.Send(_mapper.Map<UpdateDeliveryCommand>(delivery));
                 if (deliverySend == null)
                 {
                     return NotFound();
@@ -120,7 +135,11 @@ namespace WebStoreAPI.Controllers
             }
         }
 
-        //Delete delivery
+        /// <summary>
+        /// Delete existing Delivery.
+        /// </summary>
+        /// <param name="id">The ID of the desired Delivery.</param>
+        /// <returns>Nothing</returns>
         [HttpDelete("{id}")]
         [ProducesResponseType(200, Type = typeof(DeleteDeliveryResponse))]
         [ProducesResponseType(500, Type = typeof(string))]

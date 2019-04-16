@@ -5,8 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using CommandAndQuerySeparation.Commands.Roles;
-using CommandAndQuerySeparation.Queries.Roles;
+using CQS.Commands.Roles;
+using CQS.Queries.Roles;
+using WebStoreAPI.Requests.Roles;
 using WebStoreAPI.Response.Roles;
 
 namespace WebStoreAPI.Controllers
@@ -18,14 +19,16 @@ namespace WebStoreAPI.Controllers
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
 
-        //Setup connection
         public RolesController(IMediator mediator, IMapper mapper)
         {
             _mediator = mediator;
             _mapper = mapper;
         }
 
-        //Get list of roles
+        /// <summary>
+        /// Get all Roles.
+        /// </summary>
+        /// <returns>List with all Roles.</returns>
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<GetRolesResponse>))]
         [ProducesResponseType(500, Type = typeof(string))]
@@ -48,7 +51,11 @@ namespace WebStoreAPI.Controllers
             }
         }
 
-        //Get single role
+        /// <summary>
+        /// Get Role by their ID.
+        /// </summary>
+        /// <param name="id">The ID of the desired Role.</param>
+        /// <returns>Info about Role with selected Id.</returns>
         [HttpGet("{id}")]
         [ProducesResponseType(200, Type = typeof(GetRoleResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
@@ -71,11 +78,15 @@ namespace WebStoreAPI.Controllers
             }
         }
 
-        //Add new role
+        /// <summary>
+        /// Create a new Role.
+        /// </summary>
+        /// <param name="role">The body of new Role.</param>
+        /// <returns>Info about created Role.</returns>
         [HttpPost]
         [ProducesResponseType(200, Type = typeof(CreateRoleResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
-        public async Task<IActionResult> Add(CreateRoleCommand role)
+        public async Task<IActionResult> Add(CreateRoleRequest role)
         {
             if (!ModelState.IsValid)
             {
@@ -84,8 +95,8 @@ namespace WebStoreAPI.Controllers
 
             try
             {
-                await _mediator.Send(role);
-                return Ok(_mapper.Map<CreateRoleResponse>(role));
+                var roleSend = await _mediator.Send(_mapper.Map<CreateRoleCommand>(role));
+                return Created($"api/roles/{roleSend.Id}", _mapper.Map<CreateRoleResponse>(role));
             }
             catch (Exception e)
             {
@@ -93,11 +104,15 @@ namespace WebStoreAPI.Controllers
             }
         }
 
-        //Change role
+        /// <summary>
+        /// Update existing Role.
+        /// </summary>
+        /// <param name="role">The body of new Role.</param>
+        /// <returns>Nothing</returns>
         [HttpPut]
         [ProducesResponseType(200, Type = typeof(UpdateRoleResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
-        public async Task<IActionResult> Update(UpdateRoleCommand role)
+        public async Task<IActionResult> Update(UpdateRoleRequest role)
         {
             if (!ModelState.IsValid)
             {
@@ -106,7 +121,7 @@ namespace WebStoreAPI.Controllers
 
             try
             {
-                var roleSend = await _mediator.Send(role);
+                var roleSend = await _mediator.Send(_mapper.Map<UpdateRoleCommand>(role));
                 if (roleSend == null)
                 {
                     return NotFound();
@@ -120,7 +135,11 @@ namespace WebStoreAPI.Controllers
             }
         }
 
-        //Delete role
+        /// <summary>
+        /// Delete existing Role.
+        /// </summary>
+        /// <param name="id">The ID of the desired Role.</param>
+        /// <returns>Nothing</returns>
         [HttpDelete("{id}")]
         [ProducesResponseType(200, Type = typeof(DeleteRoleResponse))]
         [ProducesResponseType(500, Type = typeof(string))]

@@ -2,7 +2,7 @@
 using DataLibrary.Entities;
 using MediatR;
 
-namespace CommandAndQuerySeparation.Queries.Countries
+namespace CQS.Queries.Countries
 {
     public class GetCountriesQuery : IRequest<IEnumerable<Country>>
     {

@@ -1,7 +1,7 @@
 ﻿using DataLibrary.Entities;
 using MediatR;
 
-namespace CommandAndQuerySeparation.Queries.Users
+namespace CQS.Queries.Users
 {
     public class GetUserQuery : IRequest<User>
     {

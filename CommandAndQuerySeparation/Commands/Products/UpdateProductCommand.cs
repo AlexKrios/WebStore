@@ -1,7 +1,7 @@
 ﻿using DataLibrary.Entities;
 using MediatR;
 
-namespace CommandAndQuerySeparation.Commands.Products
+namespace CQS.Commands.Products
 {
     public class UpdateProductCommand : IRequest<Product>
     {
@@ -12,6 +12,5 @@ namespace CommandAndQuerySeparation.Commands.Products
         public int Price { get; set; }
         public int TypeId { get; set; }
         public int ManufacturerId { get; set; }
-        public int UserId { get; set; }
     }
 }

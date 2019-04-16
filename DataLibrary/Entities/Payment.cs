@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DataLibrary.Entities
 {
+    //DTO model Payment
     public class Payment
     {
         [Key]

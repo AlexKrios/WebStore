@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DataLibrary.Entities
 {
+    //DTO model OrderItem
     public class OrderItem
     {
         [Key]

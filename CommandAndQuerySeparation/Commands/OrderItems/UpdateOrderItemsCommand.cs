@@ -1,7 +1,7 @@
 ﻿using DataLibrary.Entities;
 using MediatR;
 
-namespace CommandAndQuerySeparation.Commands.OrderItems
+namespace CQS.Commands.OrderItems
 {
     public class UpdateOrderItemsCommand : IRequest<OrderItem>
     {
