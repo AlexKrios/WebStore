@@ -96,7 +96,7 @@ namespace WebStoreAPI.Controllers
             try
             {
                 var typeSend = await _mediator.Send(_mapper.Map<CreateTypeCommand>(type));
-                return Created($"api/types/{typeSend.Id}", _mapper.Map<CreateTypeResponse>(type));
+                return Created($"api/types/{typeSend.Id}", _mapper.Map<CreateTypeResponse>(typeSend));
             }
             catch (Exception e)
             {

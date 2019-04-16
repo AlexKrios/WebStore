@@ -2,6 +2,7 @@
 {
     public class CreateOrderResponse
     {
+        public int Id { get; set; }
         public string CustomerNumber { get; set; }
         public string Note { get; set; }
         public decimal TotalPrice { get; set; }

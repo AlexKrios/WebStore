@@ -96,7 +96,7 @@ namespace WebStoreAPI.Controllers
             try
             {
                 var userRoleSend = await _mediator.Send(_mapper.Map<CreateUserRoleCommand>(userRole));
-                return Created($"api/userroles/{userRoleSend.Id}", _mapper.Map<CreateUserRolesResponse>(userRole));
+                return Created($"api/userroles/{userRoleSend.Id}", _mapper.Map<CreateUserRolesResponse>(userRoleSend));
             }
             catch (Exception e)
             {

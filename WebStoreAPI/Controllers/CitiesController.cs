@@ -96,7 +96,7 @@ namespace WebStoreAPI.Controllers
             try
             {
                 var citySend = await _mediator.Send(_mapper.Map<CreateCityCommand>(city));
-                return Created($"api/cities/{citySend.Id}", _mapper.Map<CreateCityResponse>(city));
+                return Created($"api/cities/{citySend.Id}", _mapper.Map<CreateCityResponse>(citySend));
             }
             catch (Exception e)
             {

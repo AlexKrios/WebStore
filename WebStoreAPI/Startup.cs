@@ -48,7 +48,8 @@ namespace WebStoreAPI
 
             services.AddSingleton(mapper);
 
-            IntegrateSimpleInjector(services);
+            _container.Options.DefaultScopedLifestyle = new AsyncScopedLifestyle();
+            services.EnableSimpleInjectorCrossWiring(_container);
 
             services.AddSwaggerGen(c =>
             {
@@ -64,19 +65,6 @@ namespace WebStoreAPI
                 options.UseSqlServer(Configuration.GetConnectionString(
                         "DefaultConnection"),
                     b => b.MigrationsAssembly("WebStoreAPI")));
-        }
-
-        private void IntegrateSimpleInjector(IServiceCollection services)
-        {
-            _container.Options.DefaultScopedLifestyle = new AsyncScopedLifestyle();
-
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
-            services.AddSingleton<IControllerActivator>(
-                new SimpleInjectorControllerActivator(_container));
-
-            services.EnableSimpleInjectorCrossWiring(_container);
-            services.UseSimpleInjectorAspNetRequestScoping(_container);
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, WebStoreContext context)

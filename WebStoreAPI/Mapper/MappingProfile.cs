@@ -13,6 +13,30 @@ using CQS.Commands.Types;
 using CQS.Commands.UserRoles;
 using CQS.Commands.Users;
 using DataLibrary.Entities;
+using WebStoreAPI.Requests.Cities;
+using WebStoreAPI.Requests.Countries;
+using WebStoreAPI.Requests.Deliveries;
+using WebStoreAPI.Requests.Manufacturers;
+using WebStoreAPI.Requests.OrderItems;
+using WebStoreAPI.Requests.Orders;
+using WebStoreAPI.Requests.Payments;
+using WebStoreAPI.Requests.Products;
+using WebStoreAPI.Requests.Roles;
+using WebStoreAPI.Requests.Types;
+using WebStoreAPI.Requests.UserRoles;
+using WebStoreAPI.Requests.Users;
+using WebStoreAPI.Response.Cities;
+using WebStoreAPI.Response.Countries;
+using WebStoreAPI.Response.Deliveries;
+using WebStoreAPI.Response.Manufacturers;
+using WebStoreAPI.Response.OrderItems;
+using WebStoreAPI.Response.Orders;
+using WebStoreAPI.Response.Payments;
+using WebStoreAPI.Response.Products;
+using WebStoreAPI.Response.Roles;
+using WebStoreAPI.Response.Types;
+using WebStoreAPI.Response.UserRoles;
+using WebStoreAPI.Response.Users;
 using Type = DataLibrary.Entities.Type;
 
 namespace WebStoreAPI.Mapper
@@ -72,6 +96,19 @@ namespace WebStoreAPI.Mapper
             CreateMap<UpdateTypeCommand, Type>();
             CreateMap<CreateUserRoleCommand, UserRole>();
             CreateMap<UpdateUserRoleCommand, UserRole>();
+
+            CreateMap<CreateCityRequest, CreateCityResponse>();
+            CreateMap<CreateCountryRequest, CreateCountryResponse>();
+            CreateMap<CreateDeliveryRequest, CreateDeliveryResponse>();
+            CreateMap<CreateManufacturerRequest, CreateManufacturerResponse>();
+            CreateMap<CreateOrderItemsRequest, CreateOrderItemsResponse>();
+            CreateMap<CreateOrderRequest, CreateOrderResponse>();
+            CreateMap<CreatePaymentRequest, CreatePaymentResponse>();
+            CreateMap<CreateProductRequest, CreateProductResponse>();
+            CreateMap<CreateRoleRequest, CreateRoleResponse>();
+            CreateMap<CreateTypeRequest, CreateTypeResponse>();
+            CreateMap<CreateUserRolesRequest, CreateUserRolesResponse>();
+            CreateMap<CreateUserRequest, CreateUserResponse>();
         }
     }
 }

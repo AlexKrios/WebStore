@@ -96,7 +96,7 @@ namespace WebStoreAPI.Controllers
             try
             {
                 var deliverySend = await _mediator.Send(_mapper.Map<CreateDeliveryCommand>(delivery));
-                return Created($"api/deliveries/{deliverySend.Id}", _mapper.Map<CreateDeliveryResponse>(delivery));
+                return Created($"api/deliveries/{deliverySend.Id}", _mapper.Map<CreateDeliveryResponse>(deliverySend));
             }
             catch (Exception e)
             {

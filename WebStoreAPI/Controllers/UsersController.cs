@@ -96,7 +96,7 @@ namespace WebStoreAPI.Controllers
             try
             {
                 var userSend = await _mediator.Send(_mapper.Map<CreateUserCommand>(user));
-                return Created($"api/users/{userSend.Id}", _mapper.Map<CreateUserResponse>(user));
+                return Created($"api/users/{userSend.Id}", _mapper.Map<CreateUserResponse>(userSend));
             }
             catch (Exception e)
             {

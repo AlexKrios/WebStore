@@ -96,7 +96,7 @@ namespace WebStoreAPI.Controllers
             try
             {
                 var countrySend = await _mediator.Send(_mapper.Map<CreateCountryCommand>(country));
-                return Created($"api/countries/{countrySend.Id}", _mapper.Map<CreateCountryResponse>(country));
+                return Created($"api/countries/{countrySend.Id}", _mapper.Map<CreateCountryResponse>(countrySend));
             }
             catch (Exception e)
             {

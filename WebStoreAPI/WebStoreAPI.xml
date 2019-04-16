@@ -6,13 +6,13 @@
     <members>
         <member name="M:WebStoreAPI.Controllers.CitiesController.GetAll">
             <summary>
-            Return all Cities.
+            Get all Cities.
             </summary>
             <returns>List with all Cities.</returns>
         </member>
         <member name="M:WebStoreAPI.Controllers.CitiesController.GetById(System.Int32)">
             <summary>
-            Retrieve the City by their ID.
+            Get City by their ID.
             </summary>
             <param name="id">The ID of the desired City.</param>
             <returns>Info about City with selected Id.</returns>
@@ -40,13 +40,13 @@
         </member>
         <member name="M:WebStoreAPI.Controllers.CountriesController.GetAll">
             <summary>
-            Return all Countries.
+            Get all Countries.
             </summary>
             <returns>List with all Countries.</returns>
         </member>
         <member name="M:WebStoreAPI.Controllers.CountriesController.GetById(System.Int32)">
             <summary>
-            Retrieve the Country by their ID.
+            Get Country by their ID.
             </summary>
             <param name="id">The ID of the desired Country.</param>
             <returns>Info about Country with selected Id.</returns>
@@ -74,13 +74,13 @@
         </member>
         <member name="M:WebStoreAPI.Controllers.DeliveriesController.GetAll">
             <summary>
-            Return all Deliveries.
+            Get all Deliveries.
             </summary>
             <returns>List with all Deliveries.</returns>
         </member>
         <member name="M:WebStoreAPI.Controllers.DeliveriesController.GetById(System.Int32)">
             <summary>
-            Retrieve the Delivery by their ID.
+            Get Delivery by their ID.
             </summary>
             <param name="id">The ID of the desired Delivery.</param>
             <returns>Info about Delivery with selected Id.</returns>
@@ -108,13 +108,13 @@
         </member>
         <member name="M:WebStoreAPI.Controllers.ManufacturersController.GetAll">
             <summary>
-            Return all Manufacturers.
+            Get all Manufacturers.
             </summary>
             <returns>List with all Manufacturers.</returns>
         </member>
         <member name="M:WebStoreAPI.Controllers.ManufacturersController.GetById(System.Int32)">
             <summary>
-            Retrieve the Manufacturer by their ID.
+            Get Manufacturer by their ID.
             </summary>
             <param name="id">The ID of the desired Manufacturer.</param>
             <returns>Info about Manufacturer with selected Id.</returns>
@@ -142,13 +142,13 @@
         </member>
         <member name="M:WebStoreAPI.Controllers.OrderItemsController.GetAll">
             <summary>
-            Return all OrdersItems.
+            Get all OrdersItems.
             </summary>
             <returns>List with all OrdersItems.</returns>
         </member>
         <member name="M:WebStoreAPI.Controllers.OrderItemsController.GetById(System.Int32)">
             <summary>
-            Retrieve the OrderItems by their ID.
+            Get OrderItems by their ID.
             </summary>
             <param name="id">The ID of the desired OrderItems.</param>
             <returns>Info about OrderItems with selected Id.</returns>
@@ -176,13 +176,13 @@
         </member>
         <member name="M:WebStoreAPI.Controllers.OrdersController.GetAll">
             <summary>
-            Return all Orders.
+            Get all Orders.
             </summary>
             <returns>List with all Orders.</returns>
         </member>
         <member name="M:WebStoreAPI.Controllers.OrdersController.GetById(System.Int32)">
             <summary>
-            Retrieve the Order by their ID.
+            Get Order by their ID.
             </summary>
             <param name="id">The ID of the desired Order.</param>
             <returns>Info about Order with selected Id.</returns>
@@ -210,13 +210,13 @@
         </member>
         <member name="M:WebStoreAPI.Controllers.PaymentsController.GetAll">
             <summary>
-            Return all Payments.
+            Get all Payments.
             </summary>
             <returns>List with all Payments.</returns>
         </member>
         <member name="M:WebStoreAPI.Controllers.PaymentsController.GetById(System.Int32)">
             <summary>
-            Retrieve the Payment by their ID.
+            Get Payment by their ID.
             </summary>
             <param name="id">The ID of the desired Payment.</param>
             <returns>Info about Payment with selected Id.</returns>
@@ -244,13 +244,13 @@
         </member>
         <member name="M:WebStoreAPI.Controllers.ProductsController.GetAll">
             <summary>
-            Return all Products.
+            Get all Products.
             </summary>
             <returns>List with all Products.</returns>
         </member>
         <member name="M:WebStoreAPI.Controllers.ProductsController.GetById(System.Int32)">
             <summary>
-            Retrieve the Product by their ID.
+            Get Product by their ID.
             </summary>
             <param name="id">The ID of the desired Product.</param>
             <returns>Info about Product with selected Id.</returns>
@@ -278,13 +278,13 @@
         </member>
         <member name="M:WebStoreAPI.Controllers.RolesController.GetAll">
             <summary>
-            Return all Roles.
+            Get all Roles.
             </summary>
             <returns>List with all Roles.</returns>
         </member>
         <member name="M:WebStoreAPI.Controllers.RolesController.GetById(System.Int32)">
             <summary>
-            Retrieve the Role by their ID.
+            Get Role by their ID.
             </summary>
             <param name="id">The ID of the desired Role.</param>
             <returns>Info about Role with selected Id.</returns>
@@ -312,13 +312,13 @@
         </member>
         <member name="M:WebStoreAPI.Controllers.TypesController.GetAll">
             <summary>
-            Return all Types.
+            Get all Types.
             </summary>
             <returns>List with all Types.</returns>
         </member>
         <member name="M:WebStoreAPI.Controllers.TypesController.GetById(System.Int32)">
             <summary>
-            Retrieve the Type by their ID.
+            Get Type by their ID.
             </summary>
             <param name="id">The ID of the desired Type.</param>
             <returns>Info about Type with selected Id.</returns>
@@ -346,13 +346,13 @@
         </member>
         <member name="M:WebStoreAPI.Controllers.UserRolesController.GetAll">
             <summary>
-            Return all UsersRoles.
+            Get all UsersRoles.
             </summary>
             <returns>List with all UsersRoles.</returns>
         </member>
         <member name="M:WebStoreAPI.Controllers.UserRolesController.GetById(System.Int32)">
             <summary>
-            Retrieve the UserRoles by their ID.
+            Get UserRoles by their ID.
             </summary>
             <param name="id">The ID of the desired UserRoles.</param>
             <returns>Info about UserRoles with selected Id.</returns>
@@ -380,13 +380,13 @@
         </member>
         <member name="M:WebStoreAPI.Controllers.UsersController.GetAll">
             <summary>
-            Return all Users.
+            Get all Users.
             </summary>
             <returns>List with all Users.</returns>
         </member>
         <member name="M:WebStoreAPI.Controllers.UsersController.GetById(System.Int32)">
             <summary>
-            Retrieve the User by their ID.
+            Get User by their ID.
             </summary>
             <param name="id">The ID of the desired User.</param>
             <returns>Info about User with selected Id.</returns>

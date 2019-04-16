@@ -96,7 +96,7 @@ namespace WebStoreAPI.Controllers
             try
             {
                 var paymentSend = await _mediator.Send(_mapper.Map<CreatePaymentCommand>(payment));
-                return Created($"api/payments/{paymentSend.Id}", _mapper.Map<CreatePaymentResponse>(payment));
+                return Created($"api/payments/{paymentSend.Id}", _mapper.Map<CreatePaymentResponse>(paymentSend));
             }
             catch (Exception e)
             {
