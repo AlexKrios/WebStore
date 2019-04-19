@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using CQS.Queries.Products;
-using CQS.Specification;
 using DataLibrary;
 using DataLibrary.Entities;
 using MediatR;
@@ -25,12 +24,7 @@ namespace CQS.Handlers.Products
         {
             try
             {
-                ISpecification<Product> samsungExpSpec =
-                    new ExpressionSpecification<Product>(o => o.Name == "Samsung S7");
-
-                var samsungMobiles = _context.Products.Find(o => samsungExpSpec.IsSatisfiedBy(o));
-
-                return await _context.Products.ToListAsync(cancellationToken);
+                return _context.Products.Where(o => query.HasName.IsSatisfiedBy(o));
             }
             catch (Exception e)
             {

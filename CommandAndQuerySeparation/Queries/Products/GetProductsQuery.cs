@@ -1,5 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using CQS.Requests.Products;
+using CQS.Specification;
 using DataLibrary.Entities;
 using MediatR;
 
@@ -7,22 +8,14 @@ namespace CQS.Queries.Products
 {
     public class GetProductsQuery : IRequest<IEnumerable<Product>>
     {
-        private readonly Product _product;
+        public GetProductsRequest Filter { get; set; }
 
-        public readonly Func<Product, bool> HasName = x => x.Name != null;
-        //public readonly Func<Product, bool> HasName = x => x.Name.Equals(_product.Name);
+        public ISpecification<Product> HasName =
+            new ExpressionSpecification<Product>(o => o.Name.Equals("Samsung S7"));
 
-        public readonly Func<Product, bool> MinAvailability = x => x.Availability > 5;
-        public readonly Func<Product, bool> MaxAvailability = x => x.Availability < 5;
-        public readonly Func<Product, bool> EqualAvailability = x => x.Availability == 5;
-
-        public readonly Func<Product, bool> MinPrice = x => x.Price > 1000;
-        public readonly Func<Product, bool> MaxPrice = x => x.Price < 1000;
-        public readonly Func<Product, bool> EqualPrice = x => x.Price == 1000;
-
-        public GetProductsQuery(Product product)
-        {
-            _product = product;
-        }
+        public ISpecification<Product> MinPrice =
+            new ExpressionSpecification<Product>(o => o.Price > Filter.MinPrice);
+        public ISpecification<Product> MaxPrice =
+            new ExpressionSpecification<Product>(o => o.Price < 500);
     }
 }

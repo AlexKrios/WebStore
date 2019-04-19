@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CQS.Commands.Products;
 using CQS.Queries.Products;
-using DataLibrary.Entities;
 using WebStoreAPI.Requests.Products;
 using WebStoreAPI.Response.Products;
 
@@ -33,29 +32,18 @@ namespace WebStoreAPI.Controllers
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<GetProductsResponse>))]
         [ProducesResponseType(500, Type = typeof(string))]
-        public async Task<IActionResult> Get([FromQuery]GetProductsRequest product)
+        public async Task<IActionResult> Get([FromQuery]CQS.Requests.Products.GetProductsRequest filter)
         {
             try
             {
-                var filter = new GetProductsRequest
-                {
-                    Name = product.Name,
-                    MinAvailability = product.MinAvailability,
-                    MaxAvailability = product.MaxAvailability,
-                    MinPrice = product.MinPrice,
-                    MaxPrice = product.MaxPrice,
-                    TypeId = product.TypeId,
-                    ManufacturerId = product.ManufacturerId
-                };
-
-                var products = await _mediator.Send(new GetProductsQuery(_mapper.Map<Product>(filter)));
+                var products = await _mediator.Send(new GetProductsQuery { Filter = filter } );
 
                 if (!products.Any())
                 {
                     return NotFound();
                 }
 
-                return Ok(_mapper.Map<IEnumerable<GetProductsResponse>>(products));
+                return Ok(products);
             }
             catch (Exception e)
             {

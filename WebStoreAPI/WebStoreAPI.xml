@@ -242,7 +242,7 @@
             <param name="id">The ID of the desired Payment.</param>
             <returns>Nothing</returns>
         </member>
-        <member name="M:WebStoreAPI.Controllers.ProductsController.GetAll(WebStoreAPI.Requests.Products.GetProductRequest)">
+        <member name="M:WebStoreAPI.Controllers.ProductsController.Get(CQS.Requests.Products.GetProductsRequest)">
             <summary>
             Get all Products.
             </summary>
