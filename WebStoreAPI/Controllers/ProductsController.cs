@@ -36,7 +36,7 @@ namespace WebStoreAPI.Controllers
         {
             try
             {
-                var products = await _mediator.Send(new GetProductsQuery { Filter = filter } );
+                var products = await _mediator.Send(new GetProductsQuery(filter));
 
                 if (!products.Any())
                 {
