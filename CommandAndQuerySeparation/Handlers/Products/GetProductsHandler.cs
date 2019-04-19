@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using CQS.Queries.Products;
@@ -23,6 +24,8 @@ namespace CQS.Handlers.Products
         {
             try
             {
+                //var data = _context.Products.ToListAsync(cancellationToken);
+                //var hasName = _context.Products.Where(query.HasName);
                 return await _context.Products.ToListAsync(cancellationToken);
             }
             catch (Exception e)
