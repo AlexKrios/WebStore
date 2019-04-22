@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CQS.Commands.Manufacturers;
 using CQS.Queries.Manufacturers;
-using WebStoreAPI.Requests.Manufacturers;
+using Specification.Requests.Manufacturers;
 using WebStoreAPI.Response.Manufacturers;
 
 namespace WebStoreAPI.Controllers
@@ -32,11 +32,11 @@ namespace WebStoreAPI.Controllers
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<GetManufacturersResponse>))]
         [ProducesResponseType(500, Type = typeof(string))]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> Get([FromQuery]GetManufacturersRequest filter)
         {
             try
             {
-                var manufacturers = await _mediator.Send(new GetManufacturersQuery());
+                var manufacturers = await _mediator.Send(new GetManufacturersQuery(filter));
 
                 if (!manufacturers.Any())
                 {

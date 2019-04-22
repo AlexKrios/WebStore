@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CQS.Commands.Types;
 using CQS.Queries.Types;
-using WebStoreAPI.Requests.Types;
+using Specification.Requests.Types;
 using WebStoreAPI.Response.Types;
 
 namespace WebStoreAPI.Controllers
@@ -32,11 +32,11 @@ namespace WebStoreAPI.Controllers
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<GetTypesResponse>))]
         [ProducesResponseType(500, Type = typeof(string))]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> Get([FromQuery]GetTypesRequest filter)
         {
             try
             {
-                var types = await _mediator.Send(new GetTypesQuery());
+                var types = await _mediator.Send(new GetTypesQuery(filter));
 
                 if (!types.Any())
                 {

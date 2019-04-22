@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CQS.Commands.Deliveries;
 using CQS.Queries.Deliveries;
-using WebStoreAPI.Requests.Deliveries;
+using Specification.Requests.Deliveries;
 using WebStoreAPI.Response.Deliveries;
 
 namespace WebStoreAPI.Controllers
@@ -32,11 +32,11 @@ namespace WebStoreAPI.Controllers
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<GetDeliveriesResponse>))]
         [ProducesResponseType(500, Type = typeof(string))]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> Get([FromQuery]GetDeliveriesRequest filter)
         {
             try
             {
-                var deliveries = await _mediator.Send(new GetDeliveriesQuery());
+                var deliveries = await _mediator.Send(new GetDeliveriesQuery(filter));
 
                 if (!deliveries.Any())
                 {

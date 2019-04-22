@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using CQS.Queries.Types;
@@ -23,7 +24,10 @@ namespace CQS.Handlers.Types
         {
             try
             {
-                return await _context.Types.ToListAsync(cancellationToken);
+                var result = _context.Types.Where(o => query.Filter.HasName.IsSatisfiedBy(o));
+                if (!result.Any())
+                    return await _context.Types.ToListAsync(cancellationToken);
+                return result;
             }
             catch (Exception e)
             {

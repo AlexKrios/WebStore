@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CQS.Commands.Countries;
 using CQS.Queries.Countries;
-using WebStoreAPI.Requests.Countries;
+using Specification.Requests.Countries;
 using WebStoreAPI.Response.Countries;
 
 namespace WebStoreAPI.Controllers
@@ -32,11 +32,11 @@ namespace WebStoreAPI.Controllers
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<GetCountriesResponse>))]
         [ProducesResponseType(500, Type = typeof(string))]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> Get([FromQuery]GetCountriesRequest filter)
         {
             try
             {
-                var countries = await _mediator.Send(new GetCountriesQuery());
+                var countries = await _mediator.Send(new GetCountriesQuery(filter));
 
                 if (!countries.Any())
                 {

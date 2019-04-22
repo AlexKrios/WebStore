@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using CQS.Queries.Users;
@@ -23,7 +24,10 @@ namespace CQS.Handlers.Users
         {
             try
             {
-                return await _context.Users.ToListAsync(cancellationToken);
+                var result = _context.Users.Where(o => query.Filter.OneOfAll.IsSatisfiedBy(o));
+                if (!result.Any())
+                    return await _context.Users.ToListAsync(cancellationToken);
+                return result;
             }
             catch (Exception e)
             {

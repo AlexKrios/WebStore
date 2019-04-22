@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CQS.Commands.Payments;
 using CQS.Queries.Payments;
-using WebStoreAPI.Requests.Payments;
+using Specification.Requests.Payments;
 using WebStoreAPI.Response.Payments;
 
 namespace WebStoreAPI.Controllers
@@ -32,11 +32,11 @@ namespace WebStoreAPI.Controllers
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<GetPaymentsResponse>))]
         [ProducesResponseType(500, Type = typeof(string))]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> Get([FromQuery]GetPaymentsRequest filter)
         {
             try
             {
-                var payments = await _mediator.Send(new GetPaymentsQuery());
+                var payments = await _mediator.Send(new GetPaymentsQuery(filter));
 
                 if (!payments.Any())
                 {

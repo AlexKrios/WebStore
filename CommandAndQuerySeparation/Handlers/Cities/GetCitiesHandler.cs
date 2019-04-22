@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using CQS.Queries.Cities;
@@ -22,7 +23,10 @@ namespace CQS.Handlers.Cities
         {
             try
             {
-                return await _context.Cities.ToListAsync(cancellationToken);
+                var result = _context.Cities.Where(o => query.Filter.OneOfAll.IsSatisfiedBy(o));
+                if (!result.Any())
+                    return await _context.Cities.ToListAsync(cancellationToken);
+                return result;
             }
             catch (Exception e)
             {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using CQS.Queries.Payments;
@@ -23,7 +24,10 @@ namespace CQS.Handlers.Payments
         {
             try
             {
-                return await _context.Payments.ToListAsync(cancellationToken);
+                var result = _context.Payments.Where(o => query.Filter.OneOfAll.IsSatisfiedBy(o));
+                if (!result.Any())
+                    return await _context.Payments.ToListAsync(cancellationToken);
+                return result;
             }
             catch (Exception e)
             {

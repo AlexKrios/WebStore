@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CQS.Commands.Roles;
 using CQS.Queries.Roles;
-using WebStoreAPI.Requests.Roles;
+using Specification.Requests.Roles;
 using WebStoreAPI.Response.Roles;
 
 namespace WebStoreAPI.Controllers
@@ -32,11 +32,11 @@ namespace WebStoreAPI.Controllers
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<GetRolesResponse>))]
         [ProducesResponseType(500, Type = typeof(string))]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> Get([FromQuery]GetRolesRequest filter)
         {
             try
             {
-                var roles = await _mediator.Send(new GetRolesQuery());
+                var roles = await _mediator.Send(new GetRolesQuery(filter));
 
                 if (!roles.Any())
                 {

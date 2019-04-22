@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CQS.Commands.Cities;
 using CQS.Queries.Cities;
-using WebStoreAPI.Requests.Cities;
+using Specification.Requests.Cities;
 using WebStoreAPI.Response.Cities;
 
 namespace WebStoreAPI.Controllers
@@ -32,11 +32,11 @@ namespace WebStoreAPI.Controllers
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<GetCitiesResponse>))]
         [ProducesResponseType(500, Type = typeof(string))]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> Get([FromQuery]GetCitiesRequest filter)
         {
             try
             {
-                var cities = await _mediator.Send(new GetCitiesQuery());
+                var cities = await _mediator.Send(new GetCitiesQuery(filter));
 
                 if (!cities.Any())
                 {

@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CQS", "CommandAndQuerySepar
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Validators", "Validators\Validators.csproj", "{DAE0B3A8-4D79-4AE6-B948-47AD439DF3EC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Specification", "Specification\Specification.csproj", "{1A8DB894-EC0B-4A98-B18D-8E0292401482}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{DAE0B3A8-4D79-4AE6-B948-47AD439DF3EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DAE0B3A8-4D79-4AE6-B948-47AD439DF3EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DAE0B3A8-4D79-4AE6-B948-47AD439DF3EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A8DB894-EC0B-4A98-B18D-8E0292401482}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A8DB894-EC0B-4A98-B18D-8E0292401482}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A8DB894-EC0B-4A98-B18D-8E0292401482}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A8DB894-EC0B-4A98-B18D-8E0292401482}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

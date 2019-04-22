@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using CQS.Queries.Deliveries;
@@ -23,7 +24,10 @@ namespace CQS.Handlers.Deliveries
         {
             try
             {
-                return await _context.Deliveries.ToListAsync(cancellationToken);
+                var result = _context.Deliveries.Where(o => query.Filter.OneOfAll.IsSatisfiedBy(o));
+                if (!result.Any())
+                    return await _context.Deliveries.ToListAsync(cancellationToken);
+                return result;
             }
             catch (Exception e)
             {

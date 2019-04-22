@@ -24,10 +24,10 @@ namespace CQS.Handlers.Products
         {
             try
             {
-                var list = _context.Products.Where(o => query.oneOfAll.IsSatisfiedBy(o));
-                if (list == null)
+                var result = _context.Products.Where(o => query.Filter.OneOfAll.IsSatisfiedBy(o));
+                if (!result.Any())
                     return await _context.Products.ToListAsync(cancellationToken);
-                return list;
+                return result;
             }
             catch (Exception e)
             {

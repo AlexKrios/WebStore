@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CQS.Commands.Users;
 using CQS.Queries.Users;
-using WebStoreAPI.Requests.Users;
+using Specification.Requests.Users;
 using WebStoreAPI.Response.Users;
 
 namespace WebStoreAPI.Controllers
@@ -32,11 +32,11 @@ namespace WebStoreAPI.Controllers
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<GetUsersResponse>))]
         [ProducesResponseType(500, Type = typeof(string))]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> Get([FromQuery]GetUsersRequest filter)
         {
             try
             {
-                var users = await _mediator.Send(new GetUsersQuery());
+                var users = await _mediator.Send(new GetUsersQuery(filter));
 
                 if (!users.Any())
                 {

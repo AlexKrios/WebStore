@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using CQS.Queries.Countries;
@@ -23,7 +24,10 @@ namespace CQS.Handlers.Countries
         {
             try
             {
-                return await _context.Countries.ToListAsync(cancellationToken);
+                var result = _context.Countries.Where(o => query.Filter.HasName.IsSatisfiedBy(o));
+                if (!result.Any())
+                    return await _context.Countries.ToListAsync(cancellationToken);
+                return result;
             }
             catch (Exception e)
             {

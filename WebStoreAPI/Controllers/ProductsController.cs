@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CQS.Commands.Products;
 using CQS.Queries.Products;
-using WebStoreAPI.Requests.Products;
+using Specification.Requests.Products;
 using WebStoreAPI.Response.Products;
 
 namespace WebStoreAPI.Controllers
@@ -32,7 +32,7 @@ namespace WebStoreAPI.Controllers
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<GetProductsResponse>))]
         [ProducesResponseType(500, Type = typeof(string))]
-        public async Task<IActionResult> Get([FromQuery]CQS.Requests.Products.GetProductsRequest filter)
+        public async Task<IActionResult> Get([FromQuery]GetProductsRequest filter)
         {
             try
             {

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CQS.Commands.OrderItems;
 using CQS.Queries.OrderItems;
-using WebStoreAPI.Requests.OrderItems;
+using Specification.Requests.OrderItems;
 using WebStoreAPI.Response.OrderItems;
 
 namespace WebStoreAPI.Controllers
@@ -32,11 +32,11 @@ namespace WebStoreAPI.Controllers
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<GetOrdersItemsResponse>))]
         [ProducesResponseType(500, Type = typeof(string))]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> Get([FromQuery]GetOrdersItemsRequest filter)
         {
             try
             {
-                var ordersItems = await _mediator.Send(new GetOrdersItemsQuery());
+                var ordersItems = await _mediator.Send(new GetOrdersItemsQuery(filter));
 
                 if (!ordersItems.Any())
                 {

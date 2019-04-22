@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using CQS.Queries.Roles;
@@ -23,7 +24,10 @@ namespace CQS.Handlers.Roles
         {
             try
             {
-                return await _context.Roles.ToListAsync(cancellationToken);
+                var result = _context.Roles.Where(o => query.Filter.HasName.IsSatisfiedBy(o));
+                if (!result.Any())
+                    return await _context.Roles.ToListAsync(cancellationToken);
+                return result;
             }
             catch (Exception e)
             {
