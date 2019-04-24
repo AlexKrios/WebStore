@@ -4,11 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using APIModels.Requests.Payments;
+using APIModels.Response.Payments;
 using AutoMapper;
 using CQS.Commands.Payments;
 using CQS.Queries.Payments;
-using Specification.Requests.Payments;
-using WebStoreAPI.Response.Payments;
 
 namespace WebStoreAPI.Controllers
 {

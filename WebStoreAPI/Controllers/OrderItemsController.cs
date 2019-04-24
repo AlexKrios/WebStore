@@ -4,11 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using APIModels.Requests.OrderItems;
+using APIModels.Response.OrderItems;
 using AutoMapper;
 using CQS.Commands.OrderItems;
 using CQS.Queries.OrderItems;
-using Specification.Requests.OrderItems;
-using WebStoreAPI.Response.OrderItems;
 
 namespace WebStoreAPI.Controllers
 {

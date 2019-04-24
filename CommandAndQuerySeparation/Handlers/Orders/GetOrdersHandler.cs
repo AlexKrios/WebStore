@@ -25,6 +25,13 @@ namespace CQS.Handlers.Orders
             try
             {
                 var result = _context.Orders.Where(o => query.Filter.OneOfAll.IsSatisfiedBy(o));
+                if (query.Filter.Filter.MinTotalPrice != null && query.Filter.Filter.MaxTotalPrice != null &&
+                    query.Filter.Filter.UserId != null && query.Filter.Filter.DeliveryId != null &&
+                    query.Filter.Filter.PaymentId != null)
+                {
+                    result = _context.Orders.Where(o => query.Filter.HasAll.IsSatisfiedBy(o));
+                }
+
                 if (!result.Any())
                     return await _context.Orders.ToListAsync(cancellationToken);
                 return result;

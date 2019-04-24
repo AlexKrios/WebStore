@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
+using APIModels.Filters;
+using APIModels.Requests.Orders;
 using DataLibrary.Entities;
 using MediatR;
-using Specification.Requests.Orders;
-using Specification.Specification.Filters;
 
 namespace CQS.Queries.Orders
 {

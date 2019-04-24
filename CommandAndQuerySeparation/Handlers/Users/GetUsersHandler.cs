@@ -25,8 +25,18 @@ namespace CQS.Handlers.Users
             try
             {
                 var result = _context.Users.Where(o => query.Filter.OneOfAll.IsSatisfiedBy(o));
+                if (query.Filter.Filter.MinAge != null && query.Filter.Filter.MaxAge != null &&
+                    query.Filter.Filter.Email != null && query.Filter.Filter.CityId != null &&
+                    query.Filter.Filter.Name != null)
+                {
+                    result = _context.Users.Where(o => query.Filter.HasAll.IsSatisfiedBy(o));
+                }
+
                 if (!result.Any())
+                {
                     return await _context.Users.ToListAsync(cancellationToken);
+                }
+
                 return result;
             }
             catch (Exception e)

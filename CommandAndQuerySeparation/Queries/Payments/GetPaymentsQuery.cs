@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
+using APIModels.Filters;
+using APIModels.Requests.Payments;
 using DataLibrary.Entities;
 using MediatR;
-using Specification.Requests.Payments;
-using Specification.Specification.Filters;
 
 namespace CQS.Queries.Payments
 {

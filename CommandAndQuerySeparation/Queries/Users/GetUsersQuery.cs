@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
+using APIModels.Filters;
+using APIModels.Requests.Users;
 using DataLibrary.Entities;
 using MediatR;
-using Specification.Requests.Users;
-using Specification.Specification.Filters;
 
 namespace CQS.Queries.Users
 {

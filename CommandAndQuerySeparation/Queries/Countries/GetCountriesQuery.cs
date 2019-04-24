@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
+using APIModels.Filters;
+using APIModels.Requests.Countries;
 using DataLibrary.Entities;
 using MediatR;
-using Specification.Requests.Countries;
-using Specification.Specification.Filters;
 
 namespace CQS.Queries.Countries
 {

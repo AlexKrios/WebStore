@@ -25,6 +25,12 @@ namespace CQS.Handlers.Payments
             try
             {
                 var result = _context.Payments.Where(o => query.Filter.OneOfAll.IsSatisfiedBy(o));
+                if (query.Filter.Filter.MinTaxes != null && query.Filter.Filter.MaxTaxes != null &&
+                    query.Filter.Filter.Name != null)
+                {
+                    result = _context.Payments.Where(o => query.Filter.HasAll.IsSatisfiedBy(o));
+                }
+
                 if (!result.Any())
                     return await _context.Payments.ToListAsync(cancellationToken);
                 return result;

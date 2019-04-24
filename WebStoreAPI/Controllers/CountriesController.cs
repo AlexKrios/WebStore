@@ -4,11 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using APIModels.Requests.Countries;
+using APIModels.Response.Countries;
 using AutoMapper;
 using CQS.Commands.Countries;
 using CQS.Queries.Countries;
-using Specification.Requests.Countries;
-using WebStoreAPI.Response.Countries;
 
 namespace WebStoreAPI.Controllers
 {

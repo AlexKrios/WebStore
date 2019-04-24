@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
+using APIModels.Filters;
+using APIModels.Requests.Manufacturers;
 using DataLibrary.Entities;
 using MediatR;
-using Specification.Requests.Manufacturers;
-using Specification.Specification.Filters;
 
 namespace CQS.Queries.Manufacturers
 {

@@ -24,8 +24,16 @@ namespace CQS.Handlers.Cities
             try
             {
                 var result = _context.Cities.Where(o => query.Filter.OneOfAll.IsSatisfiedBy(o));
+                if (query.Filter.Filter.Name != null && query.Filter.Filter.CountryId != null)
+                {
+                    result = _context.Cities.Where(o => query.Filter.HasAll.IsSatisfiedBy(o));
+                }
+
                 if (!result.Any())
+                {
                     return await _context.Cities.ToListAsync(cancellationToken);
+                }
+
                 return result;
             }
             catch (Exception e)

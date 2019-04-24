@@ -4,11 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using APIModels.Requests.Users;
+using APIModels.Response.Users;
 using AutoMapper;
 using CQS.Commands.Users;
 using CQS.Queries.Users;
-using Specification.Requests.Users;
-using WebStoreAPI.Response.Users;
 
 namespace WebStoreAPI.Controllers
 {

@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
+using APIModels.Filters;
+using APIModels.Requests.Cities;
 using DataLibrary.Entities;
 using MediatR;
-using Specification.Requests.Cities;
-using Specification.Specification.Filters;
 
 namespace CQS.Queries.Cities
 {

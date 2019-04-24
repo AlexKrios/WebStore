@@ -4,11 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using APIModels.Requests.Cities;
+using APIModels.Response.Cities;
 using AutoMapper;
 using CQS.Commands.Cities;
 using CQS.Queries.Cities;
-using Specification.Requests.Cities;
-using WebStoreAPI.Response.Cities;
 
 namespace WebStoreAPI.Controllers
 {

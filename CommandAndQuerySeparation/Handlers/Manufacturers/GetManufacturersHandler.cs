@@ -25,8 +25,17 @@ namespace CQS.Handlers.Manufacturers
             try
             {
                 var result = _context.Manufacturers.Where(o => query.Filter.OneOfAll.IsSatisfiedBy(o));
+                if (query.Filter.Filter.MinRating != null && query.Filter.Filter.MaxRating != null &&
+                    query.Filter.Filter.Name != null)
+                {
+                    result = _context.Manufacturers.Where(o => query.Filter.HasAll.IsSatisfiedBy(o));
+                }
+
                 if (!result.Any())
+                {
                     return await _context.Manufacturers.ToListAsync(cancellationToken);
+                }
+                
                 return result;
             }
             catch (Exception e)

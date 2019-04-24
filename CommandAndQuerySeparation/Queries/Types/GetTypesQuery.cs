@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using DataLibrary.Entities;
+using APIModels.Filters;
+using APIModels.Requests.Types;
 using MediatR;
-using Specification.Requests.Types;
-using Specification.Specification.Filters;
+using Type = DataLibrary.Entities.Type;
 
 namespace CQS.Queries.Types
 {

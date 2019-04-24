@@ -25,8 +25,18 @@ namespace CQS.Handlers.Products
             try
             {
                 var result = _context.Products.Where(o => query.Filter.OneOfAll.IsSatisfiedBy(o));
+                if (query.Filter.Filter.MinAvailability != null && query.Filter.Filter.MaxAvailability != null &&
+                    query.Filter.Filter.MinPrice != null && query.Filter.Filter.MaxPrice != null &&
+                    query.Filter.Filter.TypeId != null && query.Filter.Filter.ManufacturerId != null)
+                {
+                    result = _context.Products.Where(o => query.Filter.HasAll.IsSatisfiedBy(o));
+                }
+
                 if (!result.Any())
+                {
                     return await _context.Products.ToListAsync(cancellationToken);
+                }
+
                 return result;
             }
             catch (Exception e)
