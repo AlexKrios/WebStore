@@ -28,7 +28,7 @@ namespace CQS.Handlers.Manufacturers
                 if (query.Filter.Filter.MinRating != null && query.Filter.Filter.MaxRating != null &&
                     query.Filter.Filter.Name != null)
                 {
-                    result = _context.Manufacturers.Where(o => query.Filter.HasAll.IsSatisfiedBy(o));
+                    result = _context.Manufacturers.Where(o => query.Filter.AllEquals.IsSatisfiedBy(o));
                 }
 
                 if (!result.Any())

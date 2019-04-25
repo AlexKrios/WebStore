@@ -8,17 +8,19 @@ namespace APIModels.Filters
     {
         public GetPaymentsRequest Filter { get; set; }
 
-        public ISpecification<Payment> HasName =>
+        public ISpecification<Payment> NameEquals =>
             new ExpressionSpecification<Payment>(o => o.Name.Equals(Filter.Name));
 
         public ISpecification<Payment> MinTaxes =>
-            new ExpressionSpecification<Payment>(o => o.Taxes >= Filter.MinTaxes);
+            new ExpressionSpecification<Payment>(o => 
+                !Filter.MinTaxes.HasValue || Filter.MinTaxes.Value.Equals(0) || o.Taxes >= Filter.MinTaxes);
         public ISpecification<Payment> MaxTaxes =>
-            new ExpressionSpecification<Payment>(o => o.Taxes <= Filter.MaxTaxes);
+            new ExpressionSpecification<Payment>(o => 
+                !Filter.MaxTaxes.HasValue || Filter.MaxTaxes.Value.Equals(0) || o.Taxes <= Filter.MaxTaxes);
 
-        public ISpecification<Payment> HasAll => HasName.And(MinTaxes).And(MaxTaxes);
+        public ISpecification<Payment> AllEquals => NameEquals.And(MinTaxes).And(MaxTaxes);
 
-        public ISpecification<Payment> OneOfAll => HasName.Or(MinTaxes).Or(MaxTaxes);
+        public ISpecification<Payment> OneOfAll => NameEquals.Or(MinTaxes).And(MaxTaxes);
 
         public GetPaymentsFilter(GetPaymentsRequest filter)
         {

@@ -8,7 +8,7 @@ namespace APIModels.Filters
     {
         public GetRolesRequest Filter { get; set; }
 
-        public ISpecification<Role> HasName =>
+        public ISpecification<Role> NameEquals =>
             new ExpressionSpecification<Role>(o => o.Name.Equals(Filter.Name));
 
         public GetRolesFilter(GetRolesRequest filter)

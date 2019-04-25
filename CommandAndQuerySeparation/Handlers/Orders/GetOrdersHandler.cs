@@ -29,7 +29,7 @@ namespace CQS.Handlers.Orders
                     query.Filter.Filter.UserId != null && query.Filter.Filter.DeliveryId != null &&
                     query.Filter.Filter.PaymentId != null)
                 {
-                    result = _context.Orders.Where(o => query.Filter.HasAll.IsSatisfiedBy(o));
+                    result = _context.Orders.Where(o => query.Filter.AllEquals.IsSatisfiedBy(o));
                 }
 
                 if (!result.Any())

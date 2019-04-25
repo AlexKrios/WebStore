@@ -83,7 +83,7 @@ namespace WebStoreAPI
             app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "Web Store"); });
 
             //Db initialization
-            WebStoreInitializer.Seed(context);
+            //WebStoreInitializer.Seed(context);
         }
     }
 }

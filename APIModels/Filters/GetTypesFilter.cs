@@ -8,7 +8,7 @@ namespace APIModels.Filters
     {
         public GetTypesRequest Filter { get; set; }
 
-        public ISpecification<Type> HasName =>
+        public ISpecification<Type> NameEquals =>
             new ExpressionSpecification<Type>(o => o.Name.Equals(Filter.Name));
 
         public GetTypesFilter(GetTypesRequest filter)

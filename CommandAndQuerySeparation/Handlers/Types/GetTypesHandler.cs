@@ -24,7 +24,7 @@ namespace CQS.Handlers.Types
         {
             try
             {
-                var result = _context.Types.Where(o => query.Filter.HasName.IsSatisfiedBy(o));
+                var result = _context.Types.Where(o => query.Filter.NameEquals.IsSatisfiedBy(o));
                 if (!result.Any())
                     return await _context.Types.ToListAsync(cancellationToken);
                 return result;

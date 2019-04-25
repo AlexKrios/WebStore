@@ -29,7 +29,7 @@ namespace CQS.Handlers.Users
                     query.Filter.Filter.Email != null && query.Filter.Filter.CityId != null &&
                     query.Filter.Filter.Name != null)
                 {
-                    result = _context.Users.Where(o => query.Filter.HasAll.IsSatisfiedBy(o));
+                    result = _context.Users.Where(o => query.Filter.AllEquals.IsSatisfiedBy(o));
                 }
 
                 if (!result.Any())

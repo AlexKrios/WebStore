@@ -29,7 +29,7 @@ namespace CQS.Handlers.OrderItems
                     query.Filter.Filter.MinPrice != null && query.Filter.Filter.MaxPrice != null &&
                     query.Filter.Filter.ProductId != null && query.Filter.Filter.OrderId != null)
                 {
-                    result = _context.OrderItems.Where(o => query.Filter.HasAll.IsSatisfiedBy(o));
+                    result = _context.OrderItems.Where(o => query.Filter.AllEquals.IsSatisfiedBy(o));
                 }
 
                 if (!result.Any())

@@ -9,24 +9,29 @@ namespace APIModels.Filters
         public GetOrdersRequest Filter { get; set; }
 
         public ISpecification<Order> MinTotalPrice =>
-            new ExpressionSpecification<Order>(o => o.TotalPrice >= Filter.MinTotalPrice);
+            new ExpressionSpecification<Order>(o => 
+                !Filter.MinTotalPrice.HasValue || Filter.MinTotalPrice.Value.Equals(0) || o.TotalPrice >= Filter.MinTotalPrice);
         public ISpecification<Order> MaxTotalPrice =>
-            new ExpressionSpecification<Order>(o => o.TotalPrice <= Filter.MaxTotalPrice);
+            new ExpressionSpecification<Order>(o => 
+                !Filter.MaxTotalPrice.HasValue || Filter.MaxTotalPrice.Value.Equals(0) || o.TotalPrice <= Filter.MaxTotalPrice);
 
         public ISpecification<Order> UserId =>
-            new ExpressionSpecification<Order>(o => o.UserId == Filter.UserId);
+            new ExpressionSpecification<Order>(o => 
+                !Filter.UserId.HasValue || o.UserId == Filter.UserId);
 
         public ISpecification<Order> DeliveryId =>
-            new ExpressionSpecification<Order>(o => o.DeliveryId == Filter.DeliveryId);
+            new ExpressionSpecification<Order>(o => 
+                !Filter.DeliveryId.HasValue || o.DeliveryId == Filter.DeliveryId);
 
         public ISpecification<Order> PaymentId =>
-            new ExpressionSpecification<Order>(o => o.PaymentId == Filter.PaymentId);
+            new ExpressionSpecification<Order>(o => 
+                !Filter.PaymentId.HasValue || o.PaymentId == Filter.PaymentId);
 
-        public ISpecification<Order> HasAll =>
+        public ISpecification<Order> AllEquals =>
             UserId.And(MinTotalPrice).And(MaxTotalPrice).And(UserId).And(DeliveryId).And(PaymentId);
 
         public ISpecification<Order> OneOfAll =>
-            UserId.Or(MinTotalPrice).Or(MaxTotalPrice).Or(UserId).Or(DeliveryId).Or(PaymentId);
+            UserId.Or(MinTotalPrice).And(MaxTotalPrice).Or(UserId).Or(DeliveryId).Or(PaymentId);
 
         public GetOrdersFilter(GetOrdersRequest filter)
         {

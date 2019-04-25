@@ -28,7 +28,7 @@ namespace CQS.Handlers.Payments
                 if (query.Filter.Filter.MinTaxes != null && query.Filter.Filter.MaxTaxes != null &&
                     query.Filter.Filter.Name != null)
                 {
-                    result = _context.Payments.Where(o => query.Filter.HasAll.IsSatisfiedBy(o));
+                    result = _context.Payments.Where(o => query.Filter.AllEquals.IsSatisfiedBy(o));
                 }
 
                 if (!result.Any())

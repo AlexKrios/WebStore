@@ -43,7 +43,7 @@ namespace WebStoreAPI.Controllers
                     return NotFound();
                 }
 
-                return Ok(products);
+                return Ok(_mapper.Map<IEnumerable<GetProductResponse>>(products));
             }
             catch (Exception e)
             {

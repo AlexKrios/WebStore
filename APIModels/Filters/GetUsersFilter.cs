@@ -8,23 +8,28 @@ namespace APIModels.Filters
     {
         public GetUsersRequest Filter { get; set; }
 
-        public ISpecification<User> HasName =>
-            new ExpressionSpecification<User>(o => o.Name.Equals(Filter.Name));
+        public ISpecification<User> NameEquals =>
+            new ExpressionSpecification<User>(o =>
+                string.IsNullOrEmpty(Filter.Name) || string.IsNullOrWhiteSpace(Filter.Name) || o.Name.Equals(Filter.Name));
 
         public ISpecification<User> MinAge =>
-            new ExpressionSpecification<User>(o => o.Age >= Filter.MinAge);
+            new ExpressionSpecification<User>(o =>
+                !Filter.MinAge.HasValue || Filter.MinAge.Value.Equals(0) || o.Age >= Filter.MinAge);
         public ISpecification<User> MaxAge =>
-            new ExpressionSpecification<User>(o => o.Age <= Filter.MaxAge);
+            new ExpressionSpecification<User>(o =>
+                !Filter.MaxAge.HasValue || Filter.MaxAge.Value.Equals(0) || o.Age <= Filter.MaxAge);
 
-        public ISpecification<User> HasEmail =>
-            new ExpressionSpecification<User>(o => o.Email.Equals(Filter.Email));
+        public ISpecification<User> EmailEquals =>
+            new ExpressionSpecification<User>(o =>
+                string.IsNullOrEmpty(Filter.Email) || string.IsNullOrWhiteSpace(Filter.Email) || o.Email.Equals(Filter.Email));
 
         public ISpecification<User> CityId =>
-            new ExpressionSpecification<User>(o => o.CityId == Filter.CityId);
+            new ExpressionSpecification<User>(o =>
+                !Filter.CityId.HasValue || o.CityId == Filter.CityId);
 
-        public ISpecification<User> HasAll => HasName.And(MinAge).And(MaxAge).And(HasEmail).And(CityId);
+        public ISpecification<User> AllEquals => NameEquals.And(MinAge).And(MaxAge).And(EmailEquals).And(CityId);
 
-        public ISpecification<User> OneOfAll => HasName.Or(MinAge).Or(MaxAge).Or(HasEmail).Or(CityId);
+        public ISpecification<User> OneOfAll => NameEquals.Or(MinAge).And(MaxAge).Or(EmailEquals).Or(CityId);
 
         public GetUsersFilter(GetUsersRequest filter)
         {

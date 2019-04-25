@@ -26,7 +26,7 @@ namespace CQS.Handlers.Cities
                 var result = _context.Cities.Where(o => query.Filter.OneOfAll.IsSatisfiedBy(o));
                 if (query.Filter.Filter.Name != null && query.Filter.Filter.CountryId != null)
                 {
-                    result = _context.Cities.Where(o => query.Filter.HasAll.IsSatisfiedBy(o));
+                    result = _context.Cities.Where(o => query.Filter.AllEquals.IsSatisfiedBy(o));
                 }
 
                 if (!result.Any())

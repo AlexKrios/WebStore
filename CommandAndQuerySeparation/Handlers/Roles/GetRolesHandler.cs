@@ -24,7 +24,7 @@ namespace CQS.Handlers.Roles
         {
             try
             {
-                var result = _context.Roles.Where(o => query.Filter.HasName.IsSatisfiedBy(o));
+                var result = _context.Roles.Where(o => query.Filter.NameEquals.IsSatisfiedBy(o));
                 if (!result.Any())
                     return await _context.Roles.ToListAsync(cancellationToken);
                 return result;

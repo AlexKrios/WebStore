@@ -27,7 +27,7 @@ namespace CQS.Handlers.UserRoles
                 var result = _context.UserRoles.Where(o => query.Filter.OneOfAll.IsSatisfiedBy(o));
                 if (query.Filter.Filter.UserId != null && query.Filter.Filter.RoleId != null)
                 {
-                    result = _context.UserRoles.Where(o => query.Filter.HasAll.IsSatisfiedBy(o));
+                    result = _context.UserRoles.Where(o => query.Filter.AllEquals.IsSatisfiedBy(o));
                 }
 
                 if (!result.Any())

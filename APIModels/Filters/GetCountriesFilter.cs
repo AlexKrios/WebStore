@@ -8,8 +8,9 @@ namespace APIModels.Filters
     {
         public GetCountriesRequest Filter { get; set; }
 
-        public ISpecification<Country> HasName =>
-            new ExpressionSpecification<Country>(o => o.Name.Equals(Filter.Name));
+        public ISpecification<Country> NameEquals =>
+            new ExpressionSpecification<Country>(o =>
+                string.IsNullOrEmpty(Filter.Name) || string.IsNullOrWhiteSpace(Filter.Name) || o.Name.Equals(Filter.Name));
 
         public GetCountriesFilter(GetCountriesRequest filter)
         {

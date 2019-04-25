@@ -24,7 +24,7 @@ namespace CQS.Handlers.Countries
         {
             try
             {
-                var result = _context.Countries.Where(o => query.Filter.HasName.IsSatisfiedBy(o));
+                var result = _context.Countries.Where(o => query.Filter.NameEquals.IsSatisfiedBy(o));
                 if (!result.Any())
                     return await _context.Countries.ToListAsync(cancellationToken);
                 return result;

@@ -29,7 +29,7 @@ namespace CQS.Handlers.Deliveries
                     query.Filter.Filter.MinRating != null && query.Filter.Filter.MaxRating != null &&
                     query.Filter.Filter.Name != null)
                 {
-                    result = _context.Deliveries.Where(o => query.Filter.HasAll.IsSatisfiedBy(o));
+                    result = _context.Deliveries.Where(o => query.Filter.AllEquals.IsSatisfiedBy(o));
                 }
 
                 if (!result.Any())

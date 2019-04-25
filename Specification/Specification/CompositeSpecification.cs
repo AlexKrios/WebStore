@@ -12,9 +12,5 @@
         {
             return new OrSpecification<T>(this, specification);
         }
-        //public ISpecification<T> Not(ISpecification<T> specification)
-        //{
-        //    return new NotSpecification<T>(specification);
-        //}
     }
 }
