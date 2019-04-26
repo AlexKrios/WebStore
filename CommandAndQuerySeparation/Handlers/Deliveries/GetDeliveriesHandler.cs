@@ -24,22 +24,15 @@ namespace CQS.Handlers.Deliveries
         {
             try
             {
-                var result = _context.Deliveries.Where(o => query.Filter.OneOfAll.IsSatisfiedBy(o));
-                if (query.Filter.Filter.MinPrice != null && query.Filter.Filter.MaxPrice != null &&
-                    query.Filter.Filter.MinRating != null && query.Filter.Filter.MaxRating != null &&
-                    query.Filter.Filter.Name != null)
-                {
-                    result = _context.Deliveries.Where(o => query.Filter.AllEquals.IsSatisfiedBy(o));
-                }
-
-                if (query.Filter.Filter.MinPrice == null && query.Filter.Filter.MaxPrice == null &&
-                    query.Filter.Filter.MinRating == null && query.Filter.Filter.MaxRating == null &&
-                    query.Filter.Filter.Name == null)
+                if (!query.Filter.Filter.MinPrice.HasValue &&
+                    !query.Filter.Filter.MaxPrice.HasValue &&
+                    !query.Filter.Filter.MinRating.HasValue &&
+                    !query.Filter.Filter.MaxRating.HasValue &&
+                    string.IsNullOrEmpty(query.Filter.Filter.Name))
                 {
                     return await _context.Deliveries.ToListAsync(cancellationToken);
                 }
-
-                return result;
+                return await _context.Deliveries.Where(o => query.Filter.OneOfAll.IsSatisfiedBy(o)).ToListAsync(cancellationToken);
             }
             catch (Exception e)
             {
