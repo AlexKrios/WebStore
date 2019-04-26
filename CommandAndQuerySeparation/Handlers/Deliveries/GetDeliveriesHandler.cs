@@ -32,7 +32,9 @@ namespace CQS.Handlers.Deliveries
                     result = _context.Deliveries.Where(o => query.Filter.AllEquals.IsSatisfiedBy(o));
                 }
 
-                if (!result.Any())
+                if (query.Filter.Filter.MinPrice == null && query.Filter.Filter.MaxPrice == null &&
+                    query.Filter.Filter.MinRating == null && query.Filter.Filter.MaxRating == null &&
+                    query.Filter.Filter.Name == null)
                 {
                     return await _context.Deliveries.ToListAsync(cancellationToken);
                 }

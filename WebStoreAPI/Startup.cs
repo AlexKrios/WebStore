@@ -19,7 +19,7 @@ namespace WebStoreAPI
 {
     public class Startup
     {
-        private readonly Container _container = new Container();
+        private static readonly Container Container = new Container();
 
         public Startup(IConfiguration configuration)
         {
@@ -35,25 +35,10 @@ namespace WebStoreAPI
                 options.RegisterValidatorsFromAssemblyContaining<Startup>();
             });
             services.AddMediatR();
-            services.AddAutoMapper();
 
-            var mappingConfig = new MapperConfiguration(mc => { mc.AddProfile(new MappingProfile()); });
-            var mapper = mappingConfig.CreateMapper();
-
-            services.AddSingleton(mapper);
-
-            _container.Options.DefaultScopedLifestyle = new AsyncScopedLifestyle();
-            services.EnableSimpleInjectorCrossWiring(_container);
-
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new Info {Title = "Web Store request", Version = "v1"});
-
-                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.XML";
-                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-
-                c.IncludeXmlComments(xmlPath);
-            });
+            MapperConfiguration(services);
+            SimpleInjectorConfiguration(services);
+            SwaggerConfiguration(services);
 
             services.AddDbContext<WebStoreContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString(
@@ -61,11 +46,40 @@ namespace WebStoreAPI
                     b => b.MigrationsAssembly("WebStoreAPI")));
         }
 
+        private static void MapperConfiguration(IServiceCollection services)
+        {
+            services.AddAutoMapper();
+
+            var mappingConfig = new MapperConfiguration(mc => { mc.AddProfile(new MappingProfile()); });
+            var mapper = mappingConfig.CreateMapper();
+
+            services.AddSingleton(mapper);
+        }
+
+        private static void SimpleInjectorConfiguration(IServiceCollection services)
+        {
+            Container.Options.DefaultScopedLifestyle = new AsyncScopedLifestyle();
+            services.EnableSimpleInjectorCrossWiring(Container);
+        }
+
+        private static void SwaggerConfiguration(IServiceCollection services)
+        {
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "Web Store request", Version = "v1" });
+
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.XML";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+
+                c.IncludeXmlComments(xmlPath);
+            });
+        }
+
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, WebStoreContext context)
         {
-            _container.RegisterMvcControllers(app);
-            _container.AutoCrossWireAspNetComponents(app);
-            _container.Verify();
+            Container.RegisterMvcControllers(app);
+            Container.AutoCrossWireAspNetComponents(app);
+            Container.Verify();
 
             if (env.IsDevelopment())
             {
@@ -83,7 +97,7 @@ namespace WebStoreAPI
             app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "Web Store"); });
 
             //Db initialization
-            //WebStoreInitializer.Seed(context);
+            WebStoreInitializer.Seed(context);
         }
     }
 }
