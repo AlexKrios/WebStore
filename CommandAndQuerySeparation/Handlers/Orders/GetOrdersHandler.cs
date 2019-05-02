@@ -7,7 +7,6 @@ using CQS.Queries.Orders;
 using DataLibrary;
 using DataLibrary.Entities;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace CQS.Handlers.Orders
 {
@@ -20,21 +19,38 @@ namespace CQS.Handlers.Orders
             _context = context;
         }
 
-        public async Task<IEnumerable<Order>> Handle(GetOrdersQuery query, CancellationToken cancellationToken)
+        public Task<IEnumerable<Order>> Handle(GetOrdersQuery query, CancellationToken cancellationToken)
         {
             try
             {
-                var result = _context.Orders.Where(o => query.Filter.OneOfAll.IsSatisfiedBy(o));
-                if (query.Filter.Filter.MinTotalPrice != null && query.Filter.Filter.MaxTotalPrice != null &&
-                    query.Filter.Filter.UserId != null && query.Filter.Filter.DeliveryId != null &&
-                    query.Filter.Filter.PaymentId != null)
+                var list = _context.Orders as IEnumerable<Order>;
+
+                if (query.Filter.Request.MinTotalPrice.HasValue)
                 {
-                    result = _context.Orders.Where(o => query.Filter.AllEquals.IsSatisfiedBy(o));
+                    list = _context.Orders.Where(o => query.Filter.MinTotalPrice.IsSatisfiedBy(o));
                 }
 
-                if (!result.Any())
-                    return await _context.Orders.ToListAsync(cancellationToken);
-                return result;
+                if (query.Filter.Request.MaxTotalPrice.HasValue)
+                {
+                    list = _context.Orders.Where(o => query.Filter.MaxTotalPrice.IsSatisfiedBy(o));
+                }
+
+                if (query.Filter.Request.UserId.HasValue)
+                {
+                    list = _context.Orders.Where(o => query.Filter.UserId.IsSatisfiedBy(o));
+                }
+
+                if (query.Filter.Request.DeliveryId.HasValue)
+                {
+                    list = _context.Orders.Where(o => query.Filter.DeliveryId.IsSatisfiedBy(o));
+                }
+
+                if (query.Filter.Request.PaymentId.HasValue)
+                {
+                    list = _context.Orders.Where(o => query.Filter.PaymentId.IsSatisfiedBy(o));
+                }
+
+                return Task.FromResult(list);
             }
             catch (Exception e)
             {

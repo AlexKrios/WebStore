@@ -6,14 +6,9 @@ namespace APIModels.Filters
 {
     public class GetRolesFilter
     {
-        public GetRolesRequest Filter { get; set; }
+        public GetRolesRequest Request { get; set; }
 
         public ISpecification<Role> NameEquals =>
-            new ExpressionSpecification<Role>(o => o.Name.Equals(Filter.Name));
-
-        public GetRolesFilter(GetRolesRequest filter)
-        {
-            Filter = filter;
-        }
+            new ExpressionSpecification<Role>(o => o.Name.Equals(Request.Name));
     }
 }

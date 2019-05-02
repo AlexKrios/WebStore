@@ -6,43 +6,25 @@ namespace APIModels.Filters
 {
     public class GetProductsFilter
     {
-        public GetProductsRequest Filter { get; set; }
+        public GetProductsRequest Request { get; set; }
 
         public ISpecification<Product> NameEquals =>
-            new ExpressionSpecification<Product>(o =>
-                string.IsNullOrEmpty(Filter.Name) || string.IsNullOrWhiteSpace(Filter.Name) || o.Name.Equals(Filter.Name));
+            new ExpressionSpecification<Product>(o => o.Name.Equals(Request.Name));
 
         public ISpecification<Product> MinAvailability =>
-            new ExpressionSpecification<Product>(o =>
-                !Filter.MinAvailability.HasValue || Filter.MinAvailability.Value.Equals(0) || o.Availability >= Filter.MinAvailability);
+            new ExpressionSpecification<Product>(o => o.Availability >= Request.MinAvailability);
         public ISpecification<Product> MaxAvailability =>
-            new ExpressionSpecification<Product>(o =>
-                !Filter.MaxAvailability.HasValue || Filter.MaxAvailability.Value.Equals(0) || o.Availability <= Filter.MaxAvailability);
+            new ExpressionSpecification<Product>(o => o.Availability <= Request.MaxAvailability);
 
         public ISpecification<Product> MinPrice =>
-            new ExpressionSpecification<Product>(o =>
-                !Filter.MinPrice.HasValue || Filter.MinPrice.Value.Equals(0) || o.Price >= Filter.MinPrice);
+            new ExpressionSpecification<Product>(o => o.Price >= Request.MinPrice);
         public ISpecification<Product> MaxPrice =>
-            new ExpressionSpecification<Product>(o =>
-                !Filter.MaxPrice.HasValue || Filter.MaxPrice.Value.Equals(0) || o.Price <= Filter.MaxPrice);
+            new ExpressionSpecification<Product>(o => o.Price <= Request.MaxPrice);
 
         public ISpecification<Product> TypeId =>
-            new ExpressionSpecification<Product>(o =>
-                !Filter.TypeId.HasValue || o.TypeId == Filter.TypeId);
+            new ExpressionSpecification<Product>(o => o.TypeId == Request.TypeId);
 
         public ISpecification<Product> ManufacturerId =>
-            new ExpressionSpecification<Product>(o =>
-                !Filter.ManufacturerId.HasValue || o.ManufacturerId == Filter.ManufacturerId);
-
-        public ISpecification<Product> AllEquals =>
-            NameEquals.And(MinAvailability).And(MaxAvailability).And(MinPrice).And(MaxPrice).And(TypeId).And(ManufacturerId);
-
-        public ISpecification<Product> OneOfAll =>
-            NameEquals.Or(MinAvailability).And(MaxAvailability).Or(MinPrice).And(MaxPrice).Or(TypeId).Or(ManufacturerId);
-
-        public GetProductsFilter(GetProductsRequest filter)
-        {
-            Filter = filter;
-        }
+            new ExpressionSpecification<Product>(o => o.ManufacturerId == Request.ManufacturerId);
     }
 }

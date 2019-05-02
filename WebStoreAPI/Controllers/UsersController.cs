@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using APIModels.Filters;
 using APIModels.Requests.Users;
 using APIModels.Response.Users;
 using AutoMapper;
@@ -32,11 +33,14 @@ namespace WebStoreAPI.Controllers
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<GetUsersResponse>))]
         [ProducesResponseType(500, Type = typeof(string))]
-        public async Task<IActionResult> Get([FromQuery]GetUsersRequest filter)
+        public async Task<IActionResult> Get([FromQuery]GetUsersRequest request)
         {
             try
             {
-                var users = await _mediator.Send(new GetUsersQuery(filter));
+                var users = await _mediator.Send(new GetUsersQuery
+                {
+                    Filter = new GetUsersFilter { Request = request }
+                });
 
                 if (!users.Any())
                 {

@@ -7,7 +7,6 @@ using CQS.Queries.Roles;
 using DataLibrary;
 using DataLibrary.Entities;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace CQS.Handlers.Roles
 {
@@ -20,14 +19,18 @@ namespace CQS.Handlers.Roles
             _context = context;
         }
 
-        public async Task<IEnumerable<Role>> Handle(GetRolesQuery query, CancellationToken cancellationToken)
+        public Task<IEnumerable<Role>> Handle(GetRolesQuery query, CancellationToken cancellationToken)
         {
             try
             {
-                var result = _context.Roles.Where(o => query.Filter.NameEquals.IsSatisfiedBy(o));
-                if (!result.Any())
-                    return await _context.Roles.ToListAsync(cancellationToken);
-                return result;
+                var list = _context.Roles as IEnumerable<Role>;
+
+                if (!string.IsNullOrEmpty(query.Filter.Request.Name))
+                {
+                    list = _context.Roles.Where(o => query.Filter.NameEquals.IsSatisfiedBy(o));
+                }
+
+                return Task.FromResult(list);
             }
             catch (Exception e)
             {

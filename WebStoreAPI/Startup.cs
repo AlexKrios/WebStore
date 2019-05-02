@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Reflection;
 using AutoMapper;
 using DataLibrary;
 using FluentValidation.AspNetCore;
@@ -10,6 +9,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Serilog;
 using SimpleInjector;
 using SimpleInjector.Lifestyles;
 using Swashbuckle.AspNetCore.Swagger;
@@ -23,6 +24,7 @@ namespace WebStoreAPI
 
         public Startup(IConfiguration configuration)
         {
+            Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(configuration).CreateLogger();
             Configuration = configuration;
         }
 
@@ -68,18 +70,18 @@ namespace WebStoreAPI
             {
                 c.SwaggerDoc("v1", new Info { Title = "Web Store request", Version = "v1" });
 
-                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.XML";
-                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, "WebStoreAPI.XML");
                 c.IncludeXmlComments(xmlPath);
             });
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, WebStoreContext context)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, WebStoreContext context, ILoggerFactory loggerFactory)
         {
             Container.RegisterMvcControllers(app);
             Container.AutoCrossWireAspNetComponents(app);
             Container.Verify();
+
+            loggerFactory.AddSerilog();
 
             if (env.IsDevelopment())
             {

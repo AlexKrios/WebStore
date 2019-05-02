@@ -4,11 +4,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using APIModels.Filters;
 using APIModels.Requests.Countries;
 using APIModels.Response.Countries;
 using AutoMapper;
 using CQS.Commands.Countries;
 using CQS.Queries.Countries;
+using Microsoft.Extensions.Logging;
 
 namespace WebStoreAPI.Controllers
 {
@@ -18,11 +20,13 @@ namespace WebStoreAPI.Controllers
     {
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
+        private readonly ILogger<CountriesController> _logger;
 
-        public CountriesController(IMediator mediator, IMapper mapper)
+        public CountriesController(IMediator mediator, IMapper mapper, ILogger<CountriesController> logger)
         {
             _mediator = mediator;
             _mapper = mapper;
+            _logger = logger;
         }
 
         /// <summary>
@@ -32,21 +36,27 @@ namespace WebStoreAPI.Controllers
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<GetCountriesResponse>))]
         [ProducesResponseType(500, Type = typeof(string))]
-        public async Task<IActionResult> Get([FromQuery]GetCountriesRequest filter)
+        public async Task<IActionResult> Get([FromQuery]GetCountriesRequest request)
         {
             try
             {
-                var countries = await _mediator.Send(new GetCountriesQuery(filter));
+                var countries = await _mediator.Send(new GetCountriesQuery
+                {
+                    Filter = new GetCountriesFilter { Request = request }
+                });
 
                 if (!countries.Any())
                 {
+                    _logger.LogError("Not found countries object by filter");
                     return NotFound();
                 }
 
+                _logger.LogInformation("Complete, get filter list of countries");
                 return Ok(_mapper.Map<IEnumerable<GetCountriesResponse>>(countries));
             }
             catch (Exception e)
             {
+                _logger.LogError("Unknown exception in GET countries by filter request");
                 return StatusCode(500, new { errorMessage = e.Message });
             }
         }
@@ -67,13 +77,16 @@ namespace WebStoreAPI.Controllers
 
                 if (country == null)
                 {
+                    _logger.LogError("Not found country object by id in GET request");
                     return NotFound();
                 }
 
+                _logger.LogInformation("Complete, get country by id");
                 return Ok(_mapper.Map<GetCountryResponse>(country));
             }
             catch (Exception e)
             {
+                _logger.LogError("Unknown exception in GET country by id request");
                 return StatusCode(500, new { errorMessage = e.Message });
             }
         }
@@ -90,16 +103,19 @@ namespace WebStoreAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
+                _logger.LogError("Country model is not valid in POST request");
                 return BadRequest();
             }
 
             try
             {
                 var countrySend = await _mediator.Send(_mapper.Map<CreateCountryCommand>(country));
+                _logger.LogInformation("Complete, create new country with id: " + countrySend.Id);
                 return Created($"api/countries/{countrySend.Id}", _mapper.Map<CreateCountryResponse>(countrySend));
             }
             catch (Exception e)
             {
+                _logger.LogError("Unknown exception in POST country request");
                 return StatusCode(500, new { errorMessage = e.Message });
             }
         }
@@ -116,6 +132,7 @@ namespace WebStoreAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
+                _logger.LogError("Country model is not valid in UPDATE request");
                 return BadRequest(ModelState);
             }
 
@@ -124,13 +141,16 @@ namespace WebStoreAPI.Controllers
                 var countrySend = await _mediator.Send(_mapper.Map<UpdateCountryCommand>(country));
                 if (countrySend == null)
                 {
+                    _logger.LogError("Not found country object by id in UPDATE request");
                     return NotFound();
                 }
 
+                _logger.LogInformation("Complete, update country with id: " + countrySend.Id);
                 return Ok();
             }
             catch (Exception e)
             {
+                _logger.LogError("Unknown exception in UPDATE country request");
                 return StatusCode(500, new { errorMessage = e.Message });
             }
         }
@@ -145,23 +165,21 @@ namespace WebStoreAPI.Controllers
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> Delete(int id)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             try
             {
                 var countrySend = await _mediator.Send(new DeleteCountryCommand { Id = id });
                 if (countrySend == null)
                 {
+                    _logger.LogError("Not found country object by id in DELETE request");
                     return NotFound();
                 }
 
+                _logger.LogInformation("Complete, delete country with id: " + countrySend.Id);
                 return Ok();
             }
             catch (Exception e)
             {
+                _logger.LogError("Unknown exception id DELETE country request");
                 return StatusCode(500, new { errorMessage = e.Message });
             }
         }

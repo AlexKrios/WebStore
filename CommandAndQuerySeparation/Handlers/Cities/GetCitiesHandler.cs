@@ -7,7 +7,6 @@ using CQS.Queries.Cities;
 using DataLibrary;
 using DataLibrary.Entities;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace CQS.Handlers.Cities
 {
@@ -19,22 +18,23 @@ namespace CQS.Handlers.Cities
         {
             _context = context;
         }
-        public async Task<IEnumerable<City>> Handle(GetCitiesQuery query, CancellationToken cancellationToken)
+        public Task<IEnumerable<City>> Handle(GetCitiesQuery query, CancellationToken cancellationToken)
         {
             try
             {
-                var result = _context.Cities.Where(o => query.Filter.OneOfAll.IsSatisfiedBy(o));
-                if (query.Filter.Filter.Name != null && query.Filter.Filter.CountryId != null)
+                var list = _context.Cities as IEnumerable<City>;
+
+                if (query.Filter.Request.CountryId.HasValue)
                 {
-                    result = _context.Cities.Where(o => query.Filter.AllEquals.IsSatisfiedBy(o));
+                    list = _context.Cities.Where(o => query.Filter.CountryId.IsSatisfiedBy(o));
                 }
 
-                if (!result.Any())
+                if (!string.IsNullOrEmpty(query.Filter.Request.Name))
                 {
-                    return await _context.Cities.ToListAsync(cancellationToken);
+                    list = _context.Cities.Where(o => query.Filter.NameEquals.IsSatisfiedBy(o));
                 }
 
-                return result;
+                return Task.FromResult(list);
             }
             catch (Exception e)
             {

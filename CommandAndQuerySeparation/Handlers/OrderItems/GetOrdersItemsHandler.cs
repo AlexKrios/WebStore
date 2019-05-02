@@ -7,7 +7,6 @@ using CQS.Queries.OrderItems;
 using DataLibrary;
 using DataLibrary.Entities;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace CQS.Handlers.OrderItems
 {
@@ -20,24 +19,43 @@ namespace CQS.Handlers.OrderItems
             _context = context;
         }
 
-        public async Task<IEnumerable<OrderItem>> Handle(GetOrdersItemsQuery query, CancellationToken cancellationToken)
+        public Task<IEnumerable<OrderItem>> Handle(GetOrdersItemsQuery query, CancellationToken cancellationToken)
         {
             try
             {
-                var result = _context.OrderItems.Where(o => query.Filter.OneOfAll.IsSatisfiedBy(o));
-                if (query.Filter.Filter.MinCount != null && query.Filter.Filter.MaxCount != null &&
-                    query.Filter.Filter.MinPrice != null && query.Filter.Filter.MaxPrice != null &&
-                    query.Filter.Filter.ProductId != null && query.Filter.Filter.OrderId != null)
+                var list = _context.OrderItems as IEnumerable<OrderItem>;
+
+                if (query.Filter.Request.MinCount.HasValue)
                 {
-                    result = _context.OrderItems.Where(o => query.Filter.AllEquals.IsSatisfiedBy(o));
+                    list = _context.OrderItems.Where(o => query.Filter.MinCount.IsSatisfiedBy(o));
                 }
 
-                if (!result.Any())
+                if (query.Filter.Request.MaxCount.HasValue)
                 {
-                    return await _context.OrderItems.ToListAsync(cancellationToken);
+                    list = _context.OrderItems.Where(o => query.Filter.MaxCount.IsSatisfiedBy(o));
                 }
 
-                return result;
+                if (query.Filter.Request.MinPrice.HasValue)
+                {
+                    list = _context.OrderItems.Where(o => query.Filter.MinPrice.IsSatisfiedBy(o));
+                }
+
+                if (query.Filter.Request.MaxPrice.HasValue)
+                {
+                    list = _context.OrderItems.Where(o => query.Filter.MaxPrice.IsSatisfiedBy(o));
+                }
+
+                if (query.Filter.Request.ProductId.HasValue)
+                {
+                    list = _context.OrderItems.Where(o => query.Filter.ProductId.IsSatisfiedBy(o));
+                }
+
+                if (query.Filter.Request.OrderId.HasValue)
+                {
+                    list = _context.OrderItems.Where(o => query.Filter.OrderId.IsSatisfiedBy(o));
+                }
+
+                return Task.FromResult(list);
             }
             catch (Exception e)
             {

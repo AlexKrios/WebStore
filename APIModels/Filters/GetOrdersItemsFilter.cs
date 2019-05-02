@@ -6,37 +6,22 @@ namespace APIModels.Filters
 {
     public class GetOrdersItemsFilter
     {
-        public GetOrdersItemsRequest Filter { get; set; }
+        public GetOrdersItemsRequest Request { get; set; }
 
         public ISpecification<OrderItem> MinCount =>
-            new ExpressionSpecification<OrderItem>(o => 
-                !Filter.MinCount.HasValue || Filter.MinCount.Value.Equals(0) || o.Count >= Filter.MinCount);
+            new ExpressionSpecification<OrderItem>(o => o.Count >= Request.MinCount);
         public ISpecification<OrderItem> MaxCount =>
-            new ExpressionSpecification<OrderItem>(o => 
-                !Filter.MaxCount.HasValue || Filter.MaxCount.Value.Equals(0) || o.Count <= Filter.MaxCount);
+            new ExpressionSpecification<OrderItem>(o => o.Count <= Request.MaxCount);
 
         public ISpecification<OrderItem> MinPrice =>
-            new ExpressionSpecification<OrderItem>(o => 
-                !Filter.MinPrice.HasValue || Filter.MinPrice.Value.Equals(0) || o.Price >= Filter.MinPrice);
+            new ExpressionSpecification<OrderItem>(o => o.Price >= Request.MinPrice);
         public ISpecification<OrderItem> MaxPrice =>
-            new ExpressionSpecification<OrderItem>(o => 
-                !Filter.MaxPrice.HasValue || Filter.MaxPrice.Value.Equals(0) || o.Price <= Filter.MaxPrice);
+            new ExpressionSpecification<OrderItem>(o => o.Price <= Request.MaxPrice);
 
         public ISpecification<OrderItem> ProductId =>
-            new ExpressionSpecification<OrderItem>(o => 
-                !Filter.ProductId.HasValue || o.ProductId == Filter.ProductId);
+            new ExpressionSpecification<OrderItem>(o => o.ProductId == Request.ProductId);
 
         public ISpecification<OrderItem> OrderId =>
-            new ExpressionSpecification<OrderItem>(o => 
-                !Filter.OrderId.HasValue || o.OrderId == Filter.OrderId);
-
-        public ISpecification<OrderItem> AllEquals => ProductId.And(MinCount).And(MaxCount).And(MinPrice).And(MaxPrice).And(OrderId);
-
-        public ISpecification<OrderItem> OneOfAll => ProductId.Or(MinCount).And(MaxCount).Or(MinPrice).And(MaxPrice).Or(OrderId);
-
-        public GetOrdersItemsFilter(GetOrdersItemsRequest filter)
-        {
-            Filter = filter;
-        }
+            new ExpressionSpecification<OrderItem>(o => o.OrderId == Request.OrderId);
     }
 }

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using APIModels.Filters;
 using APIModels.Requests.Orders;
 using APIModels.Response.Orders;
 using AutoMapper;
@@ -32,11 +33,14 @@ namespace WebStoreAPI.Controllers
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<GetOrdersResponse>))]
         [ProducesResponseType(500, Type = typeof(string))]
-        public async Task<IActionResult> Get([FromQuery]GetOrdersRequest filter)
+        public async Task<IActionResult> Get([FromQuery]GetOrdersRequest request)
         {
             try
             {
-                var orders = await _mediator.Send(new GetOrdersQuery(filter));
+                var orders = await _mediator.Send(new GetOrdersQuery
+                {
+                    Filter = new GetOrdersFilter { Request = request }
+                });
 
                 if (!orders.Any())
                 {

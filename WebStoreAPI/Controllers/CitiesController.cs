@@ -4,11 +4,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using APIModels.Filters;
 using APIModels.Requests.Cities;
 using APIModels.Response.Cities;
 using AutoMapper;
 using CQS.Commands.Cities;
 using CQS.Queries.Cities;
+using Microsoft.Extensions.Logging;
 
 namespace WebStoreAPI.Controllers
 {
@@ -18,11 +20,13 @@ namespace WebStoreAPI.Controllers
     {
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
+        private readonly ILogger<CitiesController> _logger;
 
-        public CitiesController(IMediator mediator, IMapper mapper)
+        public CitiesController(IMediator mediator, IMapper mapper, ILogger<CitiesController> logger)
         {
             _mediator = mediator;
             _mapper = mapper;
+            _logger = logger;
         }
 
         /// <summary>
@@ -36,17 +40,23 @@ namespace WebStoreAPI.Controllers
         {
             try
             {
-                var cities = await _mediator.Send(new GetCitiesQuery(filter));
+                var cities = await _mediator.Send(new GetCitiesQuery
+                {
+                    Filter = new GetCitiesFilter { Request = filter }
+                });
 
                 if (!cities.Any())
                 {
+                    _logger.LogError("GET CITIES - Not found");
                     return NotFound();
                 }
 
+                _logger.LogInformation("GET CITIES - Complete");
                 return Ok(_mapper.Map<IEnumerable<GetCitiesResponse>>(cities));
             }
             catch (Exception e)
             {
+                _logger.LogError(@"GET CITIES - {0}", e);
                 return StatusCode(500, new {errorMessage = e.Message});
             }
         }
@@ -63,17 +73,20 @@ namespace WebStoreAPI.Controllers
         {
             try
             {
-                var city = await _mediator.Send(new GetCityQuery {Id = id});
+                var city = await _mediator.Send(new GetCityQuery { Id = id });
 
                 if (city == null)
                 {
+                    _logger.LogError("Not found city object by id in GET request");
                     return NotFound();
                 }
 
+                _logger.LogInformation("Complete, get city by id");
                 return Ok(_mapper.Map<GetCityResponse>(city));
             }
             catch (Exception e)
             {
+                _logger.LogError("Unknown exception in GET city by id request");
                 return StatusCode(500, new {errorMessage = e.Message});
             }
         }
@@ -90,16 +103,19 @@ namespace WebStoreAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
+                _logger.LogError("City model is not valid in POST request");
                 return BadRequest(ModelState);
             }
 
             try
             {
                 var citySend = await _mediator.Send(_mapper.Map<CreateCityCommand>(city));
+                _logger.LogInformation("Complete, create new city with id: " + citySend.Id);
                 return Created($"api/cities/{citySend.Id}", _mapper.Map<CreateCityResponse>(citySend));
             }
             catch (Exception e)
             {
+                _logger.LogError("Unknown exception in POST city request");
                 return StatusCode(500, new {errorMessage = e.Message});
             }
         }
@@ -116,6 +132,7 @@ namespace WebStoreAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
+                _logger.LogError("City model is not valid in UPDATE request");
                 return BadRequest(ModelState);
             }
 
@@ -124,13 +141,16 @@ namespace WebStoreAPI.Controllers
                 var citySend = await _mediator.Send(_mapper.Map<UpdateCityCommand>(city));
                 if (citySend == null)
                 {
+                    _logger.LogError("Not found city object by id in UPDATE request");
                     return NotFound();
                 }
 
+                _logger.LogInformation("Complete, update city with id: " + citySend.Id);
                 return Ok();
             }
             catch (Exception e)
             {
+                _logger.LogError("Unknown exception in UPDATE city request");
                 return StatusCode(500, new {errorMessage = e.Message});
             }
         }
@@ -145,23 +165,21 @@ namespace WebStoreAPI.Controllers
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> Delete(int id)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             try
             {
                 var citySend = await _mediator.Send(new DeleteCityCommand {Id = id});
                 if (citySend == null)
                 {
+                    _logger.LogError("Not found city object by id in DELETE request");
                     return NotFound();
                 }
 
+                _logger.LogInformation("Complete, delete city with id: " + citySend.Id);
                 return Ok();
             }
             catch (Exception e)
             {
+                _logger.LogError("Unknown exception id DELETE city request");
                 return StatusCode(500, new {errorMessage = e.Message});
             }
         }

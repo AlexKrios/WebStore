@@ -7,7 +7,6 @@ using CQS.Queries.Payments;
 using DataLibrary;
 using DataLibrary.Entities;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace CQS.Handlers.Payments
 {
@@ -20,20 +19,28 @@ namespace CQS.Handlers.Payments
             _context = context;
         }
 
-        public async Task<IEnumerable<Payment>> Handle(GetPaymentsQuery query, CancellationToken cancellationToken)
+        public Task<IEnumerable<Payment>> Handle(GetPaymentsQuery query, CancellationToken cancellationToken)
         {
             try
             {
-                var result = _context.Payments.Where(o => query.Filter.OneOfAll.IsSatisfiedBy(o));
-                if (query.Filter.Filter.MinTaxes != null && query.Filter.Filter.MaxTaxes != null &&
-                    query.Filter.Filter.Name != null)
+                var list = _context.Payments as IEnumerable<Payment>;
+
+                if (query.Filter.Request.MinTaxes.HasValue)
                 {
-                    result = _context.Payments.Where(o => query.Filter.AllEquals.IsSatisfiedBy(o));
+                    list = _context.Payments.Where(o => query.Filter.MinTaxes.IsSatisfiedBy(o));
                 }
 
-                if (!result.Any())
-                    return await _context.Payments.ToListAsync(cancellationToken);
-                return result;
+                if (query.Filter.Request.MaxTaxes.HasValue)
+                {
+                    list = _context.Payments.Where(o => query.Filter.MaxTaxes.IsSatisfiedBy(o));
+                }
+
+                if (!string.IsNullOrEmpty(query.Filter.Request.Name))
+                {
+                    list = _context.Payments.Where(o => query.Filter.NameEquals.IsSatisfiedBy(o));
+                }
+
+                return Task.FromResult(list);
             }
             catch (Exception e)
             {

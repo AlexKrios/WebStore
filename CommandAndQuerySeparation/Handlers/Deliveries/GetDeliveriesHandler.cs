@@ -7,7 +7,6 @@ using CQS.Queries.Deliveries;
 using DataLibrary;
 using DataLibrary.Entities;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace CQS.Handlers.Deliveries
 {
@@ -20,19 +19,38 @@ namespace CQS.Handlers.Deliveries
             _context = context;
         }
 
-        public async Task<IEnumerable<Delivery>> Handle(GetDeliveriesQuery query, CancellationToken cancellationToken)
+        public Task<IEnumerable<Delivery>> Handle(GetDeliveriesQuery query, CancellationToken cancellationToken)
         {
             try
             {
-                if (!query.Filter.Filter.MinPrice.HasValue &&
-                    !query.Filter.Filter.MaxPrice.HasValue &&
-                    !query.Filter.Filter.MinRating.HasValue &&
-                    !query.Filter.Filter.MaxRating.HasValue &&
-                    string.IsNullOrEmpty(query.Filter.Filter.Name))
+                var list = _context.Deliveries as IEnumerable<Delivery>;
+
+                if (query.Filter.Request.MinPrice.HasValue)
                 {
-                    return await _context.Deliveries.ToListAsync(cancellationToken);
+                    list = _context.Deliveries.Where(o => query.Filter.MinPrice.IsSatisfiedBy(o));
                 }
-                return await _context.Deliveries.Where(o => query.Filter.OneOfAll.IsSatisfiedBy(o)).ToListAsync(cancellationToken);
+
+                if (query.Filter.Request.MaxPrice.HasValue)
+                {
+                    list = _context.Deliveries.Where(o => query.Filter.MaxPrice.IsSatisfiedBy(o));
+                }
+
+                if (query.Filter.Request.MinRating.HasValue)
+                {
+                    list = _context.Deliveries.Where(o => query.Filter.MinRating.IsSatisfiedBy(o));
+                }
+
+                if (query.Filter.Request.MaxRating.HasValue)
+                {
+                    list = _context.Deliveries.Where(o => query.Filter.MaxRating.IsSatisfiedBy(o));
+                }
+
+                if (!string.IsNullOrEmpty(query.Filter.Request.Name))
+                {
+                    list = _context.Deliveries.Where(o => query.Filter.NameEquals.IsSatisfiedBy(o));
+                }
+
+                return Task.FromResult(list);
             }
             catch (Exception e)
             {

@@ -7,7 +7,6 @@ using CQS.Queries.Manufacturers;
 using DataLibrary;
 using DataLibrary.Entities;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace CQS.Handlers.Manufacturers
 {
@@ -20,23 +19,28 @@ namespace CQS.Handlers.Manufacturers
             _context = context;
         }
 
-        public async Task<IEnumerable<Manufacturer>> Handle(GetManufacturersQuery query, CancellationToken cancellationToken)
+        public Task<IEnumerable<Manufacturer>> Handle(GetManufacturersQuery query, CancellationToken cancellationToken)
         {
             try
             {
-                var result = _context.Manufacturers.Where(o => query.Filter.OneOfAll.IsSatisfiedBy(o));
-                if (query.Filter.Filter.MinRating != null && query.Filter.Filter.MaxRating != null &&
-                    query.Filter.Filter.Name != null)
+                var list = _context.Manufacturers as IEnumerable<Manufacturer>;
+
+                if (query.Filter.Request.MinRating.HasValue)
                 {
-                    result = _context.Manufacturers.Where(o => query.Filter.AllEquals.IsSatisfiedBy(o));
+                    list = _context.Manufacturers.Where(o => query.Filter.MinRating.IsSatisfiedBy(o));
                 }
 
-                if (!result.Any())
+                if (query.Filter.Request.MaxRating.HasValue)
                 {
-                    return await _context.Manufacturers.ToListAsync(cancellationToken);
+                    list = _context.Manufacturers.Where(o => query.Filter.MaxRating.IsSatisfiedBy(o));
                 }
-                
-                return result;
+
+                if (!string.IsNullOrEmpty(query.Filter.Request.Name))
+                {
+                    list = _context.Manufacturers.Where(o => query.Filter.NameEquals.IsSatisfiedBy(o));
+                }
+
+                return Task.FromResult(list);
             }
             catch (Exception e)
             {

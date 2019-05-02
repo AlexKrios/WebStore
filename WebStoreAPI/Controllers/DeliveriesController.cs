@@ -4,11 +4,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using APIModels.Filters;
 using APIModels.Requests.Deliveries;
 using APIModels.Response.Deliveries;
 using AutoMapper;
 using CQS.Commands.Deliveries;
 using CQS.Queries.Deliveries;
+using Microsoft.Extensions.Logging;
 
 namespace WebStoreAPI.Controllers
 {
@@ -18,11 +20,13 @@ namespace WebStoreAPI.Controllers
     {
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
+        private readonly ILogger<DeliveriesController> _logger;
 
-        public DeliveriesController(IMediator mediator, IMapper mapper)
+        public DeliveriesController(IMediator mediator, IMapper mapper, ILogger<DeliveriesController> logger)
         {
             _mediator = mediator;
             _mapper = mapper;
+            _logger = logger;
         }
 
         /// <summary>
@@ -32,22 +36,28 @@ namespace WebStoreAPI.Controllers
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<GetDeliveriesResponse>))]
         [ProducesResponseType(500, Type = typeof(string))]
-        public async Task<IActionResult> Get([FromQuery]GetDeliveriesRequest filter)
+        public async Task<IActionResult> Get([FromQuery] GetDeliveriesRequest request)
         {
             try
             {
-                var deliveries = await _mediator.Send(new GetDeliveriesQuery(filter));
+                var deliveries = await _mediator.Send(new GetDeliveriesQuery
+                {
+                    Filter = new GetDeliveriesFilter { Request = request }
+                });
 
                 if (!deliveries.Any())
                 {
+                    _logger.LogError(@"Not found deliveries object by filter");
                     return NotFound();
                 }
 
+                _logger.LogInformation("Complete, get filter list of deliveries");
                 return Ok(_mapper.Map<IEnumerable<GetDeliveriesResponse>>(deliveries));
             }
             catch (Exception e)
             {
-                return StatusCode(500, new { errorMessage = e.Message });
+                _logger.LogError("Unknown exception in GET deliveries by filter request");
+                return StatusCode(500, new {errorMessage = e.Message});
             }
         }
 
@@ -63,18 +73,21 @@ namespace WebStoreAPI.Controllers
         {
             try
             {
-                var delivery = await _mediator.Send(new GetDeliveryQuery { Id = id } );
+                var delivery = await _mediator.Send(new GetDeliveryQuery {Id = id});
 
                 if (delivery == null)
                 {
+                    _logger.LogError("Not found delivery object by id in GET request");
                     return NotFound();
                 }
 
+                _logger.LogInformation("Complete, get delivery by id");
                 return Ok(_mapper.Map<GetDeliveryResponse>(delivery));
             }
             catch (Exception e)
             {
-                return StatusCode(500, new { errorMessage = e.Message });
+                _logger.LogError("Unknown exception in GET delivery by id request");
+                return StatusCode(500, new {errorMessage = e.Message});
             }
         }
 
@@ -90,17 +103,20 @@ namespace WebStoreAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
+                _logger.LogError("Delivery model is not valid in POST request");
                 return BadRequest();
             }
 
             try
             {
                 var deliverySend = await _mediator.Send(_mapper.Map<CreateDeliveryCommand>(delivery));
+                _logger.LogInformation("Complete, create new delivery with id: " + deliverySend.Id);
                 return Created($"api/deliveries/{deliverySend.Id}", _mapper.Map<CreateDeliveryResponse>(deliverySend));
             }
             catch (Exception e)
             {
-                return StatusCode(500, new { errorMessage = e.Message });
+                _logger.LogError("Unknown exception in POST delivery request");
+                return StatusCode(500, new {errorMessage = e.Message});
             }
         }
 
@@ -116,6 +132,7 @@ namespace WebStoreAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
+                _logger.LogError("Delivery model is not valid in UPDATE request");
                 return BadRequest(ModelState);
             }
 
@@ -124,14 +141,17 @@ namespace WebStoreAPI.Controllers
                 var deliverySend = await _mediator.Send(_mapper.Map<UpdateDeliveryCommand>(delivery));
                 if (deliverySend == null)
                 {
+                    _logger.LogError("Not found delivery object by id in UPDATE request");
                     return NotFound();
                 }
 
+                _logger.LogInformation("Complete, update delivery with id: " + deliverySend.Id);
                 return Ok();
             }
             catch (Exception e)
             {
-                return StatusCode(500, new { errorMessage = e.Message });
+                _logger.LogError("Unknown exception in UPDATE delivery request");
+                return StatusCode(500, new {errorMessage = e.Message});
             }
         }
 
@@ -145,16 +165,12 @@ namespace WebStoreAPI.Controllers
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> Delete(int id)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             try
             {
-                var deliverySend = await _mediator.Send(new DeleteDeliveryCommand { Id = id });
+                var deliverySend = await _mediator.Send(new DeleteDeliveryCommand {Id = id});
                 if (deliverySend == null)
                 {
+                    _logger.LogError("Not found delivery object by id in DELETE request");
                     return NotFound();
                 }
 
@@ -162,7 +178,7 @@ namespace WebStoreAPI.Controllers
             }
             catch (Exception e)
             {
-                return StatusCode(500, new { errorMessage = e.Message });
+                return StatusCode(500, new {errorMessage = e.Message});
             }
         }
     }

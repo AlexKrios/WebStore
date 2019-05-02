@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using APIModels.Filters;
 using APIModels.Requests.Payments;
 using APIModels.Response.Payments;
 using AutoMapper;
@@ -32,11 +33,14 @@ namespace WebStoreAPI.Controllers
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<GetPaymentsResponse>))]
         [ProducesResponseType(500, Type = typeof(string))]
-        public async Task<IActionResult> Get([FromQuery]GetPaymentsRequest filter)
+        public async Task<IActionResult> Get([FromQuery]GetPaymentsRequest request)
         {
             try
             {
-                var payments = await _mediator.Send(new GetPaymentsQuery(filter));
+                var payments = await _mediator.Send(new GetPaymentsQuery
+                {
+                    Filter = new GetPaymentsFilter { Request = request }
+                });
 
                 if (!payments.Any())
                 {

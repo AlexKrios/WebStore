@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using APIModels.Filters;
 using APIModels.Requests.Roles;
 using APIModels.Response.Roles;
 using AutoMapper;
@@ -32,11 +33,14 @@ namespace WebStoreAPI.Controllers
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<GetRolesResponse>))]
         [ProducesResponseType(500, Type = typeof(string))]
-        public async Task<IActionResult> Get([FromQuery]GetRolesRequest filter)
+        public async Task<IActionResult> Get([FromQuery]GetRolesRequest request)
         {
             try
             {
-                var roles = await _mediator.Send(new GetRolesQuery(filter));
+                var roles = await _mediator.Send(new GetRolesQuery
+                {
+                    Filter = new GetRolesFilter { Request = request }
+                });
 
                 if (!roles.Any())
                 {

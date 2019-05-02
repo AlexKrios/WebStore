@@ -7,7 +7,6 @@ using CQS.Queries.Users;
 using DataLibrary;
 using DataLibrary.Entities;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace CQS.Handlers.Users
 {
@@ -20,24 +19,38 @@ namespace CQS.Handlers.Users
             _context = context;
         }
 
-        public async Task<IEnumerable<User>> Handle(GetUsersQuery query, CancellationToken cancellationToken)
+        public Task<IEnumerable<User>> Handle(GetUsersQuery query, CancellationToken cancellationToken)
         {
             try
             {
-                var result = _context.Users.Where(o => query.Filter.OneOfAll.IsSatisfiedBy(o));
-                if (query.Filter.Filter.MinAge != null && query.Filter.Filter.MaxAge != null &&
-                    query.Filter.Filter.Email != null && query.Filter.Filter.CityId != null &&
-                    query.Filter.Filter.Name != null)
+                var list = _context.Users as IEnumerable<User>;
+
+                if (query.Filter.Request.MinAge.HasValue)
                 {
-                    result = _context.Users.Where(o => query.Filter.AllEquals.IsSatisfiedBy(o));
+                    list = _context.Users.Where(o => query.Filter.MinAge.IsSatisfiedBy(o));
                 }
 
-                if (!result.Any())
+                if (query.Filter.Request.MaxAge.HasValue)
                 {
-                    return await _context.Users.ToListAsync(cancellationToken);
+                    list = _context.Users.Where(o => query.Filter.MaxAge.IsSatisfiedBy(o));
                 }
 
-                return result;
+                if (query.Filter.Request.CityId.HasValue)
+                {
+                    list = _context.Users.Where(o => query.Filter.CityId.IsSatisfiedBy(o));
+                }
+
+                if (!string.IsNullOrEmpty(query.Filter.Request.Name))
+                {
+                    list = _context.Users.Where(o => query.Filter.NameEquals.IsSatisfiedBy(o));
+                }
+
+                if (!string.IsNullOrEmpty(query.Filter.Request.Email))
+                {
+                    list = _context.Users.Where(o => query.Filter.EmailEquals.IsSatisfiedBy(o));
+                }
+
+                return Task.FromResult(list);
             }
             catch (Exception e)
             {

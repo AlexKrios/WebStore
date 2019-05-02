@@ -7,7 +7,6 @@ using CQS.Queries.UserRoles;
 using DataLibrary;
 using DataLibrary.Entities;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace CQS.Handlers.UserRoles
 {
@@ -20,22 +19,23 @@ namespace CQS.Handlers.UserRoles
             _context = context;
         }
 
-        public async Task<IEnumerable<UserRole>> Handle(GetUsersRolesQuery query, CancellationToken cancellationToken)
+        public Task<IEnumerable<UserRole>> Handle(GetUsersRolesQuery query, CancellationToken cancellationToken)
         {
             try
             {
-                var result = _context.UserRoles.Where(o => query.Filter.OneOfAll.IsSatisfiedBy(o));
-                if (query.Filter.Filter.UserId != null && query.Filter.Filter.RoleId != null)
+                var list = _context.UserRoles as IEnumerable<UserRole>;
+
+                if (query.Filter.Request.UserId.HasValue)
                 {
-                    result = _context.UserRoles.Where(o => query.Filter.AllEquals.IsSatisfiedBy(o));
+                    list = _context.UserRoles.Where(o => query.Filter.UserId.IsSatisfiedBy(o));
                 }
 
-                if (!result.Any())
+                if (query.Filter.Request.RoleId.HasValue)
                 {
-                    return await _context.UserRoles.ToListAsync(cancellationToken);
+                    list = _context.UserRoles.Where(o => query.Filter.RoleId.IsSatisfiedBy(o));
                 }
 
-                return result;
+                return Task.FromResult(list);
             }
             catch (Exception e)
             {

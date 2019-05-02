@@ -7,7 +7,6 @@ using CQS.Queries.Countries;
 using DataLibrary;
 using DataLibrary.Entities;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace CQS.Handlers.Countries
 {
@@ -20,14 +19,18 @@ namespace CQS.Handlers.Countries
             _context = context;
         }
 
-        public async Task<IEnumerable<Country>> Handle(GetCountriesQuery query, CancellationToken cancellationToken)
+        public Task<IEnumerable<Country>> Handle(GetCountriesQuery query, CancellationToken cancellationToken)
         {
             try
             {
-                var result = _context.Countries.Where(o => query.Filter.NameEquals.IsSatisfiedBy(o));
-                if (!result.Any())
-                    return await _context.Countries.ToListAsync(cancellationToken);
-                return result;
+                var list = _context.Countries as IEnumerable<Country>;
+
+                if (!string.IsNullOrEmpty(query.Filter.Request.Name))
+                {
+                    list = _context.Countries.Where(o => query.Filter.NameEquals.IsSatisfiedBy(o));
+                }
+
+                return Task.FromResult(list);
             }
             catch (Exception e)
             {
