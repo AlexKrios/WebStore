@@ -4,13 +4,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using APIModels.Filters;
-using APIModels.Requests.Deliveries;
-using APIModels.Response.Deliveries;
 using AutoMapper;
 using CQS.Commands.Deliveries;
 using CQS.Queries.Deliveries;
 using Microsoft.Extensions.Logging;
+using WebStoreAPI.Requests.Deliveries;
+using WebStoreAPI.Response.Deliveries;
+using WebStoreAPI.Specifications.Deliveries;
 
 namespace WebStoreAPI.Controllers
 {
@@ -40,9 +40,17 @@ namespace WebStoreAPI.Controllers
         {
             try
             {
+                var minPriceSpec = new DeliveryMinPriceSpecification(request.MinPrice);
+                var maxPriceSpec = new DeliveryMaxPriceSpecification(request.MaxPrice);
+                var minRatingSpec = new DeliveryMinRatingSpecification(request.MinRating);
+                var maxRatingSpec = new DeliveryMaxRatingSpecification(request.MaxRating);
+                var nameSpec = new DeliveryNameSpecification(request.Name);
+
+                var specification = minPriceSpec && maxPriceSpec && minRatingSpec && maxRatingSpec && nameSpec;
+
                 var deliveries = await _mediator.Send(new GetDeliveriesQuery
                 {
-                    Filter = new GetDeliveriesFilter { Request = request }
+                    Specification = specification
                 });
 
                 if (!deliveries.Any())

@@ -25,15 +25,15 @@ namespace CQS.Handlers.UserRoles
             {
                 var list = _context.UserRoles as IEnumerable<UserRole>;
 
-                if (query.Filter.Request.UserId.HasValue)
-                {
-                    list = _context.UserRoles.Where(o => query.Filter.UserId.IsSatisfiedBy(o));
-                }
+                //if (query.Filter.Request.UserId.HasValue)
+                //{
+                //    list = _context.UserRoles.Where(o => query.Filter.UserId.IsSatisfiedBy(o));
+                //}
 
-                if (query.Filter.Request.RoleId.HasValue)
-                {
-                    list = _context.UserRoles.Where(o => query.Filter.RoleId.IsSatisfiedBy(o));
-                }
+                //if (query.Filter.Request.RoleId.HasValue)
+                //{
+                //    list = _context.UserRoles.Where(o => query.Filter.RoleId.IsSatisfiedBy(o));
+                //}
 
                 return Task.FromResult(list);
             }

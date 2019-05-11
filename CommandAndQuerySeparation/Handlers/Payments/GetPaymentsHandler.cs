@@ -25,20 +25,20 @@ namespace CQS.Handlers.Payments
             {
                 var list = _context.Payments as IEnumerable<Payment>;
 
-                if (query.Filter.Request.MinTaxes.HasValue)
-                {
-                    list = _context.Payments.Where(o => query.Filter.MinTaxes.IsSatisfiedBy(o));
-                }
+                //if (query.Filter.Request.MinTaxes.HasValue)
+                //{
+                //    list = _context.Payments.Where(o => query.Filter.MinTaxes.IsSatisfiedBy(o));
+                //}
 
-                if (query.Filter.Request.MaxTaxes.HasValue)
-                {
-                    list = _context.Payments.Where(o => query.Filter.MaxTaxes.IsSatisfiedBy(o));
-                }
+                //if (query.Filter.Request.MaxTaxes.HasValue)
+                //{
+                //    list = _context.Payments.Where(o => query.Filter.MaxTaxes.IsSatisfiedBy(o));
+                //}
 
-                if (!string.IsNullOrEmpty(query.Filter.Request.Name))
-                {
-                    list = _context.Payments.Where(o => query.Filter.NameEquals.IsSatisfiedBy(o));
-                }
+                //if (!string.IsNullOrEmpty(query.Filter.Request.Name))
+                //{
+                //    list = _context.Payments.Where(o => query.Filter.NameEquals.IsSatisfiedBy(o));
+                //}
 
                 return Task.FromResult(list);
             }

@@ -25,10 +25,10 @@ namespace CQS.Handlers.Countries
             {
                 var list = _context.Countries as IEnumerable<Country>;
 
-                if (!string.IsNullOrEmpty(query.Filter.Request.Name))
-                {
-                    list = _context.Countries.Where(o => query.Filter.NameEquals.IsSatisfiedBy(o));
-                }
+                //if (!string.IsNullOrEmpty(query.Filter.Request.Name))
+                //{
+                //    list = _context.Countries.Where(o => query.Filter.NameEquals.IsSatisfiedBy(o));
+                //}
 
                 return Task.FromResult(list);
             }

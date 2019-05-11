@@ -4,12 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using APIModels.Filters;
-using APIModels.Requests.Products;
-using APIModels.Response.Products;
 using AutoMapper;
 using CQS.Commands.Products;
 using CQS.Queries.Products;
+using WebStoreAPI.Requests.Products;
+using WebStoreAPI.Response.Products;
 
 namespace WebStoreAPI.Controllers
 {
@@ -39,7 +38,7 @@ namespace WebStoreAPI.Controllers
             {
                 var products = await _mediator.Send(new GetProductsQuery
                 {
-                    Filter = new GetProductsFilter { Request = request }
+                    
                 });
 
                 if (!products.Any())

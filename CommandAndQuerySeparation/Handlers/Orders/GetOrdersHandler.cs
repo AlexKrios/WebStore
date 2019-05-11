@@ -25,30 +25,30 @@ namespace CQS.Handlers.Orders
             {
                 var list = _context.Orders as IEnumerable<Order>;
 
-                if (query.Filter.Request.MinTotalPrice.HasValue)
-                {
-                    list = _context.Orders.Where(o => query.Filter.MinTotalPrice.IsSatisfiedBy(o));
-                }
+                //if (query.Filter.Request.MinTotalPrice.HasValue)
+                //{
+                //    list = _context.Orders.Where(o => query.Filter.MinTotalPrice.IsSatisfiedBy(o));
+                //}
 
-                if (query.Filter.Request.MaxTotalPrice.HasValue)
-                {
-                    list = _context.Orders.Where(o => query.Filter.MaxTotalPrice.IsSatisfiedBy(o));
-                }
+                //if (query.Filter.Request.MaxTotalPrice.HasValue)
+                //{
+                //    list = _context.Orders.Where(o => query.Filter.MaxTotalPrice.IsSatisfiedBy(o));
+                //}
 
-                if (query.Filter.Request.UserId.HasValue)
-                {
-                    list = _context.Orders.Where(o => query.Filter.UserId.IsSatisfiedBy(o));
-                }
+                //if (query.Filter.Request.UserId.HasValue)
+                //{
+                //    list = _context.Orders.Where(o => query.Filter.UserId.IsSatisfiedBy(o));
+                //}
 
-                if (query.Filter.Request.DeliveryId.HasValue)
-                {
-                    list = _context.Orders.Where(o => query.Filter.DeliveryId.IsSatisfiedBy(o));
-                }
+                //if (query.Filter.Request.DeliveryId.HasValue)
+                //{
+                //    list = _context.Orders.Where(o => query.Filter.DeliveryId.IsSatisfiedBy(o));
+                //}
 
-                if (query.Filter.Request.PaymentId.HasValue)
-                {
-                    list = _context.Orders.Where(o => query.Filter.PaymentId.IsSatisfiedBy(o));
-                }
+                //if (query.Filter.Request.PaymentId.HasValue)
+                //{
+                //    list = _context.Orders.Where(o => query.Filter.PaymentId.IsSatisfiedBy(o));
+                //}
 
                 return Task.FromResult(list);
             }

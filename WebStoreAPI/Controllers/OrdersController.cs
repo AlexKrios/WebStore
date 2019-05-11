@@ -4,12 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using APIModels.Filters;
-using APIModels.Requests.Orders;
-using APIModels.Response.Orders;
 using AutoMapper;
 using CQS.Commands.Orders;
 using CQS.Queries.Orders;
+using WebStoreAPI.Requests.Orders;
+using WebStoreAPI.Response.Orders;
 
 namespace WebStoreAPI.Controllers
 {
@@ -39,7 +38,7 @@ namespace WebStoreAPI.Controllers
             {
                 var orders = await _mediator.Send(new GetOrdersQuery
                 {
-                    Filter = new GetOrdersFilter { Request = request }
+                    
                 });
 
                 if (!orders.Any())

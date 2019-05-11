@@ -25,10 +25,10 @@ namespace CQS.Handlers.Types
             {
                 var list = _context.Types as IEnumerable<Type>;
 
-                if (!string.IsNullOrEmpty(query.Filter.Request.Name))
-                {
-                    list = _context.Types.Where(o => query.Filter.NameEquals.IsSatisfiedBy(o));
-                }
+                //if (!string.IsNullOrEmpty(query.Filter.Request.Name))
+                //{
+                //    list = _context.Types.Where(o => query.Filter.NameEquals.IsSatisfiedBy(o));
+                //}
 
                 return Task.FromResult(list);
             }

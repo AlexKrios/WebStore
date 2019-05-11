@@ -4,13 +4,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using APIModels.Filters;
-using APIModels.Requests.Countries;
-using APIModels.Response.Countries;
 using AutoMapper;
 using CQS.Commands.Countries;
 using CQS.Queries.Countries;
 using Microsoft.Extensions.Logging;
+using WebStoreAPI.Requests.Countries;
+using WebStoreAPI.Response.Countries;
 
 namespace WebStoreAPI.Controllers
 {
@@ -42,7 +41,7 @@ namespace WebStoreAPI.Controllers
             {
                 var countries = await _mediator.Send(new GetCountriesQuery
                 {
-                    Filter = new GetCountriesFilter { Request = request }
+                    
                 });
 
                 if (!countries.Any())

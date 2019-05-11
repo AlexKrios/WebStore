@@ -25,30 +25,30 @@ namespace CQS.Handlers.Users
             {
                 var list = _context.Users as IEnumerable<User>;
 
-                if (query.Filter.Request.MinAge.HasValue)
-                {
-                    list = _context.Users.Where(o => query.Filter.MinAge.IsSatisfiedBy(o));
-                }
+                //if (query.Filter.Request.MinAge.HasValue)
+                //{
+                //    list = _context.Users.Where(o => query.Filter.MinAge.IsSatisfiedBy(o));
+                //}
 
-                if (query.Filter.Request.MaxAge.HasValue)
-                {
-                    list = _context.Users.Where(o => query.Filter.MaxAge.IsSatisfiedBy(o));
-                }
+                //if (query.Filter.Request.MaxAge.HasValue)
+                //{
+                //    list = _context.Users.Where(o => query.Filter.MaxAge.IsSatisfiedBy(o));
+                //}
 
-                if (query.Filter.Request.CityId.HasValue)
-                {
-                    list = _context.Users.Where(o => query.Filter.CityId.IsSatisfiedBy(o));
-                }
+                //if (query.Filter.Request.CityId.HasValue)
+                //{
+                //    list = _context.Users.Where(o => query.Filter.CityId.IsSatisfiedBy(o));
+                //}
 
-                if (!string.IsNullOrEmpty(query.Filter.Request.Name))
-                {
-                    list = _context.Users.Where(o => query.Filter.NameEquals.IsSatisfiedBy(o));
-                }
+                //if (!string.IsNullOrEmpty(query.Filter.Request.Name))
+                //{
+                //    list = _context.Users.Where(o => query.Filter.NameEquals.IsSatisfiedBy(o));
+                //}
 
-                if (!string.IsNullOrEmpty(query.Filter.Request.Email))
-                {
-                    list = _context.Users.Where(o => query.Filter.EmailEquals.IsSatisfiedBy(o));
-                }
+                //if (!string.IsNullOrEmpty(query.Filter.Request.Email))
+                //{
+                //    list = _context.Users.Where(o => query.Filter.EmailEquals.IsSatisfiedBy(o));
+                //}
 
                 return Task.FromResult(list);
             }

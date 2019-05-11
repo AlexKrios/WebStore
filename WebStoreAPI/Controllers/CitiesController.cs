@@ -4,13 +4,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using APIModels.Filters;
-using APIModels.Requests.Cities;
-using APIModels.Response.Cities;
 using AutoMapper;
 using CQS.Commands.Cities;
 using CQS.Queries.Cities;
 using Microsoft.Extensions.Logging;
+using WebStoreAPI.Requests.Cities;
+using WebStoreAPI.Response.Cities;
 
 namespace WebStoreAPI.Controllers
 {
@@ -42,7 +41,7 @@ namespace WebStoreAPI.Controllers
             {
                 var cities = await _mediator.Send(new GetCitiesQuery
                 {
-                    Filter = new GetCitiesFilter { Request = filter }
+                    
                 });
 
                 if (!cities.Any())

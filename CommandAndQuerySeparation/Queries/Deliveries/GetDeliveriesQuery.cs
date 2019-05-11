@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
-using APIModels.Filters;
 using DataLibrary.Entities;
 using MediatR;
+using LinqSpecs;
 
 namespace CQS.Queries.Deliveries
 {
     public class GetDeliveriesQuery : IRequest<IEnumerable<Delivery>>
     {
-        public GetDeliveriesFilter Filter { get; set; }
+        public Specification<Delivery> Specification { get; set; }
     }
 }

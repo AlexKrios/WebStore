@@ -1,5 +1,4 @@
-﻿using APIModels.Requests.Users;
-using DataLibrary.Entities;
+﻿using DataLibrary.Entities;
 using Specification.Specification;
 
 namespace APIModels.Filters

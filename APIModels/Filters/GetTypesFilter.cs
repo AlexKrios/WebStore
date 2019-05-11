@@ -1,5 +1,4 @@
-﻿using APIModels.Requests.Types;
-using Specification.Specification;
+﻿using Specification.Specification;
 using Type = DataLibrary.Entities.Type;
 
 namespace APIModels.Filters

@@ -4,12 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using APIModels.Filters;
-using APIModels.Requests.Payments;
-using APIModels.Response.Payments;
 using AutoMapper;
 using CQS.Commands.Payments;
 using CQS.Queries.Payments;
+using WebStoreAPI.Requests.Payments;
+using WebStoreAPI.Response.Payments;
 
 namespace WebStoreAPI.Controllers
 {
@@ -39,7 +38,7 @@ namespace WebStoreAPI.Controllers
             {
                 var payments = await _mediator.Send(new GetPaymentsQuery
                 {
-                    Filter = new GetPaymentsFilter { Request = request }
+                    
                 });
 
                 if (!payments.Any())

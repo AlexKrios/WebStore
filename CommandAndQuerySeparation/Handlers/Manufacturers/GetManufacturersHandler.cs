@@ -25,20 +25,20 @@ namespace CQS.Handlers.Manufacturers
             {
                 var list = _context.Manufacturers as IEnumerable<Manufacturer>;
 
-                if (query.Filter.Request.MinRating.HasValue)
-                {
-                    list = _context.Manufacturers.Where(o => query.Filter.MinRating.IsSatisfiedBy(o));
-                }
+                //if (query.Filter.Request.MinRating.HasValue)
+                //{
+                //    list = _context.Manufacturers.Where(o => query.Filter.MinRating.IsSatisfiedBy(o));
+                //}
 
-                if (query.Filter.Request.MaxRating.HasValue)
-                {
-                    list = _context.Manufacturers.Where(o => query.Filter.MaxRating.IsSatisfiedBy(o));
-                }
+                //if (query.Filter.Request.MaxRating.HasValue)
+                //{
+                //    list = _context.Manufacturers.Where(o => query.Filter.MaxRating.IsSatisfiedBy(o));
+                //}
 
-                if (!string.IsNullOrEmpty(query.Filter.Request.Name))
-                {
-                    list = _context.Manufacturers.Where(o => query.Filter.NameEquals.IsSatisfiedBy(o));
-                }
+                //if (!string.IsNullOrEmpty(query.Filter.Request.Name))
+                //{
+                //    list = _context.Manufacturers.Where(o => query.Filter.NameEquals.IsSatisfiedBy(o));
+                //}
 
                 return Task.FromResult(list);
             }

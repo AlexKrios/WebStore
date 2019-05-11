@@ -24,15 +24,15 @@ namespace CQS.Handlers.Cities
             {
                 var list = _context.Cities as IEnumerable<City>;
 
-                if (query.Filter.Request.CountryId.HasValue)
-                {
-                    list = _context.Cities.Where(o => query.Filter.CountryId.IsSatisfiedBy(o));
-                }
+                //if (query.Filter.Request.CountryId.HasValue)
+                //{
+                //    list = _context.Cities.Where(o => query.Filter.CountryId.IsSatisfiedBy(o));
+                //}
 
-                if (!string.IsNullOrEmpty(query.Filter.Request.Name))
-                {
-                    list = _context.Cities.Where(o => query.Filter.NameEquals.IsSatisfiedBy(o));
-                }
+                //if (!string.IsNullOrEmpty(query.Filter.Request.Name))
+                //{
+                //    list = _context.Cities.Where(o => query.Filter.NameEquals.IsSatisfiedBy(o));
+                //}
 
                 return Task.FromResult(list);
             }

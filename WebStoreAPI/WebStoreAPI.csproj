@@ -18,6 +18,7 @@
     <PackageReference Include="AutoMapper" Version="8.0.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="8.2.0" />
+    <PackageReference Include="LinqSpecs" Version="3.0.1" />
     <PackageReference Include="MediatR" Version="6.0.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="6.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
@@ -31,7 +32,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\APIModels\APIModels.csproj" />
     <ProjectReference Include="..\CommandAndQuerySeparation\CQS.csproj" />
     <ProjectReference Include="..\DataLibrary\DataLibrary.csproj" />
   </ItemGroup>

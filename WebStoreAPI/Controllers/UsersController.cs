@@ -4,12 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using APIModels.Filters;
-using APIModels.Requests.Users;
-using APIModels.Response.Users;
 using AutoMapper;
 using CQS.Commands.Users;
 using CQS.Queries.Users;
+using WebStoreAPI.Requests.Users;
+using WebStoreAPI.Response.Users;
 
 namespace WebStoreAPI.Controllers
 {
@@ -39,7 +38,7 @@ namespace WebStoreAPI.Controllers
             {
                 var users = await _mediator.Send(new GetUsersQuery
                 {
-                    Filter = new GetUsersFilter { Request = request }
+                    
                 });
 
                 if (!users.Any())

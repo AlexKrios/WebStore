@@ -4,7 +4,7 @@
         <name>WebStoreAPI</name>
     </assembly>
     <members>
-        <member name="M:WebStoreAPI.Controllers.CitiesController.Get(APIModels.Requests.Cities.GetCitiesRequest)">
+        <member name="M:WebStoreAPI.Controllers.CitiesController.Get(WebStoreAPI.Requests.Cities.GetCitiesRequest)">
             <summary>
             Get all Cities.
             </summary>
@@ -17,14 +17,14 @@
             <param name="id">The ID of the desired City.</param>
             <returns>Info about City with selected Id.</returns>
         </member>
-        <member name="M:WebStoreAPI.Controllers.CitiesController.Add(APIModels.Requests.Cities.CreateCityRequest)">
+        <member name="M:WebStoreAPI.Controllers.CitiesController.Add(WebStoreAPI.Requests.Cities.CreateCityRequest)">
             <summary>
             Create a new City.
             </summary>
             <param name="city">The body of new City.</param>
             <returns>Info about created City.</returns>
         </member>
-        <member name="M:WebStoreAPI.Controllers.CitiesController.Update(APIModels.Requests.Cities.UpdateCityRequest)">
+        <member name="M:WebStoreAPI.Controllers.CitiesController.Update(WebStoreAPI.Requests.Cities.UpdateCityRequest)">
             <summary>
             Update existing City.
             </summary>
@@ -38,7 +38,7 @@
             <param name="id">The ID of the desired City.</param>
             <returns>Nothing</returns>
         </member>
-        <member name="M:WebStoreAPI.Controllers.CountriesController.Get(APIModels.Requests.Countries.GetCountriesRequest)">
+        <member name="M:WebStoreAPI.Controllers.CountriesController.Get(WebStoreAPI.Requests.Countries.GetCountriesRequest)">
             <summary>
             Get all Countries.
             </summary>
@@ -51,14 +51,14 @@
             <param name="id">The ID of the desired Country.</param>
             <returns>Info about Country with selected Id.</returns>
         </member>
-        <member name="M:WebStoreAPI.Controllers.CountriesController.Add(APIModels.Requests.Countries.CreateCountryRequest)">
+        <member name="M:WebStoreAPI.Controllers.CountriesController.Add(WebStoreAPI.Requests.Countries.CreateCountryRequest)">
             <summary>
             Create a new Country.
             </summary>
             <param name="country">The body of new Country.</param>
             <returns>Info about created Country.</returns>
         </member>
-        <member name="M:WebStoreAPI.Controllers.CountriesController.Update(APIModels.Requests.Countries.UpdateCountryRequest)">
+        <member name="M:WebStoreAPI.Controllers.CountriesController.Update(WebStoreAPI.Requests.Countries.UpdateCountryRequest)">
             <summary>
             Update existing Country.
             </summary>
@@ -72,7 +72,7 @@
             <param name="id">The ID of the desired Country.</param>
             <returns>Nothing</returns>
         </member>
-        <member name="M:WebStoreAPI.Controllers.DeliveriesController.Get(APIModels.Requests.Deliveries.GetDeliveriesRequest)">
+        <member name="M:WebStoreAPI.Controllers.DeliveriesController.Get(WebStoreAPI.Requests.Deliveries.GetDeliveriesRequest)">
             <summary>
             Get all Deliveries.
             </summary>
@@ -85,14 +85,14 @@
             <param name="id">The ID of the desired Delivery.</param>
             <returns>Info about Delivery with selected Id.</returns>
         </member>
-        <member name="M:WebStoreAPI.Controllers.DeliveriesController.Add(APIModels.Requests.Deliveries.CreateDeliveryRequest)">
+        <member name="M:WebStoreAPI.Controllers.DeliveriesController.Add(WebStoreAPI.Requests.Deliveries.CreateDeliveryRequest)">
             <summary>
             Create a new Delivery.
             </summary>
             <param name="delivery">The body of new Delivery.</param>
             <returns>Info about created Delivery.</returns>
         </member>
-        <member name="M:WebStoreAPI.Controllers.DeliveriesController.Update(APIModels.Requests.Deliveries.UpdateDeliveryRequest)">
+        <member name="M:WebStoreAPI.Controllers.DeliveriesController.Update(WebStoreAPI.Requests.Deliveries.UpdateDeliveryRequest)">
             <summary>
             Update existing Delivery.
             </summary>
@@ -106,7 +106,7 @@
             <param name="id">The ID of the desired Delivery.</param>
             <returns>Nothing</returns>
         </member>
-        <member name="M:WebStoreAPI.Controllers.ManufacturersController.Get(APIModels.Requests.Manufacturers.GetManufacturersRequest)">
+        <member name="M:WebStoreAPI.Controllers.ManufacturersController.Get(WebStoreAPI.Requests.Manufacturers.GetManufacturersRequest)">
             <summary>
             Get all Manufacturers.
             </summary>
@@ -119,14 +119,14 @@
             <param name="id">The ID of the desired Manufacturer.</param>
             <returns>Info about Manufacturer with selected Id.</returns>
         </member>
-        <member name="M:WebStoreAPI.Controllers.ManufacturersController.Add(APIModels.Requests.Manufacturers.CreateManufacturerRequest)">
+        <member name="M:WebStoreAPI.Controllers.ManufacturersController.Add(WebStoreAPI.Requests.Manufacturers.CreateManufacturerRequest)">
             <summary>
             Create a new Manufacturer.
             </summary>
             <param name="manufacturer">The body of new Manufacturer.</param>
             <returns>Info about created Manufacturer.</returns>
         </member>
-        <member name="M:WebStoreAPI.Controllers.ManufacturersController.Update(APIModels.Requests.Manufacturers.UpdateManufacturerRequest)">
+        <member name="M:WebStoreAPI.Controllers.ManufacturersController.Update(WebStoreAPI.Requests.Manufacturers.UpdateManufacturerRequest)">
             <summary>
             Update existing Manufacturer.
             </summary>
@@ -140,7 +140,7 @@
             <param name="id">The ID of the desired Manufacturer.</param>
             <returns>Nothing</returns>
         </member>
-        <member name="M:WebStoreAPI.Controllers.OrderItemsController.Get(APIModels.Requests.OrderItems.GetOrdersItemsRequest)">
+        <member name="M:WebStoreAPI.Controllers.OrderItemsController.Get(WebStoreAPI.Requests.OrderItems.GetOrdersItemsRequest)">
             <summary>
             Get all OrdersItems.
             </summary>
@@ -153,14 +153,14 @@
             <param name="id">The ID of the desired OrderItems.</param>
             <returns>Info about OrderItems with selected Id.</returns>
         </member>
-        <member name="M:WebStoreAPI.Controllers.OrderItemsController.Add(APIModels.Requests.OrderItems.CreateOrderItemsRequest)">
+        <member name="M:WebStoreAPI.Controllers.OrderItemsController.Add(WebStoreAPI.Requests.OrderItems.CreateOrderItemsRequest)">
             <summary>
             Create a new OrderItems.
             </summary>
             <param name="orderItem">The body of new OrderItems.</param>
             <returns>Info about created OrderItems.</returns>
         </member>
-        <member name="M:WebStoreAPI.Controllers.OrderItemsController.Update(APIModels.Requests.OrderItems.UpdateOrderItemsRequest)">
+        <member name="M:WebStoreAPI.Controllers.OrderItemsController.Update(WebStoreAPI.Requests.OrderItems.UpdateOrderItemsRequest)">
             <summary>
             Update existing OrderItems.
             </summary>
@@ -174,7 +174,7 @@
             <param name="id">The ID of the desired OrderItems.</param>
             <returns>Nothing</returns>
         </member>
-        <member name="M:WebStoreAPI.Controllers.OrdersController.Get(APIModels.Requests.Orders.GetOrdersRequest)">
+        <member name="M:WebStoreAPI.Controllers.OrdersController.Get(WebStoreAPI.Requests.Orders.GetOrdersRequest)">
             <summary>
             Get all Orders.
             </summary>
@@ -187,14 +187,14 @@
             <param name="id">The ID of the desired Order.</param>
             <returns>Info about Order with selected Id.</returns>
         </member>
-        <member name="M:WebStoreAPI.Controllers.OrdersController.Add(APIModels.Requests.Orders.CreateOrderRequest)">
+        <member name="M:WebStoreAPI.Controllers.OrdersController.Add(WebStoreAPI.Requests.Orders.CreateOrderRequest)">
             <summary>
             Create a new Order.
             </summary>
             <param name="order">The body of new Order.</param>
             <returns>Info about created Order.</returns>
         </member>
-        <member name="M:WebStoreAPI.Controllers.OrdersController.Update(APIModels.Requests.Orders.UpdateOrderRequest)">
+        <member name="M:WebStoreAPI.Controllers.OrdersController.Update(WebStoreAPI.Requests.Orders.UpdateOrderRequest)">
             <summary>
             Update existing Order.
             </summary>
@@ -208,7 +208,7 @@
             <param name="id">The ID of the desired Order.</param>
             <returns>Nothing</returns>
         </member>
-        <member name="M:WebStoreAPI.Controllers.PaymentsController.Get(APIModels.Requests.Payments.GetPaymentsRequest)">
+        <member name="M:WebStoreAPI.Controllers.PaymentsController.Get(WebStoreAPI.Requests.Payments.GetPaymentsRequest)">
             <summary>
             Get all Payments.
             </summary>
@@ -221,14 +221,14 @@
             <param name="id">The ID of the desired Payment.</param>
             <returns>Info about Payment with selected Id.</returns>
         </member>
-        <member name="M:WebStoreAPI.Controllers.PaymentsController.Add(APIModels.Requests.Payments.CreatePaymentRequest)">
+        <member name="M:WebStoreAPI.Controllers.PaymentsController.Add(WebStoreAPI.Requests.Payments.CreatePaymentRequest)">
             <summary>
             Create a new Payment.
             </summary>
             <param name="payment">The body of new Payment.</param>
             <returns>Info about created Payment.</returns>
         </member>
-        <member name="M:WebStoreAPI.Controllers.PaymentsController.Update(APIModels.Requests.Payments.UpdatePaymentRequest)">
+        <member name="M:WebStoreAPI.Controllers.PaymentsController.Update(WebStoreAPI.Requests.Payments.UpdatePaymentRequest)">
             <summary>
             Update existing Payment.
             </summary>
@@ -242,7 +242,7 @@
             <param name="id">The ID of the desired Payment.</param>
             <returns>Nothing</returns>
         </member>
-        <member name="M:WebStoreAPI.Controllers.ProductsController.Get(APIModels.Requests.Products.GetProductsRequest)">
+        <member name="M:WebStoreAPI.Controllers.ProductsController.Get(WebStoreAPI.Requests.Products.GetProductsRequest)">
             <summary>
             Get all Products.
             </summary>
@@ -255,14 +255,14 @@
             <param name="id">The ID of the desired Product.</param>
             <returns>Info about Product with selected Id.</returns>
         </member>
-        <member name="M:WebStoreAPI.Controllers.ProductsController.Add(APIModels.Requests.Products.CreateProductRequest)">
+        <member name="M:WebStoreAPI.Controllers.ProductsController.Add(WebStoreAPI.Requests.Products.CreateProductRequest)">
             <summary>
             Create a new Product.
             </summary>
             <param name="product">The body of new Product.</param>
             <returns>Info about created Product.</returns>
         </member>
-        <member name="M:WebStoreAPI.Controllers.ProductsController.Update(APIModels.Requests.Products.UpdateProductRequest)">
+        <member name="M:WebStoreAPI.Controllers.ProductsController.Update(WebStoreAPI.Requests.Products.UpdateProductRequest)">
             <summary>
             Update existing Product.
             </summary>
@@ -276,7 +276,7 @@
             <param name="id">The ID of the desired Product.</param>
             <returns>Nothing</returns>
         </member>
-        <member name="M:WebStoreAPI.Controllers.RolesController.Get(APIModels.Requests.Roles.GetRolesRequest)">
+        <member name="M:WebStoreAPI.Controllers.RolesController.Get(WebStoreAPI.Requests.Roles.GetRolesRequest)">
             <summary>
             Get all Roles.
             </summary>
@@ -289,14 +289,14 @@
             <param name="id">The ID of the desired Role.</param>
             <returns>Info about Role with selected Id.</returns>
         </member>
-        <member name="M:WebStoreAPI.Controllers.RolesController.Add(APIModels.Requests.Roles.CreateRoleRequest)">
+        <member name="M:WebStoreAPI.Controllers.RolesController.Add(WebStoreAPI.Requests.Roles.CreateRoleRequest)">
             <summary>
             Create a new Role.
             </summary>
             <param name="role">The body of new Role.</param>
             <returns>Info about created Role.</returns>
         </member>
-        <member name="M:WebStoreAPI.Controllers.RolesController.Update(APIModels.Requests.Roles.UpdateRoleRequest)">
+        <member name="M:WebStoreAPI.Controllers.RolesController.Update(WebStoreAPI.Requests.Roles.UpdateRoleRequest)">
             <summary>
             Update existing Role.
             </summary>
@@ -310,7 +310,7 @@
             <param name="id">The ID of the desired Role.</param>
             <returns>Nothing</returns>
         </member>
-        <member name="M:WebStoreAPI.Controllers.TypesController.Get(APIModels.Requests.Types.GetTypesRequest)">
+        <member name="M:WebStoreAPI.Controllers.TypesController.Get(WebStoreAPI.Requests.Types.GetTypesRequest)">
             <summary>
             Get all Types.
             </summary>
@@ -323,14 +323,14 @@
             <param name="id">The ID of the desired Type.</param>
             <returns>Info about Type with selected Id.</returns>
         </member>
-        <member name="M:WebStoreAPI.Controllers.TypesController.Add(APIModels.Requests.Types.CreateTypeRequest)">
+        <member name="M:WebStoreAPI.Controllers.TypesController.Add(WebStoreAPI.Requests.Types.CreateTypeRequest)">
             <summary>
             Create a new Type.
             </summary>
             <param name="type">The body of new Type.</param>
             <returns>Info about created Type.</returns>
         </member>
-        <member name="M:WebStoreAPI.Controllers.TypesController.Update(APIModels.Requests.Types.UpdateTypeRequest)">
+        <member name="M:WebStoreAPI.Controllers.TypesController.Update(WebStoreAPI.Requests.Types.UpdateTypeRequest)">
             <summary>
             Update existing Type.
             </summary>
@@ -344,7 +344,7 @@
             <param name="id">The ID of the desired Type.</param>
             <returns>Nothing</returns>
         </member>
-        <member name="M:WebStoreAPI.Controllers.UserRolesController.Get(APIModels.Requests.UserRoles.GetUsersRolesRequest)">
+        <member name="M:WebStoreAPI.Controllers.UserRolesController.Get(WebStoreAPI.Requests.UserRoles.GetUsersRolesRequest)">
             <summary>
             Get all UsersRoles.
             </summary>
@@ -357,14 +357,14 @@
             <param name="id">The ID of the desired UserRoles.</param>
             <returns>Info about UserRoles with selected Id.</returns>
         </member>
-        <member name="M:WebStoreAPI.Controllers.UserRolesController.Add(APIModels.Requests.UserRoles.CreateUserRolesRequest)">
+        <member name="M:WebStoreAPI.Controllers.UserRolesController.Add(WebStoreAPI.Requests.UserRoles.CreateUserRolesRequest)">
             <summary>
             Create a new UserRoles.
             </summary>
             <param name="userRole">The body of new UserRoles.</param>
             <returns>Info about created UserRoles.</returns>
         </member>
-        <member name="M:WebStoreAPI.Controllers.UserRolesController.Update(APIModels.Requests.UserRoles.UpdateUserRolesRequest)">
+        <member name="M:WebStoreAPI.Controllers.UserRolesController.Update(WebStoreAPI.Requests.UserRoles.UpdateUserRolesRequest)">
             <summary>
             Update existing UserRoles.
             </summary>
@@ -378,7 +378,7 @@
             <param name="id">The ID of the desired UserRoles.</param>
             <returns>Nothing</returns>
         </member>
-        <member name="M:WebStoreAPI.Controllers.UsersController.Get(APIModels.Requests.Users.GetUsersRequest)">
+        <member name="M:WebStoreAPI.Controllers.UsersController.Get(WebStoreAPI.Requests.Users.GetUsersRequest)">
             <summary>
             Get all Users.
             </summary>
@@ -391,14 +391,14 @@
             <param name="id">The ID of the desired User.</param>
             <returns>Info about User with selected Id.</returns>
         </member>
-        <member name="M:WebStoreAPI.Controllers.UsersController.Add(APIModels.Requests.Users.CreateUserRequest)">
+        <member name="M:WebStoreAPI.Controllers.UsersController.Add(WebStoreAPI.Requests.Users.CreateUserRequest)">
             <summary>
             Create a new User.
             </summary>
             <param name="user">The body of new User.</param>
             <returns>Info about created User.</returns>
         </member>
-        <member name="M:WebStoreAPI.Controllers.UsersController.Update(APIModels.Requests.Users.UpdateUserRequest)">
+        <member name="M:WebStoreAPI.Controllers.UsersController.Update(WebStoreAPI.Requests.Users.UpdateUserRequest)">
             <summary>
             Update existing User.
             </summary>

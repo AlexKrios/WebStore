@@ -25,40 +25,40 @@ namespace CQS.Handlers.Products
             {
                 var list = _context.Products as IEnumerable<Product>;
 
-                if (query.Filter.Request.MinAvailability.HasValue)
-                {
-                    list = _context.Products.Where(o => query.Filter.MinAvailability.IsSatisfiedBy(o));
-                }
+                //if (query.Filter.Request.MinAvailability.HasValue)
+                //{
+                //    list = _context.Products.Where(o => query.Filter.MinAvailability.IsSatisfiedBy(o));
+                //}
 
-                if (query.Filter.Request.MaxAvailability.HasValue)
-                {
-                    list = _context.Products.Where(o => query.Filter.MaxAvailability.IsSatisfiedBy(o));
-                }
+                //if (query.Filter.Request.MaxAvailability.HasValue)
+                //{
+                //    list = _context.Products.Where(o => query.Filter.MaxAvailability.IsSatisfiedBy(o));
+                //}
 
-                if (query.Filter.Request.MinPrice.HasValue)
-                {
-                    list = _context.Products.Where(o => query.Filter.MinPrice.IsSatisfiedBy(o));
-                }
+                //if (query.Filter.Request.MinPrice.HasValue)
+                //{
+                //    list = _context.Products.Where(o => query.Filter.MinPrice.IsSatisfiedBy(o));
+                //}
 
-                if (query.Filter.Request.MaxPrice.HasValue)
-                {
-                    list = _context.Products.Where(o => query.Filter.MaxPrice.IsSatisfiedBy(o));
-                }
+                //if (query.Filter.Request.MaxPrice.HasValue)
+                //{
+                //    list = _context.Products.Where(o => query.Filter.MaxPrice.IsSatisfiedBy(o));
+                //}
 
-                if (query.Filter.Request.TypeId.HasValue)
-                {
-                    list = _context.Products.Where(o => query.Filter.TypeId.IsSatisfiedBy(o));
-                }
+                //if (query.Filter.Request.TypeId.HasValue)
+                //{
+                //    list = _context.Products.Where(o => query.Filter.TypeId.IsSatisfiedBy(o));
+                //}
 
-                if (query.Filter.Request.ManufacturerId.HasValue)
-                {
-                    list = _context.Products.Where(o => query.Filter.ManufacturerId.IsSatisfiedBy(o));
-                }
+                //if (query.Filter.Request.ManufacturerId.HasValue)
+                //{
+                //    list = _context.Products.Where(o => query.Filter.ManufacturerId.IsSatisfiedBy(o));
+                //}
 
-                if (!string.IsNullOrEmpty(query.Filter.Request.Name))
-                {
-                    list = _context.Products.Where(o => query.Filter.NameEquals.IsSatisfiedBy(o));
-                }
+                //if (!string.IsNullOrEmpty(query.Filter.Request.Name))
+                //{
+                //    list = _context.Products.Where(o => query.Filter.NameEquals.IsSatisfiedBy(o));
+                //}
 
                 return Task.FromResult(list);
             }
