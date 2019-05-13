@@ -33,6 +33,6 @@ namespace DataLibrary.Entities
         public virtual ICollection<Order> Orders { get; set; }
         public virtual ICollection<Payment> Payments { get; set; }
         public virtual ICollection<Product> Products { get; set; }
-        public virtual ICollection<UserRole> UserRoles { get; set; }
+        public virtual ICollection<UserRoles> UserRoles { get; set; }
     }
 }

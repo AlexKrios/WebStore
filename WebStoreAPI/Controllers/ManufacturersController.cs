@@ -9,6 +9,7 @@ using CQS.Commands.Manufacturers;
 using CQS.Queries.Manufacturers;
 using WebStoreAPI.Requests.Manufacturers;
 using WebStoreAPI.Response.Manufacturers;
+using WebStoreAPI.Specifications.Manufacturers;
 
 namespace WebStoreAPI.Controllers
 {
@@ -36,9 +37,15 @@ namespace WebStoreAPI.Controllers
         {
             try
             {
+                var nameSpec = new ManufacturerNameSpecification(request.Name);
+                var minRatingSpec = new ManufacturerMinRatingSpecification(request.MinRating);
+                var maxRatingSpec = new ManufacturerMaxRatingSpecification(request.MaxRating);
+
+                var specification = nameSpec && minRatingSpec && maxRatingSpec;
+
                 var manufacturers = await _mediator.Send(new GetManufacturersQuery
                 {
-                    
+                    Specification = specification
                 });
 
                 if (!manufacturers.Any())

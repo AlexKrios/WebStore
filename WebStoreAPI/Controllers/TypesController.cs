@@ -9,6 +9,7 @@ using CQS.Commands.Types;
 using CQS.Queries.Types;
 using WebStoreAPI.Requests.Types;
 using WebStoreAPI.Response.Types;
+using WebStoreAPI.Specifications.Types;
 
 namespace WebStoreAPI.Controllers
 {
@@ -36,9 +37,11 @@ namespace WebStoreAPI.Controllers
         {
             try
             {
+                var nameSpec = new TypeNameSpecification(request.Name);
+
                 var types = await _mediator.Send(new GetTypesQuery
                 {
-                    
+                    Specification = nameSpec
                 });
 
                 if (!types.Any())

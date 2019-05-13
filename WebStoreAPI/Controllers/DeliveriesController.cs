@@ -40,13 +40,13 @@ namespace WebStoreAPI.Controllers
         {
             try
             {
+                var nameSpec = new DeliveryNameSpecification(request.Name);
                 var minPriceSpec = new DeliveryMinPriceSpecification(request.MinPrice);
                 var maxPriceSpec = new DeliveryMaxPriceSpecification(request.MaxPrice);
                 var minRatingSpec = new DeliveryMinRatingSpecification(request.MinRating);
                 var maxRatingSpec = new DeliveryMaxRatingSpecification(request.MaxRating);
-                var nameSpec = new DeliveryNameSpecification(request.Name);
-
-                var specification = minPriceSpec && maxPriceSpec && minRatingSpec && maxRatingSpec && nameSpec;
+                
+                var specification =  nameSpec && minPriceSpec && maxPriceSpec && minRatingSpec && maxRatingSpec;
 
                 var deliveries = await _mediator.Send(new GetDeliveriesQuery
                 {

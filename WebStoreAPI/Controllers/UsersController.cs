@@ -9,6 +9,8 @@ using CQS.Commands.Users;
 using CQS.Queries.Users;
 using WebStoreAPI.Requests.Users;
 using WebStoreAPI.Response.Users;
+using WebStoreAPI.Specifications.Deliveries;
+using WebStoreAPI.Specifications.Users;
 
 namespace WebStoreAPI.Controllers
 {
@@ -36,9 +38,17 @@ namespace WebStoreAPI.Controllers
         {
             try
             {
+                var nameSpec = new UserNameSpecification(request.Name);
+                var minAgeSpec = new UserMinAgeSpecification(request.MinAge);
+                var maxAgeSpec = new UserMaxAgeSpecification(request.MaxAge);
+                var emailSpec = new UserEmailSpecification(request.Email);
+                var cityIdSpec = new UserCityIdSpecification(request.CityId);
+
+                var specification = nameSpec && minAgeSpec && maxAgeSpec && emailSpec && cityIdSpec;
+
                 var users = await _mediator.Send(new GetUsersQuery
                 {
-                    
+                    Specification = specification
                 });
 
                 if (!users.Any())

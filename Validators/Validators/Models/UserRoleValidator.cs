@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace Validators.Validators.Models
 {
-    public class UserRoleValidator : AbstractValidator<UserRole>
+    public class UserRoleValidator : AbstractValidator<DataLibrary.Entities.UserRoles>
     {
         public UserRoleValidator()
         {

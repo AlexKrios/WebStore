@@ -10,6 +10,7 @@ using CQS.Queries.Cities;
 using Microsoft.Extensions.Logging;
 using WebStoreAPI.Requests.Cities;
 using WebStoreAPI.Response.Cities;
+using WebStoreAPI.Specifications.Cities;
 
 namespace WebStoreAPI.Controllers
 {
@@ -35,13 +36,18 @@ namespace WebStoreAPI.Controllers
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<GetCitiesResponse>))]
         [ProducesResponseType(500, Type = typeof(string))]
-        public async Task<IActionResult> Get([FromQuery]GetCitiesRequest filter)
+        public async Task<IActionResult> Get([FromQuery]GetCitiesRequest request)
         {
             try
             {
+                var nameSpec = new CityNameSpecification(request.Name);
+                var countryIdSpec = new CityCountryIdSpecification(request.CountryId);
+
+                var specification = nameSpec && countryIdSpec;
+
                 var cities = await _mediator.Send(new GetCitiesQuery
                 {
-                    
+                    Specification = specification
                 });
 
                 if (!cities.Any())

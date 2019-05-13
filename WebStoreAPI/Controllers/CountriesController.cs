@@ -10,6 +10,7 @@ using CQS.Queries.Countries;
 using Microsoft.Extensions.Logging;
 using WebStoreAPI.Requests.Countries;
 using WebStoreAPI.Response.Countries;
+using WebStoreAPI.Specifications.Countries;
 
 namespace WebStoreAPI.Controllers
 {
@@ -39,9 +40,11 @@ namespace WebStoreAPI.Controllers
         {
             try
             {
+                var nameSpec = new CountryNameSpecification(request.Name);
+
                 var countries = await _mediator.Send(new GetCountriesQuery
                 {
-                    
+                    Specification = nameSpec
                 });
 
                 if (!countries.Any())

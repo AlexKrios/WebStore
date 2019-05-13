@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using CQS.Queries.Types;
 using DataLibrary;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Type = DataLibrary.Entities.Type;
 
 namespace CQS.Handlers.Types
@@ -19,18 +20,11 @@ namespace CQS.Handlers.Types
             _context = context;
         }
 
-        public Task<IEnumerable<Type>> Handle(GetTypesQuery query, CancellationToken cancellationToken)
+        public async Task<IEnumerable<Type>> Handle(GetTypesQuery query, CancellationToken cancellationToken)
         {
             try
             {
-                var list = _context.Types as IEnumerable<Type>;
-
-                //if (!string.IsNullOrEmpty(query.Filter.Request.Name))
-                //{
-                //    list = _context.Types.Where(o => query.Filter.NameEquals.IsSatisfiedBy(o));
-                //}
-
-                return Task.FromResult(list);
+                return await _context.Types.Where(query.Specification).ToListAsync(cancellationToken);
             }
             catch (Exception e)
             {

@@ -4,39 +4,39 @@ using CQS.Commands.Cities;
 using CQS.Commands.Countries;
 using CQS.Commands.Deliveries;
 using CQS.Commands.Manufacturers;
-using CQS.Commands.OrderItems;
 using CQS.Commands.Orders;
+using CQS.Commands.OrdersItems;
 using CQS.Commands.Payments;
 using CQS.Commands.Products;
 using CQS.Commands.Roles;
 using CQS.Commands.Types;
-using CQS.Commands.UserRoles;
 using CQS.Commands.Users;
+using CQS.Commands.UsersRoles;
 using DataLibrary.Entities;
 using WebStoreAPI.Requests.Cities;
 using WebStoreAPI.Requests.Countries;
 using WebStoreAPI.Requests.Deliveries;
 using WebStoreAPI.Requests.Manufacturers;
-using WebStoreAPI.Requests.OrderItems;
 using WebStoreAPI.Requests.Orders;
+using WebStoreAPI.Requests.OrdersItems;
 using WebStoreAPI.Requests.Payments;
 using WebStoreAPI.Requests.Products;
 using WebStoreAPI.Requests.Roles;
 using WebStoreAPI.Requests.Types;
-using WebStoreAPI.Requests.UserRoles;
 using WebStoreAPI.Requests.Users;
+using WebStoreAPI.Requests.UsersRoles;
 using WebStoreAPI.Response.Cities;
 using WebStoreAPI.Response.Countries;
 using WebStoreAPI.Response.Deliveries;
 using WebStoreAPI.Response.Manufacturers;
-using WebStoreAPI.Response.OrderItems;
 using WebStoreAPI.Response.Orders;
+using WebStoreAPI.Response.OrdersItems;
 using WebStoreAPI.Response.Payments;
 using WebStoreAPI.Response.Products;
 using WebStoreAPI.Response.Roles;
 using WebStoreAPI.Response.Types;
-using WebStoreAPI.Response.UserRoles;
 using WebStoreAPI.Response.Users;
+using WebStoreAPI.Response.UsersRoles;
 using Type = DataLibrary.Entities.Type;
 
 namespace WebStoreAPI.Mapper
@@ -73,8 +73,8 @@ namespace WebStoreAPI.Mapper
 
             CreateMap<CreateManufacturerCommand, Manufacturer>();
             CreateMap<UpdateManufacturerCommand, Manufacturer>();
-            CreateMap<CreateOrderItemsCommand, OrderItem>();
-            CreateMap<UpdateOrderItemsCommand, OrderItem>();
+            CreateMap<CreateOrderItemsCommand, OrderItems>();
+            CreateMap<UpdateOrderItemsCommand, OrderItems>();
 
             CreateMap<CreateOrderCommand, Order>()
                 .ForMember(x => x.OrderTime, opt => opt.MapFrom(o => DateTime.Now));
@@ -94,8 +94,8 @@ namespace WebStoreAPI.Mapper
             CreateMap<UpdateRoleCommand, Role>();
             CreateMap<CreateTypeCommand, Type>();
             CreateMap<UpdateTypeCommand, Type>();
-            CreateMap<CreateUserRoleCommand, UserRole>();
-            CreateMap<UpdateUserRoleCommand, UserRole>();
+            CreateMap<CreateUserRoleCommand, UserRoles>();
+            CreateMap<UpdateUserRoleCommand, UserRoles>();
 
             CreateMap<CreateCityRequest, CreateCityResponse>();
             CreateMap<CreateCountryRequest, CreateCountryResponse>();

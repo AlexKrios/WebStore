@@ -9,6 +9,7 @@ using CQS.Commands.Products;
 using CQS.Queries.Products;
 using WebStoreAPI.Requests.Products;
 using WebStoreAPI.Response.Products;
+using WebStoreAPI.Specifications.Products;
 
 namespace WebStoreAPI.Controllers
 {
@@ -36,9 +37,20 @@ namespace WebStoreAPI.Controllers
         {
             try
             {
+                var nameSpec = new ProductNameSpecification(request.Name);
+                var minAvailabilitySpec = new ProductMinAvailabilitySpecification(request.MinAvailability);
+                var maxAvailabilitySpec = new ProductMaxAvailabilitySpecification(request.MaxAvailability);
+                var minPriceSpec = new ProductMinPriceSpecification(request.MinPrice);
+                var maxPriceSpec = new ProductMaxPriceSpecification(request.MaxPrice);
+                var typeIdSpec = new ProductTypeIdSpecification(request.TypeId);
+                var manufacturerIdSpec = new ProductManufacturerIdSpecification(request.ManufacturerId);
+
+                var specification = nameSpec && minAvailabilitySpec && maxAvailabilitySpec &&
+                                    minPriceSpec && maxPriceSpec && typeIdSpec && manufacturerIdSpec;
+
                 var products = await _mediator.Send(new GetProductsQuery
                 {
-                    
+                    Specification = specification
                 });
 
                 if (!products.Any())

@@ -16,11 +16,7 @@ namespace WebStoreAPI.Specifications.Deliveries
 
         public override Expression<Func<Delivery, bool>> ToExpression()
         {
-            if (!_rating.HasValue)
-            {
-                return x => true;
-            }
-            return x => x.Rating <= _rating;
+            return !_rating.HasValue ? (Expression<Func<Delivery, bool>>) (x => true) : x => x.Rating <= _rating;
         }
     }
 }

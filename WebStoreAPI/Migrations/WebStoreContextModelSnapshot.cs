@@ -4,6 +4,7 @@ using DataLibrary;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace WebStoreAPI.Migrations
 {
@@ -70,7 +71,8 @@ namespace WebStoreAPI.Migrations
                     b.Property<string>("Name")
                         .IsRequired();
 
-                    b.Property<decimal>("Price");
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal");
 
                     b.Property<float>("Rating");
 
@@ -126,7 +128,8 @@ namespace WebStoreAPI.Migrations
 
                     b.Property<int>("PaymentId");
 
-                    b.Property<decimal>("TotalPrice");
+                    b.Property<decimal>("TotalPrice")
+                        .HasColumnType("decimal");
 
                     b.Property<int>("UserId");
 
@@ -141,7 +144,7 @@ namespace WebStoreAPI.Migrations
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("DataLibrary.Entities.OrderItem", b =>
+            modelBuilder.Entity("DataLibrary.Entities.OrderItems", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -151,7 +154,8 @@ namespace WebStoreAPI.Migrations
 
                     b.Property<int>("OrderId");
 
-                    b.Property<decimal>("Price");
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal");
 
                     b.Property<int>("ProductId");
 
@@ -161,7 +165,7 @@ namespace WebStoreAPI.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("OrderItems");
+                    b.ToTable("OrdersItems");
                 });
 
             modelBuilder.Entity("DataLibrary.Entities.Payment", b =>
@@ -184,7 +188,8 @@ namespace WebStoreAPI.Migrations
                     b.Property<string>("Name")
                         .IsRequired();
 
-                    b.Property<decimal>("Taxes");
+                    b.Property<decimal>("Taxes")
+                        .HasColumnType("decimal");
 
                     b.HasKey("Id");
 
@@ -217,7 +222,8 @@ namespace WebStoreAPI.Migrations
                     b.Property<string>("Name")
                         .IsRequired();
 
-                    b.Property<decimal>("Price");
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal");
 
                     b.Property<int>("TypeId");
 
@@ -292,7 +298,7 @@ namespace WebStoreAPI.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("DataLibrary.Entities.UserRole", b =>
+            modelBuilder.Entity("DataLibrary.Entities.UserRoles", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -308,7 +314,7 @@ namespace WebStoreAPI.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserRoles");
+                    b.ToTable("UsersRoles");
                 });
 
             modelBuilder.Entity("DataLibrary.Entities.City", b =>
@@ -352,7 +358,7 @@ namespace WebStoreAPI.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
-            modelBuilder.Entity("DataLibrary.Entities.OrderItem", b =>
+            modelBuilder.Entity("DataLibrary.Entities.OrderItems", b =>
                 {
                     b.HasOne("DataLibrary.Entities.Order", "Order")
                         .WithMany("OrderItems")
@@ -399,7 +405,7 @@ namespace WebStoreAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("DataLibrary.Entities.UserRole", b =>
+            modelBuilder.Entity("DataLibrary.Entities.UserRoles", b =>
                 {
                     b.HasOne("DataLibrary.Entities.Role", "Role")
                         .WithMany("UserRoles")

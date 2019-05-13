@@ -9,6 +9,7 @@ using CQS.Commands.Payments;
 using CQS.Queries.Payments;
 using WebStoreAPI.Requests.Payments;
 using WebStoreAPI.Response.Payments;
+using WebStoreAPI.Specifications.Payments;
 
 namespace WebStoreAPI.Controllers
 {
@@ -36,9 +37,15 @@ namespace WebStoreAPI.Controllers
         {
             try
             {
+                var nameSpec = new PaymentNameSpecification(request.Name);
+                var minTaxesSpec = new PaymentMinTaxesSpecification(request.MinTaxes);
+                var maxTaxesSpec = new PaymentMaxTaxesSpecification(request.MaxTaxes);
+
+                var specification = nameSpec && minTaxesSpec && maxTaxesSpec;
+
                 var payments = await _mediator.Send(new GetPaymentsQuery
                 {
-                    
+                    Specification = specification
                 });
 
                 if (!payments.Any())

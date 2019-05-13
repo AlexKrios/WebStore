@@ -11,6 +11,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Specifications\Users\" />
+    <Folder Include="Specifications\UsersRoles\" />
+    <Folder Include="Specifications\Types\" />
+    <Folder Include="Specifications\Roles\" />
+    <Folder Include="Specifications\Products\" />
+    <Folder Include="Specifications\Payments\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
