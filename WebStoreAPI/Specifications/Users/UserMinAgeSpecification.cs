@@ -16,7 +16,9 @@ namespace WebStoreAPI.Specifications.Users
 
         public override Expression<Func<User, bool>> ToExpression()
         {
-            return !_age.HasValue ? (Expression<Func<User, bool>>) (x => true) : x => x.Age >= _age;
+            return _age.HasValue 
+                ? x => x.Age >= _age
+                : (Expression<Func<User, bool>>)(x => true);
         }
     }
 }

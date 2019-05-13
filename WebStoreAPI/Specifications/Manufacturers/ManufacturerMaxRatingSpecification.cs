@@ -16,7 +16,9 @@ namespace WebStoreAPI.Specifications.Manufacturers
 
         public override Expression<Func<Manufacturer, bool>> ToExpression()
         {
-            return !_rating.HasValue ? (Expression<Func<Manufacturer, bool>>) (x => true) : x => x.Rating <= _rating;
+            return _rating.HasValue 
+                ? x => x.Rating <= _rating 
+                : (Expression<Func<Manufacturer, bool>>)(x => true);
         }
     }
 }

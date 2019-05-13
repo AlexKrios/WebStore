@@ -16,9 +16,9 @@ namespace WebStoreAPI.Specifications.Users
 
         public override Expression<Func<User, bool>> ToExpression()
         {
-            return !_cityId.HasValue
-                ? (Expression<Func<User, bool>>)(x => true)
-                : x => x.CityId == _cityId;
+            return _cityId.HasValue
+                ? x => x.CityId == _cityId
+                : (Expression<Func<User, bool>>)(x => true);
         }
     }
 }

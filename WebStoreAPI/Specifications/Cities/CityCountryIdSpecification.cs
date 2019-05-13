@@ -16,7 +16,9 @@ namespace WebStoreAPI.Specifications.Cities
 
         public override Expression<Func<City, bool>> ToExpression()
         {
-            return !_countryId.HasValue ? (Expression<Func<City, bool>>) (x => true) : x => x.CountryId == _countryId;
+            return _countryId.HasValue 
+                ? x => x.CountryId == _countryId 
+                : (Expression<Func<City, bool>>)(x => true);
         }
     }
 }

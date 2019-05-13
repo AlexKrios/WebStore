@@ -16,7 +16,9 @@ namespace WebStoreAPI.Specifications.OrdersItems
 
         public override Expression<Func<OrderItems, bool>> ToExpression()
         {
-            return !_orderId.HasValue ? (Expression<Func<OrderItems, bool>>) (x => true) : x => x.OrderId == _orderId;
+            return _orderId.HasValue 
+                ? x => x.OrderId == _orderId
+                : (Expression<Func<OrderItems, bool>>)(x => true);
         }
     }
 }

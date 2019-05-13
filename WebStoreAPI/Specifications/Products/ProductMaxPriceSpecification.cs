@@ -16,7 +16,9 @@ namespace WebStoreAPI.Specifications.Products
 
         public override Expression<Func<Product, bool>> ToExpression()
         {
-            return !_price.HasValue ? (Expression<Func<Product, bool>>) (x => true) : x => x.Price <= _price;
+            return _price.HasValue 
+                ? x => x.Price <= _price
+                : (Expression<Func<Product, bool>>)(x => true);
         }
     }
 }

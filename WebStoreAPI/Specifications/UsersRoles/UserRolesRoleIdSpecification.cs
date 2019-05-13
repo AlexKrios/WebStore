@@ -16,9 +16,9 @@ namespace WebStoreAPI.Specifications.UsersRoles
 
         public override Expression<Func<UserRoles, bool>> ToExpression()
         {
-            return !_roleId.HasValue
-                ? (Expression<Func<UserRoles, bool>>)(x => true)
-                : x => x.RoleId == _roleId;
+            return _roleId.HasValue
+                ? x => x.RoleId == _roleId
+                : (Expression<Func<UserRoles, bool>>)(x => true);
         }
     }
 }
