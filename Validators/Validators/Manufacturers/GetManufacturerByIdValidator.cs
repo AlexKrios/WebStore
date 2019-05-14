@@ -1,9 +1,9 @@
-﻿using CQS.Queries.Manufacturers;
-using FluentValidation;
+﻿using FluentValidation;
+using WebStoreAPI.Requests.Manufacturers;
 
 namespace Validators.Validators.Manufacturers 
 {
-    public class GetManufacturerByIdValidator : AbstractValidator<GetManufacturerQuery>
+    public class GetManufacturerByIdValidator : AbstractValidator<GetManufacturerRequest>
     {
         public GetManufacturerByIdValidator()
         {

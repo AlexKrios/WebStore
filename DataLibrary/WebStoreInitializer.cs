@@ -55,16 +55,6 @@ namespace DataLibrary
             }
             context.SaveChanges();
 
-            if (!context.Types.Any())
-            {
-                context.Types.Add(
-                    new Entities.Type
-                    {
-                        Name = "Smart-phone"
-                    });
-            }
-            context.SaveChanges();
-
             if (!context.Roles.Any())
             {
                 context.Roles.AddRange(
@@ -73,7 +63,7 @@ namespace DataLibrary
                         Name = "Admin"
                     },
 
-                    new Role()
+                    new Role
                     {
                         Name = "User"
                     });
@@ -146,7 +136,6 @@ namespace DataLibrary
                         Description = "Bla bla bla",
                         Availability = 100,
                         Price = 1000m,
-                        TypeId = 1,
                         ManufacturerId = 1,
                         CreatedDateTime = DateTime.Now,
                         ModifiedDateTime = DateTime.Now,
@@ -159,7 +148,6 @@ namespace DataLibrary
                         Description = "Bla bla bla",
                         Availability = 200,
                         Price = 1500m,
-                        TypeId = 1,
                         ManufacturerId = 1,
                         CreatedDateTime = DateTime.Now,
                         ModifiedDateTime = DateTime.Now,
@@ -172,7 +160,6 @@ namespace DataLibrary
                         Description = "Bla bla bla",
                         Availability = 50,
                         Price = 1250.50m,
-                        TypeId = 1,
                         ManufacturerId = 1,
                         CreatedDateTime = DateTime.Now,
                         ModifiedDateTime = DateTime.Now,

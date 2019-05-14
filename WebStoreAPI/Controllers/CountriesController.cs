@@ -42,10 +42,7 @@ namespace WebStoreAPI.Controllers
             {
                 var nameSpec = new CountryNameSpecification(request.Name);
 
-                var countries = await _mediator.Send(new GetCountriesQuery
-                {
-                    Specification = nameSpec
-                });
+                var countries = await _mediator.Send(new GetCountriesQuery { Specification = nameSpec });
 
                 if (!countries.Any())
                 {

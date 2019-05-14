@@ -1,9 +1,9 @@
-﻿using CQS.Commands.Cities;
-using FluentValidation;
+﻿using FluentValidation;
+using WebStoreAPI.Requests.Cities;
 
 namespace Validators.Validators.Cities
 {
-    public class UpdateCityValidator : AbstractValidator<UpdateCityCommand>
+    public class UpdateCityValidator : AbstractValidator<UpdateCityRequest>
     {
         public UpdateCityValidator()
         {

@@ -10,7 +10,7 @@ using CQS.Queries.UsersRoles;
 using Microsoft.Extensions.Logging;
 using WebStoreAPI.Requests.UsersRoles;
 using WebStoreAPI.Response.UsersRoles;
-using WebStoreAPI.Specifications.UsersRoles;
+using WebStoreAPI.Specifications.UserRoles;
 
 namespace WebStoreAPI.Controllers
 {
@@ -45,10 +45,7 @@ namespace WebStoreAPI.Controllers
 
                 var specification = userIdSpec && roleIdSpec;
 
-                var usersRoles = await _mediator.Send(new GetUsersRolesQuery
-                {
-                    Specification = specification
-                });
+                var usersRoles = await _mediator.Send(new GetUsersRolesQuery { Specification = specification });
 
                 if (!usersRoles.Any())
                 {

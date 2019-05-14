@@ -1,9 +1,9 @@
-﻿using CQS.Commands.OrdersItems;
-using FluentValidation;
+﻿using FluentValidation;
+using WebStoreAPI.Requests.OrdersItems;
 
 namespace Validators.Validators.OrdersItems
 {
-    public class UpdateOrderItemValidator : AbstractValidator<UpdateOrderItemsCommand>
+    public class UpdateOrderItemValidator : AbstractValidator<UpdateOrderItemsRequest>
     {
         public UpdateOrderItemValidator()
         {

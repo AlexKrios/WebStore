@@ -9,7 +9,6 @@ using CQS.Commands.OrdersItems;
 using CQS.Commands.Payments;
 using CQS.Commands.Products;
 using CQS.Commands.Roles;
-using CQS.Commands.Types;
 using CQS.Commands.Users;
 using CQS.Commands.UsersRoles;
 using DataLibrary.Entities;
@@ -22,7 +21,6 @@ using WebStoreAPI.Requests.OrdersItems;
 using WebStoreAPI.Requests.Payments;
 using WebStoreAPI.Requests.Products;
 using WebStoreAPI.Requests.Roles;
-using WebStoreAPI.Requests.Types;
 using WebStoreAPI.Requests.Users;
 using WebStoreAPI.Requests.UsersRoles;
 using WebStoreAPI.Response.Cities;
@@ -34,10 +32,8 @@ using WebStoreAPI.Response.OrdersItems;
 using WebStoreAPI.Response.Payments;
 using WebStoreAPI.Response.Products;
 using WebStoreAPI.Response.Roles;
-using WebStoreAPI.Response.Types;
 using WebStoreAPI.Response.Users;
 using WebStoreAPI.Response.UsersRoles;
-using Type = DataLibrary.Entities.Type;
 
 namespace WebStoreAPI.Mapper
 {
@@ -92,8 +88,6 @@ namespace WebStoreAPI.Mapper
 
             CreateMap<CreateRoleCommand, Role>();
             CreateMap<UpdateRoleCommand, Role>();
-            CreateMap<CreateTypeCommand, Type>();
-            CreateMap<UpdateTypeCommand, Type>();
             CreateMap<CreateUserRoleCommand, UserRoles>();
             CreateMap<UpdateUserRoleCommand, UserRoles>();
 
@@ -106,7 +100,6 @@ namespace WebStoreAPI.Mapper
             CreateMap<CreatePaymentRequest, CreatePaymentResponse>();
             CreateMap<CreateProductRequest, CreateProductResponse>();
             CreateMap<CreateRoleRequest, CreateRoleResponse>();
-            CreateMap<CreateTypeRequest, CreateTypeResponse>();
             CreateMap<CreateUserRolesRequest, CreateUserRolesResponse>();
             CreateMap<CreateUserRequest, CreateUserResponse>();
         }

@@ -10,7 +10,7 @@ using CQS.Queries.OrdersItems;
 using Microsoft.Extensions.Logging;
 using WebStoreAPI.Requests.OrdersItems;
 using WebStoreAPI.Response.OrdersItems;
-using WebStoreAPI.Specifications.OrdersItems;
+using WebStoreAPI.Specifications.OrderItems;
 
 namespace WebStoreAPI.Controllers
 {
@@ -50,10 +50,7 @@ namespace WebStoreAPI.Controllers
                 var specification = 
                     minCountSpec && maxCountSpec && minPriceSpec && maxPriceSpec && productIdSpec && orderIdSpec;
 
-                var ordersItems = await _mediator.Send(new GetOrdersItemsQuery
-                {
-                    Specification = specification
-                });
+                var ordersItems = await _mediator.Send(new GetOrdersItemsQuery { Specification = specification });
 
                 if (!ordersItems.Any())
                 {

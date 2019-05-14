@@ -1,9 +1,9 @@
-﻿using CQS.Commands.Products;
-using FluentValidation;
+﻿using FluentValidation;
+using WebStoreAPI.Requests.Products;
 
 namespace Validators.Validators.Products
 {
-    public class CreateProductValidator : AbstractValidator<CreateProductCommand>
+    public class CreateProductValidator : AbstractValidator<CreateProductRequest>
     {
         public CreateProductValidator()
         {

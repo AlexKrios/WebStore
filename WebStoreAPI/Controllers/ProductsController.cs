@@ -42,16 +42,12 @@ namespace WebStoreAPI.Controllers
                 var maxAvailabilitySpec = new ProductMaxAvailabilitySpecification(request.MaxAvailability);
                 var minPriceSpec = new ProductMinPriceSpecification(request.MinPrice);
                 var maxPriceSpec = new ProductMaxPriceSpecification(request.MaxPrice);
-                var typeIdSpec = new ProductTypeIdSpecification(request.TypeId);
                 var manufacturerIdSpec = new ProductManufacturerIdSpecification(request.ManufacturerId);
 
                 var specification = nameSpec && minAvailabilitySpec && maxAvailabilitySpec &&
-                                    minPriceSpec && maxPriceSpec && typeIdSpec && manufacturerIdSpec;
+                                    minPriceSpec && maxPriceSpec && manufacturerIdSpec;
 
-                var products = await _mediator.Send(new GetProductsQuery
-                {
-                    Specification = specification
-                });
+                var products = await _mediator.Send(new GetProductsQuery { Specification = specification });
 
                 if (!products.Any())
                 {

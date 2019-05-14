@@ -1,9 +1,9 @@
-﻿using CQS.Commands.Payments;
-using FluentValidation;
+﻿using FluentValidation;
+using WebStoreAPI.Requests.Payments;
 
 namespace Validators.Validators.Payments
 {
-    public class CreatePaymentValidator : AbstractValidator<CreatePaymentCommand>
+    public class CreatePaymentValidator : AbstractValidator<CreatePaymentRequest>
     {
         public CreatePaymentValidator()
         {

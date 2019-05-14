@@ -1,9 +1,9 @@
-﻿using CQS.Queries.Products;
-using FluentValidation;
+﻿using FluentValidation;
+using WebStoreAPI.Requests.Products;
 
 namespace Validators.Validators.Products 
 {
-    public class GetProductByIdValidator : AbstractValidator<GetProductQuery>
+    public class GetProductByIdValidator : AbstractValidator<GetProductRequest>
     {
         public GetProductByIdValidator()
         {

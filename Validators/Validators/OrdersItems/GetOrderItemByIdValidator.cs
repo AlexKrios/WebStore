@@ -1,9 +1,9 @@
-﻿using CQS.Queries.OrdersItems;
-using FluentValidation;
+﻿using FluentValidation;
+using WebStoreAPI.Requests.OrdersItems;
 
 namespace Validators.Validators.OrdersItems 
 {
-    public class GetOrderItemByIdValidator : AbstractValidator<GetOrderItemsQuery>
+    public class GetOrderItemByIdValidator : AbstractValidator<GetOrderItemsRequest>
     {
         public GetOrderItemByIdValidator()
         {

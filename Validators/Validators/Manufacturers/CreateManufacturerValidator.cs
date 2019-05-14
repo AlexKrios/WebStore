@@ -1,9 +1,9 @@
-﻿using CQS.Commands.Manufacturers;
-using FluentValidation;
+﻿using FluentValidation;
+using WebStoreAPI.Requests.Manufacturers;
 
 namespace Validators.Validators.Manufacturers
 {
-    public class CreateManufacturerValidator : AbstractValidator<CreateManufacturerCommand>
+    public class CreateManufacturerValidator : AbstractValidator<CreateManufacturerRequest>
     {
         public CreateManufacturerValidator()
         {

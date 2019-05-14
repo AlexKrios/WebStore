@@ -1,9 +1,9 @@
-﻿using CQS.Queries.Roles;
-using FluentValidation;
+﻿using FluentValidation;
+using WebStoreAPI.Requests.Roles;
 
 namespace Validators.Validators.Roles 
 {
-    public class GetAllRolesByIdValidator : AbstractValidator<GetRolesQuery>
+    public class GetAllRolesByIdValidator : AbstractValidator<GetRolesRequest>
     {
         public GetAllRolesByIdValidator()
         {

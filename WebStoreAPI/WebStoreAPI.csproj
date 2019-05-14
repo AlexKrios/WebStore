@@ -12,8 +12,7 @@
 
   <ItemGroup>
     <Folder Include="Specifications\Users\" />
-    <Folder Include="Specifications\UsersRoles\" />
-    <Folder Include="Specifications\Types\" />
+    <Folder Include="Specifications\UserRoles\" />
     <Folder Include="Specifications\Roles\" />
     <Folder Include="Specifications\Products\" />
     <Folder Include="Specifications\Payments\" />
@@ -38,7 +37,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CommandAndQuerySeparation\CQS.csproj" />
+    <ProjectReference Include="..\CQS\CQS.csproj" />
     <ProjectReference Include="..\DataLibrary\DataLibrary.csproj" />
   </ItemGroup>
 

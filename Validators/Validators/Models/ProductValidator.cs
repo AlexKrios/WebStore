@@ -26,10 +26,6 @@ namespace Validators.Validators.Models
                 .GreaterThanOrEqualTo(0)
                 .WithMessage("Please specify a correct price");
 
-            RuleFor(x => x.TypeId)
-                .NotEmpty()
-                .WithMessage("Please specify a correct type id");
-
             RuleFor(x => x.ManufacturerId)
                 .NotEmpty()
                 .WithMessage("Please specify a correct manufacturer id");

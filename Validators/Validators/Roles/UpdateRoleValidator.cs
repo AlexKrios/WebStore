@@ -1,9 +1,9 @@
-﻿using CQS.Commands.Roles;
-using FluentValidation;
+﻿using FluentValidation;
+using WebStoreAPI.Requests.Roles;
 
 namespace Validators.Validators.Roles
 {
-    public class UpdateRoleValidator : AbstractValidator<UpdateRoleCommand>
+    public class UpdateRoleValidator : AbstractValidator<UpdateRoleRequest>
     {
         public UpdateRoleValidator()
         {

@@ -1,9 +1,9 @@
-﻿using CQS.Queries.Countries;
-using FluentValidation;
+﻿using FluentValidation;
+using WebStoreAPI.Requests.Countries;
 
 namespace Validators.Validators.Countries 
 {
-    public class GetCountryByIdValidator : AbstractValidator<GetCountryQuery>
+    public class GetCountryByIdValidator : AbstractValidator<GetCountryRequest>
     {
         public GetCountryByIdValidator()
         {

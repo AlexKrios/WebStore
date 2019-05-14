@@ -46,10 +46,7 @@ namespace WebStoreAPI.Controllers
 
                 var specification = nameSpec && minAgeSpec && maxAgeSpec && emailSpec && cityIdSpec;
 
-                var users = await _mediator.Send(new GetUsersQuery
-                {
-                    Specification = specification
-                });
+                var users = await _mediator.Send(new GetUsersQuery { Specification = specification });
 
                 if (!users.Any())
                 {

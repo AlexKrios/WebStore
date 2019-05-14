@@ -1,9 +1,9 @@
-﻿using CQS.Queries.Cities;
-using FluentValidation;
+﻿using FluentValidation;
+using WebStoreAPI.Requests.Cities;
 
 namespace Validators.Validators.Cities 
 {
-    public class GetCityByIdValidator : AbstractValidator<GetCityQuery>
+    public class GetCityByIdValidator : AbstractValidator<GetCityRequest>
     {
         public GetCityByIdValidator()
         {
