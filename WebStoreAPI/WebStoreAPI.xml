@@ -310,6 +310,40 @@
             <param name="id">The ID of the desired Role.</param>
             <returns>Nothing</returns>
         </member>
+        <member name="M:WebStoreAPI.Controllers.TypesController.Get(WebStoreAPI.Requests.Types.GetTypesRequest)">
+            <summary>
+            Get all Types.
+            </summary>
+            <returns>List with all Types.</returns>
+        </member>
+        <member name="M:WebStoreAPI.Controllers.TypesController.GetById(System.Int32)">
+            <summary>
+            Get Type by their ID.
+            </summary>
+            <param name="id">The ID of the desired Type.</param>
+            <returns>Info about Type with selected Id.</returns>
+        </member>
+        <member name="M:WebStoreAPI.Controllers.TypesController.Add(WebStoreAPI.Requests.Types.CreateTypeRequest)">
+            <summary>
+            Create a new Type.
+            </summary>
+            <param name="type">The body of new Type.</param>
+            <returns>Info about created Type.</returns>
+        </member>
+        <member name="M:WebStoreAPI.Controllers.TypesController.Update(WebStoreAPI.Requests.Types.UpdateTypeRequest)">
+            <summary>
+            Update existing Type.
+            </summary>
+            <param name="type">The body of new Type.</param>
+            <returns>Nothing</returns>
+        </member>
+        <member name="M:WebStoreAPI.Controllers.TypesController.Delete(System.Int32)">
+            <summary>
+            Delete existing Type.
+            </summary>
+            <param name="id">The ID of the desired Type.</param>
+            <returns>Nothing</returns>
+        </member>
         <member name="M:WebStoreAPI.Controllers.UsersController.Get(WebStoreAPI.Requests.Users.GetUsersRequest)">
             <summary>
             Get all Users.
