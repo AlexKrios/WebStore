@@ -4,7 +4,7 @@ using LinqSpecs;
 
 namespace WebStoreAPI.Specifications.OrderItems
 {
-    public class OrderItemsProductIdSpecification : Specification<DataLibrary.Entities.OrderItems>
+    public class OrderItemsProductIdSpecification : Specification<DataLibrary.Entities.OrderItem>
     {
         private readonly int? _productId;
 
@@ -13,11 +13,11 @@ namespace WebStoreAPI.Specifications.OrderItems
             _productId = productId;
         }
 
-        public override Expression<Func<DataLibrary.Entities.OrderItems, bool>> ToExpression()
+        public override Expression<Func<DataLibrary.Entities.OrderItem, bool>> ToExpression()
         {
             return _productId.HasValue 
                 ? x => x.ProductId == _productId
-                : (Expression<Func<DataLibrary.Entities.OrderItems, bool>>)(x => true);
+                : (Expression<Func<DataLibrary.Entities.OrderItem, bool>>)(x => true);
         }
     }
 }

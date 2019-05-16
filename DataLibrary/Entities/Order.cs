@@ -29,6 +29,6 @@ namespace DataLibrary.Entities
         public virtual User User { get; set; }       
         public virtual Delivery Delivery { get; set; }
         public virtual Payment Payment { get; set; }
-        public virtual ICollection<OrderItems> OrderItems { get; set; }
+        public virtual ICollection<OrderItem> OrderItems { get; set; }
     }
 }

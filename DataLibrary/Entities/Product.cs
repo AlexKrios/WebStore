@@ -32,7 +32,7 @@ namespace DataLibrary.Entities
 
         public virtual Manufacturer Manufacturer { get; set; }
         public virtual User User { get; set; }
-        public virtual ICollection<OrderItems> OrderItems { get; set; }
+        public virtual ICollection<OrderItem> OrderItems { get; set; }
 
     }
 }

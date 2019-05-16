@@ -4,7 +4,7 @@ using LinqSpecs;
 
 namespace WebStoreAPI.Specifications.UserRoles
 {
-    public class UserRolesUserIdSpecification : Specification<DataLibrary.Entities.UserRoles>
+    public class UserRolesUserIdSpecification : Specification<DataLibrary.Entities.UserRole>
     {
         private readonly int? _userId;
 
@@ -13,11 +13,11 @@ namespace WebStoreAPI.Specifications.UserRoles
             _userId = userId;
         }
 
-        public override Expression<Func<DataLibrary.Entities.UserRoles, bool>> ToExpression()
+        public override Expression<Func<DataLibrary.Entities.UserRole, bool>> ToExpression()
         {
             return _userId.HasValue
                 ? x => x.UserId == _userId
-                : (Expression<Func<DataLibrary.Entities.UserRoles, bool>>)(x => true);
+                : (Expression<Func<DataLibrary.Entities.UserRole, bool>>)(x => true);
         }
     }
 }

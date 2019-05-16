@@ -116,10 +116,10 @@ namespace DataLibrary
             }
             context.SaveChanges();
 
-            if (!context.UsersRoles.Any())
+            if (!context.UserRoles.Any())
             {
-                context.UsersRoles.Add(
-                    new UserRoles
+                context.UserRoles.Add(
+                    new UserRole
                     {
                         UserId = 1,
                         RoleId = 1
@@ -185,10 +185,10 @@ namespace DataLibrary
             }
             context.SaveChanges();
 
-            if (!context.OrdersItems.Any())
+            if (!context.OrderItems.Any())
             {
-                context.OrdersItems.Add(
-                    new OrderItems
+                context.OrderItems.Add(
+                    new OrderItem
                     {
                         Count = 3,
                         Price = 1500,

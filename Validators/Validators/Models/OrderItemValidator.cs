@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace Validators.Validators.Models
 {
-    public class OrderItemValidator : AbstractValidator<DataLibrary.Entities.OrderItems>
+    public class OrderItemValidator : AbstractValidator<OrderItem>
     {
         public OrderItemValidator()
         {

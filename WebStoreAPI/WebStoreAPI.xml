@@ -140,6 +140,40 @@
             <param name="id">The ID of the desired Manufacturer.</param>
             <returns>Nothing</returns>
         </member>
+        <member name="M:WebStoreAPI.Controllers.OrderItemsController.Get(WebStoreAPI.Requests.OrderItems.GetOrdersItemsRequest)">
+            <summary>
+            Get all OrderItem.
+            </summary>
+            <returns>List with all OrderItem.</returns>
+        </member>
+        <member name="M:WebStoreAPI.Controllers.OrderItemsController.GetById(System.Int32)">
+            <summary>
+            Get OrderItem by their ID.
+            </summary>
+            <param name="id">The ID of the desired OrderItem.</param>
+            <returns>Info about OrderItem with selected Id.</returns>
+        </member>
+        <member name="M:WebStoreAPI.Controllers.OrderItemsController.Add(WebStoreAPI.Requests.OrderItems.CreateOrderItemsRequest)">
+            <summary>
+            Create a new OrderItem.
+            </summary>
+            <param name="orderItem">The body of new OrderItem.</param>
+            <returns>Info about created OrderItem.</returns>
+        </member>
+        <member name="M:WebStoreAPI.Controllers.OrderItemsController.Update(WebStoreAPI.Requests.OrderItems.UpdateOrderItemsRequest)">
+            <summary>
+            Update existing OrderItem.
+            </summary>
+            <param name="orderItem">The body of new OrderItem.</param>
+            <returns>Nothing</returns>
+        </member>
+        <member name="M:WebStoreAPI.Controllers.OrderItemsController.Delete(System.Int32)">
+            <summary>
+            Delete existing OrderItem.
+            </summary>
+            <param name="id">The ID of the desired OrderItem.</param>
+            <returns>Nothing</returns>
+        </member>
         <member name="M:WebStoreAPI.Controllers.OrdersController.Get(WebStoreAPI.Requests.Orders.GetOrdersRequest)">
             <summary>
             Get all Orders.
@@ -172,40 +206,6 @@
             Delete existing Order.
             </summary>
             <param name="id">The ID of the desired Order.</param>
-            <returns>Nothing</returns>
-        </member>
-        <member name="M:WebStoreAPI.Controllers.OrdersItemsController.Get(WebStoreAPI.Requests.OrdersItems.GetOrdersItemsRequest)">
-            <summary>
-            Get all OrdersItems.
-            </summary>
-            <returns>List with all OrdersItems.</returns>
-        </member>
-        <member name="M:WebStoreAPI.Controllers.OrdersItemsController.GetById(System.Int32)">
-            <summary>
-            Get OrdersItems by their ID.
-            </summary>
-            <param name="id">The ID of the desired OrdersItems.</param>
-            <returns>Info about OrdersItems with selected Id.</returns>
-        </member>
-        <member name="M:WebStoreAPI.Controllers.OrdersItemsController.Add(WebStoreAPI.Requests.OrdersItems.CreateOrderItemsRequest)">
-            <summary>
-            Create a new OrdersItems.
-            </summary>
-            <param name="orderItem">The body of new OrdersItems.</param>
-            <returns>Info about created OrdersItems.</returns>
-        </member>
-        <member name="M:WebStoreAPI.Controllers.OrdersItemsController.Update(WebStoreAPI.Requests.OrdersItems.UpdateOrderItemsRequest)">
-            <summary>
-            Update existing OrdersItems.
-            </summary>
-            <param name="orderItem">The body of new OrdersItems.</param>
-            <returns>Nothing</returns>
-        </member>
-        <member name="M:WebStoreAPI.Controllers.OrdersItemsController.Delete(System.Int32)">
-            <summary>
-            Delete existing OrdersItems.
-            </summary>
-            <param name="id">The ID of the desired OrdersItems.</param>
             <returns>Nothing</returns>
         </member>
         <member name="M:WebStoreAPI.Controllers.PaymentsController.Get(WebStoreAPI.Requests.Payments.GetPaymentsRequest)">
@@ -310,38 +310,38 @@
             <param name="id">The ID of the desired Role.</param>
             <returns>Nothing</returns>
         </member>
-        <member name="M:WebStoreAPI.Controllers.TypesController.Get(WebStoreAPI.Requests.Types.GetTypesRequest)">
+        <member name="M:WebStoreAPI.Controllers.UserRolesController.Get(WebStoreAPI.Requests.UserRoles.GetUsersRolesRequest)">
             <summary>
-            Get all Types.
+            Get all UserRole.
             </summary>
-            <returns>List with all Types.</returns>
+            <returns>List with all UserRole.</returns>
         </member>
-        <member name="M:WebStoreAPI.Controllers.TypesController.GetById(System.Int32)">
+        <member name="M:WebStoreAPI.Controllers.UserRolesController.GetById(System.Int32)">
             <summary>
-            Get Type by their ID.
+            Get UserRole by their ID.
             </summary>
-            <param name="id">The ID of the desired Type.</param>
-            <returns>Info about Type with selected Id.</returns>
+            <param name="id">The ID of the desired UserRole.</param>
+            <returns>Info about UserRole with selected Id.</returns>
         </member>
-        <member name="M:WebStoreAPI.Controllers.TypesController.Add(WebStoreAPI.Requests.Types.CreateTypeRequest)">
+        <member name="M:WebStoreAPI.Controllers.UserRolesController.Add(WebStoreAPI.Requests.UserRoles.CreateUserRolesRequest)">
             <summary>
-            Create a new Type.
+            Create a new UserRole.
             </summary>
-            <param name="type">The body of new Type.</param>
-            <returns>Info about created Type.</returns>
+            <param name="userRole">The body of new UserRole.</param>
+            <returns>Info about created UserRole.</returns>
         </member>
-        <member name="M:WebStoreAPI.Controllers.TypesController.Update(WebStoreAPI.Requests.Types.UpdateTypeRequest)">
+        <member name="M:WebStoreAPI.Controllers.UserRolesController.Update(WebStoreAPI.Requests.UserRoles.UpdateUserRolesRequest)">
             <summary>
-            Update existing Type.
+            Update existing UserRole.
             </summary>
-            <param name="type">The body of new Type.</param>
+            <param name="userRole">The body of new UserRole.</param>
             <returns>Nothing</returns>
         </member>
-        <member name="M:WebStoreAPI.Controllers.TypesController.Delete(System.Int32)">
+        <member name="M:WebStoreAPI.Controllers.UserRolesController.Delete(System.Int32)">
             <summary>
-            Delete existing Type.
+            Delete existing UserRole.
             </summary>
-            <param name="id">The ID of the desired Type.</param>
+            <param name="id">The ID of the desired UserRole.</param>
             <returns>Nothing</returns>
         </member>
         <member name="M:WebStoreAPI.Controllers.UsersController.Get(WebStoreAPI.Requests.Users.GetUsersRequest)">
@@ -376,40 +376,6 @@
             Delete existing User.
             </summary>
             <param name="id">The ID of the desired User.</param>
-            <returns>Nothing</returns>
-        </member>
-        <member name="M:WebStoreAPI.Controllers.UsersRolesController.Get(WebStoreAPI.Requests.UsersRoles.GetUsersRolesRequest)">
-            <summary>
-            Get all UsersRoles.
-            </summary>
-            <returns>List with all UsersRoles.</returns>
-        </member>
-        <member name="M:WebStoreAPI.Controllers.UsersRolesController.GetById(System.Int32)">
-            <summary>
-            Get UsersRoles by their ID.
-            </summary>
-            <param name="id">The ID of the desired UsersRoles.</param>
-            <returns>Info about UsersRoles with selected Id.</returns>
-        </member>
-        <member name="M:WebStoreAPI.Controllers.UsersRolesController.Add(WebStoreAPI.Requests.UsersRoles.CreateUserRolesRequest)">
-            <summary>
-            Create a new UsersRoles.
-            </summary>
-            <param name="userRole">The body of new UsersRoles.</param>
-            <returns>Info about created UsersRoles.</returns>
-        </member>
-        <member name="M:WebStoreAPI.Controllers.UsersRolesController.Update(WebStoreAPI.Requests.UsersRoles.UpdateUserRolesRequest)">
-            <summary>
-            Update existing UsersRoles.
-            </summary>
-            <param name="userRole">The body of new UsersRoles.</param>
-            <returns>Nothing</returns>
-        </member>
-        <member name="M:WebStoreAPI.Controllers.UsersRolesController.Delete(System.Int32)">
-            <summary>
-            Delete existing UsersRoles.
-            </summary>
-            <param name="id">The ID of the desired UsersRoles.</param>
             <returns>Nothing</returns>
         </member>
     </members>

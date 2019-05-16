@@ -142,7 +142,7 @@ namespace WebStoreAPI.Migrations
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("DataLibrary.Entities.OrderItems", b =>
+            modelBuilder.Entity("DataLibrary.Entities.OrderItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -162,7 +162,7 @@ namespace WebStoreAPI.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("OrdersItems");
+                    b.ToTable("OrderItems");
                 });
 
             modelBuilder.Entity("DataLibrary.Entities.Payment", b =>
@@ -275,7 +275,7 @@ namespace WebStoreAPI.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("DataLibrary.Entities.UserRoles", b =>
+            modelBuilder.Entity("DataLibrary.Entities.UserRole", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -291,7 +291,7 @@ namespace WebStoreAPI.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UsersRoles");
+                    b.ToTable("UserRoles");
                 });
 
             modelBuilder.Entity("DataLibrary.Entities.City", b =>
@@ -335,7 +335,7 @@ namespace WebStoreAPI.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
-            modelBuilder.Entity("DataLibrary.Entities.OrderItems", b =>
+            modelBuilder.Entity("DataLibrary.Entities.OrderItem", b =>
                 {
                     b.HasOne("DataLibrary.Entities.Order", "Order")
                         .WithMany("OrderItems")
@@ -377,7 +377,7 @@ namespace WebStoreAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("DataLibrary.Entities.UserRoles", b =>
+            modelBuilder.Entity("DataLibrary.Entities.UserRole", b =>
                 {
                     b.HasOne("DataLibrary.Entities.Role", "Role")
                         .WithMany("UserRoles")

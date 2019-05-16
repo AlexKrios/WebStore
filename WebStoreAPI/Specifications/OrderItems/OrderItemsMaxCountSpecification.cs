@@ -4,7 +4,7 @@ using LinqSpecs;
 
 namespace WebStoreAPI.Specifications.OrderItems
 {
-    public class OrderItemsMaxCountSpecification : Specification<DataLibrary.Entities.OrderItems>
+    public class OrderItemsMaxCountSpecification : Specification<DataLibrary.Entities.OrderItem>
     {
         private readonly int? _count;
 
@@ -13,11 +13,11 @@ namespace WebStoreAPI.Specifications.OrderItems
             _count = count;
         }
 
-        public override Expression<Func<DataLibrary.Entities.OrderItems, bool>> ToExpression()
+        public override Expression<Func<DataLibrary.Entities.OrderItem, bool>> ToExpression()
         {
             return _count.HasValue 
                 ? x => x.Count <= _count
-                : (Expression<Func<DataLibrary.Entities.OrderItems, bool>>)(x => true);
+                : (Expression<Func<DataLibrary.Entities.OrderItem, bool>>)(x => true);
         }
     }
 }
