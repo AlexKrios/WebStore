@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace WebStoreAPI.Migrations
 {
     [DbContext(typeof(WebStoreContext))]
-    [Migration("20190516105132_Initial")]
+    [Migration("20190517093925_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -262,6 +262,9 @@ namespace WebStoreAPI.Migrations
                         .IsRequired();
 
                     b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.Property<string>("Password")
                         .IsRequired();
 
                     b.Property<DateTime>("RegistrationTime")

@@ -2,12 +2,14 @@
 using DataLibrary;
 using FluentValidation.AspNetCore;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using SimpleInjector;
 using SimpleInjector.Lifestyles;
@@ -30,30 +32,38 @@ namespace WebStoreAPI
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors(options =>
-            {
-                options.AddPolicy("AllowAllOrigins", policy =>
-                {
-                    policy.WithOrigins("http://localhost:3000")
-                        .AllowAnyHeader()
-                        .AllowAnyMethod();
-                });
-            });
+            AuthConfiguration(services, Configuration);
+            ValidationConfiguration(services);
+            services.AddMediatR();
+            MapperConfiguration(services);
+            SimpleInjectorConfiguration(services);
+            SwaggerConfiguration(services);
+            ContextConfiguration(services, Configuration);
+        }
 
+        private static void AuthConfiguration(IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(o =>
+            {
+                o.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    //ValidAudience = configuration["Jwt:Audience"],
+                    //ValidIssuer = configuration["Jwt:Issuer"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]))
+                };
+            });
+        }
+
+        private static void ValidationConfiguration(IServiceCollection services)
+        {
             services.AddMvc().AddFluentValidation(options =>
             {
                 options.RegisterValidatorsFromAssemblyContaining<Startup>();
             });
-            services.AddMediatR();
-
-            MapperConfiguration(services);
-            SimpleInjectorConfiguration(services);
-            SwaggerConfiguration(services);
-
-            services.AddDbContext<WebStoreContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString(
-                        "DefaultConnection"),
-                    b => b.MigrationsAssembly("WebStoreAPI")));
         }
 
         private void MapperConfiguration(IServiceCollection services)
@@ -83,6 +93,14 @@ namespace WebStoreAPI
             });
         }
 
+        private static void ContextConfiguration(IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddDbContext<WebStoreContext>(options =>
+                options.UseSqlServer(configuration.GetConnectionString(
+                        "DefaultConnection"),
+                    b => b.MigrationsAssembly("WebStoreAPI")));
+        }
+
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, WebStoreContext context, ILoggerFactory loggerFactory)
         {
             _container.RegisterMvcControllers(app);
@@ -101,6 +119,7 @@ namespace WebStoreAPI
             }
             app.UseCors("AllowAllOrigins");
             app.UseHttpsRedirection();
+            app.UseAuthentication();
             app.UseMvc();
 
             app.UseSwagger();

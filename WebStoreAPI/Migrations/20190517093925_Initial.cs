@@ -61,6 +61,7 @@ namespace WebStoreAPI.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: false),
+                    Password = table.Column<string>(nullable: false),
                     Age = table.Column<int>(nullable: false),
                     Email = table.Column<string>(nullable: false),
                     TelephoneNumber = table.Column<string>(nullable: false),

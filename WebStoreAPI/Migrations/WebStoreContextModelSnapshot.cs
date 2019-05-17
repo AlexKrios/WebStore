@@ -262,6 +262,9 @@ namespace WebStoreAPI.Migrations
                     b.Property<string>("Name")
                         .IsRequired();
 
+                    b.Property<string>("Password")
+                        .IsRequired();
+
                     b.Property<DateTime>("RegistrationTime")
                         .HasColumnType("datetime2");
 

@@ -75,6 +75,7 @@ namespace DataLibrary
                 context.Users.Add(new User
                 {
                     Name = "Alex Krios",
+                    Password = "pass",
                     Age = 23,
                     Email = "Test@gmail.com",
                     TelephoneNumber = "+375298807848",
