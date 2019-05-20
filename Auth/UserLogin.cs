@@ -1,7 +1,7 @@
 ﻿using DataLibrary;
 using Microsoft.EntityFrameworkCore;
 
-namespace WebStoreAPI
+namespace Auth
 {
     public class UserLogin
     {

@@ -25,6 +25,7 @@ namespace WebStoreAPI
         private readonly Container _container = new Container();
         public Startup(IConfiguration configuration)
         {
+            LoggerConfiguration(configuration);
             Configuration = configuration;
         }
 
@@ -39,6 +40,13 @@ namespace WebStoreAPI
             SimpleInjectorConfiguration(services);
             SwaggerConfiguration(services);
             ContextConfiguration(services, Configuration);
+        }
+
+        private static void LoggerConfiguration(IConfiguration configuration)
+        {
+            Log.Logger = new LoggerConfiguration()
+                .ReadFrom.Configuration(configuration)
+                .CreateLogger();
         }
 
         private static void AuthConfiguration(IServiceCollection services, IConfiguration configuration)
