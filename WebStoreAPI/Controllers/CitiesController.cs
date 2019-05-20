@@ -7,32 +7,38 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CQS.Commands.Cities;
 using CQS.Queries.Cities;
-using Microsoft.Extensions.Logging;
 using WebStoreAPI.Requests.Cities;
 using WebStoreAPI.Response.Cities;
 using WebStoreAPI.Specifications.Cities;
 
 namespace WebStoreAPI.Controllers
 {
+    /// <summary>
+    /// Cities controller
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class CitiesController : Controller
     {
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
-        private readonly ILogger<CitiesController> _logger;
 
-        public CitiesController(IMediator mediator, IMapper mapper, ILogger<CitiesController> logger)
+        public CitiesController(IMediator mediator, IMapper mapper)
         {
             _mediator = mediator;
             _mapper = mapper;
-            _logger = logger;
         }
 
         /// <summary>
-        /// Get all Cities.
+        /// Get all Cities
         /// </summary>
-        /// <returns>List with all Cities.</returns>
+        /// <returns>List with all Cities</returns>
+        /// <responce code="200">Get Cities by filter</responce>
+        /// <responce code="204">No content</responce>
+        /// <responce code="400">Bad request</responce>
+        /// <responce code="401">Unauthorized</responce>
+        /// <responce code="404">Cities not found</responce>
+        /// <responce code="500">Internal error</responce>
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<GetCitiesResponse>))]
         [ProducesResponseType(500, Type = typeof(string))]
@@ -49,25 +55,28 @@ namespace WebStoreAPI.Controllers
 
                 if (!cities.Any())
                 {
-                    _logger.LogError("GET CITIES - Not found");
                     return NotFound();
                 }
 
-                _logger.LogInformation("GET CITIES - Complete");
                 return Ok(_mapper.Map<IEnumerable<GetCitiesResponse>>(cities));
             }
             catch (Exception e)
             {
-                _logger.LogError(@"GET CITIES - {0}", e);
                 return StatusCode(500, new {errorMessage = e.Message});
             }
         }
 
         /// <summary>
-        /// Get City by their ID.
+        /// Get City by their ID
         /// </summary>
-        /// <param name="id">The ID of the desired City.</param>
-        /// <returns>Info about City with selected Id.</returns>
+        /// <param name="id">The ID of the desired City</param>
+        /// <returns>Info about City with selected Id</returns>
+        /// <responce code="200">Get City by Id</responce>
+        /// <responce code="204">No content</responce>
+        /// <responce code="400">Bad request</responce>
+        /// <responce code="401">Unauthorized</responce>
+        /// <responce code="404">City not found</responce>
+        /// <responce code="500">Internal error</responce>
         [HttpGet("{id}")]
         [ProducesResponseType(200, Type = typeof(GetCityResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
@@ -79,25 +88,26 @@ namespace WebStoreAPI.Controllers
 
                 if (city == null)
                 {
-                    _logger.LogError("Not found city object by id in GET request");
                     return NotFound();
                 }
 
-                _logger.LogInformation("Complete, get city by id");
                 return Ok(_mapper.Map<GetCityResponse>(city));
             }
             catch (Exception e)
             {
-                _logger.LogError("Unknown exception in GET city by id request");
                 return StatusCode(500, new {errorMessage = e.Message});
             }
         }
 
         /// <summary>
-        /// Create a new City.
+        /// Create a new City
         /// </summary>
-        /// <param name="city">The body of new City.</param>
-        /// <returns>Info about created City.</returns>
+        /// <param name="city">The body of new City</param>
+        /// <returns>Info about created City</returns>
+        /// <responce code="200">Create City</responce>
+        /// <responce code="400">Bad request</responce>
+        /// <responce code="401">Unauthorized</responce>
+        /// <responce code="500">Internal error</responce>
         [HttpPost]
         [ProducesResponseType(200, Type = typeof(CreateCityResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
@@ -105,28 +115,30 @@ namespace WebStoreAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogError("City model is not valid in POST request");
                 return BadRequest(ModelState);
             }
 
             try
             {
                 var citySend = await _mediator.Send(_mapper.Map<CreateCityCommand>(city));
-                _logger.LogInformation("Complete, create new city with id: " + citySend.Id);
                 return Created($"api/cities/{citySend.Id}", _mapper.Map<CreateCityResponse>(citySend));
             }
             catch (Exception e)
             {
-                _logger.LogError("Unknown exception in POST city request");
                 return StatusCode(500, new {errorMessage = e.Message});
             }
         }
 
         /// <summary>
-        /// Update existing City.
+        /// Update existing City
         /// </summary>
-        /// <param name="city">The body of new City.</param>
+        /// <param name="city">The body of new City</param>
         /// <returns>Nothing</returns>
+        /// <responce code="200">Update City</responce>
+        /// <responce code="400">Bad request</responce>
+        /// <responce code="401">Unauthorized</responce>
+        /// <responce code="404">City not found</responce>
+        /// <responce code="500">Internal error</responce>
         [HttpPut]
         [ProducesResponseType(200, Type = typeof(UpdateCityResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
@@ -134,7 +146,6 @@ namespace WebStoreAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogError("City model is not valid in UPDATE request");
                 return BadRequest(ModelState);
             }
 
@@ -143,25 +154,27 @@ namespace WebStoreAPI.Controllers
                 var citySend = await _mediator.Send(_mapper.Map<UpdateCityCommand>(city));
                 if (citySend == null)
                 {
-                    _logger.LogError("Not found city object by id in UPDATE request");
                     return NotFound();
                 }
 
-                _logger.LogInformation("Complete, update city with id: " + citySend.Id);
                 return Ok();
             }
             catch (Exception e)
             {
-                _logger.LogError("Unknown exception in UPDATE city request");
                 return StatusCode(500, new {errorMessage = e.Message});
             }
         }
 
         /// <summary>
-        /// Delete existing City.
+        /// Delete existing City
         /// </summary>
-        /// <param name="id">The ID of the desired City.</param>
+        /// <param name="id">The ID of the desired City</param>
         /// <returns>Nothing</returns>
+        /// <responce code="200">Delete City</responce>
+        /// <responce code="400">Bad request</responce>
+        /// <responce code="401">Unauthorized</responce>
+        /// <responce code="404">City not found</responce>
+        /// <responce code="500">Internal error</responce>
         [HttpDelete("{id}")]
         [ProducesResponseType(200, Type = typeof(DeleteCityResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
@@ -172,16 +185,13 @@ namespace WebStoreAPI.Controllers
                 var citySend = await _mediator.Send(new DeleteCityCommand {Id = id});
                 if (citySend == null)
                 {
-                    _logger.LogError("Not found city object by id in DELETE request");
                     return NotFound();
                 }
 
-                _logger.LogInformation("Complete, delete city with id: " + citySend.Id);
                 return Ok();
             }
             catch (Exception e)
             {
-                _logger.LogError("Unknown exception id DELETE city request");
                 return StatusCode(500, new {errorMessage = e.Message});
             }
         }

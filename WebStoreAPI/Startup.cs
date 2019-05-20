@@ -24,7 +24,6 @@ namespace WebStoreAPI
 
         public Startup(IConfiguration configuration)
         {
-            Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(configuration).CreateLogger();
             Configuration = configuration;
         }
 

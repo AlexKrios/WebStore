@@ -13,6 +13,9 @@ using WebStoreAPI.Specifications.Manufacturers;
 
 namespace WebStoreAPI.Controllers
 {
+    /// <summary>
+    /// Manufacturers controller
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class ManufacturersController : Controller
@@ -27,9 +30,15 @@ namespace WebStoreAPI.Controllers
         }
 
         /// <summary>
-        /// Get all Manufacturers.
+        /// Get all Manufacturers
         /// </summary>
-        /// <returns>List with all Manufacturers.</returns>
+        /// <returns>List with all Manufacturers</returns>
+        /// <responce code="200">Get Manufacturers by filter</responce>
+        /// <responce code="204">No content</responce>
+        /// <responce code="400">Bad request</responce>
+        /// <responce code="401">Unauthorized</responce>
+        /// <responce code="404">Manufacturers not found</responce>
+        /// <responce code="500">Internal error</responce>
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<GetManufacturersResponse>))]
         [ProducesResponseType(500, Type = typeof(string))]
@@ -59,10 +68,16 @@ namespace WebStoreAPI.Controllers
         }
 
         /// <summary>
-        /// Get Manufacturer by their ID.
+        /// Get Manufacturer by their ID
         /// </summary>
-        /// <param name="id">The ID of the desired Manufacturer.</param>
-        /// <returns>Info about Manufacturer with selected Id.</returns>
+        /// <param name="id">The ID of the desired Manufacturer</param>
+        /// <returns>Info about Manufacturer with selected Id</returns>
+        /// <responce code="200">Get Manufacturer by Id</responce>
+        /// <responce code="204">No content</responce>
+        /// <responce code="400">Bad request</responce>
+        /// <responce code="401">Unauthorized</responce>
+        /// <responce code="404">Manufacturer not found</responce>
+        /// <responce code="500">Internal error</responce>
         [HttpGet("{id}")]
         [ProducesResponseType(200, Type = typeof(GetManufacturerResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
@@ -86,10 +101,14 @@ namespace WebStoreAPI.Controllers
         }
 
         /// <summary>
-        /// Create a new Manufacturer.
+        /// Create a new Manufacturer
         /// </summary>
-        /// <param name="manufacturer">The body of new Manufacturer.</param>
-        /// <returns>Info about created Manufacturer.</returns>
+        /// <param name="manufacturer">The body of new Manufacturer</param>
+        /// <returns>Info about created Manufacturer</returns>
+        /// <responce code="200">Create Manufacturer</responce>
+        /// <responce code="400">Bad request</responce>
+        /// <responce code="401">Unauthorized</responce>
+        /// <responce code="500">Internal error</responce>
         [HttpPost]
         [ProducesResponseType(200, Type = typeof(CreateManufacturerResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
@@ -112,10 +131,15 @@ namespace WebStoreAPI.Controllers
         }
 
         /// <summary>
-        /// Update existing Manufacturer.
+        /// Update existing Manufacturer
         /// </summary>
-        /// <param name="manufacturer">The body of new Manufacturer.</param>
+        /// <param name="manufacturer">The body of new Manufacturer</param>
         /// <returns>Nothing</returns>
+        /// <responce code="200">Update Manufacturer</responce>
+        /// <responce code="400">Bad request</responce>
+        /// <responce code="401">Unauthorized</responce>
+        /// <responce code="404">Manufacturer not found</responce>
+        /// <responce code="500">Internal error</responce>
         [HttpPut]
         [ProducesResponseType(200, Type = typeof(UpdateManufacturerResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
@@ -143,10 +167,15 @@ namespace WebStoreAPI.Controllers
         }
 
         /// <summary>
-        /// Delete existing Manufacturer.
+        /// Delete existing Manufacturer
         /// </summary>
-        /// <param name="id">The ID of the desired Manufacturer.</param>
+        /// <param name="id">The ID of the desired Manufacturer</param>
         /// <returns>Nothing</returns>
+        /// <responce code="200">Delete Manufacturer</responce>
+        /// <responce code="400">Bad request</responce>
+        /// <responce code="401">Unauthorized</responce>
+        /// <responce code="404">Manufacturer not found</responce>
+        /// <responce code="500">Internal error</responce>
         [HttpDelete("{id}")]
         [ProducesResponseType(200, Type = typeof(DeleteManufacturerResponse))]
         [ProducesResponseType(500, Type = typeof(string))]

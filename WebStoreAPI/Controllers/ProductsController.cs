@@ -13,6 +13,9 @@ using WebStoreAPI.Specifications.Products;
 
 namespace WebStoreAPI.Controllers
 {
+    /// <summary>
+    /// Products controller
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class ProductsController : Controller
@@ -27,9 +30,15 @@ namespace WebStoreAPI.Controllers
         }
 
         /// <summary>
-        /// Get all Products.
+        /// Get all Products
         /// </summary>
-        /// <returns>List with all Products.</returns>
+        /// <returns>List with all Products</returns>
+        /// <responce code="200">Get Products by filter</responce>
+        /// <responce code="204">No content</responce>
+        /// <responce code="400">Bad request</responce>
+        /// <responce code="401">Unauthorized</responce>
+        /// <responce code="404">Products not found</responce>
+        /// <responce code="500">Internal error</responce>
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<GetProductsResponse>))]
         [ProducesResponseType(500, Type = typeof(string))]
@@ -63,10 +72,16 @@ namespace WebStoreAPI.Controllers
         }
 
         /// <summary>
-        /// Get Product by their ID.
+        /// Get Product by their ID
         /// </summary>
-        /// <param name="id">The ID of the desired Product.</param>
-        /// <returns>Info about Product with selected Id.</returns>
+        /// <param name="id">The ID of the desired Product</param>
+        /// <returns>Info about Product with selected Id</returns>
+        /// <responce code="200">Get Product by Id</responce>
+        /// <responce code="204">No content</responce>
+        /// <responce code="400">Bad request</responce>
+        /// <responce code="401">Unauthorized</responce>
+        /// <responce code="404">Product not found</responce>
+        /// <responce code="500">Internal error</responce>
         [HttpGet("{id}")]
         [ProducesResponseType(200, Type = typeof(GetProductResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
@@ -90,10 +105,14 @@ namespace WebStoreAPI.Controllers
         }
 
         /// <summary>
-        /// Create a new Product.
+        /// Create a new Product
         /// </summary>
-        /// <param name="product">The body of new Product.</param>
-        /// <returns>Info about created Product.</returns>
+        /// <param name="product">The body of new Product</param>
+        /// <returns>Info about created Product</returns>
+        /// <responce code="200">Create Product</responce>
+        /// <responce code="400">Bad request</responce>
+        /// <responce code="401">Unauthorized</responce>
+        /// <responce code="500">Internal error</responce>
         [HttpPost]
         [ProducesResponseType(200, Type = typeof(CreateProductResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
@@ -116,10 +135,15 @@ namespace WebStoreAPI.Controllers
         }
 
         /// <summary>
-        /// Update existing Product.
+        /// Update existing Product
         /// </summary>
-        /// <param name="product">The body of new Product.</param>
+        /// <param name="product">The body of new Product</param>
         /// <returns>Nothing</returns>
+        /// <responce code="200">Update Product</responce>
+        /// <responce code="400">Bad request</responce>
+        /// <responce code="401">Unauthorized</responce>
+        /// <responce code="404">Product not found</responce>
+        /// <responce code="500">Internal error</responce>
         [HttpPut]
         [ProducesResponseType(200, Type = typeof(UpdateProductResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
@@ -147,10 +171,15 @@ namespace WebStoreAPI.Controllers
         }
 
         /// <summary>
-        /// Delete existing Product.
+        /// Delete existing Product
         /// </summary>
-        /// <param name="id">The ID of the desired Product.</param>
+        /// <param name="id">The ID of the desired Product</param>
         /// <returns>Nothing</returns>
+        /// <responce code="200">Delete Product</responce>
+        /// <responce code="400">Bad request</responce>
+        /// <responce code="401">Unauthorized</responce>
+        /// <responce code="404">Product not found</responce>
+        /// <responce code="500">Internal error</responce>
         [HttpDelete("{id}")]
         [ProducesResponseType(200, Type = typeof(DeleteProductResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
