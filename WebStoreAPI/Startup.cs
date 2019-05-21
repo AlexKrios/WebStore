@@ -21,7 +21,6 @@ namespace WebStoreAPI
     public class Startup
     {
         private readonly Container _container = new Container();
-
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
