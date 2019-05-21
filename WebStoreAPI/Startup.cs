@@ -20,7 +20,7 @@ namespace WebStoreAPI
 {
     public class Startup
     {
-        private static readonly Container Container = new Container();
+        private readonly Container _container = new Container();
 
         public Startup(IConfiguration configuration)
         {
@@ -48,7 +48,7 @@ namespace WebStoreAPI
                     b => b.MigrationsAssembly("WebStoreAPI")));
         }
 
-        private static void MapperConfiguration(IServiceCollection services)
+        private void MapperConfiguration(IServiceCollection services)
         {
             services.AddAutoMapper();
 
@@ -58,13 +58,13 @@ namespace WebStoreAPI
             services.AddSingleton(mapper);
         }
 
-        private static void SimpleInjectorConfiguration(IServiceCollection services)
+        private void SimpleInjectorConfiguration(IServiceCollection services)
         {
-            Container.Options.DefaultScopedLifestyle = new AsyncScopedLifestyle();
-            services.EnableSimpleInjectorCrossWiring(Container);
+            _container.Options.DefaultScopedLifestyle = new AsyncScopedLifestyle();
+            services.EnableSimpleInjectorCrossWiring(_container);
         }
 
-        private static void SwaggerConfiguration(IServiceCollection services)
+        private void SwaggerConfiguration(IServiceCollection services)
         {
             services.AddSwaggerGen(c =>
             {
@@ -77,9 +77,9 @@ namespace WebStoreAPI
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, WebStoreContext context, ILoggerFactory loggerFactory)
         {
-            Container.RegisterMvcControllers(app);
-            Container.AutoCrossWireAspNetComponents(app);
-            Container.Verify();
+            _container.RegisterMvcControllers(app);
+            _container.AutoCrossWireAspNetComponents(app);
+            _container.Verify();
 
             loggerFactory.AddSerilog();
 
