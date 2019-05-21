@@ -4,15 +4,15 @@
         <name>WebStoreAPI</name>
     </assembly>
     <members>
-        <member name="M:WebStoreAPI.Controllers.CitiesController.GetAll">
+        <member name="M:WebStoreAPI.Controllers.CitiesController.Get(WebStoreAPI.Requests.Cities.GetCitiesRequest)">
             <summary>
-            Return all Cities.
+            Get all Cities.
             </summary>
             <returns>List with all Cities.</returns>
         </member>
         <member name="M:WebStoreAPI.Controllers.CitiesController.GetById(System.Int32)">
             <summary>
-            Retrieve the City by their ID.
+            Get City by their ID.
             </summary>
             <param name="id">The ID of the desired City.</param>
             <returns>Info about City with selected Id.</returns>
@@ -38,15 +38,15 @@
             <param name="id">The ID of the desired City.</param>
             <returns>Nothing</returns>
         </member>
-        <member name="M:WebStoreAPI.Controllers.CountriesController.GetAll">
+        <member name="M:WebStoreAPI.Controllers.CountriesController.Get(WebStoreAPI.Requests.Countries.GetCountriesRequest)">
             <summary>
-            Return all Countries.
+            Get all Countries.
             </summary>
             <returns>List with all Countries.</returns>
         </member>
         <member name="M:WebStoreAPI.Controllers.CountriesController.GetById(System.Int32)">
             <summary>
-            Retrieve the Country by their ID.
+            Get Country by their ID.
             </summary>
             <param name="id">The ID of the desired Country.</param>
             <returns>Info about Country with selected Id.</returns>
@@ -72,15 +72,15 @@
             <param name="id">The ID of the desired Country.</param>
             <returns>Nothing</returns>
         </member>
-        <member name="M:WebStoreAPI.Controllers.DeliveriesController.GetAll">
+        <member name="M:WebStoreAPI.Controllers.DeliveriesController.Get(WebStoreAPI.Requests.Deliveries.GetDeliveriesRequest)">
             <summary>
-            Return all Deliveries.
+            Get all Deliveries.
             </summary>
             <returns>List with all Deliveries.</returns>
         </member>
         <member name="M:WebStoreAPI.Controllers.DeliveriesController.GetById(System.Int32)">
             <summary>
-            Retrieve the Delivery by their ID.
+            Get Delivery by their ID.
             </summary>
             <param name="id">The ID of the desired Delivery.</param>
             <returns>Info about Delivery with selected Id.</returns>
@@ -106,15 +106,15 @@
             <param name="id">The ID of the desired Delivery.</param>
             <returns>Nothing</returns>
         </member>
-        <member name="M:WebStoreAPI.Controllers.ManufacturersController.GetAll">
+        <member name="M:WebStoreAPI.Controllers.ManufacturersController.Get(WebStoreAPI.Requests.Manufacturers.GetManufacturersRequest)">
             <summary>
-            Return all Manufacturers.
+            Get all Manufacturers.
             </summary>
             <returns>List with all Manufacturers.</returns>
         </member>
         <member name="M:WebStoreAPI.Controllers.ManufacturersController.GetById(System.Int32)">
             <summary>
-            Retrieve the Manufacturer by their ID.
+            Get Manufacturer by their ID.
             </summary>
             <param name="id">The ID of the desired Manufacturer.</param>
             <returns>Info about Manufacturer with selected Id.</returns>
@@ -140,49 +140,49 @@
             <param name="id">The ID of the desired Manufacturer.</param>
             <returns>Nothing</returns>
         </member>
-        <member name="M:WebStoreAPI.Controllers.OrderItemsController.GetAll">
+        <member name="M:WebStoreAPI.Controllers.OrderItemsController.Get(WebStoreAPI.Requests.OrderItems.GetOrdersItemsRequest)">
             <summary>
-            Return all OrdersItems.
+            Get all OrderItem.
             </summary>
-            <returns>List with all OrdersItems.</returns>
+            <returns>List with all OrderItem.</returns>
         </member>
         <member name="M:WebStoreAPI.Controllers.OrderItemsController.GetById(System.Int32)">
             <summary>
-            Retrieve the OrderItems by their ID.
+            Get OrderItem by their ID.
             </summary>
-            <param name="id">The ID of the desired OrderItems.</param>
-            <returns>Info about OrderItems with selected Id.</returns>
+            <param name="id">The ID of the desired OrderItem.</param>
+            <returns>Info about OrderItem with selected Id.</returns>
         </member>
         <member name="M:WebStoreAPI.Controllers.OrderItemsController.Add(WebStoreAPI.Requests.OrderItems.CreateOrderItemsRequest)">
             <summary>
-            Create a new OrderItems.
+            Create a new OrderItem.
             </summary>
-            <param name="orderItem">The body of new OrderItems.</param>
-            <returns>Info about created OrderItems.</returns>
+            <param name="orderItem">The body of new OrderItem.</param>
+            <returns>Info about created OrderItem.</returns>
         </member>
         <member name="M:WebStoreAPI.Controllers.OrderItemsController.Update(WebStoreAPI.Requests.OrderItems.UpdateOrderItemsRequest)">
             <summary>
-            Update existing OrderItems.
+            Update existing OrderItem.
             </summary>
-            <param name="orderItem">The body of new OrderItems.</param>
+            <param name="orderItem">The body of new OrderItem.</param>
             <returns>Nothing</returns>
         </member>
         <member name="M:WebStoreAPI.Controllers.OrderItemsController.Delete(System.Int32)">
             <summary>
-            Delete existing OrderItems.
+            Delete existing OrderItem.
             </summary>
-            <param name="id">The ID of the desired OrderItems.</param>
+            <param name="id">The ID of the desired OrderItem.</param>
             <returns>Nothing</returns>
         </member>
-        <member name="M:WebStoreAPI.Controllers.OrdersController.GetAll">
+        <member name="M:WebStoreAPI.Controllers.OrdersController.Get(WebStoreAPI.Requests.Orders.GetOrdersRequest)">
             <summary>
-            Return all Orders.
+            Get all Orders.
             </summary>
             <returns>List with all Orders.</returns>
         </member>
         <member name="M:WebStoreAPI.Controllers.OrdersController.GetById(System.Int32)">
             <summary>
-            Retrieve the Order by their ID.
+            Get Order by their ID.
             </summary>
             <param name="id">The ID of the desired Order.</param>
             <returns>Info about Order with selected Id.</returns>
@@ -208,15 +208,15 @@
             <param name="id">The ID of the desired Order.</param>
             <returns>Nothing</returns>
         </member>
-        <member name="M:WebStoreAPI.Controllers.PaymentsController.GetAll">
+        <member name="M:WebStoreAPI.Controllers.PaymentsController.Get(WebStoreAPI.Requests.Payments.GetPaymentsRequest)">
             <summary>
-            Return all Payments.
+            Get all Payments.
             </summary>
             <returns>List with all Payments.</returns>
         </member>
         <member name="M:WebStoreAPI.Controllers.PaymentsController.GetById(System.Int32)">
             <summary>
-            Retrieve the Payment by their ID.
+            Get Payment by their ID.
             </summary>
             <param name="id">The ID of the desired Payment.</param>
             <returns>Info about Payment with selected Id.</returns>
@@ -242,15 +242,15 @@
             <param name="id">The ID of the desired Payment.</param>
             <returns>Nothing</returns>
         </member>
-        <member name="M:WebStoreAPI.Controllers.ProductsController.GetAll">
+        <member name="M:WebStoreAPI.Controllers.ProductsController.Get(WebStoreAPI.Requests.Products.GetProductsRequest)">
             <summary>
-            Return all Products.
+            Get all Products.
             </summary>
             <returns>List with all Products.</returns>
         </member>
         <member name="M:WebStoreAPI.Controllers.ProductsController.GetById(System.Int32)">
             <summary>
-            Retrieve the Product by their ID.
+            Get Product by their ID.
             </summary>
             <param name="id">The ID of the desired Product.</param>
             <returns>Info about Product with selected Id.</returns>
@@ -276,15 +276,15 @@
             <param name="id">The ID of the desired Product.</param>
             <returns>Nothing</returns>
         </member>
-        <member name="M:WebStoreAPI.Controllers.RolesController.GetAll">
+        <member name="M:WebStoreAPI.Controllers.RolesController.Get(WebStoreAPI.Requests.Roles.GetRolesRequest)">
             <summary>
-            Return all Roles.
+            Get all Roles.
             </summary>
             <returns>List with all Roles.</returns>
         </member>
         <member name="M:WebStoreAPI.Controllers.RolesController.GetById(System.Int32)">
             <summary>
-            Retrieve the Role by their ID.
+            Get Role by their ID.
             </summary>
             <param name="id">The ID of the desired Role.</param>
             <returns>Info about Role with selected Id.</returns>
@@ -310,83 +310,49 @@
             <param name="id">The ID of the desired Role.</param>
             <returns>Nothing</returns>
         </member>
-        <member name="M:WebStoreAPI.Controllers.TypesController.GetAll">
+        <member name="M:WebStoreAPI.Controllers.UserRolesController.Get(WebStoreAPI.Requests.UserRoles.GetUsersRolesRequest)">
             <summary>
-            Return all Types.
+            Get all UserRole.
             </summary>
-            <returns>List with all Types.</returns>
-        </member>
-        <member name="M:WebStoreAPI.Controllers.TypesController.GetById(System.Int32)">
-            <summary>
-            Retrieve the Type by their ID.
-            </summary>
-            <param name="id">The ID of the desired Type.</param>
-            <returns>Info about Type with selected Id.</returns>
-        </member>
-        <member name="M:WebStoreAPI.Controllers.TypesController.Add(WebStoreAPI.Requests.Types.CreateTypeRequest)">
-            <summary>
-            Create a new Type.
-            </summary>
-            <param name="type">The body of new Type.</param>
-            <returns>Info about created Type.</returns>
-        </member>
-        <member name="M:WebStoreAPI.Controllers.TypesController.Update(WebStoreAPI.Requests.Types.UpdateTypeRequest)">
-            <summary>
-            Update existing Type.
-            </summary>
-            <param name="type">The body of new Type.</param>
-            <returns>Nothing</returns>
-        </member>
-        <member name="M:WebStoreAPI.Controllers.TypesController.Delete(System.Int32)">
-            <summary>
-            Delete existing Type.
-            </summary>
-            <param name="id">The ID of the desired Type.</param>
-            <returns>Nothing</returns>
-        </member>
-        <member name="M:WebStoreAPI.Controllers.UserRolesController.GetAll">
-            <summary>
-            Return all UsersRoles.
-            </summary>
-            <returns>List with all UsersRoles.</returns>
+            <returns>List with all UserRole.</returns>
         </member>
         <member name="M:WebStoreAPI.Controllers.UserRolesController.GetById(System.Int32)">
             <summary>
-            Retrieve the UserRoles by their ID.
+            Get UserRole by their ID.
             </summary>
-            <param name="id">The ID of the desired UserRoles.</param>
-            <returns>Info about UserRoles with selected Id.</returns>
+            <param name="id">The ID of the desired UserRole.</param>
+            <returns>Info about UserRole with selected Id.</returns>
         </member>
         <member name="M:WebStoreAPI.Controllers.UserRolesController.Add(WebStoreAPI.Requests.UserRoles.CreateUserRolesRequest)">
             <summary>
-            Create a new UserRoles.
+            Create a new UserRole.
             </summary>
-            <param name="userRole">The body of new UserRoles.</param>
-            <returns>Info about created UserRoles.</returns>
+            <param name="userRole">The body of new UserRole.</param>
+            <returns>Info about created UserRole.</returns>
         </member>
         <member name="M:WebStoreAPI.Controllers.UserRolesController.Update(WebStoreAPI.Requests.UserRoles.UpdateUserRolesRequest)">
             <summary>
-            Update existing UserRoles.
+            Update existing UserRole.
             </summary>
-            <param name="userRole">The body of new UserRoles.</param>
+            <param name="userRole">The body of new UserRole.</param>
             <returns>Nothing</returns>
         </member>
         <member name="M:WebStoreAPI.Controllers.UserRolesController.Delete(System.Int32)">
             <summary>
-            Delete existing UserRoles.
+            Delete existing UserRole.
             </summary>
-            <param name="id">The ID of the desired UserRoles.</param>
+            <param name="id">The ID of the desired UserRole.</param>
             <returns>Nothing</returns>
         </member>
-        <member name="M:WebStoreAPI.Controllers.UsersController.GetAll">
+        <member name="M:WebStoreAPI.Controllers.UsersController.Get(WebStoreAPI.Requests.Users.GetUsersRequest)">
             <summary>
-            Return all Users.
+            Get all Users.
             </summary>
             <returns>List with all Users.</returns>
         </member>
         <member name="M:WebStoreAPI.Controllers.UsersController.GetById(System.Int32)">
             <summary>
-            Retrieve the User by their ID.
+            Get User by their ID.
             </summary>
             <param name="id">The ID of the desired User.</param>
             <returns>Info about User with selected Id.</returns>

@@ -9,6 +9,7 @@ using CQS.Commands.Payments;
 using CQS.Queries.Payments;
 using WebStoreAPI.Requests.Payments;
 using WebStoreAPI.Response.Payments;
+using WebStoreAPI.Specifications.Payments;
 
 namespace WebStoreAPI.Controllers
 {
@@ -32,11 +33,17 @@ namespace WebStoreAPI.Controllers
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<GetPaymentsResponse>))]
         [ProducesResponseType(500, Type = typeof(string))]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> Get([FromQuery]GetPaymentsRequest request)
         {
             try
             {
-                var payments = await _mediator.Send(new GetPaymentsQuery());
+                var nameSpec = new PaymentNameSpecification(request.Name);
+                var minTaxesSpec = new PaymentMinTaxesSpecification(request.MinTaxes);
+                var maxTaxesSpec = new PaymentMaxTaxesSpecification(request.MaxTaxes);
+
+                var specification = nameSpec && minTaxesSpec && maxTaxesSpec;
+
+                var payments = await _mediator.Send(new GetPaymentsQuery { Specification = specification });
 
                 if (!payments.Any())
                 {
@@ -96,7 +103,7 @@ namespace WebStoreAPI.Controllers
             try
             {
                 var paymentSend = await _mediator.Send(_mapper.Map<CreatePaymentCommand>(payment));
-                return Created($"api/payments/{paymentSend.Id}", _mapper.Map<CreatePaymentResponse>(payment));
+                return Created($"api/payments/{paymentSend.Id}", _mapper.Map<CreatePaymentResponse>(paymentSend));
             }
             catch (Exception e)
             {

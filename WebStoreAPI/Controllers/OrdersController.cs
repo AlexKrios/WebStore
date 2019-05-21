@@ -9,6 +9,7 @@ using CQS.Commands.Orders;
 using CQS.Queries.Orders;
 using WebStoreAPI.Requests.Orders;
 using WebStoreAPI.Response.Orders;
+using WebStoreAPI.Specifications.Orders;
 
 namespace WebStoreAPI.Controllers
 {
@@ -32,11 +33,20 @@ namespace WebStoreAPI.Controllers
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<GetOrdersResponse>))]
         [ProducesResponseType(500, Type = typeof(string))]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> Get([FromQuery]GetOrdersRequest request)
         {
             try
             {
-                var orders = await _mediator.Send(new GetOrdersQuery());
+                var minTotalPriceSpec = new OrderMinTotalPriceSpecification(request.MinTotalPrice);
+                var maxTotalPriceSpec = new OrderMaxTotalPriceSpecification(request.MaxTotalPrice);
+                var userIdSpec = new OrderUserIdSpecification(request.UserId);
+                var deliverIdSpec = new OrderDeliveryIdSpecification(request.DeliveryId);
+                var paymentIdSpec = new OrderPaymentIdSpecification(request.PaymentId);
+
+                var specification = 
+                    minTotalPriceSpec && maxTotalPriceSpec && userIdSpec && deliverIdSpec && paymentIdSpec;;
+
+                var orders = await _mediator.Send(new GetOrdersQuery { Specification = specification });
 
                 if (!orders.Any())
                 {
@@ -96,7 +106,7 @@ namespace WebStoreAPI.Controllers
             try
             {
                 var orderSend = await _mediator.Send(_mapper.Map<CreateOrderCommand>(order));
-                return Created($"api/orders/{orderSend.Id}", _mapper.Map<CreateOrderResponse>(order));
+                return Created($"api/orders/{orderSend.Id}", _mapper.Map<CreateOrderResponse>(orderSend));
             }
             catch (Exception e)
             {

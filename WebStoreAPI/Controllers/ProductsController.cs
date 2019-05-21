@@ -9,6 +9,7 @@ using CQS.Commands.Products;
 using CQS.Queries.Products;
 using WebStoreAPI.Requests.Products;
 using WebStoreAPI.Response.Products;
+using WebStoreAPI.Specifications.Products;
 
 namespace WebStoreAPI.Controllers
 {
@@ -32,18 +33,28 @@ namespace WebStoreAPI.Controllers
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<GetProductsResponse>))]
         [ProducesResponseType(500, Type = typeof(string))]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> Get([FromQuery]GetProductsRequest request)
         {
             try
             {
-                var products = await _mediator.Send(new GetProductsQuery());
+                var nameSpec = new ProductNameSpecification(request.Name);
+                var minAvailabilitySpec = new ProductMinAvailabilitySpecification(request.MinAvailability);
+                var maxAvailabilitySpec = new ProductMaxAvailabilitySpecification(request.MaxAvailability);
+                var minPriceSpec = new ProductMinPriceSpecification(request.MinPrice);
+                var maxPriceSpec = new ProductMaxPriceSpecification(request.MaxPrice);
+                var manufacturerIdSpec = new ProductManufacturerIdSpecification(request.ManufacturerId);
+
+                var specification = nameSpec && minAvailabilitySpec && maxAvailabilitySpec &&
+                                    minPriceSpec && maxPriceSpec && manufacturerIdSpec;
+
+                var products = await _mediator.Send(new GetProductsQuery { Specification = specification });
 
                 if (!products.Any())
                 {
                     return NotFound();
                 }
 
-                return Ok(_mapper.Map<IEnumerable<GetProductsResponse>>(products));
+                return Ok(_mapper.Map<IEnumerable<GetProductResponse>>(products));
             }
             catch (Exception e)
             {
@@ -96,7 +107,7 @@ namespace WebStoreAPI.Controllers
             try
             {
                 var productSend = await _mediator.Send(_mapper.Map<CreateProductCommand>(product));
-                return Created($"api/products/{productSend.Id}", _mapper.Map<CreateProductResponse>(product));
+                return Created($"api/products/{productSend.Id}", _mapper.Map<CreateProductResponse>(productSend));
             }
             catch (Exception e)
             {

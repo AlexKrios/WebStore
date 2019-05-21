@@ -15,7 +15,7 @@ namespace DataLibrary.Entities
 
         [Required, ForeignKey("Product")]
         public int ProductId { get; set; }
-        [Required, ForeignKey("OrderItems")]
+        [Required, ForeignKey("Order")]
         public int OrderId { get; set; }
 
         public virtual Product Product { get; set; }

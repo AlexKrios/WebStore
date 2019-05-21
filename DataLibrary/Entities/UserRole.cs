@@ -11,7 +11,7 @@ namespace DataLibrary.Entities
 
         [Required, ForeignKey("User")]
         public int UserId { get; set; }
-        [Required, ForeignKey("RoleId")]
+        [Required, ForeignKey("Role")]
         public int RoleId { get; set; }
 
         public virtual User User { get; set; }

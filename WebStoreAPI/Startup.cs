@@ -1,19 +1,17 @@
 ﻿using System;
 using System.IO;
-using System.Reflection;
 using AutoMapper;
 using DataLibrary;
 using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Serilog;
 using SimpleInjector;
-using SimpleInjector.Integration.AspNetCore.Mvc;
 using SimpleInjector.Lifestyles;
 using Swashbuckle.AspNetCore.Swagger;
 using WebStoreAPI.Mapper;
@@ -26,6 +24,7 @@ namespace WebStoreAPI
 
         public Startup(IConfiguration configuration)
         {
+            Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(configuration).CreateLogger();
             Configuration = configuration;
         }
 
@@ -38,27 +37,10 @@ namespace WebStoreAPI
                 options.RegisterValidatorsFromAssemblyContaining<Startup>();
             });
             services.AddMediatR();
-            services.AddAutoMapper();
 
-            var mappingConfig = new MapperConfiguration(mc =>
-            {
-                mc.AddProfile(new MappingProfile());
-            });
-            var mapper = mappingConfig.CreateMapper();
-
-            services.AddSingleton(mapper);
-
-            IntegrateSimpleInjector(services);
-
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new Info { Title = "Web Store request", Version = "v1" });
-
-                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.XML";
-                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-
-                c.IncludeXmlComments(xmlPath);
-            });
+            MapperConfiguration(services);
+            SimpleInjectorConfiguration(services);
+            SwaggerConfiguration(services);
 
             services.AddDbContext<WebStoreContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString(
@@ -66,24 +48,40 @@ namespace WebStoreAPI
                     b => b.MigrationsAssembly("WebStoreAPI")));
         }
 
-        private void IntegrateSimpleInjector(IServiceCollection services)
+        private void MapperConfiguration(IServiceCollection services)
         {
-            _container.Options.DefaultScopedLifestyle = new AsyncScopedLifestyle();
+            services.AddAutoMapper();
 
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            var mappingConfig = new MapperConfiguration(mc => { mc.AddProfile(new MappingProfile()); });
+            var mapper = mappingConfig.CreateMapper();
 
-            services.AddSingleton<IControllerActivator>(
-                new SimpleInjectorControllerActivator(_container));
-
-            services.EnableSimpleInjectorCrossWiring(_container);
-            services.UseSimpleInjectorAspNetRequestScoping(_container);
+            services.AddSingleton(mapper);
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, WebStoreContext context)
+        private void SimpleInjectorConfiguration(IServiceCollection services)
+        {
+            _container.Options.DefaultScopedLifestyle = new AsyncScopedLifestyle();
+            services.EnableSimpleInjectorCrossWiring(_container);
+        }
+
+        private void SwaggerConfiguration(IServiceCollection services)
+        {
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "Web Store request", Version = "v1" });
+
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, "WebStoreAPI.XML");
+                c.IncludeXmlComments(xmlPath);
+            });
+        }
+
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, WebStoreContext context, ILoggerFactory loggerFactory)
         {
             _container.RegisterMvcControllers(app);
             _container.AutoCrossWireAspNetComponents(app);
             _container.Verify();
+
+            loggerFactory.AddSerilog();
 
             if (env.IsDevelopment())
             {

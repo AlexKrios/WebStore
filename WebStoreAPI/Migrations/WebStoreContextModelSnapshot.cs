@@ -220,15 +220,11 @@ namespace WebStoreAPI.Migrations
 
                     b.Property<decimal>("Price");
 
-                    b.Property<int>("TypeId");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ManufacturerId");
 
                     b.HasIndex("ModifiedBy");
-
-                    b.HasIndex("TypeId");
 
                     b.ToTable("Products");
                 });
@@ -245,20 +241,6 @@ namespace WebStoreAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Roles");
-                });
-
-            modelBuilder.Entity("DataLibrary.Entities.Type", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Types");
                 });
 
             modelBuilder.Entity("DataLibrary.Entities.User", b =>
@@ -384,11 +366,6 @@ namespace WebStoreAPI.Migrations
                     b.HasOne("DataLibrary.Entities.User", "User")
                         .WithMany("Products")
                         .HasForeignKey("ModifiedBy")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("DataLibrary.Entities.Type", "Type")
-                        .WithMany("Products")
-                        .HasForeignKey("TypeId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

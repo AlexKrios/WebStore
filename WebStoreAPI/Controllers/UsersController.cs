@@ -9,6 +9,8 @@ using CQS.Commands.Users;
 using CQS.Queries.Users;
 using WebStoreAPI.Requests.Users;
 using WebStoreAPI.Response.Users;
+using WebStoreAPI.Specifications.Deliveries;
+using WebStoreAPI.Specifications.Users;
 
 namespace WebStoreAPI.Controllers
 {
@@ -32,11 +34,19 @@ namespace WebStoreAPI.Controllers
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<GetUsersResponse>))]
         [ProducesResponseType(500, Type = typeof(string))]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> Get([FromQuery]GetUsersRequest request)
         {
             try
             {
-                var users = await _mediator.Send(new GetUsersQuery());
+                var nameSpec = new UserNameSpecification(request.Name);
+                var minAgeSpec = new UserMinAgeSpecification(request.MinAge);
+                var maxAgeSpec = new UserMaxAgeSpecification(request.MaxAge);
+                var emailSpec = new UserEmailSpecification(request.Email);
+                var cityIdSpec = new UserCityIdSpecification(request.CityId);
+
+                var specification = nameSpec && minAgeSpec && maxAgeSpec && emailSpec && cityIdSpec;
+
+                var users = await _mediator.Send(new GetUsersQuery { Specification = specification });
 
                 if (!users.Any())
                 {
@@ -96,7 +106,7 @@ namespace WebStoreAPI.Controllers
             try
             {
                 var userSend = await _mediator.Send(_mapper.Map<CreateUserCommand>(user));
-                return Created($"api/users/{userSend.Id}", _mapper.Map<CreateUserResponse>(user));
+                return Created($"api/users/{userSend.Id}", _mapper.Map<CreateUserResponse>(userSend));
             }
             catch (Exception e)
             {

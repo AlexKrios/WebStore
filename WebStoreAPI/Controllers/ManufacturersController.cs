@@ -9,6 +9,7 @@ using CQS.Commands.Manufacturers;
 using CQS.Queries.Manufacturers;
 using WebStoreAPI.Requests.Manufacturers;
 using WebStoreAPI.Response.Manufacturers;
+using WebStoreAPI.Specifications.Manufacturers;
 
 namespace WebStoreAPI.Controllers
 {
@@ -32,11 +33,17 @@ namespace WebStoreAPI.Controllers
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<GetManufacturersResponse>))]
         [ProducesResponseType(500, Type = typeof(string))]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> Get([FromQuery]GetManufacturersRequest request)
         {
             try
             {
-                var manufacturers = await _mediator.Send(new GetManufacturersQuery());
+                var nameSpec = new ManufacturerNameSpecification(request.Name);
+                var minRatingSpec = new ManufacturerMinRatingSpecification(request.MinRating);
+                var maxRatingSpec = new ManufacturerMaxRatingSpecification(request.MaxRating);
+
+                var specification = nameSpec && minRatingSpec && maxRatingSpec;
+
+                var manufacturers = await _mediator.Send(new GetManufacturersQuery { Specification = specification });
 
                 if (!manufacturers.Any())
                 {
@@ -96,7 +103,7 @@ namespace WebStoreAPI.Controllers
             try
             {
                 var manufacturerSend = await _mediator.Send(_mapper.Map<CreateManufacturerCommand>(manufacturer));
-                return Created($"api/manufacturers/{manufacturerSend.Id}", _mapper.Map<CreateManufacturerResponse>(manufacturer));
+                return Created($"api/manufacturers/{manufacturerSend.Id}", _mapper.Map<CreateManufacturerResponse>(manufacturerSend));
             }
             catch (Exception e)
             {

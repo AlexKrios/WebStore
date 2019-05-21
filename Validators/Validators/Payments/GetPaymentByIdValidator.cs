@@ -1,9 +1,9 @@
-﻿using CQS.Queries.Payments;
-using FluentValidation;
+﻿using FluentValidation;
+using WebStoreAPI.Requests.Payments;
 
 namespace Validators.Validators.Payments 
 {
-    public class GetPaymentByIdValidator : AbstractValidator<GetPaymentQuery>
+    public class GetPaymentByIdValidator : AbstractValidator<GetPaymentRequest>
     {
         public GetPaymentByIdValidator()
         {

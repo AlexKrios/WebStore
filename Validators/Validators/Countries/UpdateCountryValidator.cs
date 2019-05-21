@@ -1,9 +1,9 @@
-﻿using CQS.Commands.Countries;
-using FluentValidation;
+﻿using FluentValidation;
+using WebStoreAPI.Requests.Countries;
 
 namespace Validators.Validators.Countries
 {
-    public class UpdateCountryValidator : AbstractValidator<UpdateCountryCommand>
+    public class UpdateCountryValidator : AbstractValidator<UpdateCountryRequest>
     {
         public UpdateCountryValidator()
         {

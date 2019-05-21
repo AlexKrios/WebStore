@@ -11,6 +11,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Specifications\Users\" />
+    <Folder Include="Specifications\UserRoles\" />
+    <Folder Include="Specifications\Roles\" />
+    <Folder Include="Specifications\Products\" />
+    <Folder Include="Specifications\Payments\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
@@ -18,17 +23,21 @@
     <PackageReference Include="AutoMapper" Version="8.0.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="8.2.0" />
+    <PackageReference Include="LinqSpecs" Version="3.0.1" />
     <PackageReference Include="MediatR" Version="6.0.0" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="6.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.1" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
+    <PackageReference Include="Serilog.AspNetCore" Version="2.1.1" />
+    <PackageReference Include="Serilog.Settings.Configuration" Version="3.0.1" />
+    <PackageReference Include="Serilog.Sinks.RollingFile" Version="3.3.0" />
     <PackageReference Include="SimpleInjector.Integration.AspNetCore.Mvc" Version="4.5.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="4.0.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CommandAndQuerySeparation\CQS.csproj" />
+    <ProjectReference Include="..\CQS\CQS.csproj" />
     <ProjectReference Include="..\DataLibrary\DataLibrary.csproj" />
   </ItemGroup>
 

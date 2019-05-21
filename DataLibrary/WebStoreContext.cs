@@ -15,7 +15,6 @@ namespace DataLibrary
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Payment> Payments { get; set; }
         public DbSet<Role> Roles { get; set; }
-        public DbSet<Type> Types { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
 
         public WebStoreContext(DbContextOptions options)

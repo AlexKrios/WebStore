@@ -1,9 +1,9 @@
-﻿using CQS.Queries.Users;
-using FluentValidation;
+﻿using FluentValidation;
+using WebStoreAPI.Requests.Users;
 
 namespace Validators.Validators.Users 
 {
-    public class GetUserByIdValidator : AbstractValidator<GetUserQuery>
+    public class GetUserByIdValidator : AbstractValidator<GetUserRequest>
     {
         public GetUserByIdValidator()
         {

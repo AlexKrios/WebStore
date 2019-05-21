@@ -1,9 +1,9 @@
-﻿using CQS.Commands.UserRoles;
-using FluentValidation;
+﻿using FluentValidation;
+using WebStoreAPI.Requests.UserRoles;
 
 namespace Validators.Validators.UserRoles
 {
-    public class CreateUserRoleValidator : AbstractValidator<CreateUserRoleCommand>
+    public class CreateUserRoleValidator : AbstractValidator<CreateUserRolesRequest>
     {
         public CreateUserRoleValidator()
         {

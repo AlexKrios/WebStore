@@ -1,9 +1,9 @@
-﻿using CQS.Commands.Users;
-using FluentValidation;
+﻿using FluentValidation;
+using WebStoreAPI.Requests.Users;
 
 namespace Validators.Validators.Users
 {
-    public class UpdateUserValidator : AbstractValidator<UpdateUserCommand>
+    public class UpdateUserValidator : AbstractValidator<UpdateUserRequest>
     {
         public UpdateUserValidator()
         {

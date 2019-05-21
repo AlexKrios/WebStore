@@ -9,6 +9,7 @@ using CQS.Commands.Roles;
 using CQS.Queries.Roles;
 using WebStoreAPI.Requests.Roles;
 using WebStoreAPI.Response.Roles;
+using WebStoreAPI.Specifications.Roles;
 
 namespace WebStoreAPI.Controllers
 {
@@ -32,11 +33,13 @@ namespace WebStoreAPI.Controllers
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<GetRolesResponse>))]
         [ProducesResponseType(500, Type = typeof(string))]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> Get([FromQuery]GetRolesRequest request)
         {
             try
             {
-                var roles = await _mediator.Send(new GetRolesQuery());
+                var nameSpec = new RoleNameSpecification(request.Name);
+
+                var roles = await _mediator.Send(new GetRolesQuery { Specification = nameSpec });
 
                 if (!roles.Any())
                 {
@@ -96,7 +99,7 @@ namespace WebStoreAPI.Controllers
             try
             {
                 var roleSend = await _mediator.Send(_mapper.Map<CreateRoleCommand>(role));
-                return Created($"api/roles/{roleSend.Id}", _mapper.Map<CreateRoleResponse>(role));
+                return Created($"api/roles/{roleSend.Id}", _mapper.Map<CreateRoleResponse>(roleSend));
             }
             catch (Exception e)
             {

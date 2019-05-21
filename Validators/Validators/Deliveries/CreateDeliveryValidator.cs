@@ -1,9 +1,9 @@
-﻿using CQS.Commands.Deliveries;
-using FluentValidation;
+﻿using FluentValidation;
+using WebStoreAPI.Requests.Deliveries;
 
 namespace Validators.Validators.Deliveries
 {
-    public class CreateDeliveryValidator : AbstractValidator<CreateDeliveryCommand>
+    public class CreateDeliveryValidator : AbstractValidator<CreateDeliveryRequest>
     {
         public CreateDeliveryValidator()
         {

@@ -1,9 +1,9 @@
-﻿using CQS.Queries.Deliveries;
-using FluentValidation;
+﻿using FluentValidation;
+using WebStoreAPI.Requests.Deliveries;
 
 namespace Validators.Validators.Deliveries 
 {
-    public class GetDeliveryByIdValidator : AbstractValidator<GetDeliveryQuery>
+    public class GetDeliveryByIdValidator : AbstractValidator<GetDeliveryRequest>
     {
         public GetDeliveryByIdValidator()
         {

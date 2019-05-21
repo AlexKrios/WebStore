@@ -2,10 +2,10 @@
 {
     public class GetDeliveriesRequest
     {
-        public int Id { get; set; }
         public string Name { get; set; }
-        public string Description { get; set; }
-        public decimal Price { get; set; }
-        public float Rating { get; set; }
+        public decimal? MinPrice { get; set; }
+        public decimal? MaxPrice { get; set; }
+        public float? MinRating { get; set; }
+        public float? MaxRating { get; set; }
     }
 }

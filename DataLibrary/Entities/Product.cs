@@ -20,8 +20,6 @@ namespace DataLibrary.Entities
         [Range(0, int.MaxValue)]
         public decimal Price { get; set; }
 
-        [Required, ForeignKey("Type")]
-        public int TypeId { get; set; }
         [Required, ForeignKey("Manufacturer")]
         public int ManufacturerId { get; set; }
 
@@ -32,7 +30,6 @@ namespace DataLibrary.Entities
         [ForeignKey("User")]
         public int ModifiedBy { get; set; }
 
-        public virtual Type Type { get; set; }
         public virtual Manufacturer Manufacturer { get; set; }
         public virtual User User { get; set; }
         public virtual ICollection<OrderItem> OrderItems { get; set; }
