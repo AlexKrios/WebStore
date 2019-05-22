@@ -52,16 +52,16 @@ namespace WebStoreAPI.Controllers
 
                 if (!deliveries.Any())
                 {
-                    _logger.LogError(@"Not found deliveries object by filter");
+                    _logger.LogError("GET DELIVERIES - Not found");
                     return NotFound();
                 }
 
-                _logger.LogInformation("Complete, get filter list of deliveries");
+                _logger.LogInformation("GET DELIVERIES - Complete");
                 return Ok(_mapper.Map<IEnumerable<GetDeliveriesResponse>>(deliveries));
             }
             catch (Exception e)
             {
-                _logger.LogError("Unknown exception in GET deliveries by filter request");
+                _logger.LogError($"GET DELIVERIES - {e}");
                 return StatusCode(500, new {errorMessage = e.Message});
             }
         }
@@ -82,16 +82,16 @@ namespace WebStoreAPI.Controllers
 
                 if (delivery == null)
                 {
-                    _logger.LogError("Not found delivery object by id in GET request");
+                    _logger.LogError("GET DELIVERY - Not found");
                     return NotFound();
                 }
 
-                _logger.LogInformation("Complete, get delivery by id");
+                _logger.LogInformation("GET DELIVERY - Complete");
                 return Ok(_mapper.Map<GetDeliveryResponse>(delivery));
             }
             catch (Exception e)
             {
-                _logger.LogError("Unknown exception in GET delivery by id request");
+                _logger.LogError($"GET DELIVERY - {e}");
                 return StatusCode(500, new {errorMessage = e.Message});
             }
         }
@@ -108,19 +108,19 @@ namespace WebStoreAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogError("Delivery model is not valid in POST request");
+                _logger.LogError("POST DELIVERY - Not valid");
                 return BadRequest();
             }
 
             try
             {
                 var deliverySend = await _mediator.Send(_mapper.Map<CreateDeliveryCommand>(delivery));
-                _logger.LogInformation("Complete, create new delivery with id: " + deliverySend.Id);
+                _logger.LogInformation("POST DELIVERY - Complete, with id: " + deliverySend.Id);
                 return Created($"api/deliveries/{deliverySend.Id}", _mapper.Map<CreateDeliveryResponse>(deliverySend));
             }
             catch (Exception e)
             {
-                _logger.LogError("Unknown exception in POST delivery request");
+                _logger.LogError($"POST DELIVERY - {e}");
                 return StatusCode(500, new {errorMessage = e.Message});
             }
         }
@@ -137,7 +137,7 @@ namespace WebStoreAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogError("Delivery model is not valid in UPDATE request");
+                _logger.LogError("PUT DELIVERY - Not valid");
                 return BadRequest(ModelState);
             }
 
@@ -146,16 +146,16 @@ namespace WebStoreAPI.Controllers
                 var deliverySend = await _mediator.Send(_mapper.Map<UpdateDeliveryCommand>(delivery));
                 if (deliverySend == null)
                 {
-                    _logger.LogError("Not found delivery object by id in UPDATE request");
+                    _logger.LogError("PUT DELIVERY - Not found");
                     return NotFound();
                 }
 
-                _logger.LogInformation("Complete, update delivery with id: " + deliverySend.Id);
+                _logger.LogInformation("PUT DELIVERY - Complete, with id: " + deliverySend.Id);
                 return Ok();
             }
             catch (Exception e)
             {
-                _logger.LogError("Unknown exception in UPDATE delivery request");
+                _logger.LogError($"PUT DELIVERY - {e}");
                 return StatusCode(500, new {errorMessage = e.Message});
             }
         }
@@ -175,14 +175,16 @@ namespace WebStoreAPI.Controllers
                 var deliverySend = await _mediator.Send(new DeleteDeliveryCommand {Id = id});
                 if (deliverySend == null)
                 {
-                    _logger.LogError("Not found delivery object by id in DELETE request");
+                    _logger.LogError("DELETE DELIVERY - Not found");
                     return NotFound();
                 }
 
+                _logger.LogInformation("DELETE DELIVERY - Complete, with id: " + deliverySend.Id);
                 return Ok();
             }
             catch (Exception e)
             {
+                _logger.LogError($"DELETE DELIVERY - {e}");
                 return StatusCode(500, new {errorMessage = e.Message});
             }
         }

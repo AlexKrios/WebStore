@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CQS.Commands.Payments;
 using CQS.Queries.Payments;
+using Microsoft.Extensions.Logging;
 using WebStoreAPI.Requests.Payments;
 using WebStoreAPI.Response.Payments;
 using WebStoreAPI.Specifications.Payments;
@@ -19,11 +20,13 @@ namespace WebStoreAPI.Controllers
     {
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
+        private readonly ILogger<PaymentsController> _logger;
 
-        public PaymentsController(IMediator mediator, IMapper mapper)
+        public PaymentsController(IMediator mediator, IMapper mapper, ILogger<PaymentsController> logger)
         {
             _mediator = mediator;
             _mapper = mapper;
+            _logger = logger;
         }
 
         /// <summary>
@@ -47,13 +50,16 @@ namespace WebStoreAPI.Controllers
 
                 if (!payments.Any())
                 {
+                    _logger.LogError("GET PAYMENTS - Not found");
                     return NotFound();
                 }
 
+                _logger.LogInformation("GET PAYMENTS - Complete");
                 return Ok(_mapper.Map<IEnumerable<GetPaymentsResponse>>(payments));
             }
             catch (Exception e)
             {
+                _logger.LogError($"GET PAYMENTS - {e}");
                 return StatusCode(500, new { errorMessage = e.Message });
             }
         }
@@ -74,13 +80,16 @@ namespace WebStoreAPI.Controllers
 
                 if (payment == null)
                 {
+                    _logger.LogError("GET PAYMENT - Not found");
                     return NotFound();
                 }
 
+                _logger.LogInformation("GET PAYMENT - Complete");
                 return Ok(_mapper.Map<GetPaymentResponse>(payment));
             }
             catch (Exception e)
             {
+                _logger.LogError($"GET PAYMENT - {e}");
                 return StatusCode(500, new { errorMessage = e.Message });
             }
         }
@@ -97,16 +106,19 @@ namespace WebStoreAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
+                _logger.LogError("POST PAYMENT - Not valid");
                 return BadRequest(ModelState);
             }
 
             try
             {
                 var paymentSend = await _mediator.Send(_mapper.Map<CreatePaymentCommand>(payment));
+                _logger.LogInformation("POST PAYMENT - Complete, with id: " + paymentSend.Id);
                 return Created($"api/payments/{paymentSend.Id}", _mapper.Map<CreatePaymentResponse>(paymentSend));
             }
             catch (Exception e)
             {
+                _logger.LogError($"POST PAYMENT - {e}");
                 return StatusCode(500, new { errorMessage = e.Message });
             }
         }
@@ -123,6 +135,7 @@ namespace WebStoreAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
+                _logger.LogError("PUT PAYMENT - Not valid");
                 return BadRequest(ModelState);
             }
 
@@ -131,13 +144,16 @@ namespace WebStoreAPI.Controllers
                 var paymentSend = await _mediator.Send(_mapper.Map<UpdatePaymentCommand>(payment));
                 if (paymentSend == null)
                 {
+                    _logger.LogError("PUT PAYMENT - Not found");
                     return NotFound();
                 }
 
+                _logger.LogInformation("PUT PAYMENT - Complete, with id: " + paymentSend.Id);
                 return Ok();
             }
             catch (Exception e)
             {
+                _logger.LogError($"PUT PAYMENT - {e}");
                 return StatusCode(500, new { errorMessage = e.Message });
             }
         }
@@ -152,23 +168,21 @@ namespace WebStoreAPI.Controllers
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> Delete(int id)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             try
             {
                 var paymentSend = await _mediator.Send(new DeletePaymentCommand { Id = id });
                 if (paymentSend == null)
                 {
+                    _logger.LogError("DELETE PAYMENT - Not found");
                     return NotFound();
                 }
 
+                _logger.LogInformation("DELETE PAYMENT - Complete, with id: " + paymentSend.Id);
                 return Ok();
             }
             catch (Exception e)
             {
+                _logger.LogError($"DELETE PAYMENT - {e}");
                 return StatusCode(500, new { errorMessage = e.Message });
             }
         }

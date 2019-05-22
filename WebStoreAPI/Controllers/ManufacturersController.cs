@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CQS.Commands.Manufacturers;
 using CQS.Queries.Manufacturers;
+using Microsoft.Extensions.Logging;
 using WebStoreAPI.Requests.Manufacturers;
 using WebStoreAPI.Response.Manufacturers;
 using WebStoreAPI.Specifications.Manufacturers;
@@ -19,11 +20,13 @@ namespace WebStoreAPI.Controllers
     {
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
+        private readonly ILogger<ManufacturersController> _logger;
 
-        public ManufacturersController(IMediator mediator, IMapper mapper)
+        public ManufacturersController(IMediator mediator, IMapper mapper, ILogger<ManufacturersController> logger)
         {
             _mediator = mediator;
             _mapper = mapper;
+            _logger = logger;
         }
 
         /// <summary>
@@ -47,13 +50,16 @@ namespace WebStoreAPI.Controllers
 
                 if (!manufacturers.Any())
                 {
+                    _logger.LogError("GET MANUFACTURERS - Not found");
                     return NotFound();
                 }
 
+                _logger.LogInformation("GET MANUFACTURERS - Complete");
                 return Ok(_mapper.Map<IEnumerable<GetManufacturersResponse>>(manufacturers));
             }
             catch (Exception e)
             {
+                _logger.LogError($"GET MANUFACTURERS - {e}");
                 return StatusCode(500, new { errorMessage = e.Message });
             }
         }
@@ -74,13 +80,16 @@ namespace WebStoreAPI.Controllers
 
                 if (manufacturer == null)
                 {
+                    _logger.LogError("GET MANUFACTURER - Not found");
                     return NotFound();
                 }
 
+                _logger.LogInformation("GET MANUFACTURER - Complete");
                 return Ok(_mapper.Map<GetManufacturerResponse>(manufacturer));
             }
             catch (Exception e)
             {
+                _logger.LogError($"GET MANUFACTURER - {e}");
                 return StatusCode(500, new { errorMessage = e.Message });
             }
         }
@@ -97,16 +106,19 @@ namespace WebStoreAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
+                _logger.LogError("GET MANUFACTURER - Not found");
                 return BadRequest(ModelState);
             }
 
             try
             {
                 var manufacturerSend = await _mediator.Send(_mapper.Map<CreateManufacturerCommand>(manufacturer));
+                _logger.LogInformation("GET MANUFACTURER - Complete, with id: " + manufacturerSend.Id);
                 return Created($"api/manufacturers/{manufacturerSend.Id}", _mapper.Map<CreateManufacturerResponse>(manufacturerSend));
             }
             catch (Exception e)
             {
+                _logger.LogError($"GET MANUFACTURER - {e}");
                 return StatusCode(500, new { errorMessage = e.Message });
             }
         }
@@ -123,6 +135,7 @@ namespace WebStoreAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
+                _logger.LogError("PUT MANUFACTURER - Not valid");
                 return BadRequest(ModelState);
             }
 
@@ -131,13 +144,16 @@ namespace WebStoreAPI.Controllers
                 var manufacturerSend = await _mediator.Send(_mapper.Map<UpdateManufacturerCommand>(manufacturer));
                 if (manufacturerSend == null)
                 {
+                    _logger.LogError("PUT MANUFACTURER - Not found");
                     return NotFound();
                 }
 
+                _logger.LogInformation("PUT MANUFACTURER - Complete, with id: " + manufacturerSend.Id);
                 return Ok();
             }
             catch (Exception e)
             {
+                _logger.LogError($"PUT MANUFACTURER - {e}");
                 return StatusCode(500, new { errorMessage = e.Message });
             }
         }
@@ -152,23 +168,21 @@ namespace WebStoreAPI.Controllers
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> Delete(int id)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             try
             {
                 var manufacturerSend = await _mediator.Send(new DeleteManufacturerCommand { Id = id });
                 if (manufacturerSend == null)
                 {
+                    _logger.LogError("DELETE MANUFACTURER - Not found");
                     return NotFound();
                 }
 
+                _logger.LogInformation("DELETE MANUFACTURER - Complete, with id: " + manufacturerSend.Id);
                 return Ok();
             }
             catch (Exception e)
             {
+                _logger.LogError($"DELETE MANUFACTURER - {e}");
                 return StatusCode(500, new { errorMessage = e.Message });
             }
         }

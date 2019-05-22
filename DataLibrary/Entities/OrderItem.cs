@@ -10,7 +10,7 @@ namespace DataLibrary.Entities
         public int Id { get; set; }
         [Required]
         public int Count { get; set; }
-        [Required]
+        [Required, Range(0, double.MaxValue), Column(TypeName = "decimal")]
         public decimal Price { get; set; }
 
         [Required, ForeignKey("Product")]

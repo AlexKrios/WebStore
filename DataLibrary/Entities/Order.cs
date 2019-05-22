@@ -14,7 +14,7 @@ namespace DataLibrary.Entities
         public string CustomerNumber { get; set; }
         [Required]
         public string Note { get; set; }
-        [Required]
+        [Required, Range(0, double.MaxValue), Column(TypeName = "decimal")]
         public decimal TotalPrice { get; set; }
         [Required, Column(TypeName = "datetime2")]
         public DateTime OrderTime { get; set; }

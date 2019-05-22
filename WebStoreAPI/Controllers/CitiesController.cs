@@ -58,7 +58,7 @@ namespace WebStoreAPI.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogError(@"GET CITIES - {0}", e);
+                _logger.LogError($"GET CITIES - {e}");
                 return StatusCode(500, new {errorMessage = e.Message});
             }
         }
@@ -79,16 +79,16 @@ namespace WebStoreAPI.Controllers
 
                 if (city == null)
                 {
-                    _logger.LogError("Not found city object by id in GET request");
+                    _logger.LogError("GET CITY - Not found");
                     return NotFound();
                 }
 
-                _logger.LogInformation("Complete, get city by id");
+                _logger.LogInformation("GET CITY - Complete");
                 return Ok(_mapper.Map<GetCityResponse>(city));
             }
             catch (Exception e)
             {
-                _logger.LogError("Unknown exception in GET city by id request");
+                _logger.LogError($"GET CITY - {e}");
                 return StatusCode(500, new {errorMessage = e.Message});
             }
         }
@@ -105,19 +105,19 @@ namespace WebStoreAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogError("City model is not valid in POST request");
+                _logger.LogError("POST CITY - Not valid");
                 return BadRequest(ModelState);
             }
 
             try
             {
                 var citySend = await _mediator.Send(_mapper.Map<CreateCityCommand>(city));
-                _logger.LogInformation("Complete, create new city with id: " + citySend.Id);
+                _logger.LogInformation("POST CITY - Complete, with id: " + citySend.Id);
                 return Created($"api/cities/{citySend.Id}", _mapper.Map<CreateCityResponse>(citySend));
             }
             catch (Exception e)
             {
-                _logger.LogError("Unknown exception in POST city request");
+                _logger.LogError($"POST CITY - {e}");
                 return StatusCode(500, new {errorMessage = e.Message});
             }
         }
@@ -134,7 +134,7 @@ namespace WebStoreAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogError("City model is not valid in UPDATE request");
+                _logger.LogError("PUT CITY - Not valid");
                 return BadRequest(ModelState);
             }
 
@@ -143,16 +143,16 @@ namespace WebStoreAPI.Controllers
                 var citySend = await _mediator.Send(_mapper.Map<UpdateCityCommand>(city));
                 if (citySend == null)
                 {
-                    _logger.LogError("Not found city object by id in UPDATE request");
+                    _logger.LogError("PUT CITY - Not found");
                     return NotFound();
                 }
 
-                _logger.LogInformation("Complete, update city with id: " + citySend.Id);
+                _logger.LogInformation("PUT CITY - Complete, with id: " + citySend.Id);
                 return Ok();
             }
             catch (Exception e)
             {
-                _logger.LogError("Unknown exception in UPDATE city request");
+                _logger.LogError($"PUT CITY - {e}");
                 return StatusCode(500, new {errorMessage = e.Message});
             }
         }
@@ -172,16 +172,16 @@ namespace WebStoreAPI.Controllers
                 var citySend = await _mediator.Send(new DeleteCityCommand {Id = id});
                 if (citySend == null)
                 {
-                    _logger.LogError("Not found city object by id in DELETE request");
+                    _logger.LogError("DELETE CITY - Not found");
                     return NotFound();
                 }
 
-                _logger.LogInformation("Complete, delete city with id: " + citySend.Id);
+                _logger.LogInformation("DELETE CITY - Complete, with id: " + citySend.Id);
                 return Ok();
             }
             catch (Exception e)
             {
-                _logger.LogError("Unknown exception id DELETE city request");
+                _logger.LogError($"DELETE CITY - {e}");
                 return StatusCode(500, new {errorMessage = e.Message});
             }
         }

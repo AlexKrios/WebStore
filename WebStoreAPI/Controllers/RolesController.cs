@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CQS.Commands.Roles;
 using CQS.Queries.Roles;
+using Microsoft.Extensions.Logging;
 using WebStoreAPI.Requests.Roles;
 using WebStoreAPI.Response.Roles;
 using WebStoreAPI.Specifications.Roles;
@@ -19,11 +20,13 @@ namespace WebStoreAPI.Controllers
     {
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
+        private readonly ILogger<RolesController> _logger;
 
-        public RolesController(IMediator mediator, IMapper mapper)
+        public RolesController(IMediator mediator, IMapper mapper, ILogger<RolesController> logger)
         {
             _mediator = mediator;
             _mapper = mapper;
+            _logger = logger;
         }
 
         /// <summary>
@@ -43,13 +46,16 @@ namespace WebStoreAPI.Controllers
 
                 if (!roles.Any())
                 {
+                    _logger.LogError("GET ROLES - Not found");
                     return NotFound();
                 }
 
+                _logger.LogInformation("GET ROLES - Complete");
                 return Ok(_mapper.Map<IEnumerable<GetRolesResponse>>(roles));
             }
             catch (Exception e)
             {
+                _logger.LogError($"GET ROLES - {e}");
                 return StatusCode(500, new { errorMessage = e.Message });
             }
         }
@@ -70,13 +76,16 @@ namespace WebStoreAPI.Controllers
 
                 if (role == null)
                 {
+                    _logger.LogError("GET ROLE - Not found");
                     return NotFound();
                 }
 
+                _logger.LogInformation("GET ROLE - Complete");
                 return Ok(_mapper.Map<GetRoleResponse>(role));
             }
             catch (Exception e)
             {
+                _logger.LogError($"GET ROLE - {e}");
                 return StatusCode(500, new { errorMessage = e.Message });
             }
         }
@@ -93,16 +102,19 @@ namespace WebStoreAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
+                _logger.LogError("POST ROLE - Not valid");
                 return BadRequest(ModelState);
             }
 
             try
             {
                 var roleSend = await _mediator.Send(_mapper.Map<CreateRoleCommand>(role));
+                _logger.LogInformation("POST ROLE - Complete, with id: " + roleSend.Id);
                 return Created($"api/roles/{roleSend.Id}", _mapper.Map<CreateRoleResponse>(roleSend));
             }
             catch (Exception e)
             {
+                _logger.LogError($"POST ROLE - {e}");
                 return StatusCode(500, new { errorMessage = e.Message });
             }
         }
@@ -119,6 +131,7 @@ namespace WebStoreAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
+                _logger.LogError("PUT ROLE - Not valid");
                 return BadRequest(ModelState);
             }
 
@@ -127,13 +140,16 @@ namespace WebStoreAPI.Controllers
                 var roleSend = await _mediator.Send(_mapper.Map<UpdateRoleCommand>(role));
                 if (roleSend == null)
                 {
+                    _logger.LogError("PUT ROLE - Not found");
                     return NotFound();
                 }
 
+                _logger.LogInformation("PUT ROLE - Complete, with id: " + roleSend.Id);
                 return Ok();
             }
             catch (Exception e)
             {
+                _logger.LogError($"PUT ROLE - {e}");
                 return StatusCode(500, new { errorMessage = e.Message });
             }
         }
@@ -148,23 +164,21 @@ namespace WebStoreAPI.Controllers
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> Delete(int id)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             try
             {
                 var roleSend = await _mediator.Send(new DeleteRoleCommand { Id = id });
                 if (roleSend == null)
                 {
+                    _logger.LogError("DELETE ROLE - Not found");
                     return NotFound();
                 }
 
+                _logger.LogInformation("DELETE ROLE - Complete, with id: " + roleSend.Id);
                 return Ok();
             }
             catch (Exception e)
             {
+                _logger.LogError($"DELETE ROLE - {e}");
                 return StatusCode(500, new { errorMessage = e.Message });
             }
         }

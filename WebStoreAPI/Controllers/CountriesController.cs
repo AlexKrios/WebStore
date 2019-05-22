@@ -46,16 +46,16 @@ namespace WebStoreAPI.Controllers
 
                 if (!countries.Any())
                 {
-                    _logger.LogError("Not found countries object by filter");
+                    _logger.LogError("GET COUNTRIES - Not found");
                     return NotFound();
                 }
 
-                _logger.LogInformation("Complete, get filter list of countries");
+                _logger.LogInformation("GET COUNTRIES - Complete");
                 return Ok(_mapper.Map<IEnumerable<GetCountriesResponse>>(countries));
             }
             catch (Exception e)
             {
-                _logger.LogError("Unknown exception in GET countries by filter request");
+                _logger.LogError($"GET COUNTRIES - {e}");
                 return StatusCode(500, new { errorMessage = e.Message });
             }
         }
@@ -76,16 +76,16 @@ namespace WebStoreAPI.Controllers
 
                 if (country == null)
                 {
-                    _logger.LogError("Not found country object by id in GET request");
+                    _logger.LogError("GET COUNTRY - Not found");
                     return NotFound();
                 }
 
-                _logger.LogInformation("Complete, get country by id");
+                _logger.LogInformation("GET COUNTRY - Complete");
                 return Ok(_mapper.Map<GetCountryResponse>(country));
             }
             catch (Exception e)
             {
-                _logger.LogError("Unknown exception in GET country by id request");
+                _logger.LogError($"GET COUNTRY - {e}");
                 return StatusCode(500, new { errorMessage = e.Message });
             }
         }
@@ -102,19 +102,19 @@ namespace WebStoreAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogError("Country model is not valid in POST request");
+                _logger.LogError("POST COUNTRY - Not valid");
                 return BadRequest();
             }
 
             try
             {
                 var countrySend = await _mediator.Send(_mapper.Map<CreateCountryCommand>(country));
-                _logger.LogInformation("Complete, create new country with id: " + countrySend.Id);
+                _logger.LogInformation("POST COUNTRY - Complete, with id: " + countrySend.Id);
                 return Created($"api/countries/{countrySend.Id}", _mapper.Map<CreateCountryResponse>(countrySend));
             }
             catch (Exception e)
             {
-                _logger.LogError("Unknown exception in POST country request");
+                _logger.LogError($"POST COUNTRY - {e}");
                 return StatusCode(500, new { errorMessage = e.Message });
             }
         }
@@ -131,7 +131,7 @@ namespace WebStoreAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogError("Country model is not valid in UPDATE request");
+                _logger.LogError("PUT COUNTRY - Not valid");
                 return BadRequest(ModelState);
             }
 
@@ -140,16 +140,16 @@ namespace WebStoreAPI.Controllers
                 var countrySend = await _mediator.Send(_mapper.Map<UpdateCountryCommand>(country));
                 if (countrySend == null)
                 {
-                    _logger.LogError("Not found country object by id in UPDATE request");
+                    _logger.LogError("PUT COUNTRY - Not found");
                     return NotFound();
                 }
 
-                _logger.LogInformation("Complete, update country with id: " + countrySend.Id);
+                _logger.LogInformation("PUT COUNTRY - Complete, with id: " + countrySend.Id);
                 return Ok();
             }
             catch (Exception e)
             {
-                _logger.LogError("Unknown exception in UPDATE country request");
+                _logger.LogError($"PUT COUNTRY - {e}");
                 return StatusCode(500, new { errorMessage = e.Message });
             }
         }
@@ -169,16 +169,16 @@ namespace WebStoreAPI.Controllers
                 var countrySend = await _mediator.Send(new DeleteCountryCommand { Id = id });
                 if (countrySend == null)
                 {
-                    _logger.LogError("Not found country object by id in DELETE request");
+                    _logger.LogError("DELETE COUNTRY - Not found");
                     return NotFound();
                 }
 
-                _logger.LogInformation("Complete, delete country with id: " + countrySend.Id);
+                _logger.LogInformation("DELETE COUNTRY - Complete, with id: " + countrySend.Id);
                 return Ok();
             }
             catch (Exception e)
             {
-                _logger.LogError("Unknown exception id DELETE country request");
+                _logger.LogError($"DELETE COUNTRY - {e}");
                 return StatusCode(500, new { errorMessage = e.Message });
             }
         }

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CQS.Commands.Orders;
 using CQS.Queries.Orders;
+using Microsoft.Extensions.Logging;
 using WebStoreAPI.Requests.Orders;
 using WebStoreAPI.Response.Orders;
 using WebStoreAPI.Specifications.Orders;
@@ -19,11 +20,13 @@ namespace WebStoreAPI.Controllers
     {
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
+        private readonly ILogger<OrdersController> _logger;
 
-        public OrdersController(IMediator mediator, IMapper mapper)
+        public OrdersController(IMediator mediator, IMapper mapper, ILogger<OrdersController> logger)
         {
             _mediator = mediator;
             _mapper = mapper;
+            _logger = logger;
         }
 
         /// <summary>
@@ -50,13 +53,16 @@ namespace WebStoreAPI.Controllers
 
                 if (!orders.Any())
                 {
+                    _logger.LogError("GET ORDERS - Not found");
                     return NotFound();
                 }
 
+                _logger.LogInformation("GET ORDERS - Complete");
                 return Ok(_mapper.Map<IEnumerable<GetOrdersResponse>>(orders));
             }
             catch (Exception e)
             {
+                _logger.LogError($"GET ORDERS - {e}");
                 return StatusCode(500, new { errorMessage = e.Message });
             }
         }
@@ -77,13 +83,16 @@ namespace WebStoreAPI.Controllers
 
                 if (order == null)
                 {
+                    _logger.LogError("GET ORDER - Not found");
                     return NotFound();
                 }
 
+                _logger.LogInformation("GET ORDER - Complete");
                 return Ok(_mapper.Map<GetOrderResponse>(order));
             }
             catch (Exception e)
             {
+                _logger.LogError($"GET ORDER - {e}");
                 return StatusCode(500, new { errorMessage = e.Message });
             }
         }
@@ -100,16 +109,19 @@ namespace WebStoreAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
+                _logger.LogError("POST ORDER - Not valid");
                 return BadRequest(ModelState);
             }
 
             try
             {
                 var orderSend = await _mediator.Send(_mapper.Map<CreateOrderCommand>(order));
+                _logger.LogInformation("POST ORDER - Complete, with id: " + orderSend.Id);
                 return Created($"api/orders/{orderSend.Id}", _mapper.Map<CreateOrderResponse>(orderSend));
             }
             catch (Exception e)
             {
+                _logger.LogError($"POST ORDER - {e}");
                 return StatusCode(500, new { errorMessage = e.Message });
             }
         }
@@ -126,6 +138,7 @@ namespace WebStoreAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
+                _logger.LogError("PUT ORDER - Not valid");
                 return BadRequest(ModelState);
             }
 
@@ -134,13 +147,16 @@ namespace WebStoreAPI.Controllers
                 var orderSend = await _mediator.Send(_mapper.Map<UpdateOrderCommand>(order));
                 if (orderSend == null)
                 {
+                    _logger.LogError("PUT ORDER - Not found");
                     return NotFound();
                 }
 
+                _logger.LogInformation("PUT ORDER - Complete, with id: " + orderSend.Id);
                 return Ok();
             }
             catch (Exception e)
             {
+                _logger.LogError($"PUT ORDER - {e}");
                 return StatusCode(500, new { errorMessage = e.Message });
             }
         }
@@ -155,23 +171,21 @@ namespace WebStoreAPI.Controllers
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> Delete(int id)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             try
             {
                 var orderSend = await _mediator.Send(new DeleteOrderCommand { Id = id });
                 if (orderSend == null)
                 {
+                    _logger.LogError("DELETE ORDER - Not found");
                     return NotFound();
                 }
 
+                _logger.LogInformation("DELETE ORDER - Complete, with id: " + orderSend.Id);
                 return Ok();
             }
             catch (Exception e)
             {
+                _logger.LogError($"DELETE ORDER - {e}");
                 return StatusCode(500, new { errorMessage = e.Message });
             }
         }

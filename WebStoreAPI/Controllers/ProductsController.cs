@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CQS.Commands.Products;
 using CQS.Queries.Products;
+using Microsoft.Extensions.Logging;
 using WebStoreAPI.Requests.Products;
 using WebStoreAPI.Response.Products;
 using WebStoreAPI.Specifications.Products;
@@ -19,11 +20,13 @@ namespace WebStoreAPI.Controllers
     {
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
+        private readonly ILogger<ProductsController> _logger;
 
-        public ProductsController(IMediator mediator, IMapper mapper)
+        public ProductsController(IMediator mediator, IMapper mapper, ILogger<ProductsController> logger)
         {
             _mediator = mediator;
             _mapper = mapper;
+            _logger = logger;
         }
 
         /// <summary>
@@ -51,13 +54,16 @@ namespace WebStoreAPI.Controllers
 
                 if (!products.Any())
                 {
+                    _logger.LogError("GET PRODUCTS - Not found");
                     return NotFound();
                 }
 
+                _logger.LogInformation("GET PRODUCTS - Complete");
                 return Ok(_mapper.Map<IEnumerable<GetProductResponse>>(products));
             }
             catch (Exception e)
             {
+                _logger.LogError($"GET PRODUCTS - {e}");
                 return StatusCode(500, new {errorMessage = e.Message});
             }
         }
@@ -78,13 +84,16 @@ namespace WebStoreAPI.Controllers
 
                 if (product == null)
                 {
+                    _logger.LogError("GET PRODUCT - Not found");
                     return NotFound();
                 }
 
+                _logger.LogInformation("GET PRODUCT - Complete");
                 return Ok(_mapper.Map<GetProductResponse>(product));
             }
             catch (Exception e)
             {
+                _logger.LogError($"GET PRODUCT - {e}");
                 return StatusCode(500, new {errorMessage = e.Message});
             }
         }
@@ -101,16 +110,19 @@ namespace WebStoreAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
+                _logger.LogError("POST PRODUCT - Not valid");
                 return BadRequest(ModelState);
             }
 
             try
             {
                 var productSend = await _mediator.Send(_mapper.Map<CreateProductCommand>(product));
+                _logger.LogInformation("POST PRODUCT - Complete, with id: " + productSend.Id);
                 return Created($"api/products/{productSend.Id}", _mapper.Map<CreateProductResponse>(productSend));
             }
             catch (Exception e)
             {
+                _logger.LogError($"POST PRODUCT - {e}");
                 return StatusCode(500, new {errorMessage = e.Message});
             }
         }
@@ -127,6 +139,7 @@ namespace WebStoreAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
+                _logger.LogError("PUT PRODUCT - Not valid");
                 return BadRequest(ModelState);
             }
 
@@ -135,13 +148,16 @@ namespace WebStoreAPI.Controllers
                 var productSend = await _mediator.Send(_mapper.Map<UpdateProductCommand>(product));
                 if (productSend == null)
                 {
+                    _logger.LogError("PUT PRODUCT - Not found");
                     return NotFound();
                 }
 
+                _logger.LogInformation("PUT PRODUCT - Complete, with id: " + productSend.Id);
                 return Ok();
             }
             catch (Exception e)
             {
+                _logger.LogError($"PUT PRODUCT - {e}");
                 return StatusCode(500, new {errorMessage = e.Message});
             }
         }
@@ -156,23 +172,21 @@ namespace WebStoreAPI.Controllers
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> Delete(int id)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             try
             {
                 var productSend = await _mediator.Send(new DeleteProductCommand { Id = id });
                 if (productSend == null)
                 {
+                    _logger.LogError("DELETE PRODUCT - Not found");
                     return NotFound();
                 }
 
+                _logger.LogInformation("DELETE PRODUCT - Complete, with id: " + productSend.Id);
                 return Ok();
             }
             catch (Exception e)
             {
+                _logger.LogError($"DELETE PRODUCT - {e}");
                 return StatusCode(500, new {errorMessage = e.Message});
             }
         }

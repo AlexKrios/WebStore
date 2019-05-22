@@ -58,7 +58,7 @@ namespace WebStoreAPI.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogError(@"GET USERSROLES - {0}", e);
+                _logger.LogError($"GET USERSROLES - {e}");
                 return StatusCode(500, new {errorMessage = e.Message});
             }
         }
@@ -88,7 +88,7 @@ namespace WebStoreAPI.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogError(@"GET USERROLES - {0}", e);
+                _logger.LogError($"GET USERROLES - {e}");
                 return StatusCode(500, new {errorMessage = e.Message});
             }
         }
@@ -117,7 +117,7 @@ namespace WebStoreAPI.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogError(@"POST USERROLES - {0}", e);
+                _logger.LogError($"POST USERROLES - {e}");
                 return StatusCode(500, new {errorMessage = e.Message});
             }
         }
@@ -134,7 +134,7 @@ namespace WebStoreAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogError("UPDATE USERROLES - Not valid model");
+                _logger.LogError("PUT USERROLES - Not valid model");
                 return BadRequest(ModelState);
             }
 
@@ -143,16 +143,16 @@ namespace WebStoreAPI.Controllers
                 var userRoleSend = await _mediator.Send(_mapper.Map<UpdateUserRoleCommand>(userRole));
                 if (userRoleSend == null)
                 {
-                    _logger.LogError("UPDATE USERROLES - Not found");
+                    _logger.LogError("PUT USERROLES - Not found");
                     return NotFound();
                 }
 
-                _logger.LogInformation("UPDATE USERROLES - Complete, with id: " + userRoleSend.Id);
+                _logger.LogInformation("PUT USERROLES - Complete, with id: " + userRoleSend.Id);
                 return Ok();
             }
             catch (Exception e)
             {
-                _logger.LogError(@"UPDATE USERROLES - {0}", e);
+                _logger.LogError($"PUT USERROLES - {e}");
                 return StatusCode(500, new {errorMessage = e.Message});
             }
         }
@@ -181,7 +181,7 @@ namespace WebStoreAPI.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogError(@"DELETE USERROLES - {0}", e);
+                _logger.LogError($"DELETE USERROLES - {e}");
                 return StatusCode(500, new {errorMessage = e.Message});
             }
         }

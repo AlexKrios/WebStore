@@ -63,7 +63,7 @@ namespace WebStoreAPI.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogError(@"GET ORDERSITEMS - {0}", e);
+                _logger.LogError($"GET ORDERSITEMS - {e}");
                 return StatusCode(500, new { errorMessage = e.Message });
             }
         }
@@ -93,7 +93,7 @@ namespace WebStoreAPI.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogError(@"GET ORDERITEMS - {0}", e);
+                _logger.LogError($"GET ORDERITEMS - {e}");
                 return StatusCode(500, new { errorMessage = e.Message });
             }
         }
@@ -122,7 +122,7 @@ namespace WebStoreAPI.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogError(@"POST ORDERITEMS - {0}", e);
+                _logger.LogError($"POST ORDERITEMS - {e}");
                 return StatusCode(500, new { errorMessage = e.Message });
             }
         }
@@ -139,7 +139,7 @@ namespace WebStoreAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogError("UPDATE ORDERITEMS - Not valid model");
+                _logger.LogError("PUT ORDERITEMS - Not valid model");
                 return BadRequest(ModelState);
             }
 
@@ -148,16 +148,16 @@ namespace WebStoreAPI.Controllers
                 var orderItemSend = await _mediator.Send(_mapper.Map<UpdateOrderItemsCommand>(orderItem));
                 if (orderItemSend == null)
                 {
-                    _logger.LogError("UPDATE ORDERITEMS - Not found");
+                    _logger.LogError("PUT ORDERITEMS - Not found");
                     return NotFound();
                 }
 
-                _logger.LogInformation("UPDATE ORDERITEMS - Complete, with id: " + orderItemSend.Id);
+                _logger.LogInformation("PUT ORDERITEMS - Complete, with id: " + orderItemSend.Id);
                 return Ok();
             }
             catch (Exception e)
             {
-                _logger.LogError(@"UPDATE ORDERITEMS - {0}", e);
+                _logger.LogError($"PUT ORDERITEMS - {e}");
                 return StatusCode(500, new { errorMessage = e.Message });
             }
         }
@@ -186,7 +186,7 @@ namespace WebStoreAPI.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogError(@"DELETE ORDERITEMS - {0}", e);
+                _logger.LogError($"DELETE ORDERITEMS - {e}");
                 return StatusCode(500, new { errorMessage = e.Message });
             }
         }
