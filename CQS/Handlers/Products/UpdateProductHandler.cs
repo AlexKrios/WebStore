@@ -1,12 +1,13 @@
-﻿using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using CQS.Commands.Products;
 using DataLibrary;
 using DataLibrary.Entities;
 using MediatR;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace CQS.Handlers.Products
 {
@@ -14,11 +15,13 @@ namespace CQS.Handlers.Products
     {
         private readonly WebStoreContext _context;
         private readonly IMapper _mapper;
+        private readonly ILogger<UpdateProductHandler> _logger;
 
-        public UpdateProductHandler(WebStoreContext context, IMapper mapper)
+        public UpdateProductHandler(WebStoreContext context, IMapper mapper, ILogger<UpdateProductHandler> logger)
         {
             _context = context;
             _mapper = mapper;
+            _logger = logger;
         }
 
         public async Task<Product> Handle(UpdateProductCommand command, CancellationToken cancellationToken)
@@ -35,7 +38,7 @@ namespace CQS.Handlers.Products
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                _logger.LogError(e, $"UPDATE PRODUCT, HANDLER - {e.Message}");
                 throw;
             }
         }

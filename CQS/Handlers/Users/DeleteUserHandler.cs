@@ -1,21 +1,24 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using CQS.Commands.Users;
+﻿using CQS.Commands.Users;
 using DataLibrary;
 using DataLibrary.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace CQS.Handlers.Users
 {
     public class DeleteUserHandler : IRequestHandler<DeleteUserCommand, User>
     {
         private readonly WebStoreContext _context;
+        private readonly ILogger<DeleteUserHandler> _logger;
 
-        public DeleteUserHandler(WebStoreContext context)
+        public DeleteUserHandler(WebStoreContext context, ILogger<DeleteUserHandler> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         public async Task<User> Handle(DeleteUserCommand command, CancellationToken cancellationToken)
@@ -32,7 +35,7 @@ namespace CQS.Handlers.Users
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                _logger.LogError(e, $"DELETE USER, HANDLER - {e.Message}");
                 throw;
             }
         }

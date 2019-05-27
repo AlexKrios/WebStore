@@ -1,13 +1,13 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using CQS.Commands.Deliveries;
+using CQS.Queries.Deliveries;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
-using CQS.Commands.Deliveries;
-using CQS.Queries.Deliveries;
-using Microsoft.Extensions.Logging;
 using WebStoreAPI.Requests.Deliveries;
 using WebStoreAPI.Response.Deliveries;
 using WebStoreAPI.Specifications.Deliveries;
@@ -52,16 +52,16 @@ namespace WebStoreAPI.Controllers
 
                 if (!deliveries.Any())
                 {
-                    _logger.LogError("GET DELIVERIES - Not found");
+                    _logger.LogInformation("GET DELIVERIES, CONTROLLER - Not found");
                     return NotFound();
                 }
 
-                _logger.LogInformation("GET DELIVERIES - Complete");
+                _logger.LogInformation("GET DELIVERIES, CONTROLLER - Complete");
                 return Ok(_mapper.Map<IEnumerable<GetDeliveriesResponse>>(deliveries));
             }
             catch (Exception e)
             {
-                _logger.LogError($"GET DELIVERIES - {e}");
+                _logger.LogError(e, $"GET DELIVERIES, CONTROLLER - {e.Message}");
                 return StatusCode(500, new {errorMessage = e.Message});
             }
         }
@@ -82,16 +82,16 @@ namespace WebStoreAPI.Controllers
 
                 if (delivery == null)
                 {
-                    _logger.LogError("GET DELIVERY - Not found");
+                    _logger.LogInformation("GET DELIVERY, CONTROLLER - Not found");
                     return NotFound();
                 }
 
-                _logger.LogInformation("GET DELIVERY - Complete");
+                _logger.LogInformation("GET DELIVERY, CONTROLLER - Complete");
                 return Ok(_mapper.Map<GetDeliveryResponse>(delivery));
             }
             catch (Exception e)
             {
-                _logger.LogError($"GET DELIVERY - {e}");
+                _logger.LogError(e, $"GET DELIVERY, CONTROLLER - {e.Message}");
                 return StatusCode(500, new {errorMessage = e.Message});
             }
         }
@@ -108,19 +108,19 @@ namespace WebStoreAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogError("POST DELIVERY - Not valid");
+                _logger.LogError("CREATE DELIVERY, CONTROLLER - Not valid");
                 return BadRequest();
             }
 
             try
             {
                 var deliverySend = await _mediator.Send(_mapper.Map<CreateDeliveryCommand>(delivery));
-                _logger.LogInformation("POST DELIVERY - Complete, with id: " + deliverySend.Id);
+                _logger.LogInformation("CREATE DELIVERY, CONTROLLER - Complete, with id: " + deliverySend.Id);
                 return Created($"api/deliveries/{deliverySend.Id}", _mapper.Map<CreateDeliveryResponse>(deliverySend));
             }
             catch (Exception e)
             {
-                _logger.LogError($"POST DELIVERY - {e}");
+                _logger.LogError(e, $"CREATE DELIVERY, CONTROLLER - {e.Message}");
                 return StatusCode(500, new {errorMessage = e.Message});
             }
         }
@@ -137,7 +137,7 @@ namespace WebStoreAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogError("PUT DELIVERY - Not valid");
+                _logger.LogError("UPDATE DELIVERY, CONTROLLER - Not valid");
                 return BadRequest(ModelState);
             }
 
@@ -146,16 +146,16 @@ namespace WebStoreAPI.Controllers
                 var deliverySend = await _mediator.Send(_mapper.Map<UpdateDeliveryCommand>(delivery));
                 if (deliverySend == null)
                 {
-                    _logger.LogError("PUT DELIVERY - Not found");
+                    _logger.LogInformation("UPDATE DELIVERY, CONTROLLER - Not found");
                     return NotFound();
                 }
 
-                _logger.LogInformation("PUT DELIVERY - Complete, with id: " + deliverySend.Id);
+                _logger.LogInformation("UPDATE DELIVERY, CONTROLLER - Complete, with id: " + deliverySend.Id);
                 return Ok();
             }
             catch (Exception e)
             {
-                _logger.LogError($"PUT DELIVERY - {e}");
+                _logger.LogError(e, $"UPDATE DELIVERY, CONTROLLER - {e.Message}");
                 return StatusCode(500, new {errorMessage = e.Message});
             }
         }
@@ -175,16 +175,16 @@ namespace WebStoreAPI.Controllers
                 var deliverySend = await _mediator.Send(new DeleteDeliveryCommand {Id = id});
                 if (deliverySend == null)
                 {
-                    _logger.LogError("DELETE DELIVERY - Not found");
+                    _logger.LogInformation("DELETE DELIVERY, CONTROLLER - Not found");
                     return NotFound();
                 }
 
-                _logger.LogInformation("DELETE DELIVERY - Complete, with id: " + deliverySend.Id);
+                _logger.LogInformation("DELETE DELIVERY, CONTROLLER - Complete, with id: " + deliverySend.Id);
                 return Ok();
             }
             catch (Exception e)
             {
-                _logger.LogError($"DELETE DELIVERY - {e}");
+                _logger.LogError(e, $"DELETE DELIVERY, CONTROLLER - {e.Message}");
                 return StatusCode(500, new {errorMessage = e.Message});
             }
         }

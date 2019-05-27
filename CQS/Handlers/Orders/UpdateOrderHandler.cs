@@ -1,12 +1,13 @@
-﻿using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using CQS.Commands.Orders;
 using DataLibrary;
 using DataLibrary.Entities;
 using MediatR;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace CQS.Handlers.Orders
 {
@@ -14,11 +15,13 @@ namespace CQS.Handlers.Orders
     {
         private readonly WebStoreContext _context;
         private readonly IMapper _mapper;
+        private readonly ILogger<UpdateOrderHandler> _logger;
 
-        public UpdateOrderHandler(WebStoreContext context, IMapper mapper)
+        public UpdateOrderHandler(WebStoreContext context, IMapper mapper, ILogger<UpdateOrderHandler> logger)
         {
             _context = context;
             _mapper = mapper;
+            _logger = logger;
         }
 
         public async Task<Order> Handle(UpdateOrderCommand command, CancellationToken cancellationToken)
@@ -35,7 +38,7 @@ namespace CQS.Handlers.Orders
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                _logger.LogError(e, $"UPDATE ORDER, HANDLER - {e.Message}");
                 throw;
             }
         }

@@ -1,12 +1,13 @@
-﻿using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using CQS.Commands.Manufacturers;
 using DataLibrary;
 using DataLibrary.Entities;
 using MediatR;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace CQS.Handlers.Manufacturers
 {
@@ -14,11 +15,13 @@ namespace CQS.Handlers.Manufacturers
     {
         private readonly WebStoreContext _context;
         private readonly IMapper _mapper;
+        private readonly ILogger<UpdateManufacturerHandler> _logger;
 
-        public UpdateManufacturerHandler(WebStoreContext context, IMapper mapper)
+        public UpdateManufacturerHandler(WebStoreContext context, IMapper mapper, ILogger<UpdateManufacturerHandler> logger)
         {
             _context = context;
             _mapper = mapper;
+            _logger = logger;
         }
 
         public async Task<Manufacturer> Handle(UpdateManufacturerCommand command, CancellationToken cancellationToken)
@@ -35,7 +38,7 @@ namespace CQS.Handlers.Manufacturers
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                _logger.LogError(e, $"UPDATE MANUFACTURER, HANDLER - {e.Message}");
                 throw;
             }
         }

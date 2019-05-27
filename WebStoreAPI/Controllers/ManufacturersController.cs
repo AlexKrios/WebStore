@@ -1,13 +1,13 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using CQS.Commands.Manufacturers;
+using CQS.Queries.Manufacturers;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
-using CQS.Commands.Manufacturers;
-using CQS.Queries.Manufacturers;
-using Microsoft.Extensions.Logging;
 using WebStoreAPI.Requests.Manufacturers;
 using WebStoreAPI.Response.Manufacturers;
 using WebStoreAPI.Specifications.Manufacturers;
@@ -50,16 +50,16 @@ namespace WebStoreAPI.Controllers
 
                 if (!manufacturers.Any())
                 {
-                    _logger.LogError("GET MANUFACTURERS - Not found");
+                    _logger.LogInformation("GET MANUFACTURERS, CONTROLLER - Not found");
                     return NotFound();
                 }
 
-                _logger.LogInformation("GET MANUFACTURERS - Complete");
+                _logger.LogInformation("GET MANUFACTURERS, CONTROLLER - Complete");
                 return Ok(_mapper.Map<IEnumerable<GetManufacturersResponse>>(manufacturers));
             }
             catch (Exception e)
             {
-                _logger.LogError($"GET MANUFACTURERS - {e}");
+                _logger.LogError(e, $"GET MANUFACTURERS, CONTROLLER - {e.Message}");
                 return StatusCode(500, new { errorMessage = e.Message });
             }
         }
@@ -80,16 +80,16 @@ namespace WebStoreAPI.Controllers
 
                 if (manufacturer == null)
                 {
-                    _logger.LogError("GET MANUFACTURER - Not found");
+                    _logger.LogInformation("GET MANUFACTURER, CONTROLLER - Not found");
                     return NotFound();
                 }
 
-                _logger.LogInformation("GET MANUFACTURER - Complete");
+                _logger.LogInformation("GET MANUFACTURER, CONTROLLER - Complete");
                 return Ok(_mapper.Map<GetManufacturerResponse>(manufacturer));
             }
             catch (Exception e)
             {
-                _logger.LogError($"GET MANUFACTURER - {e}");
+                _logger.LogError(e, $"GET MANUFACTURER, CONTROLLER - {e.Message}");
                 return StatusCode(500, new { errorMessage = e.Message });
             }
         }
@@ -106,19 +106,19 @@ namespace WebStoreAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogError("GET MANUFACTURER - Not found");
+                _logger.LogError("CREATE MANUFACTURER, CONTROLLER - Not found");
                 return BadRequest(ModelState);
             }
 
             try
             {
                 var manufacturerSend = await _mediator.Send(_mapper.Map<CreateManufacturerCommand>(manufacturer));
-                _logger.LogInformation("GET MANUFACTURER - Complete, with id: " + manufacturerSend.Id);
+                _logger.LogInformation("CREATE MANUFACTURER, CONTROLLER - Complete, with id: " + manufacturerSend.Id);
                 return Created($"api/manufacturers/{manufacturerSend.Id}", _mapper.Map<CreateManufacturerResponse>(manufacturerSend));
             }
             catch (Exception e)
             {
-                _logger.LogError($"GET MANUFACTURER - {e}");
+                _logger.LogError(e, $"CREATE MANUFACTURER, CONTROLLER - {e.Message}");
                 return StatusCode(500, new { errorMessage = e.Message });
             }
         }
@@ -135,7 +135,7 @@ namespace WebStoreAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogError("PUT MANUFACTURER - Not valid");
+                _logger.LogError("UPDATE MANUFACTURER, CONTROLLER - Not valid");
                 return BadRequest(ModelState);
             }
 
@@ -144,16 +144,16 @@ namespace WebStoreAPI.Controllers
                 var manufacturerSend = await _mediator.Send(_mapper.Map<UpdateManufacturerCommand>(manufacturer));
                 if (manufacturerSend == null)
                 {
-                    _logger.LogError("PUT MANUFACTURER - Not found");
+                    _logger.LogInformation("UPDATE MANUFACTURER, CONTROLLER - Not found");
                     return NotFound();
                 }
 
-                _logger.LogInformation("PUT MANUFACTURER - Complete, with id: " + manufacturerSend.Id);
+                _logger.LogInformation("UPDATE MANUFACTURER, CONTROLLER - Complete, with id: " + manufacturerSend.Id);
                 return Ok();
             }
             catch (Exception e)
             {
-                _logger.LogError($"PUT MANUFACTURER - {e}");
+                _logger.LogError(e, $"UPDATE MANUFACTURER, CONTROLLER - {e.Message}");
                 return StatusCode(500, new { errorMessage = e.Message });
             }
         }
@@ -173,16 +173,16 @@ namespace WebStoreAPI.Controllers
                 var manufacturerSend = await _mediator.Send(new DeleteManufacturerCommand { Id = id });
                 if (manufacturerSend == null)
                 {
-                    _logger.LogError("DELETE MANUFACTURER - Not found");
+                    _logger.LogInformation("DELETE MANUFACTURER, CONTROLLER - Not found");
                     return NotFound();
                 }
 
-                _logger.LogInformation("DELETE MANUFACTURER - Complete, with id: " + manufacturerSend.Id);
+                _logger.LogInformation("DELETE MANUFACTURER, CONTROLLER - Complete, with id: " + manufacturerSend.Id);
                 return Ok();
             }
             catch (Exception e)
             {
-                _logger.LogError($"DELETE MANUFACTURER - {e}");
+                _logger.LogError(e, $"DELETE MANUFACTURER, CONTROLLER - {e.Message}");
                 return StatusCode(500, new { errorMessage = e.Message });
             }
         }

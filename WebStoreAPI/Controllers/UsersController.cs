@@ -52,16 +52,16 @@ namespace WebStoreAPI.Controllers
 
                 if (!users.Any())
                 {
-                    _logger.LogError("GET USERS - Not found");
+                    _logger.LogInformation("GET USERS, CONTROLLER - Not found");
                     return NotFound();
                 }
 
-                _logger.LogInformation("GET USERS - Complete");
+                _logger.LogInformation("GET USERS, CONTROLLER - Complete");
                 return Ok(_mapper.Map<IEnumerable<GetUsersResponse>>(users));
             }
             catch (Exception e)
             {
-                _logger.LogError($"GET USERS - {e}");
+                _logger.LogError(e, $"GET USERS, CONTROLLER - {e.Message}");
                 return StatusCode(500, new { errorMessage = e.Message });
             }
         }
@@ -82,16 +82,16 @@ namespace WebStoreAPI.Controllers
 
                 if (user == null)
                 {
-                    _logger.LogError("GET USER - Not found");
+                    _logger.LogInformation("GET USER, CONTROLLER - Not found");
                     return NotFound();
                 }
 
-                _logger.LogInformation("GET USER - Complete");
+                _logger.LogInformation("GET USER, CONTROLLER - Complete");
                 return Ok(_mapper.Map<GetUserResponse>(user));
             }
             catch (Exception e)
             {
-                _logger.LogError($"GET USER - {e}");
+                _logger.LogError(e, $"GET USER, CONTROLLER - {e.Message}");
                 return StatusCode(500, new { errorMessage = e.Message });
             }
         }
@@ -108,19 +108,19 @@ namespace WebStoreAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogError("POST USER - Not valid");
+                _logger.LogError("CREATE USER, CONTROLLER - Not valid");
                 return BadRequest();
             }
 
             try
             {
                 var userSend = await _mediator.Send(_mapper.Map<CreateUserCommand>(user));
-                _logger.LogInformation("POST USER - Complete, with id: " + userSend.Id);
+                _logger.LogInformation("CREATE USER, CONTROLLER - Complete, with id: " + userSend.Id);
                 return Created($"api/users/{userSend.Id}", _mapper.Map<CreateUserResponse>(userSend));
             }
             catch (Exception e)
             {
-                _logger.LogError($"POST USER - {e}");
+                _logger.LogError(e, $"CREATE USER, CONTROLLER - {e.Message}");
                 return StatusCode(500, new { errorMessage = e.Message });
             }
         }
@@ -137,7 +137,7 @@ namespace WebStoreAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogError("PUT USER - Not valid");
+                _logger.LogError("UPDATE USER, CONTROLLER - Not valid");
                 return BadRequest(ModelState);
             }
 
@@ -146,16 +146,16 @@ namespace WebStoreAPI.Controllers
                 var userSend = await _mediator.Send(_mapper.Map<UpdateUserCommand>(user));
                 if (userSend == null)
                 {
-                    _logger.LogError("PUT USER - Not found");
+                    _logger.LogInformation("UPDATE USER, CONTROLLER - Not found");
                     return NotFound();
                 }
 
-                _logger.LogInformation("PUT USER - Complete, with id: " + userSend.Id);
+                _logger.LogInformation("UPDATE USER, CONTROLLER - Complete, with id: " + userSend.Id);
                 return Ok();
             }
             catch (Exception e)
             {
-                _logger.LogError($"PUT USER - {e}");
+                _logger.LogError(e, $"UPDATE USER, CONTROLLER - {e.Message}");
                 return StatusCode(500, new { errorMessage = e.Message });
             }
         }
@@ -175,16 +175,16 @@ namespace WebStoreAPI.Controllers
                 var userSend = await _mediator.Send(new DeleteUserCommand{ Id = id });
                 if (userSend == null)
                 {
-                    _logger.LogError("DELETE USER - Not found");
+                    _logger.LogInformation("DELETE USER, CONTROLLER - Not found");
                     return NotFound();
                 }
 
-                _logger.LogInformation("DELETE USER - Complete, with id: " + userSend.Id);
+                _logger.LogInformation("DELETE USER, CONTROLLER - Complete, with id: " + userSend.Id);
                 return Ok();
             }
             catch (Exception e)
             {
-                _logger.LogError($"DELETE USER - {e}");
+                _logger.LogError(e, $"DELETE USER, CONTROLLER - {e.Message}");
                 return StatusCode(500, new { errorMessage = e.Message });
             }
         }

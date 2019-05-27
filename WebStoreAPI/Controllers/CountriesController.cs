@@ -1,13 +1,13 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using CQS.Commands.Countries;
+using CQS.Queries.Countries;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
-using CQS.Commands.Countries;
-using CQS.Queries.Countries;
-using Microsoft.Extensions.Logging;
 using WebStoreAPI.Requests.Countries;
 using WebStoreAPI.Response.Countries;
 using WebStoreAPI.Specifications.Countries;
@@ -46,16 +46,16 @@ namespace WebStoreAPI.Controllers
 
                 if (!countries.Any())
                 {
-                    _logger.LogError("GET COUNTRIES - Not found");
+                    _logger.LogInformation("GET COUNTRIES, CONTROLLER - Not found");
                     return NotFound();
                 }
 
-                _logger.LogInformation("GET COUNTRIES - Complete");
+                _logger.LogInformation("GET COUNTRIES, CONTROLLER - Complete");
                 return Ok(_mapper.Map<IEnumerable<GetCountriesResponse>>(countries));
             }
             catch (Exception e)
             {
-                _logger.LogError($"GET COUNTRIES - {e}");
+                _logger.LogError(e, $"GET COUNTRIES, CONTROLLER - {e.Message}");
                 return StatusCode(500, new { errorMessage = e.Message });
             }
         }
@@ -76,16 +76,16 @@ namespace WebStoreAPI.Controllers
 
                 if (country == null)
                 {
-                    _logger.LogError("GET COUNTRY - Not found");
+                    _logger.LogInformation("GET COUNTRY, CONTROLLER - Not found");
                     return NotFound();
                 }
 
-                _logger.LogInformation("GET COUNTRY - Complete");
+                _logger.LogInformation("GET COUNTRY, CONTROLLER - Complete");
                 return Ok(_mapper.Map<GetCountryResponse>(country));
             }
             catch (Exception e)
             {
-                _logger.LogError($"GET COUNTRY - {e}");
+                _logger.LogError(e, $"GET COUNTRY, CONTROLLER - {e.Message}");
                 return StatusCode(500, new { errorMessage = e.Message });
             }
         }
@@ -102,19 +102,19 @@ namespace WebStoreAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogError("POST COUNTRY - Not valid");
+                _logger.LogError("CREATE COUNTRY, CONTROLLER - Not valid");
                 return BadRequest();
             }
 
             try
             {
                 var countrySend = await _mediator.Send(_mapper.Map<CreateCountryCommand>(country));
-                _logger.LogInformation("POST COUNTRY - Complete, with id: " + countrySend.Id);
+                _logger.LogInformation("CREATE COUNTRY, CONTROLLER - Complete, with id: " + countrySend.Id);
                 return Created($"api/countries/{countrySend.Id}", _mapper.Map<CreateCountryResponse>(countrySend));
             }
             catch (Exception e)
             {
-                _logger.LogError($"POST COUNTRY - {e}");
+                _logger.LogError(e, $"CREATE COUNTRY, CONTROLLER - {e.Message}");
                 return StatusCode(500, new { errorMessage = e.Message });
             }
         }
@@ -131,7 +131,7 @@ namespace WebStoreAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogError("PUT COUNTRY - Not valid");
+                _logger.LogError("UPDATE COUNTRY, CONTROLLER - Not valid");
                 return BadRequest(ModelState);
             }
 
@@ -140,16 +140,16 @@ namespace WebStoreAPI.Controllers
                 var countrySend = await _mediator.Send(_mapper.Map<UpdateCountryCommand>(country));
                 if (countrySend == null)
                 {
-                    _logger.LogError("PUT COUNTRY - Not found");
+                    _logger.LogInformation("UPDATE COUNTRY, CONTROLLER - Not found");
                     return NotFound();
                 }
 
-                _logger.LogInformation("PUT COUNTRY - Complete, with id: " + countrySend.Id);
+                _logger.LogInformation("UPDATE COUNTRY, CONTROLLER - Complete, with id: " + countrySend.Id);
                 return Ok();
             }
             catch (Exception e)
             {
-                _logger.LogError($"PUT COUNTRY - {e}");
+                _logger.LogError(e, $"UPDATE COUNTRY, CONTROLLER - {e.Message}");
                 return StatusCode(500, new { errorMessage = e.Message });
             }
         }
@@ -169,16 +169,16 @@ namespace WebStoreAPI.Controllers
                 var countrySend = await _mediator.Send(new DeleteCountryCommand { Id = id });
                 if (countrySend == null)
                 {
-                    _logger.LogError("DELETE COUNTRY - Not found");
+                    _logger.LogInformation("DELETE COUNTRY, CONTROLLER - Not found");
                     return NotFound();
                 }
 
-                _logger.LogInformation("DELETE COUNTRY - Complete, with id: " + countrySend.Id);
+                _logger.LogInformation("DELETE COUNTRY, CONTROLLER - Complete, with id: " + countrySend.Id);
                 return Ok();
             }
             catch (Exception e)
             {
-                _logger.LogError($"DELETE COUNTRY - {e}");
+                _logger.LogError(e, $"DELETE COUNTRY, CONTROLLER - {e.Message}");
                 return StatusCode(500, new { errorMessage = e.Message });
             }
         }
