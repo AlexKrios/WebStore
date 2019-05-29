@@ -102,7 +102,7 @@ namespace WebStoreAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogError("CREATE COUNTRY, CONTROLLER - Not valid");
+                _logger.LogInformation("CREATE COUNTRY, CONTROLLER - Not valid");
                 return BadRequest();
             }
 
@@ -131,7 +131,7 @@ namespace WebStoreAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogError("UPDATE COUNTRY, CONTROLLER - Not valid");
+                _logger.LogInformation("UPDATE COUNTRY, CONTROLLER - Not valid");
                 return BadRequest(ModelState);
             }
 

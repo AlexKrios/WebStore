@@ -106,7 +106,7 @@ namespace WebStoreAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogError("CREATE PAYMENT, CONTROLLER - Not valid");
+                _logger.LogInformation("CREATE PAYMENT, CONTROLLER - Not valid");
                 return BadRequest(ModelState);
             }
 
@@ -135,7 +135,7 @@ namespace WebStoreAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogError("UPDATE PAYMENT, CONTROLLER - Not valid");
+                _logger.LogInformation("UPDATE PAYMENT, CONTROLLER - Not valid");
                 return BadRequest(ModelState);
             }
 

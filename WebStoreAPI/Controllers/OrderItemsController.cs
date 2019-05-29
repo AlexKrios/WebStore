@@ -110,7 +110,7 @@ namespace WebStoreAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogError("CREATE ORDERITEMS, CONTROLLER - Not valid model");
+                _logger.LogInformation("CREATE ORDERITEMS, CONTROLLER - Not valid model");
                 return BadRequest(ModelState);
             }
 
@@ -139,7 +139,7 @@ namespace WebStoreAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogError("UPDATE ORDERITEMS, CONTROLLER - Not valid model");
+                _logger.LogInformation("UPDATE ORDERITEMS, CONTROLLER - Not valid model");
                 return BadRequest(ModelState);
             }
 

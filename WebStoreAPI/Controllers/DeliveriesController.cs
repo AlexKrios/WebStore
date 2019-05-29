@@ -108,7 +108,7 @@ namespace WebStoreAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogError("CREATE DELIVERY, CONTROLLER - Not valid");
+                _logger.LogInformation("CREATE DELIVERY, CONTROLLER - Not valid");
                 return BadRequest();
             }
 
@@ -137,7 +137,7 @@ namespace WebStoreAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogError("UPDATE DELIVERY, CONTROLLER - Not valid");
+                _logger.LogInformation("UPDATE DELIVERY, CONTROLLER - Not valid");
                 return BadRequest(ModelState);
             }
 

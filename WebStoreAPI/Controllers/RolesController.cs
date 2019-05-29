@@ -102,7 +102,7 @@ namespace WebStoreAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogError("CREATE ROLE, CONTROLLER - Not valid");
+                _logger.LogInformation("CREATE ROLE, CONTROLLER - Not valid");
                 return BadRequest(ModelState);
             }
 
@@ -131,7 +131,7 @@ namespace WebStoreAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogError("UPDATE ROLE, CONTROLLER - Not valid");
+                _logger.LogInformation("UPDATE ROLE, CONTROLLER - Not valid");
                 return BadRequest(ModelState);
             }
 

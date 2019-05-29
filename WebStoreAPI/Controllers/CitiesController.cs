@@ -105,7 +105,7 @@ namespace WebStoreAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogError("CREATE CITY, CONTROLLER - Not valid");
+                _logger.LogInformation("CREATE CITY, CONTROLLER - Not valid");
                 return BadRequest(ModelState);
             }
 
@@ -134,7 +134,7 @@ namespace WebStoreAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogError("UPDATE CITY, CONTROLLER - Not valid");
+                _logger.LogInformation("UPDATE CITY, CONTROLLER - Not valid");
                 return BadRequest(ModelState);
             }
 

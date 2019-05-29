@@ -106,7 +106,7 @@ namespace WebStoreAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogError("CREATE MANUFACTURER, CONTROLLER - Not found");
+                _logger.LogInformation("CREATE MANUFACTURER, CONTROLLER - Not found");
                 return BadRequest(ModelState);
             }
 
@@ -135,7 +135,7 @@ namespace WebStoreAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogError("UPDATE MANUFACTURER, CONTROLLER - Not valid");
+                _logger.LogInformation("UPDATE MANUFACTURER, CONTROLLER - Not valid");
                 return BadRequest(ModelState);
             }
 

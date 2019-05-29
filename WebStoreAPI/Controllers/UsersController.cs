@@ -108,7 +108,7 @@ namespace WebStoreAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogError("CREATE USER, CONTROLLER - Not valid");
+                _logger.LogInformation("CREATE USER, CONTROLLER - Not valid");
                 return BadRequest();
             }
 
@@ -137,7 +137,7 @@ namespace WebStoreAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogError("UPDATE USER, CONTROLLER - Not valid");
+                _logger.LogInformation("UPDATE USER, CONTROLLER - Not valid");
                 return BadRequest(ModelState);
             }
 

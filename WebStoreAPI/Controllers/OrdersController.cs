@@ -109,7 +109,7 @@ namespace WebStoreAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogError("CREATE ORDER, CONTROLLER - Not valid");
+                _logger.LogInformation("CREATE ORDER, CONTROLLER - Not valid");
                 return BadRequest(ModelState);
             }
 
@@ -138,7 +138,7 @@ namespace WebStoreAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogError("UPDATE ORDER, CONTROLLER - Not valid");
+                _logger.LogInformation("UPDATE ORDER, CONTROLLER - Not valid");
                 return BadRequest(ModelState);
             }
 
