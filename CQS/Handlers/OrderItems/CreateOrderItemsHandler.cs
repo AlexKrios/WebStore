@@ -1,11 +1,12 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using CQS.Commands.OrderItems;
 using DataLibrary;
 using DataLibrary.Entities;
 using MediatR;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace CQS.Handlers.OrderItems
 {
@@ -13,11 +14,13 @@ namespace CQS.Handlers.OrderItems
     {
         private readonly WebStoreContext _context;
         private readonly IMapper _mapper;
+        private readonly ILogger<CreateOrderItemsHandler> _logger;
 
-        public CreateOrderItemsHandler(WebStoreContext context, IMapper mapper)
+        public CreateOrderItemsHandler(WebStoreContext context, IMapper mapper, ILogger<CreateOrderItemsHandler> logger)
         {
             _context = context;
             _mapper = mapper;
+            _logger = logger;
         }
 
         public async Task<OrderItem> Handle(CreateOrderItemsCommand command, CancellationToken cancellationToken)
@@ -32,7 +35,7 @@ namespace CQS.Handlers.OrderItems
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                _logger.LogError(e, $"CREATE ORDERITEMS, HANDLER - {e.Message}");
                 throw;
             }
         }

@@ -1,11 +1,12 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using CQS.Commands.UserRoles;
 using DataLibrary;
 using DataLibrary.Entities;
 using MediatR;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace CQS.Handlers.UserRoles
 {
@@ -13,11 +14,13 @@ namespace CQS.Handlers.UserRoles
     {
         private readonly WebStoreContext _context;
         private readonly IMapper _mapper;
+        private readonly ILogger<CreateUserRoleHandler> _logger;
 
-        public CreateUserRoleHandler(WebStoreContext context, IMapper mapper)
+        public CreateUserRoleHandler(WebStoreContext context, IMapper mapper, ILogger<CreateUserRoleHandler> logger)
         {
             _context = context;
             _mapper = mapper;
+            _logger = logger;
         }
 
         public async Task<UserRole> Handle(CreateUserRoleCommand command, CancellationToken cancellationToken)
@@ -32,7 +35,7 @@ namespace CQS.Handlers.UserRoles
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                _logger.LogError(e, $"CREATE USERROLES, HANDLER - {e.Message}");
                 throw;
             }
         }

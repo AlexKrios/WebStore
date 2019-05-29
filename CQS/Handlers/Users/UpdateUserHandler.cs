@@ -1,12 +1,13 @@
-﻿using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using CQS.Commands.Users;
 using DataLibrary;
 using DataLibrary.Entities;
 using MediatR;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace CQS.Handlers.Users
 {
@@ -14,11 +15,13 @@ namespace CQS.Handlers.Users
     {
         private readonly WebStoreContext _context;
         private readonly IMapper _mapper;
+        private readonly ILogger<UpdateUserHandler> _logger;
 
-        public UpdateUserHandler(WebStoreContext context, IMapper mapper)
+        public UpdateUserHandler(WebStoreContext context, IMapper mapper, ILogger<UpdateUserHandler> logger)
         {
             _context = context;
             _mapper = mapper;
+            _logger = logger;
         }
 
         public async Task<User> Handle(UpdateUserCommand command, CancellationToken cancellationToken)
@@ -35,7 +38,7 @@ namespace CQS.Handlers.Users
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                _logger.LogError(e, $"UPDATE USER, HANDLER - {e.Message}");
                 throw;
             }
         }

@@ -49,16 +49,16 @@ namespace WebStoreAPI.Controllers
 
                 if (!usersRoles.Any())
                 {
-                    _logger.LogError("GET USERSROLES - Not found");
+                    _logger.LogInformation("GET USERSROLES, CONTROLLER - Not found");
                     return NotFound();
                 }
 
-                _logger.LogInformation("GET USERSROLES - Complete");
+                _logger.LogInformation("GET USERSROLES, CONTROLLER - Complete");
                 return Ok(_mapper.Map<IEnumerable<GetUsersRolesResponse>>(usersRoles));
             }
             catch (Exception e)
             {
-                _logger.LogError(@"GET USERSROLES - {0}", e);
+                _logger.LogError(e, $"GET USERSROLES, CONTROLLER - {e.Message}");
                 return StatusCode(500, new {errorMessage = e.Message});
             }
         }
@@ -79,16 +79,16 @@ namespace WebStoreAPI.Controllers
 
                 if (userRoles == null)
                 {
-                    _logger.LogError("GET USERROLES - Not found");
+                    _logger.LogInformation("GET USERROLES, CONTROLLER - Not found");
                     return NotFound();
                 }
 
-                _logger.LogInformation("GET USERROLES - Complete");
+                _logger.LogInformation("GET USERROLES, CONTROLLER - Complete");
                 return Ok(_mapper.Map<GetUserRolesResponse>(userRoles));
             }
             catch (Exception e)
             {
-                _logger.LogError(@"GET USERROLES - {0}", e);
+                _logger.LogError(e, $"GET USERROLES, CONTROLLER - {e.Message}");
                 return StatusCode(500, new {errorMessage = e.Message});
             }
         }
@@ -105,19 +105,19 @@ namespace WebStoreAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogError("POST USERROLES - Not valid model");
+                _logger.LogInformation("CREATE USERROLES, CONTROLLER - Not valid model");
                 return BadRequest(ModelState);
             }
 
             try
             {
                 var userRoleSend = await _mediator.Send(_mapper.Map<CreateUserRoleCommand>(userRole));
-                _logger.LogInformation("POST USERROLES - Complete, with id: " + userRoleSend.Id);
+                _logger.LogInformation("CREATE USERROLES, CONTROLLER - Complete, with id: " + userRoleSend.Id);
                 return Created($"api/userroles/{userRoleSend.Id}", _mapper.Map<CreateUserRolesResponse>(userRoleSend));
             }
             catch (Exception e)
             {
-                _logger.LogError(@"POST USERROLES - {0}", e);
+                _logger.LogError(e, $"CREATE USERROLES, CONTROLLER - {e.Message}");
                 return StatusCode(500, new {errorMessage = e.Message});
             }
         }
@@ -134,7 +134,7 @@ namespace WebStoreAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
-                _logger.LogError("UPDATE USERROLES - Not valid model");
+                _logger.LogInformation("UPDATE USERROLES, CONTROLLER - Not valid model");
                 return BadRequest(ModelState);
             }
 
@@ -143,16 +143,16 @@ namespace WebStoreAPI.Controllers
                 var userRoleSend = await _mediator.Send(_mapper.Map<UpdateUserRoleCommand>(userRole));
                 if (userRoleSend == null)
                 {
-                    _logger.LogError("UPDATE USERROLES - Not found");
+                    _logger.LogInformation("UPDATE USERROLES, CONTROLLER - Not found");
                     return NotFound();
                 }
 
-                _logger.LogInformation("UPDATE USERROLES - Complete, with id: " + userRoleSend.Id);
+                _logger.LogInformation("UPDATE USERROLES, CONTROLLER - Complete, with id: " + userRoleSend.Id);
                 return Ok();
             }
             catch (Exception e)
             {
-                _logger.LogError(@"UPDATE USERROLES - {0}", e);
+                _logger.LogError(e, $"UPDATE USERROLES, CONTROLLER - {e.Message}");
                 return StatusCode(500, new {errorMessage = e.Message});
             }
         }
@@ -172,16 +172,16 @@ namespace WebStoreAPI.Controllers
                 var userRoleSend = await _mediator.Send(new DeleteUserRoleCommand { Id = id });
                 if (userRoleSend == null)
                 {
-                    _logger.LogError("DELETE USERROLES - Not found");
+                    _logger.LogInformation("DELETE USERROLES, CONTROLLER - Not found");
                     return NotFound();
                 }
 
-                _logger.LogInformation("DELETE USERROLES - Complete, with id: " + userRoleSend.Id);
+                _logger.LogInformation("DELETE USERROLES, CONTROLLER - Complete, with id: " + userRoleSend.Id);
                 return Ok();
             }
             catch (Exception e)
             {
-                _logger.LogError(@"DELETE USERROLES - {0}", e);
+                _logger.LogError(e, $"DELETE USERROLES, CONTROLLER - {e.Message}");
                 return StatusCode(500, new {errorMessage = e.Message});
             }
         }

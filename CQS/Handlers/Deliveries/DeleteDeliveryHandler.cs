@@ -1,21 +1,24 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using CQS.Commands.Deliveries;
+﻿using CQS.Commands.Deliveries;
 using DataLibrary;
 using DataLibrary.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace CQS.Handlers.Deliveries
 {
     public class DeleteDeliveryHandler : IRequestHandler<DeleteDeliveryCommand, Delivery>
     {
         private readonly WebStoreContext _context;
+        private readonly ILogger<DeleteDeliveryHandler> _logger;
 
-        public DeleteDeliveryHandler(WebStoreContext context)
+        public DeleteDeliveryHandler(WebStoreContext context, ILogger<DeleteDeliveryHandler> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         public async Task<Delivery> Handle(DeleteDeliveryCommand command, CancellationToken cancellationToken)
@@ -32,7 +35,7 @@ namespace CQS.Handlers.Deliveries
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                _logger.LogError(e, $"DELETE DELIVERY, HANDLER - {e.Message}");
                 throw;
             }
         }

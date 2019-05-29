@@ -14,7 +14,7 @@ namespace DataLibrary.Entities
         public string Name { get; set; }
         [Required]
         public string Description { get; set; }
-        [Required]
+        [Required, Range(0, double.MaxValue), Column(TypeName = "decimal")]
         public decimal Taxes { get; set; }
 
         [Required, Column(TypeName = "datetime2")]
