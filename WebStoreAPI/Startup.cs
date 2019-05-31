@@ -1,6 +1,4 @@
-﻿using System;
-using System.IO;
-using AutoMapper;
+﻿using AutoMapper;
 using DataLibrary;
 using FluentValidation.AspNetCore;
 using MediatR;
@@ -14,6 +12,8 @@ using Serilog;
 using SimpleInjector;
 using SimpleInjector.Lifestyles;
 using Swashbuckle.AspNetCore.Swagger;
+using System;
+using System.IO;
 using WebStoreAPI.Mapper;
 
 namespace WebStoreAPI
@@ -30,6 +30,16 @@ namespace WebStoreAPI
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAllOrigins", policy =>
+                {
+                    policy.WithOrigins("http://localhost:3000")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+            });
+
             services.AddMvc().AddFluentValidation(options =>
             {
                 options.RegisterValidatorsFromAssemblyContaining<Startup>();
@@ -89,7 +99,7 @@ namespace WebStoreAPI
             {
                 app.UseHsts();
             }
-
+            app.UseCors("AllowAllOrigins");
             app.UseHttpsRedirection();
             app.UseMvc();
 

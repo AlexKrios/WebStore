@@ -1,12 +1,13 @@
-﻿using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using CQS.Commands.Payments;
 using DataLibrary;
 using DataLibrary.Entities;
 using MediatR;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace CQS.Handlers.Payments
 {
@@ -14,11 +15,13 @@ namespace CQS.Handlers.Payments
     {
         private readonly WebStoreContext _context;
         private readonly IMapper _mapper;
+        private readonly ILogger<UpdatePaymentHandler> _logger;
 
-        public UpdatePaymentHandler(WebStoreContext context, IMapper mapper)
+        public UpdatePaymentHandler(WebStoreContext context, IMapper mapper, ILogger<UpdatePaymentHandler> logger)
         {
             _context = context;
             _mapper = mapper;
+            _logger = logger;
         }
 
         public async Task<Payment> Handle(UpdatePaymentCommand command, CancellationToken cancellationToken)
@@ -35,7 +38,7 @@ namespace CQS.Handlers.Payments
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                _logger.LogError(e, $"UPDATE PAYMENT, HANDLER - {e.Message}");
                 throw;
             }
         }

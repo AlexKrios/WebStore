@@ -1,11 +1,12 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using CQS.Commands.Users;
 using DataLibrary;
 using DataLibrary.Entities;
 using MediatR;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace CQS.Handlers.Users
 {
@@ -13,11 +14,13 @@ namespace CQS.Handlers.Users
     {
         private readonly WebStoreContext _context;
         private readonly IMapper _mapper;
+        private readonly ILogger<CreateUserHandler> _logger;
 
-        public CreateUserHandler(WebStoreContext context, IMapper mapper)
+        public CreateUserHandler(WebStoreContext context, IMapper mapper, ILogger<CreateUserHandler> logger)
         {
             _context = context;
             _mapper = mapper;
+            _logger = logger;
         }
 
         public async Task<User> Handle(CreateUserCommand command, CancellationToken cancellationToken)
@@ -32,7 +35,7 @@ namespace CQS.Handlers.Users
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                _logger.LogError(e, $"CREATE USER, HANDLER - {e.Message}");
                 throw;
             }
         }

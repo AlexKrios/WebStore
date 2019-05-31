@@ -16,8 +16,7 @@ namespace DataLibrary.Entities
         public string Description { get; set; }
         [Required]
         public int Availability { get; set; }
-        [Required]
-        [Range(0, int.MaxValue)]
+        [Required, Range(0, double.MaxValue), Column(TypeName = "decimal")]
         public decimal Price { get; set; }
 
         [Required, ForeignKey("Manufacturer")]

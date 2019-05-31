@@ -1,18 +1,20 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using CQS.Commands.OrderItems;
+using CQS.Queries.OrderItems;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
-using CQS.Commands.OrderItems;
-using CQS.Queries.OrderItems;
 using WebStoreAPI.Requests.OrderItems;
 using WebStoreAPI.Response.OrderItems;
 using WebStoreAPI.Specifications.OrderItems;
 
 namespace WebStoreAPI.Controllers
 {
+    /// <inheritdoc />
     /// <summary>
     /// OrderItems controller
     /// </summary>
@@ -22,11 +24,13 @@ namespace WebStoreAPI.Controllers
     {
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
+        private readonly ILogger<OrderItemsController> _logger;
 
-        public OrderItemsController(IMediator mediator, IMapper mapper)
+        public OrderItemsController(IMediator mediator, IMapper mapper, ILogger<OrderItemsController> logger)
         {
             _mediator = mediator;
             _mapper = mapper;
+            _logger = logger;
         }
 
         /// <summary>
@@ -53,20 +57,23 @@ namespace WebStoreAPI.Controllers
                 var productIdSpec = new OrderItemsProductIdSpecification(request.ProductId);
                 var orderIdSpec = new OrderItemsOrderIdSpecification(request.OrderId);
 
-                var specification = 
+                var specification =
                     minCountSpec && maxCountSpec && minPriceSpec && maxPriceSpec && productIdSpec && orderIdSpec;
 
                 var ordersItems = await _mediator.Send(new GetOrdersItemsQuery { Specification = specification });
 
                 if (!ordersItems.Any())
                 {
+                    _logger.LogInformation("GET ORDERSITEMS, CONTROLLER - Not found");
                     return NotFound();
                 }
 
+                _logger.LogInformation("GET ORDERSITEMS, CONTROLLER - Complete");
                 return Ok(_mapper.Map<IEnumerable<GetOrdersItemsResponse>>(ordersItems));
             }
             catch (Exception e)
             {
+                _logger.LogError(e, $"GET ORDERSITEMS, CONTROLLER - {e.Message}");
                 return StatusCode(500, new { errorMessage = e.Message });
             }
         }
@@ -89,17 +96,20 @@ namespace WebStoreAPI.Controllers
         {
             try
             {
-                var orderItems = await _mediator.Send(new GetOrderItemsQuery { Id = id } );
+                var orderItems = await _mediator.Send(new GetOrderItemsQuery { Id = id });
 
                 if (orderItems == null)
                 {
+                    _logger.LogInformation("GET ORDERITEMS, CONTROLLER - Not found");
                     return NotFound();
                 }
 
+                _logger.LogInformation("GET ORDERITEMS, CONTROLLER - Complete");
                 return Ok(_mapper.Map<GetOrderItemsResponse>(orderItems));
             }
             catch (Exception e)
             {
+                _logger.LogError(e, $"GET ORDERITEMS, CONTROLLER - {e.Message}");
                 return StatusCode(500, new { errorMessage = e.Message });
             }
         }
@@ -120,16 +130,19 @@ namespace WebStoreAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
+                _logger.LogInformation("CREATE ORDERITEMS, CONTROLLER - Not valid model");
                 return BadRequest(ModelState);
             }
 
             try
             {
                 var orderItemSend = await _mediator.Send(_mapper.Map<CreateOrderItemsCommand>(orderItem));
+                _logger.LogInformation("CREATE ORDERITEMS, CONTROLLER - Complete, with id: " + orderItemSend.Id);
                 return Created($"api/orderitems/{orderItemSend.Id}", _mapper.Map<CreateOrderItemsResponse>(orderItemSend));
             }
             catch (Exception e)
             {
+                _logger.LogError(e, $"CREATE ORDERITEMS, CONTROLLER - {e.Message}");
                 return StatusCode(500, new { errorMessage = e.Message });
             }
         }
@@ -151,6 +164,7 @@ namespace WebStoreAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
+                _logger.LogInformation("UPDATE ORDERITEMS, CONTROLLER - Not valid model");
                 return BadRequest(ModelState);
             }
 
@@ -159,13 +173,16 @@ namespace WebStoreAPI.Controllers
                 var orderItemSend = await _mediator.Send(_mapper.Map<UpdateOrderItemsCommand>(orderItem));
                 if (orderItemSend == null)
                 {
+                    _logger.LogInformation("UPDATE ORDERITEMS, CONTROLLER - Not found");
                     return NotFound();
                 }
 
+                _logger.LogInformation("UPDATE ORDERITEMS, CONTROLLER - Complete, with id: " + orderItemSend.Id);
                 return Ok();
             }
             catch (Exception e)
             {
+                _logger.LogError(e, $"UPDATE ORDERITEMS, CONTROLLER - {e.Message}");
                 return StatusCode(500, new { errorMessage = e.Message });
             }
         }
@@ -190,13 +207,16 @@ namespace WebStoreAPI.Controllers
                 var orderItemSend = await _mediator.Send(new DeleteOrderItemsCommand { Id = id });
                 if (orderItemSend == null)
                 {
+                    _logger.LogInformation("DELETE ORDERITEMS, CONTROLLER - Not found");
                     return NotFound();
                 }
 
+                _logger.LogInformation("DELETE ORDERITEMS, CONTROLLER - Complete, with id: " + orderItemSend.Id);
                 return Ok();
             }
             catch (Exception e)
             {
+                _logger.LogError(e, $"DELETE ORDERITEMS, CONTROLLER - {e.Message}");
                 return StatusCode(500, new { errorMessage = e.Message });
             }
         }

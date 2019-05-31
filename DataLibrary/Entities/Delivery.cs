@@ -14,7 +14,7 @@ namespace DataLibrary.Entities
         public string Name { get; set; }
         [Required]
         public string Description { get; set; }
-        [Required, Range(0, double.MaxValue)]
+        [Required, Range(0, double.MaxValue), Column(TypeName = "decimal")]
         public decimal Price { get; set; }
         [Required]
         public float Rating { get; set; }

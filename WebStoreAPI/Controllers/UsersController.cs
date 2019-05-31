@@ -1,18 +1,20 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using CQS.Commands.Users;
+using CQS.Queries.Users;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
-using CQS.Commands.Users;
-using CQS.Queries.Users;
 using WebStoreAPI.Requests.Users;
 using WebStoreAPI.Response.Users;
 using WebStoreAPI.Specifications.Users;
 
 namespace WebStoreAPI.Controllers
 {
+    /// <inheritdoc />
     /// <summary>
     /// Users controller
     /// </summary>
@@ -22,11 +24,13 @@ namespace WebStoreAPI.Controllers
     {
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
+        private readonly ILogger<UsersController> _logger;
 
-        public UsersController(IMediator mediator, IMapper mapper)
+        public UsersController(IMediator mediator, IMapper mapper, ILogger<UsersController> logger)
         {
             _mediator = mediator;
             _mapper = mapper;
+            _logger = logger;
         }
 
         /// <summary>
@@ -58,13 +62,16 @@ namespace WebStoreAPI.Controllers
 
                 if (!users.Any())
                 {
+                    _logger.LogInformation("GET USERS, CONTROLLER - Not found");
                     return NotFound();
                 }
 
+                _logger.LogInformation("GET USERS, CONTROLLER - Complete");
                 return Ok(_mapper.Map<IEnumerable<GetUsersResponse>>(users));
             }
             catch (Exception e)
             {
+                _logger.LogError(e, $"GET USERS, CONTROLLER - {e.Message}");
                 return StatusCode(500, new { errorMessage = e.Message });
             }
         }
@@ -87,17 +94,20 @@ namespace WebStoreAPI.Controllers
         {
             try
             {
-                var user = await _mediator.Send(new GetUserQuery { Id = id } );
+                var user = await _mediator.Send(new GetUserQuery { Id = id });
 
                 if (user == null)
                 {
+                    _logger.LogInformation("GET USER, CONTROLLER - Not found");
                     return NotFound();
                 }
 
+                _logger.LogInformation("GET USER, CONTROLLER - Complete");
                 return Ok(_mapper.Map<GetUserResponse>(user));
             }
             catch (Exception e)
             {
+                _logger.LogError(e, $"GET USER, CONTROLLER - {e.Message}");
                 return StatusCode(500, new { errorMessage = e.Message });
             }
         }
@@ -118,16 +128,19 @@ namespace WebStoreAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
+                _logger.LogInformation("CREATE USER, CONTROLLER - Not valid");
                 return BadRequest();
             }
 
             try
             {
                 var userSend = await _mediator.Send(_mapper.Map<CreateUserCommand>(user));
+                _logger.LogInformation("CREATE USER, CONTROLLER - Complete, with id: " + userSend.Id);
                 return Created($"api/users/{userSend.Id}", _mapper.Map<CreateUserResponse>(userSend));
             }
             catch (Exception e)
             {
+                _logger.LogError(e, $"CREATE USER, CONTROLLER - {e.Message}");
                 return StatusCode(500, new { errorMessage = e.Message });
             }
         }
@@ -149,6 +162,7 @@ namespace WebStoreAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
+                _logger.LogInformation("UPDATE USER, CONTROLLER - Not valid");
                 return BadRequest(ModelState);
             }
 
@@ -157,13 +171,16 @@ namespace WebStoreAPI.Controllers
                 var userSend = await _mediator.Send(_mapper.Map<UpdateUserCommand>(user));
                 if (userSend == null)
                 {
+                    _logger.LogInformation("UPDATE USER, CONTROLLER - Not found");
                     return NotFound();
                 }
 
+                _logger.LogInformation("UPDATE USER, CONTROLLER - Complete, with id: " + userSend.Id);
                 return Ok();
             }
             catch (Exception e)
             {
+                _logger.LogError(e, $"UPDATE USER, CONTROLLER - {e.Message}");
                 return StatusCode(500, new { errorMessage = e.Message });
             }
         }
@@ -183,23 +200,21 @@ namespace WebStoreAPI.Controllers
         [ProducesResponseType(500, Type = typeof(string))]
         public async Task<IActionResult> Delete(int id)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             try
             {
-                var userSend = await _mediator.Send(new DeleteUserCommand{ Id = id });
+                var userSend = await _mediator.Send(new DeleteUserCommand { Id = id });
                 if (userSend == null)
                 {
+                    _logger.LogInformation("DELETE USER, CONTROLLER - Not found");
                     return NotFound();
                 }
 
+                _logger.LogInformation("DELETE USER, CONTROLLER - Complete, with id: " + userSend.Id);
                 return Ok();
             }
             catch (Exception e)
             {
+                _logger.LogError(e, $"DELETE USER, CONTROLLER - {e.Message}");
                 return StatusCode(500, new { errorMessage = e.Message });
             }
         }

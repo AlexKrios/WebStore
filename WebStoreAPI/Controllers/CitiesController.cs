@@ -1,18 +1,20 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using CQS.Commands.Cities;
+using CQS.Queries.Cities;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
-using CQS.Commands.Cities;
-using CQS.Queries.Cities;
 using WebStoreAPI.Requests.Cities;
 using WebStoreAPI.Response.Cities;
 using WebStoreAPI.Specifications.Cities;
 
 namespace WebStoreAPI.Controllers
 {
+    /// <inheritdoc />
     /// <summary>
     /// Cities controller
     /// </summary>
@@ -22,11 +24,13 @@ namespace WebStoreAPI.Controllers
     {
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
+        private readonly ILogger<CitiesController> _logger;
 
-        public CitiesController(IMediator mediator, IMapper mapper)
+        public CitiesController(IMediator mediator, IMapper mapper, ILogger<CitiesController> logger)
         {
             _mediator = mediator;
             _mapper = mapper;
+            _logger = logger;
         }
 
         /// <summary>
@@ -55,14 +59,17 @@ namespace WebStoreAPI.Controllers
 
                 if (!cities.Any())
                 {
+                    _logger.LogInformation("GET CITIES, CONTROLLER - Not found");
                     return NotFound();
                 }
 
+                _logger.LogInformation("GET CITIES, CONTROLLER - Complete");
                 return Ok(_mapper.Map<IEnumerable<GetCitiesResponse>>(cities));
             }
             catch (Exception e)
             {
-                return StatusCode(500, new {errorMessage = e.Message});
+                _logger.LogError(e, $"GET CITIES, CONTROLLER - {e.Message}");
+                return StatusCode(500, new { errorMessage = e.Message });
             }
         }
 
@@ -88,14 +95,17 @@ namespace WebStoreAPI.Controllers
 
                 if (city == null)
                 {
+                    _logger.LogInformation("GET CITY, CONTROLLER - Not found");
                     return NotFound();
                 }
 
+                _logger.LogInformation("GET CITY, CONTROLLER - Complete");
                 return Ok(_mapper.Map<GetCityResponse>(city));
             }
             catch (Exception e)
             {
-                return StatusCode(500, new {errorMessage = e.Message});
+                _logger.LogError(e, $"GET CITY, CONTROLLER - {e.Message}");
+                return StatusCode(500, new { errorMessage = e.Message });
             }
         }
 
@@ -115,17 +125,20 @@ namespace WebStoreAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
+                _logger.LogInformation("CREATE CITY, CONTROLLER - Not valid");
                 return BadRequest(ModelState);
             }
 
             try
             {
                 var citySend = await _mediator.Send(_mapper.Map<CreateCityCommand>(city));
+                _logger.LogInformation("CREATE CITY, CONTROLLER - Complete, with id: " + citySend.Id);
                 return Created($"api/cities/{citySend.Id}", _mapper.Map<CreateCityResponse>(citySend));
             }
             catch (Exception e)
             {
-                return StatusCode(500, new {errorMessage = e.Message});
+                _logger.LogError(e, $"CREATE CITY, CONTROLLER - {e.Message}");
+                return StatusCode(500, new { errorMessage = e.Message });
             }
         }
 
@@ -146,6 +159,7 @@ namespace WebStoreAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
+                _logger.LogInformation("UPDATE CITY, CONTROLLER - Not valid");
                 return BadRequest(ModelState);
             }
 
@@ -154,14 +168,17 @@ namespace WebStoreAPI.Controllers
                 var citySend = await _mediator.Send(_mapper.Map<UpdateCityCommand>(city));
                 if (citySend == null)
                 {
+                    _logger.LogInformation("UPDATE CITY, CONTROLLER - Not found");
                     return NotFound();
                 }
 
+                _logger.LogInformation("UPDATE CITY, CONTROLLER - Complete, with id: " + citySend.Id);
                 return Ok();
             }
             catch (Exception e)
             {
-                return StatusCode(500, new {errorMessage = e.Message});
+                _logger.LogError(e, $"UPDATE CITY, CONTROLLER - {e.Message}");
+                return StatusCode(500, new { errorMessage = e.Message });
             }
         }
 
@@ -182,17 +199,20 @@ namespace WebStoreAPI.Controllers
         {
             try
             {
-                var citySend = await _mediator.Send(new DeleteCityCommand {Id = id});
+                var citySend = await _mediator.Send(new DeleteCityCommand { Id = id });
                 if (citySend == null)
                 {
+                    _logger.LogInformation("DELETE CITY, CONTROLLER - Not found");
                     return NotFound();
                 }
 
+                _logger.LogInformation("DELETE CITY, CONTROLLER - Complete, with id: " + citySend.Id);
                 return Ok();
             }
             catch (Exception e)
             {
-                return StatusCode(500, new {errorMessage = e.Message});
+                _logger.LogError(e, $"DELETE CITY, CONTROLLER - {e.Message}");
+                return StatusCode(500, new { errorMessage = e.Message });
             }
         }
     }

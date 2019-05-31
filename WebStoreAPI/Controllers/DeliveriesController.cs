@@ -1,18 +1,20 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using CQS.Commands.Deliveries;
+using CQS.Queries.Deliveries;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
-using CQS.Commands.Deliveries;
-using CQS.Queries.Deliveries;
 using WebStoreAPI.Requests.Deliveries;
 using WebStoreAPI.Response.Deliveries;
 using WebStoreAPI.Specifications.Deliveries;
 
 namespace WebStoreAPI.Controllers
 {
+    /// <inheritdoc />
     /// <summary>
     /// Deliveries controller
     /// </summary>
@@ -22,11 +24,13 @@ namespace WebStoreAPI.Controllers
     {
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
+        private readonly ILogger<DeliveriesController> _logger;
 
-        public DeliveriesController(IMediator mediator, IMapper mapper)
+        public DeliveriesController(IMediator mediator, IMapper mapper, ILogger<DeliveriesController> logger)
         {
             _mediator = mediator;
             _mapper = mapper;
+            _logger = logger;
         }
 
         /// <summary>
@@ -51,21 +55,24 @@ namespace WebStoreAPI.Controllers
                 var maxPriceSpec = new DeliveryMaxPriceSpecification(request.MaxPrice);
                 var minRatingSpec = new DeliveryMinRatingSpecification(request.MinRating);
                 var maxRatingSpec = new DeliveryMaxRatingSpecification(request.MaxRating);
-                
-                var specification =  nameSpec && minPriceSpec && maxPriceSpec && minRatingSpec && maxRatingSpec;
+
+                var specification = nameSpec && minPriceSpec && maxPriceSpec && minRatingSpec && maxRatingSpec;
 
                 var deliveries = await _mediator.Send(new GetDeliveriesQuery { Specification = specification });
 
                 if (!deliveries.Any())
                 {
+                    _logger.LogInformation("GET DELIVERIES, CONTROLLER - Not found");
                     return NotFound();
                 }
 
+                _logger.LogInformation("GET DELIVERIES, CONTROLLER - Complete");
                 return Ok(_mapper.Map<IEnumerable<GetDeliveriesResponse>>(deliveries));
             }
             catch (Exception e)
             {
-                return StatusCode(500, new {errorMessage = e.Message});
+                _logger.LogError(e, $"GET DELIVERIES, CONTROLLER - {e.Message}");
+                return StatusCode(500, new { errorMessage = e.Message });
             }
         }
 
@@ -87,18 +94,21 @@ namespace WebStoreAPI.Controllers
         {
             try
             {
-                var delivery = await _mediator.Send(new GetDeliveryQuery {Id = id});
+                var delivery = await _mediator.Send(new GetDeliveryQuery { Id = id });
 
                 if (delivery == null)
                 {
+                    _logger.LogInformation("GET DELIVERY, CONTROLLER - Not found");
                     return NotFound();
                 }
 
+                _logger.LogInformation("GET DELIVERY, CONTROLLER - Complete");
                 return Ok(_mapper.Map<GetDeliveryResponse>(delivery));
             }
             catch (Exception e)
             {
-                return StatusCode(500, new {errorMessage = e.Message});
+                _logger.LogError(e, $"GET DELIVERY, CONTROLLER - {e.Message}");
+                return StatusCode(500, new { errorMessage = e.Message });
             }
         }
 
@@ -118,17 +128,20 @@ namespace WebStoreAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
+                _logger.LogInformation("CREATE DELIVERY, CONTROLLER - Not valid");
                 return BadRequest();
             }
 
             try
             {
                 var deliverySend = await _mediator.Send(_mapper.Map<CreateDeliveryCommand>(delivery));
+                _logger.LogInformation("CREATE DELIVERY, CONTROLLER - Complete, with id: " + deliverySend.Id);
                 return Created($"api/deliveries/{deliverySend.Id}", _mapper.Map<CreateDeliveryResponse>(deliverySend));
             }
             catch (Exception e)
             {
-                return StatusCode(500, new {errorMessage = e.Message});
+                _logger.LogError(e, $"CREATE DELIVERY, CONTROLLER - {e.Message}");
+                return StatusCode(500, new { errorMessage = e.Message });
             }
         }
 
@@ -149,6 +162,7 @@ namespace WebStoreAPI.Controllers
         {
             if (!ModelState.IsValid)
             {
+                _logger.LogInformation("UPDATE DELIVERY, CONTROLLER - Not valid");
                 return BadRequest(ModelState);
             }
 
@@ -157,14 +171,17 @@ namespace WebStoreAPI.Controllers
                 var deliverySend = await _mediator.Send(_mapper.Map<UpdateDeliveryCommand>(delivery));
                 if (deliverySend == null)
                 {
+                    _logger.LogInformation("UPDATE DELIVERY, CONTROLLER - Not found");
                     return NotFound();
                 }
 
+                _logger.LogInformation("UPDATE DELIVERY, CONTROLLER - Complete, with id: " + deliverySend.Id);
                 return Ok();
             }
             catch (Exception e)
             {
-                return StatusCode(500, new {errorMessage = e.Message});
+                _logger.LogError(e, $"UPDATE DELIVERY, CONTROLLER - {e.Message}");
+                return StatusCode(500, new { errorMessage = e.Message });
             }
         }
 
@@ -185,17 +202,20 @@ namespace WebStoreAPI.Controllers
         {
             try
             {
-                var deliverySend = await _mediator.Send(new DeleteDeliveryCommand {Id = id});
+                var deliverySend = await _mediator.Send(new DeleteDeliveryCommand { Id = id });
                 if (deliverySend == null)
                 {
+                    _logger.LogInformation("DELETE DELIVERY, CONTROLLER - Not found");
                     return NotFound();
                 }
 
+                _logger.LogInformation("DELETE DELIVERY, CONTROLLER - Complete, with id: " + deliverySend.Id);
                 return Ok();
             }
             catch (Exception e)
             {
-                return StatusCode(500, new {errorMessage = e.Message});
+                _logger.LogError(e, $"DELETE DELIVERY, CONTROLLER - {e.Message}");
+                return StatusCode(500, new { errorMessage = e.Message });
             }
         }
     }
