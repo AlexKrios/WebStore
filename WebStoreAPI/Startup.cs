@@ -1,6 +1,4 @@
-﻿using System;
-using System.IO;
-using AutoMapper;
+﻿using AutoMapper;
 using DataLibrary;
 using FluentValidation.AspNetCore;
 using MediatR;
@@ -14,6 +12,8 @@ using Serilog;
 using SimpleInjector;
 using SimpleInjector.Lifestyles;
 using Swashbuckle.AspNetCore.Swagger;
+using System;
+using System.IO;
 using WebStoreAPI.Mapper;
 
 namespace WebStoreAPI
@@ -21,10 +21,8 @@ namespace WebStoreAPI
     public class Startup
     {
         private readonly Container _container = new Container();
-
         public Startup(IConfiguration configuration)
         {
-            Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(configuration).CreateLogger();
             Configuration = configuration;
         }
 

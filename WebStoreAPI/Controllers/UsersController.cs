@@ -1,19 +1,23 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using CQS.Commands.Users;
+using CQS.Queries.Users;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
-using CQS.Commands.Users;
-using CQS.Queries.Users;
-using Microsoft.Extensions.Logging;
 using WebStoreAPI.Requests.Users;
 using WebStoreAPI.Response.Users;
 using WebStoreAPI.Specifications.Users;
 
 namespace WebStoreAPI.Controllers
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// Users controller
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : Controller
@@ -30,9 +34,15 @@ namespace WebStoreAPI.Controllers
         }
 
         /// <summary>
-        /// Get all Users.
+        /// Get all Users
         /// </summary>
-        /// <returns>List with all Users.</returns>
+        /// <returns>List with all Users</returns>
+        /// <responce code="200">Get Users by filter</responce>
+        /// <responce code="204">No content</responce>
+        /// <responce code="400">Bad request</responce>
+        /// <responce code="401">Unauthorized</responce>
+        /// <responce code="404">Users not found</responce>
+        /// <responce code="500">Internal error</responce>
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<GetUsersResponse>))]
         [ProducesResponseType(500, Type = typeof(string))]
@@ -67,10 +77,16 @@ namespace WebStoreAPI.Controllers
         }
 
         /// <summary>
-        /// Get User by their ID.
+        /// Get User by their ID
         /// </summary>
-        /// <param name="id">The ID of the desired User.</param>
-        /// <returns>Info about User with selected Id.</returns>
+        /// <param name="id">The ID of the desired User</param>
+        /// <returns>Info about User with selected Id</returns>
+        /// <responce code="200">Get User by Id</responce>
+        /// <responce code="204">No content</responce>
+        /// <responce code="400">Bad request</responce>
+        /// <responce code="401">Unauthorized</responce>
+        /// <responce code="404">User not found</responce>
+        /// <responce code="500">Internal error</responce>
         [HttpGet("{id}")]
         [ProducesResponseType(200, Type = typeof(GetUserResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
@@ -78,7 +94,7 @@ namespace WebStoreAPI.Controllers
         {
             try
             {
-                var user = await _mediator.Send(new GetUserQuery { Id = id } );
+                var user = await _mediator.Send(new GetUserQuery { Id = id });
 
                 if (user == null)
                 {
@@ -97,10 +113,14 @@ namespace WebStoreAPI.Controllers
         }
 
         /// <summary>
-        /// Create a new User.
+        /// Create a new User
         /// </summary>
-        /// <param name="user">The body of new User.</param>
-        /// <returns>Info about created User.</returns>
+        /// <param name="user">The body of new User</param>
+        /// <returns>Info about created User</returns>
+        /// <responce code="200">Create User</responce>
+        /// <responce code="400">Bad request</responce>
+        /// <responce code="401">Unauthorized</responce>
+        /// <responce code="500">Internal error</responce>
         [HttpPost]
         [ProducesResponseType(200, Type = typeof(CreateUserResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
@@ -126,10 +146,15 @@ namespace WebStoreAPI.Controllers
         }
 
         /// <summary>
-        /// Update existing User.
+        /// Update existing User
         /// </summary>
-        /// <param name="user">The body of new User.</param>
+        /// <param name="user">The body of new User</param>
         /// <returns>Nothing</returns>
+        /// <responce code="200">Update User</responce>
+        /// <responce code="400">Bad request</responce>
+        /// <responce code="401">Unauthorized</responce>
+        /// <responce code="404">User not found</responce>
+        /// <responce code="500">Internal error</responce>
         [HttpPut]
         [ProducesResponseType(200, Type = typeof(UpdateUserResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
@@ -161,10 +186,15 @@ namespace WebStoreAPI.Controllers
         }
 
         /// <summary>
-        /// Delete existing User.
+        /// Delete existing User
         /// </summary>
-        /// <param name="id">The ID of the desired User.</param>
+        /// <param name="id">The ID of the desired User</param>
         /// <returns>Nothing</returns>
+        /// <responce code="200">Delete User</responce>
+        /// <responce code="400">Bad request</responce>
+        /// <responce code="401">Unauthorized</responce>
+        /// <responce code="404">User not found</responce>
+        /// <responce code="500">Internal error</responce>
         [HttpDelete("{id}")]
         [ProducesResponseType(200, Type = typeof(DeleteUserResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
@@ -172,7 +202,7 @@ namespace WebStoreAPI.Controllers
         {
             try
             {
-                var userSend = await _mediator.Send(new DeleteUserCommand{ Id = id });
+                var userSend = await _mediator.Send(new DeleteUserCommand { Id = id });
                 if (userSend == null)
                 {
                     _logger.LogInformation("DELETE USER, CONTROLLER - Not found");

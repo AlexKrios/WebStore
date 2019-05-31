@@ -1,19 +1,23 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using CQS.Commands.Roles;
+using CQS.Queries.Roles;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
-using CQS.Commands.Roles;
-using CQS.Queries.Roles;
-using Microsoft.Extensions.Logging;
 using WebStoreAPI.Requests.Roles;
 using WebStoreAPI.Response.Roles;
 using WebStoreAPI.Specifications.Roles;
 
 namespace WebStoreAPI.Controllers
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// Roles controller
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class RolesController : Controller
@@ -30,9 +34,15 @@ namespace WebStoreAPI.Controllers
         }
 
         /// <summary>
-        /// Get all Roles.
+        /// Get all Roles
         /// </summary>
-        /// <returns>List with all Roles.</returns>
+        /// <returns>List with all Roles</returns>
+        /// <responce code="200">Get Roles by filter</responce>
+        /// <responce code="204">No content</responce>
+        /// <responce code="400">Bad request</responce>
+        /// <responce code="401">Unauthorized</responce>
+        /// <responce code="404">Roles not found</responce>
+        /// <responce code="500">Internal error</responce>
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<GetRolesResponse>))]
         [ProducesResponseType(500, Type = typeof(string))]
@@ -61,10 +71,16 @@ namespace WebStoreAPI.Controllers
         }
 
         /// <summary>
-        /// Get Role by their ID.
+        /// Get Role by their ID
         /// </summary>
-        /// <param name="id">The ID of the desired Role.</param>
-        /// <returns>Info about Role with selected Id.</returns>
+        /// <param name="id">The ID of the desired Role</param>
+        /// <returns>Info about Role with selected Id</returns>
+        /// <responce code="200">Get Role by Id</responce>
+        /// <responce code="204">No content</responce>
+        /// <responce code="400">Bad request</responce>
+        /// <responce code="401">Unauthorized</responce>
+        /// <responce code="404">Role not found</responce>
+        /// <responce code="500">Internal error</responce>
         [HttpGet("{id}")]
         [ProducesResponseType(200, Type = typeof(GetRoleResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
@@ -72,7 +88,7 @@ namespace WebStoreAPI.Controllers
         {
             try
             {
-                var role = await _mediator.Send(new GetRoleQuery { Id = id } );
+                var role = await _mediator.Send(new GetRoleQuery { Id = id });
 
                 if (role == null)
                 {
@@ -91,10 +107,14 @@ namespace WebStoreAPI.Controllers
         }
 
         /// <summary>
-        /// Create a new Role.
+        /// Create a new Role
         /// </summary>
-        /// <param name="role">The body of new Role.</param>
-        /// <returns>Info about created Role.</returns>
+        /// <param name="role">The body of new Role</param>
+        /// <returns>Info about created Role</returns>
+        /// <responce code="200">Create Role</responce>
+        /// <responce code="400">Bad request</responce>
+        /// <responce code="401">Unauthorized</responce>
+        /// <responce code="500">Internal error</responce>
         [HttpPost]
         [ProducesResponseType(200, Type = typeof(CreateRoleResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
@@ -120,10 +140,15 @@ namespace WebStoreAPI.Controllers
         }
 
         /// <summary>
-        /// Update existing Role.
+        /// Update existing Role
         /// </summary>
-        /// <param name="role">The body of new Role.</param>
+        /// <param name="role">The body of new Role</param>
         /// <returns>Nothing</returns>
+        /// <responce code="200">Update Role</responce>
+        /// <responce code="400">Bad request</responce>
+        /// <responce code="401">Unauthorized</responce>
+        /// <responce code="404">Role not found</responce>
+        /// <responce code="500">Internal error</responce>
         [HttpPut]
         [ProducesResponseType(200, Type = typeof(UpdateRoleResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
@@ -155,10 +180,15 @@ namespace WebStoreAPI.Controllers
         }
 
         /// <summary>
-        /// Delete existing Role.
+        /// Delete existing Role
         /// </summary>
-        /// <param name="id">The ID of the desired Role.</param>
+        /// <param name="id">The ID of the desired Role</param>
         /// <returns>Nothing</returns>
+        /// <responce code="200">Delete Role</responce>
+        /// <responce code="400">Bad request</responce>
+        /// <responce code="401">Unauthorized</responce>
+        /// <responce code="404">Role not found</responce>
+        /// <responce code="500">Internal error</responce>
         [HttpDelete("{id}")]
         [ProducesResponseType(200, Type = typeof(DeleteRoleResponse))]
         [ProducesResponseType(500, Type = typeof(string))]

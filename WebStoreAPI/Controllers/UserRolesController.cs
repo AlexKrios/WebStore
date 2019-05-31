@@ -1,19 +1,23 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using CQS.Commands.UserRoles;
+using CQS.Queries.UserRoles;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
-using CQS.Commands.UserRoles;
-using CQS.Queries.UserRoles;
-using Microsoft.Extensions.Logging;
 using WebStoreAPI.Requests.UserRoles;
 using WebStoreAPI.Response.UserRoles;
 using WebStoreAPI.Specifications.UserRoles;
 
 namespace WebStoreAPI.Controllers
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// UserRoles controller
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class UserRolesController : Controller
@@ -30,9 +34,15 @@ namespace WebStoreAPI.Controllers
         }
 
         /// <summary>
-        /// Get all UserRole.
+        /// Get all UserRole
         /// </summary>
-        /// <returns>List with all UserRole.</returns>
+        /// <returns>List with all UserRoles</returns>
+        /// <responce code="200">Get UserRoles by filter</responce>
+        /// <responce code="204">No content</responce>
+        /// <responce code="400">Bad request</responce>
+        /// <responce code="401">Unauthorized</responce>
+        /// <responce code="404">UserRoles not found</responce>
+        /// <responce code="500">Internal error</responce>
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<GetUsersRolesResponse>))]
         [ProducesResponseType(500, Type = typeof(string))]
@@ -59,15 +69,21 @@ namespace WebStoreAPI.Controllers
             catch (Exception e)
             {
                 _logger.LogError(e, $"GET USERSROLES, CONTROLLER - {e.Message}");
-                return StatusCode(500, new {errorMessage = e.Message});
+                return StatusCode(500, new { errorMessage = e.Message });
             }
         }
 
         /// <summary>
-        /// Get UserRole by their ID.
+        /// Get UserRole by their ID
         /// </summary>
-        /// <param name="id">The ID of the desired UserRole.</param>
-        /// <returns>Info about UserRole with selected Id.</returns>
+        /// <param name="id">The ID of the desired UserRole</param>
+        /// <returns>Info about UserRole with selected Id</returns>
+        /// <responce code="200">Get UserRole by Id</responce>
+        /// <responce code="204">No content</responce>
+        /// <responce code="400">Bad request</responce>
+        /// <responce code="401">Unauthorized</responce>
+        /// <responce code="404">UserRole not found</responce>
+        /// <responce code="500">Internal error</responce>
         [HttpGet("{id}")]
         [ProducesResponseType(200, Type = typeof(GetUserRolesResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
@@ -75,7 +91,7 @@ namespace WebStoreAPI.Controllers
         {
             try
             {
-                var userRoles = await _mediator.Send(new GetUserRoleQuery { Id = id } );
+                var userRoles = await _mediator.Send(new GetUserRoleQuery { Id = id });
 
                 if (userRoles == null)
                 {
@@ -89,15 +105,19 @@ namespace WebStoreAPI.Controllers
             catch (Exception e)
             {
                 _logger.LogError(e, $"GET USERROLES, CONTROLLER - {e.Message}");
-                return StatusCode(500, new {errorMessage = e.Message});
+                return StatusCode(500, new { errorMessage = e.Message });
             }
         }
 
         /// <summary>
-        /// Create a new UserRole.
+        /// Create a new UserRole
         /// </summary>
-        /// <param name="userRole">The body of new UserRole.</param>
-        /// <returns>Info about created UserRole.</returns>
+        /// <param name="userRole">The body of new UserRole</param>
+        /// <returns>Info about created UserRole</returns>
+        /// <responce code="200">Create UserRole</responce>
+        /// <responce code="400">Bad request</responce>
+        /// <responce code="401">Unauthorized</responce>
+        /// <responce code="500">Internal error</responce>
         [HttpPost]
         [ProducesResponseType(200, Type = typeof(CreateUserRolesResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
@@ -118,15 +138,20 @@ namespace WebStoreAPI.Controllers
             catch (Exception e)
             {
                 _logger.LogError(e, $"CREATE USERROLES, CONTROLLER - {e.Message}");
-                return StatusCode(500, new {errorMessage = e.Message});
+                return StatusCode(500, new { errorMessage = e.Message });
             }
         }
 
         /// <summary>
-        /// Update existing UserRole.
+        /// Update existing UserRole
         /// </summary>
-        /// <param name="userRole">The body of new UserRole.</param>
+        /// <param name="userRole">The body of new UserRole</param>
         /// <returns>Nothing</returns>
+        /// <responce code="200">Update UserRole</responce>
+        /// <responce code="400">Bad request</responce>
+        /// <responce code="401">Unauthorized</responce>
+        /// <responce code="404">UserRole not found</responce>
+        /// <responce code="500">Internal error</responce>
         [HttpPut]
         [ProducesResponseType(200, Type = typeof(UpdateUserRolesResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
@@ -153,15 +178,20 @@ namespace WebStoreAPI.Controllers
             catch (Exception e)
             {
                 _logger.LogError(e, $"UPDATE USERROLES, CONTROLLER - {e.Message}");
-                return StatusCode(500, new {errorMessage = e.Message});
+                return StatusCode(500, new { errorMessage = e.Message });
             }
         }
 
         /// <summary>
-        /// Delete existing UserRole.
+        /// Delete existing UserRole
         /// </summary>
-        /// <param name="id">The ID of the desired UserRole.</param>
+        /// <param name="id">The ID of the desired UserRole</param>
         /// <returns>Nothing</returns>
+        /// <responce code="200">Delete UserRole</responce>
+        /// <responce code="400">Bad request</responce>
+        /// <responce code="401">Unauthorized</responce>
+        /// <responce code="404">UserRole not found</responce>
+        /// <responce code="500">Internal error</responce>
         [HttpDelete("{id}")]
         [ProducesResponseType(200, Type = typeof(DeleteUserRolesResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
@@ -182,7 +212,7 @@ namespace WebStoreAPI.Controllers
             catch (Exception e)
             {
                 _logger.LogError(e, $"DELETE USERROLES, CONTROLLER - {e.Message}");
-                return StatusCode(500, new {errorMessage = e.Message});
+                return StatusCode(500, new { errorMessage = e.Message });
             }
         }
     }

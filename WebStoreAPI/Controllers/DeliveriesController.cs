@@ -14,6 +14,10 @@ using WebStoreAPI.Specifications.Deliveries;
 
 namespace WebStoreAPI.Controllers
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// Deliveries controller
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class DeliveriesController : Controller
@@ -30,9 +34,15 @@ namespace WebStoreAPI.Controllers
         }
 
         /// <summary>
-        /// Get all Deliveries.
+        /// Get all Deliveries
         /// </summary>
-        /// <returns>List with all Deliveries.</returns>
+        /// <returns>List with all Deliveries</returns>
+        /// <responce code="200">Get Deliveries by filter</responce>
+        /// <responce code="204">No content</responce>
+        /// <responce code="400">Bad request</responce>
+        /// <responce code="401">Unauthorized</responce>
+        /// <responce code="404">Deliveries not found</responce>
+        /// <responce code="500">Internal error</responce>
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<GetDeliveriesResponse>))]
         [ProducesResponseType(500, Type = typeof(string))]
@@ -45,8 +55,8 @@ namespace WebStoreAPI.Controllers
                 var maxPriceSpec = new DeliveryMaxPriceSpecification(request.MaxPrice);
                 var minRatingSpec = new DeliveryMinRatingSpecification(request.MinRating);
                 var maxRatingSpec = new DeliveryMaxRatingSpecification(request.MaxRating);
-                
-                var specification =  nameSpec && minPriceSpec && maxPriceSpec && minRatingSpec && maxRatingSpec;
+
+                var specification = nameSpec && minPriceSpec && maxPriceSpec && minRatingSpec && maxRatingSpec;
 
                 var deliveries = await _mediator.Send(new GetDeliveriesQuery { Specification = specification });
 
@@ -62,15 +72,21 @@ namespace WebStoreAPI.Controllers
             catch (Exception e)
             {
                 _logger.LogError(e, $"GET DELIVERIES, CONTROLLER - {e.Message}");
-                return StatusCode(500, new {errorMessage = e.Message});
+                return StatusCode(500, new { errorMessage = e.Message });
             }
         }
 
         /// <summary>
-        /// Get Delivery by their ID.
+        /// Get Delivery by their ID
         /// </summary>
-        /// <param name="id">The ID of the desired Delivery.</param>
-        /// <returns>Info about Delivery with selected Id.</returns>
+        /// <param name="id">The ID of the desired Delivery</param>
+        /// <returns>Info about Delivery with selected Id</returns>
+        /// <responce code="200">Get Delivery by Id</responce>
+        /// <responce code="204">No content</responce>
+        /// <responce code="400">Bad request</responce>
+        /// <responce code="401">Unauthorized</responce>
+        /// <responce code="404">Delivery not found</responce>
+        /// <responce code="500">Internal error</responce>
         [HttpGet("{id}")]
         [ProducesResponseType(200, Type = typeof(GetDeliveryResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
@@ -78,7 +94,7 @@ namespace WebStoreAPI.Controllers
         {
             try
             {
-                var delivery = await _mediator.Send(new GetDeliveryQuery {Id = id});
+                var delivery = await _mediator.Send(new GetDeliveryQuery { Id = id });
 
                 if (delivery == null)
                 {
@@ -92,15 +108,19 @@ namespace WebStoreAPI.Controllers
             catch (Exception e)
             {
                 _logger.LogError(e, $"GET DELIVERY, CONTROLLER - {e.Message}");
-                return StatusCode(500, new {errorMessage = e.Message});
+                return StatusCode(500, new { errorMessage = e.Message });
             }
         }
 
         /// <summary>
-        /// Create a new Delivery.
+        /// Create a new Delivery
         /// </summary>
-        /// <param name="delivery">The body of new Delivery.</param>
-        /// <returns>Info about created Delivery.</returns>
+        /// <param name="delivery">The body of new Delivery</param>
+        /// <returns>Info about created Delivery</returns>
+        /// <responce code="200">Create Delivery</responce>
+        /// <responce code="400">Bad request</responce>
+        /// <responce code="401">Unauthorized</responce>
+        /// <responce code="500">Internal error</responce>
         [HttpPost]
         [ProducesResponseType(200, Type = typeof(CreateDeliveryResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
@@ -121,15 +141,20 @@ namespace WebStoreAPI.Controllers
             catch (Exception e)
             {
                 _logger.LogError(e, $"CREATE DELIVERY, CONTROLLER - {e.Message}");
-                return StatusCode(500, new {errorMessage = e.Message});
+                return StatusCode(500, new { errorMessage = e.Message });
             }
         }
 
         /// <summary>
-        /// Update existing Delivery.
+        /// Update existing Delivery
         /// </summary>
-        /// <param name="delivery">The body of new Delivery.</param>
+        /// <param name="delivery">The body of new Delivery</param>
         /// <returns>Nothing</returns>
+        /// <responce code="200">Update Delivery</responce>
+        /// <responce code="400">Bad request</responce>
+        /// <responce code="401">Unauthorized</responce>
+        /// <responce code="404">Delivery not found</responce>
+        /// <responce code="500">Internal error</responce>
         [HttpPut]
         [ProducesResponseType(200, Type = typeof(UpdateDeliveryResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
@@ -156,15 +181,20 @@ namespace WebStoreAPI.Controllers
             catch (Exception e)
             {
                 _logger.LogError(e, $"UPDATE DELIVERY, CONTROLLER - {e.Message}");
-                return StatusCode(500, new {errorMessage = e.Message});
+                return StatusCode(500, new { errorMessage = e.Message });
             }
         }
 
         /// <summary>
-        /// Delete existing Delivery.
+        /// Delete existing Delivery
         /// </summary>
-        /// <param name="id">The ID of the desired Delivery.</param>
+        /// <param name="id">The ID of the desired Delivery</param>
         /// <returns>Nothing</returns>
+        /// <responce code="200">Delete Delivery</responce>
+        /// <responce code="400">Bad request</responce>
+        /// <responce code="401">Unauthorized</responce>
+        /// <responce code="404">Delivery not found</responce>
+        /// <responce code="500">Internal error</responce>
         [HttpDelete("{id}")]
         [ProducesResponseType(200, Type = typeof(DeleteDeliveryResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
@@ -172,7 +202,7 @@ namespace WebStoreAPI.Controllers
         {
             try
             {
-                var deliverySend = await _mediator.Send(new DeleteDeliveryCommand {Id = id});
+                var deliverySend = await _mediator.Send(new DeleteDeliveryCommand { Id = id });
                 if (deliverySend == null)
                 {
                     _logger.LogInformation("DELETE DELIVERY, CONTROLLER - Not found");
@@ -185,7 +215,7 @@ namespace WebStoreAPI.Controllers
             catch (Exception e)
             {
                 _logger.LogError(e, $"DELETE DELIVERY, CONTROLLER - {e.Message}");
-                return StatusCode(500, new {errorMessage = e.Message});
+                return StatusCode(500, new { errorMessage = e.Message });
             }
         }
     }

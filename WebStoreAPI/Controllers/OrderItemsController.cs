@@ -14,6 +14,10 @@ using WebStoreAPI.Specifications.OrderItems;
 
 namespace WebStoreAPI.Controllers
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// OrderItems controller
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class OrderItemsController : Controller
@@ -30,9 +34,15 @@ namespace WebStoreAPI.Controllers
         }
 
         /// <summary>
-        /// Get all OrderItem.
+        /// Get all OrderItem
         /// </summary>
-        /// <returns>List with all OrderItem.</returns>
+        /// <returns>List with all OrderItems</returns>
+        /// <responce code="200">Get OrderItems by filter</responce>
+        /// <responce code="204">No content</responce>
+        /// <responce code="400">Bad request</responce>
+        /// <responce code="401">Unauthorized</responce>
+        /// <responce code="404">OrderItems not found</responce>
+        /// <responce code="500">Internal error</responce>
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<GetOrdersItemsResponse>))]
         [ProducesResponseType(500, Type = typeof(string))]
@@ -47,7 +57,7 @@ namespace WebStoreAPI.Controllers
                 var productIdSpec = new OrderItemsProductIdSpecification(request.ProductId);
                 var orderIdSpec = new OrderItemsOrderIdSpecification(request.OrderId);
 
-                var specification = 
+                var specification =
                     minCountSpec && maxCountSpec && minPriceSpec && maxPriceSpec && productIdSpec && orderIdSpec;
 
                 var ordersItems = await _mediator.Send(new GetOrdersItemsQuery { Specification = specification });
@@ -69,10 +79,16 @@ namespace WebStoreAPI.Controllers
         }
 
         /// <summary>
-        /// Get OrderItem by their ID.
+        /// Get OrderItem by their ID
         /// </summary>
-        /// <param name="id">The ID of the desired OrderItem.</param>
-        /// <returns>Info about OrderItem with selected Id.</returns>
+        /// <param name="id">The ID of the desired OrderItem</param>
+        /// <returns>Info about OrderItem with selected Id</returns>
+        /// <responce code="200">Get OrderItem by Id</responce>
+        /// <responce code="204">No content</responce>
+        /// <responce code="400">Bad request</responce>
+        /// <responce code="401">Unauthorized</responce>
+        /// <responce code="404">OrderItem not found</responce>
+        /// <responce code="500">Internal error</responce>
         [HttpGet("{id}")]
         [ProducesResponseType(200, Type = typeof(GetOrderItemsResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
@@ -80,7 +96,7 @@ namespace WebStoreAPI.Controllers
         {
             try
             {
-                var orderItems = await _mediator.Send(new GetOrderItemsQuery { Id = id } );
+                var orderItems = await _mediator.Send(new GetOrderItemsQuery { Id = id });
 
                 if (orderItems == null)
                 {
@@ -99,10 +115,14 @@ namespace WebStoreAPI.Controllers
         }
 
         /// <summary>
-        /// Create a new OrderItem.
+        /// Create a new OrderItem
         /// </summary>
-        /// <param name="orderItem">The body of new OrderItem.</param>
-        /// <returns>Info about created OrderItem.</returns>
+        /// <param name="orderItem">The body of new OrderItem</param>
+        /// <returns>Info about created OrderItem</returns>
+        /// <responce code="200">Create OrderItem</responce>
+        /// <responce code="400">Bad request</responce>
+        /// <responce code="401">Unauthorized</responce>
+        /// <responce code="500">Internal error</responce>
         [HttpPost]
         [ProducesResponseType(200, Type = typeof(CreateOrderItemsResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
@@ -128,10 +148,15 @@ namespace WebStoreAPI.Controllers
         }
 
         /// <summary>
-        /// Update existing OrderItem.
+        /// Update existing OrderItem
         /// </summary>
-        /// <param name="orderItem">The body of new OrderItem.</param>
+        /// <param name="orderItem">The body of new OrderItem</param>
         /// <returns>Nothing</returns>
+        /// <responce code="200">Update OrderItem</responce>
+        /// <responce code="400">Bad request</responce>
+        /// <responce code="401">Unauthorized</responce>
+        /// <responce code="404">OrderItem not found</responce>
+        /// <responce code="500">Internal error</responce>
         [HttpPut]
         [ProducesResponseType(200, Type = typeof(UpdateOrderItemsResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
@@ -163,10 +188,15 @@ namespace WebStoreAPI.Controllers
         }
 
         /// <summary>
-        /// Delete existing OrderItem.
+        /// Delete existing OrderItem
         /// </summary>
-        /// <param name="id">The ID of the desired OrderItem.</param>
+        /// <param name="id">The ID of the desired OrderItem</param>
         /// <returns>Nothing</returns>
+        /// <responce code="200">Delete OrderItem</responce>
+        /// <responce code="400">Bad request</responce>
+        /// <responce code="401">Unauthorized</responce>
+        /// <responce code="404">OrderItem not found</responce>
+        /// <responce code="500">Internal error</responce>
         [HttpDelete("{id}")]
         [ProducesResponseType(200, Type = typeof(DeleteOrderItemsResponse))]
         [ProducesResponseType(500, Type = typeof(string))]

@@ -1,19 +1,23 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using CQS.Commands.Payments;
+using CQS.Queries.Payments;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
-using CQS.Commands.Payments;
-using CQS.Queries.Payments;
-using Microsoft.Extensions.Logging;
 using WebStoreAPI.Requests.Payments;
 using WebStoreAPI.Response.Payments;
 using WebStoreAPI.Specifications.Payments;
 
 namespace WebStoreAPI.Controllers
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// Payments controller
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class PaymentsController : Controller
@@ -30,9 +34,15 @@ namespace WebStoreAPI.Controllers
         }
 
         /// <summary>
-        /// Get all Payments.
+        /// Get all Payments
         /// </summary>
-        /// <returns>List with all Payments.</returns>
+        /// <returns>List with all Payments</returns>
+        /// <responce code="200">Get Payments by filter</responce>
+        /// <responce code="204">No content</responce>
+        /// <responce code="400">Bad request</responce>
+        /// <responce code="401">Unauthorized</responce>
+        /// <responce code="404">Payments not found</responce>
+        /// <responce code="500">Internal error</responce>
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<GetPaymentsResponse>))]
         [ProducesResponseType(500, Type = typeof(string))]
@@ -65,10 +75,16 @@ namespace WebStoreAPI.Controllers
         }
 
         /// <summary>
-        /// Get Payment by their ID.
+        /// Get Payment by their ID
         /// </summary>
-        /// <param name="id">The ID of the desired Payment.</param>
-        /// <returns>Info about Payment with selected Id.</returns>
+        /// <param name="id">The ID of the desired Payment</param>
+        /// <returns>Info about Payment with selected Id</returns>
+        /// <responce code="200">Get Payment by Id</responce>
+        /// <responce code="204">No content</responce>
+        /// <responce code="400">Bad request</responce>
+        /// <responce code="401">Unauthorized</responce>
+        /// <responce code="404">Payment not found</responce>
+        /// <responce code="500">Internal error</responce>
         [HttpGet("{id}")]
         [ProducesResponseType(200, Type = typeof(GetPaymentResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
@@ -76,7 +92,7 @@ namespace WebStoreAPI.Controllers
         {
             try
             {
-                var payment = await _mediator.Send(new GetPaymentQuery { Id = id } );
+                var payment = await _mediator.Send(new GetPaymentQuery { Id = id });
 
                 if (payment == null)
                 {
@@ -95,10 +111,14 @@ namespace WebStoreAPI.Controllers
         }
 
         /// <summary>
-        /// Create a new Payment.
+        /// Create a new Payment
         /// </summary>
-        /// <param name="payment">The body of new Payment.</param>
+        /// <param name="payment">The body of new Payment</param>
         /// <returns>Info about created Payment.</returns>
+        /// <responce code="200">Create Payment</responce>
+        /// <responce code="400">Bad request</responce>
+        /// <responce code="401">Unauthorized</responce>
+        /// <responce code="500">Internal error</responce>
         [HttpPost]
         [ProducesResponseType(200, Type = typeof(CreatePaymentResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
@@ -124,10 +144,15 @@ namespace WebStoreAPI.Controllers
         }
 
         /// <summary>
-        /// Update existing Payment.
+        /// Update existing Payment
         /// </summary>
-        /// <param name="payment">The body of new Payment.</param>
+        /// <param name="payment">The body of new Payment</param>
         /// <returns>Nothing</returns>
+        /// <responce code="200">Update Payment</responce>
+        /// <responce code="400">Bad request</responce>
+        /// <responce code="401">Unauthorized</responce>
+        /// <responce code="404">Payment not found</responce>
+        /// <responce code="500">Internal error</responce>
         [HttpPut]
         [ProducesResponseType(200, Type = typeof(UpdatePaymentResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
@@ -159,10 +184,15 @@ namespace WebStoreAPI.Controllers
         }
 
         /// <summary>
-        /// Delete existing Payment.
+        /// Delete existing Payment
         /// </summary>
-        /// <param name="id">The ID of the desired Payment.</param>
+        /// <param name="id">The ID of the desired Payment</param>
         /// <returns>Nothing</returns>
+        /// <responce code="200">Delete Payment</responce>
+        /// <responce code="400">Bad request</responce>
+        /// <responce code="401">Unauthorized</responce>
+        /// <responce code="404">Payment not found</responce>
+        /// <responce code="500">Internal error</responce>
         [HttpDelete("{id}")]
         [ProducesResponseType(200, Type = typeof(DeletePaymentResponse))]
         [ProducesResponseType(500, Type = typeof(string))]

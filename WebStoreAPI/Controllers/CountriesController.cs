@@ -14,6 +14,10 @@ using WebStoreAPI.Specifications.Countries;
 
 namespace WebStoreAPI.Controllers
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// Countries controller
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class CountriesController : Controller
@@ -30,9 +34,15 @@ namespace WebStoreAPI.Controllers
         }
 
         /// <summary>
-        /// Get all Countries.
+        /// Get all Countries
         /// </summary>
-        /// <returns>List with all Countries.</returns>
+        /// <returns>List with all Countries</returns>
+        /// <responce code="200">Get Countries by filter</responce>
+        /// <responce code="204">No content</responce>
+        /// <responce code="400">Bad request</responce>
+        /// <responce code="401">Unauthorized</responce>
+        /// <responce code="404">Countries not found</responce>
+        /// <responce code="500">Internal error</responce>
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(IEnumerable<GetCountriesResponse>))]
         [ProducesResponseType(500, Type = typeof(string))]
@@ -61,10 +71,16 @@ namespace WebStoreAPI.Controllers
         }
 
         /// <summary>
-        /// Get Country by their ID.
+        /// Get Country by their ID
         /// </summary>
-        /// <param name="id">The ID of the desired Country.</param>
-        /// <returns>Info about Country with selected Id.</returns>
+        /// <param name="id">The ID of the desired Country</param>
+        /// <returns>Info about Country with selected Id</returns>
+        /// <responce code="200">Get Country by Id</responce>
+        /// <responce code="204">No content</responce>
+        /// <responce code="400">Bad request</responce>
+        /// <responce code="401">Unauthorized</responce>
+        /// <responce code="404">Country not found</responce>
+        /// <responce code="500">Internal error</responce>
         [HttpGet("{id}")]
         [ProducesResponseType(200, Type = typeof(GetCountryResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
@@ -91,10 +107,14 @@ namespace WebStoreAPI.Controllers
         }
 
         /// <summary>
-        /// Create a new Country.
+        /// Create a new Country
         /// </summary>
-        /// <param name="country">The body of new Country.</param>
-        /// <returns>Info about created Country.</returns>
+        /// <param name="country">The body of new Country</param>
+        /// <returns>Info about created Country</returns>
+        /// <responce code="200">Create Country</responce>
+        /// <responce code="400">Bad request</responce>
+        /// <responce code="401">Unauthorized</responce>
+        /// <responce code="500">Internal error</responce>
         [HttpPost]
         [ProducesResponseType(200, Type = typeof(CreateCountryResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
@@ -120,10 +140,15 @@ namespace WebStoreAPI.Controllers
         }
 
         /// <summary>
-        /// Update existing Country.
+        /// Update existing Country
         /// </summary>
-        /// <param name="country">The body of new Country.</param>
+        /// <param name="country">The body of new Country</param>
         /// <returns>Nothing</returns>
+        /// <responce code="200">Update Country</responce>
+        /// <responce code="400">Bad request</responce>
+        /// <responce code="401">Unauthorized</responce>
+        /// <responce code="404">Country not found</responce>
+        /// <responce code="500">Internal error</responce>
         [HttpPut]
         [ProducesResponseType(200, Type = typeof(UpdateCountryResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
@@ -155,10 +180,15 @@ namespace WebStoreAPI.Controllers
         }
 
         /// <summary>
-        /// Delete existing Country.
+        /// Delete existing Country
         /// </summary>
-        /// <param name="id">The ID of the desired Country.</param>
+        /// <param name="id">The ID of the desired Country</param>
         /// <returns>Nothing</returns>
+        /// <responce code="200">Delete Country</responce>
+        /// <responce code="400">Bad request</responce>
+        /// <responce code="401">Unauthorized</responce>
+        /// <responce code="404">Country not found</responce>
+        /// <responce code="500">Internal error</responce>
         [HttpDelete("{id}")]
         [ProducesResponseType(200, Type = typeof(DeleteCountryResponse))]
         [ProducesResponseType(500, Type = typeof(string))]
