@@ -18,6 +18,7 @@ namespace WebStoreAPI.Controllers
     /// <summary>
     /// OrderItems controller
     /// </summary>
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class OrderItemsController : Controller

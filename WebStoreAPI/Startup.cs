@@ -8,9 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
-using Serilog;
 using SimpleInjector;
 using SimpleInjector.Lifestyles;
 using Swashbuckle.AspNetCore.Swagger;
@@ -25,7 +23,6 @@ namespace WebStoreAPI
         private readonly Container _container = new Container();
         public Startup(IConfiguration configuration)
         {
-            LoggerConfiguration(configuration);
             Configuration = configuration;
         }
 
@@ -42,14 +39,7 @@ namespace WebStoreAPI
             ContextConfiguration(services, Configuration);
         }
 
-        private static void LoggerConfiguration(IConfiguration configuration)
-        {
-            Log.Logger = new LoggerConfiguration()
-                .ReadFrom.Configuration(configuration)
-                .CreateLogger();
-        }
-
-        private static void AuthConfiguration(IServiceCollection services, IConfiguration configuration)
+        private void AuthConfiguration(IServiceCollection services, IConfiguration configuration)
         {
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(o =>
             {
@@ -59,14 +49,14 @@ namespace WebStoreAPI
                     ValidateAudience = false,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    //ValidAudience = configuration["Jwt:Audience"],
-                    //ValidIssuer = configuration["Jwt:Issuer"],
+                    ValidAudience = configuration["Jwt:Audience"],
+                    ValidIssuer = configuration["Jwt:Issuer"],
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]))
                 };
             });
         }
 
-        private static void ValidationConfiguration(IServiceCollection services)
+        private void ValidationConfiguration(IServiceCollection services)
         {
             services.AddMvc().AddFluentValidation(options =>
             {
@@ -101,7 +91,7 @@ namespace WebStoreAPI
             });
         }
 
-        private static void ContextConfiguration(IServiceCollection services, IConfiguration configuration)
+        private void ContextConfiguration(IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<WebStoreContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString(
@@ -109,13 +99,11 @@ namespace WebStoreAPI
                     b => b.MigrationsAssembly("WebStoreAPI")));
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, WebStoreContext context, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, WebStoreContext context)
         {
             _container.RegisterMvcControllers(app);
             _container.AutoCrossWireAspNetComponents(app);
             _container.Verify();
-
-            loggerFactory.AddSerilog();
 
             if (env.IsDevelopment())
             {

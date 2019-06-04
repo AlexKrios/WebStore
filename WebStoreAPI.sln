@@ -11,8 +11,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Validators", "Validators\Va
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CQS", "CQS\CQS.csproj", "{1930AB5A-E8E1-4113-AB48-11607E76F4B9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auth", "Auth\Auth.csproj", "{916AF358-A9CA-43EB-B5E7-5FA3B9136421}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,10 +33,6 @@ Global
 		{1930AB5A-E8E1-4113-AB48-11607E76F4B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1930AB5A-E8E1-4113-AB48-11607E76F4B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1930AB5A-E8E1-4113-AB48-11607E76F4B9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{916AF358-A9CA-43EB-B5E7-5FA3B9136421}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{916AF358-A9CA-43EB-B5E7-5FA3B9136421}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{916AF358-A9CA-43EB-B5E7-5FA3B9136421}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{916AF358-A9CA-43EB-B5E7-5FA3B9136421}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

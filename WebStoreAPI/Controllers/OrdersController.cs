@@ -14,10 +14,7 @@ using WebStoreAPI.Specifications.Orders;
 
 namespace WebStoreAPI.Controllers
 {
-    /// <inheritdoc />
-    /// <summary>
-    /// Orders controller
-    /// </summary>
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class OrdersController : Controller

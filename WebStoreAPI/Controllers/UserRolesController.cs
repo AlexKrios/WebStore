@@ -18,6 +18,7 @@ namespace WebStoreAPI.Controllers
     /// <summary>
     /// UserRoles controller
     /// </summary>
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UserRolesController : Controller

@@ -53,7 +53,7 @@ namespace DataLibrary
                         Rating = 3f
                     });
             }
-            context.SaveChanges();
+            context.SaveChanges();            
 
             if (!context.Roles.Any())
             {
@@ -69,13 +69,14 @@ namespace DataLibrary
                     });
             }
             context.SaveChanges();
-
+           
             if (!context.Users.Any())
             {
                 context.Users.Add(new User
                 {
                     Name = "Alex Krios",
-                    Password = "pass",
+                    Login = "AlexKrios",
+                    PasswordHash = "pass",
                     Age = 23,
                     Email = "Test@gmail.com",
                     TelephoneNumber = "+375298807848",
@@ -84,6 +85,7 @@ namespace DataLibrary
                     CityId = 1
                 });
             }
+
             context.SaveChanges();
 
             if (!context.Deliveries.Any())
@@ -197,7 +199,7 @@ namespace DataLibrary
                         OrderId = 1
                     });
             }
-            context.SaveChanges();
+            context.SaveChanges();            
         }
     }
 }

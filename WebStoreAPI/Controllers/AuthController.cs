@@ -1,57 +1,98 @@
-﻿using System;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-using Auth;
-using DataLibrary;
+﻿using CQS.Commands.Auth;
+using CQS.Exceptions;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
+using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Threading.Tasks;
+using WebStoreAPI.Requests.Auth;
+using WebStoreAPI.Response.Auth;
+using WebStoreAPI.Utils;
 
 namespace WebStoreAPI.Controllers
 {
     [Route("api/[controller]")]
     public class AuthController : Controller
     {
+        private readonly IMediator _mediator;
         private readonly IConfiguration _config;
-        private readonly WebStoreContext _context;
 
-        public AuthController (IConfiguration config, WebStoreContext context)
+        public AuthController(IMediator mediator, IConfiguration config)
         {
+            _mediator = mediator;
             _config = config;
-            _context = context;
         }
 
-        [HttpGet("token")]
-        public IActionResult Get()
+        [HttpPost]
+        [Route("Create")]
+        public async Task<IActionResult> CreateToken([FromBody] CreateTokenRequest loginToken)
         {
             try
             {
-                var header = Request.Headers["Authorization"];
-                if (header.ToString().StartsWith("Basic"))
+                var refreshToken = await _mediator.Send(new CreateTokenCommand
                 {
-                    var credValue = header.ToString().Substring("Basic ".Length).Trim();
-                    var userNameAndPassEnc = Encoding.UTF8.GetString(Convert.FromBase64String(credValue));
-                    var userNameAndPass = userNameAndPassEnc.Split(":");
+                    Login = loginToken.Login,
+                    Password = loginToken.Password
+                });
 
-                    if (new UserLogin(_context).DataCheck(userNameAndPass[0], userNameAndPass[1]))
-                    {
-                        var claimsData = new[] { new Claim(ClaimTypes.Name, userNameAndPass[0]) };
-                        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
-                        var signInCred = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
-                        var token = new JwtSecurityToken(
-                            //audience: _config["Jwt:Audience"],
-                            //issuer: _config["Jwt:Issuer"],
-                            expires: DateTime.Now.AddMinutes(60),
-                            claims: claimsData,
-                            signingCredentials: signInCred
-                        );
-
-                        return Ok(new JwtSecurityTokenHandler().WriteToken(token));
-                    }
-                    return Unauthorized();
+                if (refreshToken == null)
+                {
+                    return BadRequest();
                 }
-                return BadRequest("Wrong request");
+
+                var token = new AuthTokenGenerator(_config).GenerateToken();
+
+                var tokenResponse = new CreateTokenResponse
+                {
+                    AccessToken = new JwtSecurityTokenHandler().WriteToken(token),
+                    RefreshToken = refreshToken.Token,
+                    TokenExpiration = token.ValidTo
+                };
+
+                return Ok(tokenResponse);
+            }
+            catch (UnauthorizedException)
+            {
+                return Unauthorized();
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, new { errorMessage = e.Message });
+            }
+        }
+
+        [HttpPost]
+        [Route("Refresh")]
+        public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenRequest refreshToken)
+        {
+            try
+            {
+                var refreshTokenSend = await _mediator.Send(new RefreshTokenCommand { Token = refreshToken.Token });
+
+                if (refreshTokenSend == null)
+                {
+                    return BadRequest();
+                }
+
+                var token = new AuthTokenGenerator(_config).GenerateToken();
+
+                var tokenResponse = new CreateTokenResponse
+                {
+                    AccessToken = new JwtSecurityTokenHandler().WriteToken(token),
+                    RefreshToken = refreshToken.Token,
+                    TokenExpiration = token.ValidTo
+                };
+
+                return Ok(tokenResponse);
+            }
+            catch (NotFoundException)
+            {
+                return NotFound();
+            }
+            catch (ExpiredTokenException)
+            {
+                return Unauthorized();
             }
             catch (Exception e)
             {

@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using CQS.Commands.Cities;
 using CQS.Queries.Cities;
 using MediatR;
