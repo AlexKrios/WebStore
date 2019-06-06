@@ -26,14 +26,14 @@ namespace WebStoreAPI.Controllers
 
         [HttpPost]
         [Route("Create")]
-        public async Task<IActionResult> CreateToken([FromBody] CreateTokenRequest loginToken)
+        public async Task<IActionResult> CreateToken([FromBody] CreateTokenRequest login)
         {
             try
             {
                 var refreshToken = await _mediator.Send(new CreateTokenCommand
                 {
-                    Login = loginToken.Login,
-                    Password = loginToken.Password
+                    Login = login.Login,
+                    Password = login.Password
                 });
 
                 if (refreshToken == null)

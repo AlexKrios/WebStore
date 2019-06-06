@@ -16,11 +16,13 @@ namespace CQS.Handlers.Auth
     {
         private readonly IConfiguration _config;
         private readonly WebStoreContext _context;
+        private readonly AuthPasswordHash _hash;
 
-        public CreateTokenHandler(IConfiguration config, WebStoreContext context)
+        public CreateTokenHandler(IConfiguration config, WebStoreContext context, AuthPasswordHash hash)
         {
             _config = config;
             _context = context;
+            _hash = hash;
         }
 
         public async Task<RefreshToken> Handle(CreateTokenCommand command, CancellationToken cancellationToken)
@@ -31,11 +33,11 @@ namespace CQS.Handlers.Auth
                     cancellationToken);
 
                 if (user == null)
-                    throw new NotFoundException();
+                    throw new NotFoundException("CREATE TOKEN, HANDLER - NOT FOUND");
 
-                var commandPassHash = new AuthPasswordHash().PasswordHash(command.Password);
+                var commandPassHash = _hash.PasswordHash(command.Password);
                 if (!user.PasswordHash.Equals(commandPassHash))
-                    throw new UnauthorizedException();
+                    throw new UnauthorizedException("CREATE TOKEN, HANDLER - UNAUTHORIZED");
 
                 var refreshToken =
                     await _context.RefreshTokens.FirstOrDefaultAsync(x => x.UserId == user.Id,
@@ -52,7 +54,7 @@ namespace CQS.Handlers.Auth
                     UserId = user.Id,
                     Token = Guid.NewGuid().ToString(),
                     Issued = DateTime.Now,
-                    Expires = DateTime.Now.AddMinutes(double.Parse(_config["Jwt:ExpiryMinutes"]))
+                    Expires = DateTime.Now.AddMinutes(double.Parse(_config["Jwt:ExpireMinutes"]))
                 };
 
                 _context.RefreshTokens.Add(newRefreshToken);

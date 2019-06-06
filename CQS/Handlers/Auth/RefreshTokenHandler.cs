@@ -27,10 +27,10 @@ namespace CQS.Handlers.Auth
                     .FirstOrDefaultAsync(x => x.Token == command.Token, cancellationToken);
 
                 if (refreshToken == null)
-                    throw new NotFoundException();
+                    throw new NotFoundException("REFRESH TOKEN, HANDLER - NOT FOUND");
 
                 if (refreshToken.Expires < DateTime.Now)
-                    throw new ExpiredTokenException();
+                    throw new ExpiredTokenException("REFRESH TOKEN, HANDLER - EXPIRED TOKEN");
 
                 return refreshToken;
             }

@@ -19,7 +19,7 @@ namespace WebStoreAPI.Utils
         {
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
             var signInCred = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-            var expires = DateTime.Now.AddMinutes(double.Parse(_config["Jwt:ExpiryMinutes"]));
+            var expires = DateTime.Now.AddMinutes(double.Parse(_config["Jwt:ExpireMinutes"]));
 
             var token = new JwtSecurityToken(
                 audience: _config["Jwt:Audience"],
