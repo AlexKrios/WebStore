@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
 namespace CQS.Handlers.Auth
 {
@@ -17,12 +18,14 @@ namespace CQS.Handlers.Auth
         private readonly IConfiguration _config;
         private readonly WebStoreContext _context;
         private readonly AuthPasswordHash _hash;
+        private readonly ILogger<RefreshTokenHandler> _logger;
 
-        public CreateTokenHandler(IConfiguration config, WebStoreContext context, AuthPasswordHash hash)
+        public CreateTokenHandler(IConfiguration config, WebStoreContext context, AuthPasswordHash hash, ILogger<RefreshTokenHandler> logger)
         {
             _config = config;
             _context = context;
             _hash = hash;
+            _logger = logger;
         }
 
         public async Task<RefreshToken> Handle(CreateTokenCommand command, CancellationToken cancellationToken)
@@ -33,11 +36,11 @@ namespace CQS.Handlers.Auth
                     cancellationToken);
 
                 if (user == null)
-                    throw new NotFoundException("CREATE TOKEN, HANDLER - NOT FOUND");
+                    throw new NotFoundException("CREATE TOKEN, HANDLER - Not found");
 
                 var commandPassHash = _hash.PasswordHash(command.Password);
                 if (!user.PasswordHash.Equals(commandPassHash))
-                    throw new UnauthorizedException("CREATE TOKEN, HANDLER - UNAUTHORIZED");
+                    throw new UnauthorizedException("CREATE TOKEN, HANDLER - Unauthorized");
 
                 var refreshToken =
                     await _context.RefreshTokens.FirstOrDefaultAsync(x => x.UserId == user.Id,
@@ -64,7 +67,7 @@ namespace CQS.Handlers.Auth
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                _logger.LogError(e, $"CREATE TOKEN, HANDLER - {e.Message}");
                 throw;
             }
         }

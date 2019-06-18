@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using WebStoreAPI.Requests.OrderItems;
 using WebStoreAPI.Response.OrderItems;
 using WebStoreAPI.Specifications.OrderItems;

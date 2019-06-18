@@ -4,379 +4,725 @@
         <name>WebStoreAPI</name>
     </assembly>
     <members>
+        <member name="T:WebStoreAPI.Controllers.CitiesController">
+            <inheritdoc />
+            <summary>
+            Cities controller
+            </summary>
+        </member>
         <member name="M:WebStoreAPI.Controllers.CitiesController.Get(WebStoreAPI.Requests.Cities.GetCitiesRequest)">
             <summary>
-            Get all Cities.
+            Get all Cities
             </summary>
-            <returns>List with all Cities.</returns>
+            <returns>List with all Cities</returns>
+            <responce code="200">Get Cities by filter</responce>
+            <responce code="204">No content</responce>
+            <responce code="400">Bad request</responce>
+            <responce code="401">Unauthorized</responce>
+            <responce code="404">Cities not found</responce>
+            <responce code="500">Internal error</responce>
         </member>
         <member name="M:WebStoreAPI.Controllers.CitiesController.GetById(System.Int32)">
             <summary>
-            Get City by their ID.
+            Get City by their ID
             </summary>
-            <param name="id">The ID of the desired City.</param>
-            <returns>Info about City with selected Id.</returns>
+            <param name="id">The ID of the desired City</param>
+            <returns>Info about City with selected Id</returns>
+            <responce code="200">Get City by Id</responce>
+            <responce code="204">No content</responce>
+            <responce code="400">Bad request</responce>
+            <responce code="401">Unauthorized</responce>
+            <responce code="404">City not found</responce>
+            <responce code="500">Internal error</responce>
         </member>
         <member name="M:WebStoreAPI.Controllers.CitiesController.Add(WebStoreAPI.Requests.Cities.CreateCityRequest)">
             <summary>
-            Create a new City.
+            Create a new City
             </summary>
-            <param name="city">The body of new City.</param>
-            <returns>Info about created City.</returns>
+            <param name="city">The body of new City</param>
+            <returns>Info about created City</returns>
+            <responce code="200">Create City</responce>
+            <responce code="400">Bad request</responce>
+            <responce code="401">Unauthorized</responce>
+            <responce code="500">Internal error</responce>
         </member>
         <member name="M:WebStoreAPI.Controllers.CitiesController.Update(WebStoreAPI.Requests.Cities.UpdateCityRequest)">
             <summary>
-            Update existing City.
+            Update existing City
             </summary>
-            <param name="city">The body of new City.</param>
+            <param name="city">The body of new City</param>
             <returns>Nothing</returns>
+            <responce code="200">Update City</responce>
+            <responce code="400">Bad request</responce>
+            <responce code="401">Unauthorized</responce>
+            <responce code="404">City not found</responce>
+            <responce code="500">Internal error</responce>
         </member>
         <member name="M:WebStoreAPI.Controllers.CitiesController.Delete(System.Int32)">
             <summary>
-            Delete existing City.
+            Delete existing City
             </summary>
-            <param name="id">The ID of the desired City.</param>
+            <param name="id">The ID of the desired City</param>
             <returns>Nothing</returns>
+            <responce code="200">Delete City</responce>
+            <responce code="400">Bad request</responce>
+            <responce code="401">Unauthorized</responce>
+            <responce code="404">City not found</responce>
+            <responce code="500">Internal error</responce>
+        </member>
+        <member name="T:WebStoreAPI.Controllers.CountriesController">
+            <inheritdoc />
+            <summary>
+            Countries controller
+            </summary>
         </member>
         <member name="M:WebStoreAPI.Controllers.CountriesController.Get(WebStoreAPI.Requests.Countries.GetCountriesRequest)">
             <summary>
-            Get all Countries.
+            Get all Countries
             </summary>
-            <returns>List with all Countries.</returns>
+            <returns>List with all Countries</returns>
+            <responce code="200">Get Countries by filter</responce>
+            <responce code="204">No content</responce>
+            <responce code="400">Bad request</responce>
+            <responce code="401">Unauthorized</responce>
+            <responce code="404">Countries not found</responce>
+            <responce code="500">Internal error</responce>
         </member>
         <member name="M:WebStoreAPI.Controllers.CountriesController.GetById(System.Int32)">
             <summary>
-            Get Country by their ID.
+            Get Country by their ID
             </summary>
-            <param name="id">The ID of the desired Country.</param>
-            <returns>Info about Country with selected Id.</returns>
+            <param name="id">The ID of the desired Country</param>
+            <returns>Info about Country with selected Id</returns>
+            <responce code="200">Get Country by Id</responce>
+            <responce code="204">No content</responce>
+            <responce code="400">Bad request</responce>
+            <responce code="401">Unauthorized</responce>
+            <responce code="404">Country not found</responce>
+            <responce code="500">Internal error</responce>
         </member>
         <member name="M:WebStoreAPI.Controllers.CountriesController.Add(WebStoreAPI.Requests.Countries.CreateCountryRequest)">
             <summary>
-            Create a new Country.
+            Create a new Country
             </summary>
-            <param name="country">The body of new Country.</param>
-            <returns>Info about created Country.</returns>
+            <param name="country">The body of new Country</param>
+            <returns>Info about created Country</returns>
+            <responce code="200">Create Country</responce>
+            <responce code="400">Bad request</responce>
+            <responce code="401">Unauthorized</responce>
+            <responce code="500">Internal error</responce>
         </member>
         <member name="M:WebStoreAPI.Controllers.CountriesController.Update(WebStoreAPI.Requests.Countries.UpdateCountryRequest)">
             <summary>
-            Update existing Country.
+            Update existing Country
             </summary>
-            <param name="country">The body of new Country.</param>
+            <param name="country">The body of new Country</param>
             <returns>Nothing</returns>
+            <responce code="200">Update Country</responce>
+            <responce code="400">Bad request</responce>
+            <responce code="401">Unauthorized</responce>
+            <responce code="404">Country not found</responce>
+            <responce code="500">Internal error</responce>
         </member>
         <member name="M:WebStoreAPI.Controllers.CountriesController.Delete(System.Int32)">
             <summary>
-            Delete existing Country.
+            Delete existing Country
             </summary>
-            <param name="id">The ID of the desired Country.</param>
+            <param name="id">The ID of the desired Country</param>
             <returns>Nothing</returns>
+            <responce code="200">Delete Country</responce>
+            <responce code="400">Bad request</responce>
+            <responce code="401">Unauthorized</responce>
+            <responce code="404">Country not found</responce>
+            <responce code="500">Internal error</responce>
+        </member>
+        <member name="T:WebStoreAPI.Controllers.DeliveriesController">
+            <inheritdoc />
+            <summary>
+            Deliveries controller
+            </summary>
         </member>
         <member name="M:WebStoreAPI.Controllers.DeliveriesController.Get(WebStoreAPI.Requests.Deliveries.GetDeliveriesRequest)">
             <summary>
-            Get all Deliveries.
+            Get all Deliveries
             </summary>
-            <returns>List with all Deliveries.</returns>
+            <returns>List with all Deliveries</returns>
+            <responce code="200">Get Deliveries by filter</responce>
+            <responce code="204">No content</responce>
+            <responce code="400">Bad request</responce>
+            <responce code="401">Unauthorized</responce>
+            <responce code="404">Deliveries not found</responce>
+            <responce code="500">Internal error</responce>
         </member>
         <member name="M:WebStoreAPI.Controllers.DeliveriesController.GetById(System.Int32)">
             <summary>
-            Get Delivery by their ID.
+            Get Delivery by their ID
             </summary>
-            <param name="id">The ID of the desired Delivery.</param>
-            <returns>Info about Delivery with selected Id.</returns>
+            <param name="id">The ID of the desired Delivery</param>
+            <returns>Info about Delivery with selected Id</returns>
+            <responce code="200">Get Delivery by Id</responce>
+            <responce code="204">No content</responce>
+            <responce code="400">Bad request</responce>
+            <responce code="401">Unauthorized</responce>
+            <responce code="404">Delivery not found</responce>
+            <responce code="500">Internal error</responce>
         </member>
         <member name="M:WebStoreAPI.Controllers.DeliveriesController.Add(WebStoreAPI.Requests.Deliveries.CreateDeliveryRequest)">
             <summary>
-            Create a new Delivery.
+            Create a new Delivery
             </summary>
-            <param name="delivery">The body of new Delivery.</param>
-            <returns>Info about created Delivery.</returns>
+            <param name="delivery">The body of new Delivery</param>
+            <returns>Info about created Delivery</returns>
+            <responce code="200">Create Delivery</responce>
+            <responce code="400">Bad request</responce>
+            <responce code="401">Unauthorized</responce>
+            <responce code="500">Internal error</responce>
         </member>
         <member name="M:WebStoreAPI.Controllers.DeliveriesController.Update(WebStoreAPI.Requests.Deliveries.UpdateDeliveryRequest)">
             <summary>
-            Update existing Delivery.
+            Update existing Delivery
             </summary>
-            <param name="delivery">The body of new Delivery.</param>
+            <param name="delivery">The body of new Delivery</param>
             <returns>Nothing</returns>
+            <responce code="200">Update Delivery</responce>
+            <responce code="400">Bad request</responce>
+            <responce code="401">Unauthorized</responce>
+            <responce code="404">Delivery not found</responce>
+            <responce code="500">Internal error</responce>
         </member>
         <member name="M:WebStoreAPI.Controllers.DeliveriesController.Delete(System.Int32)">
             <summary>
-            Delete existing Delivery.
+            Delete existing Delivery
             </summary>
-            <param name="id">The ID of the desired Delivery.</param>
+            <param name="id">The ID of the desired Delivery</param>
             <returns>Nothing</returns>
+            <responce code="200">Delete Delivery</responce>
+            <responce code="400">Bad request</responce>
+            <responce code="401">Unauthorized</responce>
+            <responce code="404">Delivery not found</responce>
+            <responce code="500">Internal error</responce>
+        </member>
+        <member name="T:WebStoreAPI.Controllers.ManufacturersController">
+            <inheritdoc />
+            <summary>
+            Manufacturers controller
+            </summary>
         </member>
         <member name="M:WebStoreAPI.Controllers.ManufacturersController.Get(WebStoreAPI.Requests.Manufacturers.GetManufacturersRequest)">
             <summary>
-            Get all Manufacturers.
+            Get all Manufacturers
             </summary>
-            <returns>List with all Manufacturers.</returns>
+            <returns>List with all Manufacturers</returns>
+            <responce code="200">Get Manufacturers by filter</responce>
+            <responce code="204">No content</responce>
+            <responce code="400">Bad request</responce>
+            <responce code="401">Unauthorized</responce>
+            <responce code="404">Manufacturers not found</responce>
+            <responce code="500">Internal error</responce>
         </member>
         <member name="M:WebStoreAPI.Controllers.ManufacturersController.GetById(System.Int32)">
             <summary>
-            Get Manufacturer by their ID.
+            Get Manufacturer by their ID
             </summary>
-            <param name="id">The ID of the desired Manufacturer.</param>
-            <returns>Info about Manufacturer with selected Id.</returns>
+            <param name="id">The ID of the desired Manufacturer</param>
+            <returns>Info about Manufacturer with selected Id</returns>
+            <responce code="200">Get Manufacturer by Id</responce>
+            <responce code="204">No content</responce>
+            <responce code="400">Bad request</responce>
+            <responce code="401">Unauthorized</responce>
+            <responce code="404">Manufacturer not found</responce>
+            <responce code="500">Internal error</responce>
         </member>
         <member name="M:WebStoreAPI.Controllers.ManufacturersController.Add(WebStoreAPI.Requests.Manufacturers.CreateManufacturerRequest)">
             <summary>
-            Create a new Manufacturer.
+            Create a new Manufacturer
             </summary>
-            <param name="manufacturer">The body of new Manufacturer.</param>
-            <returns>Info about created Manufacturer.</returns>
+            <param name="manufacturer">The body of new Manufacturer</param>
+            <returns>Info about created Manufacturer</returns>
+            <responce code="200">Create Manufacturer</responce>
+            <responce code="400">Bad request</responce>
+            <responce code="401">Unauthorized</responce>
+            <responce code="500">Internal error</responce>
         </member>
         <member name="M:WebStoreAPI.Controllers.ManufacturersController.Update(WebStoreAPI.Requests.Manufacturers.UpdateManufacturerRequest)">
             <summary>
-            Update existing Manufacturer.
+            Update existing Manufacturer
             </summary>
-            <param name="manufacturer">The body of new Manufacturer.</param>
+            <param name="manufacturer">The body of new Manufacturer</param>
             <returns>Nothing</returns>
+            <responce code="200">Update Manufacturer</responce>
+            <responce code="400">Bad request</responce>
+            <responce code="401">Unauthorized</responce>
+            <responce code="404">Manufacturer not found</responce>
+            <responce code="500">Internal error</responce>
         </member>
         <member name="M:WebStoreAPI.Controllers.ManufacturersController.Delete(System.Int32)">
             <summary>
-            Delete existing Manufacturer.
+            Delete existing Manufacturer
             </summary>
-            <param name="id">The ID of the desired Manufacturer.</param>
+            <param name="id">The ID of the desired Manufacturer</param>
             <returns>Nothing</returns>
+            <responce code="200">Delete Manufacturer</responce>
+            <responce code="400">Bad request</responce>
+            <responce code="401">Unauthorized</responce>
+            <responce code="404">Manufacturer not found</responce>
+            <responce code="500">Internal error</responce>
+        </member>
+        <member name="T:WebStoreAPI.Controllers.OrderItemsController">
+            <inheritdoc />
+            <summary>
+            OrderItems controller
+            </summary>
         </member>
         <member name="M:WebStoreAPI.Controllers.OrderItemsController.Get(WebStoreAPI.Requests.OrderItems.GetOrdersItemsRequest)">
             <summary>
-            Get all OrderItem.
+            Get all OrderItem
             </summary>
-            <returns>List with all OrderItem.</returns>
+            <returns>List with all OrderItems</returns>
+            <responce code="200">Get OrderItems by filter</responce>
+            <responce code="204">No content</responce>
+            <responce code="400">Bad request</responce>
+            <responce code="401">Unauthorized</responce>
+            <responce code="404">OrderItems not found</responce>
+            <responce code="500">Internal error</responce>
         </member>
         <member name="M:WebStoreAPI.Controllers.OrderItemsController.GetById(System.Int32)">
             <summary>
-            Get OrderItem by their ID.
+            Get OrderItem by their ID
             </summary>
-            <param name="id">The ID of the desired OrderItem.</param>
-            <returns>Info about OrderItem with selected Id.</returns>
+            <param name="id">The ID of the desired OrderItem</param>
+            <returns>Info about OrderItem with selected Id</returns>
+            <responce code="200">Get OrderItem by Id</responce>
+            <responce code="204">No content</responce>
+            <responce code="400">Bad request</responce>
+            <responce code="401">Unauthorized</responce>
+            <responce code="404">OrderItem not found</responce>
+            <responce code="500">Internal error</responce>
         </member>
         <member name="M:WebStoreAPI.Controllers.OrderItemsController.Add(WebStoreAPI.Requests.OrderItems.CreateOrderItemsRequest)">
             <summary>
-            Create a new OrderItem.
+            Create a new OrderItem
             </summary>
-            <param name="orderItem">The body of new OrderItem.</param>
-            <returns>Info about created OrderItem.</returns>
+            <param name="orderItem">The body of new OrderItem</param>
+            <returns>Info about created OrderItem</returns>
+            <responce code="200">Create OrderItem</responce>
+            <responce code="400">Bad request</responce>
+            <responce code="401">Unauthorized</responce>
+            <responce code="500">Internal error</responce>
         </member>
         <member name="M:WebStoreAPI.Controllers.OrderItemsController.Update(WebStoreAPI.Requests.OrderItems.UpdateOrderItemsRequest)">
             <summary>
-            Update existing OrderItem.
+            Update existing OrderItem
             </summary>
-            <param name="orderItem">The body of new OrderItem.</param>
+            <param name="orderItem">The body of new OrderItem</param>
             <returns>Nothing</returns>
+            <responce code="200">Update OrderItem</responce>
+            <responce code="400">Bad request</responce>
+            <responce code="401">Unauthorized</responce>
+            <responce code="404">OrderItem not found</responce>
+            <responce code="500">Internal error</responce>
         </member>
         <member name="M:WebStoreAPI.Controllers.OrderItemsController.Delete(System.Int32)">
             <summary>
-            Delete existing OrderItem.
+            Delete existing OrderItem
             </summary>
-            <param name="id">The ID of the desired OrderItem.</param>
+            <param name="id">The ID of the desired OrderItem</param>
             <returns>Nothing</returns>
+            <responce code="200">Delete OrderItem</responce>
+            <responce code="400">Bad request</responce>
+            <responce code="401">Unauthorized</responce>
+            <responce code="404">OrderItem not found</responce>
+            <responce code="500">Internal error</responce>
         </member>
         <member name="M:WebStoreAPI.Controllers.OrdersController.Get(WebStoreAPI.Requests.Orders.GetOrdersRequest)">
             <summary>
-            Get all Orders.
+            Get all Orders
             </summary>
-            <returns>List with all Orders.</returns>
+            <returns>List with all Orders</returns>
+            <responce code="200">Get Orders by filter</responce>
+            <responce code="204">No content</responce>
+            <responce code="400">Bad request</responce>
+            <responce code="401">Unauthorized</responce>
+            <responce code="404">Orders not found</responce>
+            <responce code="500">Internal error</responce>
         </member>
         <member name="M:WebStoreAPI.Controllers.OrdersController.GetById(System.Int32)">
             <summary>
-            Get Order by their ID.
+            Get Order by their ID
             </summary>
-            <param name="id">The ID of the desired Order.</param>
-            <returns>Info about Order with selected Id.</returns>
+            <param name="id">The ID of the desired Order</param>
+            <returns>Info about Order with selected Id</returns>
+            <responce code="200">Get Order by Id</responce>
+            <responce code="204">No content</responce>
+            <responce code="400">Bad request</responce>
+            <responce code="401">Unauthorized</responce>
+            <responce code="404">Order not found</responce>
+            <responce code="500">Internal error</responce>
         </member>
         <member name="M:WebStoreAPI.Controllers.OrdersController.Add(WebStoreAPI.Requests.Orders.CreateOrderRequest)">
             <summary>
-            Create a new Order.
+            Create a new Order
             </summary>
-            <param name="order">The body of new Order.</param>
-            <returns>Info about created Order.</returns>
+            <param name="order">The body of new Order</param>
+            <returns>Info about created Order</returns>
+            <responce code="200">Create Order</responce>
+            <responce code="400">Bad request</responce>
+            <responce code="401">Unauthorized</responce>
+            <responce code="500">Internal error</responce>
         </member>
         <member name="M:WebStoreAPI.Controllers.OrdersController.Update(WebStoreAPI.Requests.Orders.UpdateOrderRequest)">
             <summary>
-            Update existing Order.
+            Update existing Order
             </summary>
-            <param name="order">The body of new Order.</param>
+            <param name="order">The body of new Order</param>
             <returns>Nothing</returns>
+            <responce code="200">Update Order</responce>
+            <responce code="400">Bad request</responce>
+            <responce code="401">Unauthorized</responce>
+            <responce code="404">Order not found</responce>
+            <responce code="500">Internal error</responce>
         </member>
         <member name="M:WebStoreAPI.Controllers.OrdersController.Delete(System.Int32)">
             <summary>
-            Delete existing Order.
+            Delete existing Order
             </summary>
-            <param name="id">The ID of the desired Order.</param>
+            <param name="id">The ID of the desired Order</param>
             <returns>Nothing</returns>
+            <responce code="200">Delete Order</responce>
+            <responce code="400">Bad request</responce>
+            <responce code="401">Unauthorized</responce>
+            <responce code="404">Order not found</responce>
+            <responce code="500">Internal error</responce>
+        </member>
+        <member name="T:WebStoreAPI.Controllers.PaymentsController">
+            <inheritdoc />
+            <summary>
+            Payments controller
+            </summary>
         </member>
         <member name="M:WebStoreAPI.Controllers.PaymentsController.Get(WebStoreAPI.Requests.Payments.GetPaymentsRequest)">
             <summary>
-            Get all Payments.
+            Get all Payments
             </summary>
-            <returns>List with all Payments.</returns>
+            <returns>List with all Payments</returns>
+            <responce code="200">Get Payments by filter</responce>
+            <responce code="204">No content</responce>
+            <responce code="400">Bad request</responce>
+            <responce code="401">Unauthorized</responce>
+            <responce code="404">Payments not found</responce>
+            <responce code="500">Internal error</responce>
         </member>
         <member name="M:WebStoreAPI.Controllers.PaymentsController.GetById(System.Int32)">
             <summary>
-            Get Payment by their ID.
+            Get Payment by their ID
             </summary>
-            <param name="id">The ID of the desired Payment.</param>
-            <returns>Info about Payment with selected Id.</returns>
+            <param name="id">The ID of the desired Payment</param>
+            <returns>Info about Payment with selected Id</returns>
+            <responce code="200">Get Payment by Id</responce>
+            <responce code="204">No content</responce>
+            <responce code="400">Bad request</responce>
+            <responce code="401">Unauthorized</responce>
+            <responce code="404">Payment not found</responce>
+            <responce code="500">Internal error</responce>
         </member>
         <member name="M:WebStoreAPI.Controllers.PaymentsController.Add(WebStoreAPI.Requests.Payments.CreatePaymentRequest)">
             <summary>
-            Create a new Payment.
+            Create a new Payment
             </summary>
-            <param name="payment">The body of new Payment.</param>
+            <param name="payment">The body of new Payment</param>
             <returns>Info about created Payment.</returns>
+            <responce code="200">Create Payment</responce>
+            <responce code="400">Bad request</responce>
+            <responce code="401">Unauthorized</responce>
+            <responce code="500">Internal error</responce>
         </member>
         <member name="M:WebStoreAPI.Controllers.PaymentsController.Update(WebStoreAPI.Requests.Payments.UpdatePaymentRequest)">
             <summary>
-            Update existing Payment.
+            Update existing Payment
             </summary>
-            <param name="payment">The body of new Payment.</param>
+            <param name="payment">The body of new Payment</param>
             <returns>Nothing</returns>
+            <responce code="200">Update Payment</responce>
+            <responce code="400">Bad request</responce>
+            <responce code="401">Unauthorized</responce>
+            <responce code="404">Payment not found</responce>
+            <responce code="500">Internal error</responce>
         </member>
         <member name="M:WebStoreAPI.Controllers.PaymentsController.Delete(System.Int32)">
             <summary>
-            Delete existing Payment.
+            Delete existing Payment
             </summary>
-            <param name="id">The ID of the desired Payment.</param>
+            <param name="id">The ID of the desired Payment</param>
             <returns>Nothing</returns>
+            <responce code="200">Delete Payment</responce>
+            <responce code="400">Bad request</responce>
+            <responce code="401">Unauthorized</responce>
+            <responce code="404">Payment not found</responce>
+            <responce code="500">Internal error</responce>
+        </member>
+        <member name="T:WebStoreAPI.Controllers.ProductsController">
+            <inheritdoc />
+            <summary>
+            Products controller
+            </summary>
         </member>
         <member name="M:WebStoreAPI.Controllers.ProductsController.Get(WebStoreAPI.Requests.Products.GetProductsRequest)">
             <summary>
-            Get all Products.
+            Get all Products
             </summary>
-            <returns>List with all Products.</returns>
+            <returns>List with all Products</returns>
+            <responce code="200">Get Products by filter</responce>
+            <responce code="204">No content</responce>
+            <responce code="400">Bad request</responce>
+            <responce code="401">Unauthorized</responce>
+            <responce code="404">Products not found</responce>
+            <responce code="500">Internal error</responce>
         </member>
         <member name="M:WebStoreAPI.Controllers.ProductsController.GetById(System.Int32)">
             <summary>
-            Get Product by their ID.
+            Get Product by their ID
             </summary>
-            <param name="id">The ID of the desired Product.</param>
-            <returns>Info about Product with selected Id.</returns>
+            <param name="id">The ID of the desired Product</param>
+            <returns>Info about Product with selected Id</returns>
+            <responce code="200">Get Product by Id</responce>
+            <responce code="204">No content</responce>
+            <responce code="400">Bad request</responce>
+            <responce code="401">Unauthorized</responce>
+            <responce code="404">Product not found</responce>
+            <responce code="500">Internal error</responce>
         </member>
         <member name="M:WebStoreAPI.Controllers.ProductsController.Add(WebStoreAPI.Requests.Products.CreateProductRequest)">
             <summary>
-            Create a new Product.
+            Create a new Product
             </summary>
-            <param name="product">The body of new Product.</param>
-            <returns>Info about created Product.</returns>
+            <param name="product">The body of new Product</param>
+            <returns>Info about created Product</returns>
+            <responce code="200">Create Product</responce>
+            <responce code="400">Bad request</responce>
+            <responce code="401">Unauthorized</responce>
+            <responce code="500">Internal error</responce>
         </member>
         <member name="M:WebStoreAPI.Controllers.ProductsController.Update(WebStoreAPI.Requests.Products.UpdateProductRequest)">
             <summary>
-            Update existing Product.
+            Update existing Product
             </summary>
-            <param name="product">The body of new Product.</param>
+            <param name="product">The body of new Product</param>
             <returns>Nothing</returns>
+            <responce code="200">Update Product</responce>
+            <responce code="400">Bad request</responce>
+            <responce code="401">Unauthorized</responce>
+            <responce code="404">Product not found</responce>
+            <responce code="500">Internal error</responce>
         </member>
         <member name="M:WebStoreAPI.Controllers.ProductsController.Delete(System.Int32)">
             <summary>
-            Delete existing Product.
+            Delete existing Product
             </summary>
-            <param name="id">The ID of the desired Product.</param>
+            <param name="id">The ID of the desired Product</param>
             <returns>Nothing</returns>
+            <responce code="200">Delete Product</responce>
+            <responce code="400">Bad request</responce>
+            <responce code="401">Unauthorized</responce>
+            <responce code="404">Product not found</responce>
+            <responce code="500">Internal error</responce>
+        </member>
+        <member name="T:WebStoreAPI.Controllers.RolesController">
+            <inheritdoc />
+            <summary>
+            Roles controller
+            </summary>
         </member>
         <member name="M:WebStoreAPI.Controllers.RolesController.Get(WebStoreAPI.Requests.Roles.GetRolesRequest)">
             <summary>
-            Get all Roles.
+            Get all Roles
             </summary>
-            <returns>List with all Roles.</returns>
+            <returns>List with all Roles</returns>
+            <responce code="200">Get Roles by filter</responce>
+            <responce code="204">No content</responce>
+            <responce code="400">Bad request</responce>
+            <responce code="401">Unauthorized</responce>
+            <responce code="404">Roles not found</responce>
+            <responce code="500">Internal error</responce>
         </member>
         <member name="M:WebStoreAPI.Controllers.RolesController.GetById(System.Int32)">
             <summary>
-            Get Role by their ID.
+            Get Role by their ID
             </summary>
-            <param name="id">The ID of the desired Role.</param>
-            <returns>Info about Role with selected Id.</returns>
+            <param name="id">The ID of the desired Role</param>
+            <returns>Info about Role with selected Id</returns>
+            <responce code="200">Get Role by Id</responce>
+            <responce code="204">No content</responce>
+            <responce code="400">Bad request</responce>
+            <responce code="401">Unauthorized</responce>
+            <responce code="404">Role not found</responce>
+            <responce code="500">Internal error</responce>
         </member>
         <member name="M:WebStoreAPI.Controllers.RolesController.Add(WebStoreAPI.Requests.Roles.CreateRoleRequest)">
             <summary>
-            Create a new Role.
+            Create a new Role
             </summary>
-            <param name="role">The body of new Role.</param>
-            <returns>Info about created Role.</returns>
+            <param name="role">The body of new Role</param>
+            <returns>Info about created Role</returns>
+            <responce code="200">Create Role</responce>
+            <responce code="400">Bad request</responce>
+            <responce code="401">Unauthorized</responce>
+            <responce code="500">Internal error</responce>
         </member>
         <member name="M:WebStoreAPI.Controllers.RolesController.Update(WebStoreAPI.Requests.Roles.UpdateRoleRequest)">
             <summary>
-            Update existing Role.
+            Update existing Role
             </summary>
-            <param name="role">The body of new Role.</param>
+            <param name="role">The body of new Role</param>
             <returns>Nothing</returns>
+            <responce code="200">Update Role</responce>
+            <responce code="400">Bad request</responce>
+            <responce code="401">Unauthorized</responce>
+            <responce code="404">Role not found</responce>
+            <responce code="500">Internal error</responce>
         </member>
         <member name="M:WebStoreAPI.Controllers.RolesController.Delete(System.Int32)">
             <summary>
-            Delete existing Role.
+            Delete existing Role
             </summary>
-            <param name="id">The ID of the desired Role.</param>
+            <param name="id">The ID of the desired Role</param>
             <returns>Nothing</returns>
+            <responce code="200">Delete Role</responce>
+            <responce code="400">Bad request</responce>
+            <responce code="401">Unauthorized</responce>
+            <responce code="404">Role not found</responce>
+            <responce code="500">Internal error</responce>
+        </member>
+        <member name="T:WebStoreAPI.Controllers.UserRolesController">
+            <inheritdoc />
+            <summary>
+            UserRoles controller
+            </summary>
         </member>
         <member name="M:WebStoreAPI.Controllers.UserRolesController.Get(WebStoreAPI.Requests.UserRoles.GetUsersRolesRequest)">
             <summary>
-            Get all UserRole.
+            Get all UserRole
             </summary>
-            <returns>List with all UserRole.</returns>
+            <returns>List with all UserRoles</returns>
+            <responce code="200">Get UserRoles by filter</responce>
+            <responce code="204">No content</responce>
+            <responce code="400">Bad request</responce>
+            <responce code="401">Unauthorized</responce>
+            <responce code="404">UserRoles not found</responce>
+            <responce code="500">Internal error</responce>
         </member>
         <member name="M:WebStoreAPI.Controllers.UserRolesController.GetById(System.Int32)">
             <summary>
-            Get UserRole by their ID.
+            Get UserRole by their ID
             </summary>
-            <param name="id">The ID of the desired UserRole.</param>
-            <returns>Info about UserRole with selected Id.</returns>
+            <param name="id">The ID of the desired UserRole</param>
+            <returns>Info about UserRole with selected Id</returns>
+            <responce code="200">Get UserRole by Id</responce>
+            <responce code="204">No content</responce>
+            <responce code="400">Bad request</responce>
+            <responce code="401">Unauthorized</responce>
+            <responce code="404">UserRole not found</responce>
+            <responce code="500">Internal error</responce>
         </member>
         <member name="M:WebStoreAPI.Controllers.UserRolesController.Add(WebStoreAPI.Requests.UserRoles.CreateUserRolesRequest)">
             <summary>
-            Create a new UserRole.
+            Create a new UserRole
             </summary>
-            <param name="userRole">The body of new UserRole.</param>
-            <returns>Info about created UserRole.</returns>
+            <param name="userRole">The body of new UserRole</param>
+            <returns>Info about created UserRole</returns>
+            <responce code="200">Create UserRole</responce>
+            <responce code="400">Bad request</responce>
+            <responce code="401">Unauthorized</responce>
+            <responce code="500">Internal error</responce>
         </member>
         <member name="M:WebStoreAPI.Controllers.UserRolesController.Update(WebStoreAPI.Requests.UserRoles.UpdateUserRolesRequest)">
             <summary>
-            Update existing UserRole.
+            Update existing UserRole
             </summary>
-            <param name="userRole">The body of new UserRole.</param>
+            <param name="userRole">The body of new UserRole</param>
             <returns>Nothing</returns>
+            <responce code="200">Update UserRole</responce>
+            <responce code="400">Bad request</responce>
+            <responce code="401">Unauthorized</responce>
+            <responce code="404">UserRole not found</responce>
+            <responce code="500">Internal error</responce>
         </member>
         <member name="M:WebStoreAPI.Controllers.UserRolesController.Delete(System.Int32)">
             <summary>
-            Delete existing UserRole.
+            Delete existing UserRole
             </summary>
-            <param name="id">The ID of the desired UserRole.</param>
+            <param name="id">The ID of the desired UserRole</param>
             <returns>Nothing</returns>
+            <responce code="200">Delete UserRole</responce>
+            <responce code="400">Bad request</responce>
+            <responce code="401">Unauthorized</responce>
+            <responce code="404">UserRole not found</responce>
+            <responce code="500">Internal error</responce>
+        </member>
+        <member name="T:WebStoreAPI.Controllers.UsersController">
+            <inheritdoc />
+            <summary>
+            Users controller
+            </summary>
         </member>
         <member name="M:WebStoreAPI.Controllers.UsersController.Get(WebStoreAPI.Requests.Users.GetUsersRequest)">
             <summary>
-            Get all Users.
+            Get all Users
             </summary>
-            <returns>List with all Users.</returns>
+            <returns>List with all Users</returns>
+            <responce code="200">Get Users by filter</responce>
+            <responce code="204">No content</responce>
+            <responce code="400">Bad request</responce>
+            <responce code="401">Unauthorized</responce>
+            <responce code="404">Users not found</responce>
+            <responce code="500">Internal error</responce>
         </member>
         <member name="M:WebStoreAPI.Controllers.UsersController.GetById(System.Int32)">
             <summary>
-            Get User by their ID.
+            Get User by their ID
             </summary>
-            <param name="id">The ID of the desired User.</param>
-            <returns>Info about User with selected Id.</returns>
+            <param name="id">The ID of the desired User</param>
+            <returns>Info about User with selected Id</returns>
+            <responce code="200">Get User by Id</responce>
+            <responce code="204">No content</responce>
+            <responce code="400">Bad request</responce>
+            <responce code="401">Unauthorized</responce>
+            <responce code="404">User not found</responce>
+            <responce code="500">Internal error</responce>
         </member>
         <member name="M:WebStoreAPI.Controllers.UsersController.Add(WebStoreAPI.Requests.Users.CreateUserRequest)">
             <summary>
-            Create a new User.
+            Create a new User
             </summary>
-            <param name="user">The body of new User.</param>
-            <returns>Info about created User.</returns>
+            <param name="user">The body of new User</param>
+            <returns>Info about created User</returns>
+            <responce code="200">Create User</responce>
+            <responce code="400">Bad request</responce>
+            <responce code="401">Unauthorized</responce>
+            <responce code="500">Internal error</responce>
         </member>
         <member name="M:WebStoreAPI.Controllers.UsersController.Update(WebStoreAPI.Requests.Users.UpdateUserRequest)">
             <summary>
-            Update existing User.
+            Update existing User
             </summary>
-            <param name="user">The body of new User.</param>
+            <param name="user">The body of new User</param>
             <returns>Nothing</returns>
+            <responce code="200">Update User</responce>
+            <responce code="400">Bad request</responce>
+            <responce code="401">Unauthorized</responce>
+            <responce code="404">User not found</responce>
+            <responce code="500">Internal error</responce>
         </member>
         <member name="M:WebStoreAPI.Controllers.UsersController.Delete(System.Int32)">
             <summary>
-            Delete existing User.
+            Delete existing User
             </summary>
-            <param name="id">The ID of the desired User.</param>
+            <param name="id">The ID of the desired User</param>
             <returns>Nothing</returns>
+            <responce code="200">Delete User</responce>
+            <responce code="400">Bad request</responce>
+            <responce code="401">Unauthorized</responce>
+            <responce code="404">User not found</responce>
+            <responce code="500">Internal error</responce>
         </member>
     </members>
 </doc>

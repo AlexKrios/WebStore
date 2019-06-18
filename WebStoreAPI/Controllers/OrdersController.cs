@@ -8,12 +8,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using WebStoreAPI.Requests.Orders;
 using WebStoreAPI.Response.Orders;
 using WebStoreAPI.Specifications.Orders;
 
 namespace WebStoreAPI.Controllers
 {
+    /// <inheritdoc />
+    /// <summary>
+    /// Orders controller
+    /// </summary>
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]

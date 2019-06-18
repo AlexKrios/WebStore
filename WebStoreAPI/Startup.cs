@@ -14,6 +14,7 @@ using SimpleInjector.Lifestyles;
 using Swashbuckle.AspNetCore.Swagger;
 using System;
 using System.IO;
+using System.Text;
 using WebStoreAPI.Mapper;
 
 namespace WebStoreAPI
