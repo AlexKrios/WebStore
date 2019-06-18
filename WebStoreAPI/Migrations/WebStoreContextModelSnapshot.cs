@@ -15,7 +15,7 @@ namespace WebStoreAPI.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.8-servicing-32085")
+                .HasAnnotation("ProductVersion", "2.1.11-servicing-32099")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -229,6 +229,30 @@ namespace WebStoreAPI.Migrations
                     b.ToTable("Products");
                 });
 
+            modelBuilder.Entity("DataLibrary.Entities.RefreshToken", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(450);
+
+                    b.Property<DateTime>("Expires");
+
+                    b.Property<DateTime>("Issued");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasMaxLength(450);
+
+                    b.Property<int>("UserId")
+                        .HasMaxLength(450);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("RefreshTokens");
+                });
+
             modelBuilder.Entity("DataLibrary.Entities.Role", b =>
                 {
                     b.Property<int>("Id")
@@ -259,7 +283,13 @@ namespace WebStoreAPI.Migrations
                     b.Property<string>("Email")
                         .IsRequired();
 
+                    b.Property<string>("Login")
+                        .IsRequired();
+
                     b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.Property<string>("PasswordHash")
                         .IsRequired();
 
                     b.Property<DateTime>("RegistrationTime")
@@ -307,7 +337,7 @@ namespace WebStoreAPI.Migrations
                     b.HasOne("DataLibrary.Entities.User", "User")
                         .WithMany("Deliveries")
                         .HasForeignKey("ModifiedBy")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("DataLibrary.Entities.Manufacturer", b =>
@@ -366,6 +396,14 @@ namespace WebStoreAPI.Migrations
                     b.HasOne("DataLibrary.Entities.User", "User")
                         .WithMany("Products")
                         .HasForeignKey("ModifiedBy")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("DataLibrary.Entities.RefreshToken", b =>
+                {
+                    b.HasOne("DataLibrary.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

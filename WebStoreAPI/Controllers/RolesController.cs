@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using WebStoreAPI.Requests.Roles;
 using WebStoreAPI.Response.Roles;
 using WebStoreAPI.Specifications.Roles;
@@ -18,6 +19,7 @@ namespace WebStoreAPI.Controllers
     /// <summary>
     /// Roles controller
     /// </summary>
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class RolesController : Controller

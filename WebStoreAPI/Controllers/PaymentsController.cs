@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using WebStoreAPI.Requests.Payments;
 using WebStoreAPI.Response.Payments;
 using WebStoreAPI.Specifications.Payments;
@@ -18,6 +19,7 @@ namespace WebStoreAPI.Controllers
     /// <summary>
     /// Payments controller
     /// </summary>
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class PaymentsController : Controller

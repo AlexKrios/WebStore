@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using WebStoreAPI.Requests.Deliveries;
 using WebStoreAPI.Response.Deliveries;
 using WebStoreAPI.Specifications.Deliveries;
@@ -18,6 +19,7 @@ namespace WebStoreAPI.Controllers
     /// <summary>
     /// Deliveries controller
     /// </summary>
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class DeliveriesController : Controller

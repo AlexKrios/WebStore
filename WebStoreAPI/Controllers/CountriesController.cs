@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using CQS.Commands.Countries;
 using CQS.Queries.Countries;
 using MediatR;
@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using WebStoreAPI.Requests.Countries;
 using WebStoreAPI.Response.Countries;
 using WebStoreAPI.Specifications.Countries;
@@ -18,6 +19,7 @@ namespace WebStoreAPI.Controllers
     /// <summary>
     /// Countries controller
     /// </summary>
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class CountriesController : Controller

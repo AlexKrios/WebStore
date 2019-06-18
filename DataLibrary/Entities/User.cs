@@ -13,6 +13,10 @@ namespace DataLibrary.Entities
         [Required]
         public string Name { get; set; }
         [Required]
+        public string Login { get; set; }
+        [Required]
+        public string PasswordHash { get; set; }
+        [Required]
         [Range(0, 100)]
         public int Age { get; set; }
         [Required]
