@@ -61,7 +61,12 @@ namespace WebStoreAPI.Controllers
                 var specification =
                     minTotalPriceSpec && maxTotalPriceSpec && userIdSpec && deliverIdSpec && paymentIdSpec;
 
-                var orders = await _mediator.Send(new GetOrdersQuery { Specification = specification });
+                var orders = await _mediator.Send(new GetOrdersQuery
+                {
+                    Skip = 0,
+                    Take = 10,
+                    Specification = specification
+                });
 
                 if (!orders.Any())
                 {

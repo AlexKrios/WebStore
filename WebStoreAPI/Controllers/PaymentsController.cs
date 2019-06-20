@@ -58,7 +58,12 @@ namespace WebStoreAPI.Controllers
 
                 var specification = nameSpec && minTaxesSpec && maxTaxesSpec;
 
-                var payments = await _mediator.Send(new GetPaymentsQuery { Specification = specification });
+                var payments = await _mediator.Send(new GetPaymentsQuery
+                {
+                    Skip = 0,
+                    Take = 10,
+                    Specification = specification
+                });
 
                 if (!payments.Any())
                 {

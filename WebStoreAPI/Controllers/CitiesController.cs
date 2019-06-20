@@ -55,7 +55,12 @@ namespace WebStoreAPI.Controllers
 
                 var specification = nameSpec && countryIdSpec;
 
-                var cities = await _mediator.Send(new GetCitiesQuery { Specification = specification });
+                var cities = await _mediator.Send(new GetCitiesQuery
+                {
+                    Skip = 0,
+                    Take = 10,
+                    Specification = specification
+                });
 
                 if (!cities.Any())
                 {

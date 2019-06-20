@@ -58,7 +58,12 @@ namespace WebStoreAPI.Controllers
 
                 var specification = nameSpec && minRatingSpec && maxRatingSpec;
 
-                var manufacturers = await _mediator.Send(new GetManufacturersQuery { Specification = specification });
+                var manufacturers = await _mediator.Send(new GetManufacturersQuery
+                {
+                    Skip = 0,
+                    Take = 10,
+                    Specification = specification
+                });
 
                 if (!manufacturers.Any())
                 {

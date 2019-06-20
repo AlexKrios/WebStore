@@ -4,6 +4,34 @@
         <name>WebStoreAPI</name>
     </assembly>
     <members>
+        <member name="T:WebStoreAPI.Controllers.AuthController">
+            <inheritdoc />
+            <summary>
+            Auth controller
+            </summary>
+        </member>
+        <member name="M:WebStoreAPI.Controllers.AuthController.CreateToken(WebStoreAPI.Requests.Auth.CreateTokenRequest)">
+            <summary>
+            Create Token
+            </summary>
+            <returns>Info about Token</returns>
+            <responce code="200">Create Token</responce>
+            <responce code="400">Bad request</responce>
+            <responce code="401">Unauthorized</responce>
+            <responce code="404">Token not found</responce>
+            <responce code="500">Internal error</responce>
+        </member>
+        <member name="M:WebStoreAPI.Controllers.AuthController.RefreshToken(WebStoreAPI.Requests.Auth.RefreshTokenRequest)">
+            <summary>
+            Refresh Token
+            </summary>
+            <returns>Info about Token</returns>
+            <responce code="200">Create Token</responce>
+            <responce code="400">Bad request</responce>
+            <responce code="401">Unauthorized</responce>
+            <responce code="404">Token not found</responce>
+            <responce code="500">Internal error</responce>
+        </member>
         <member name="T:WebStoreAPI.Controllers.CitiesController">
             <inheritdoc />
             <summary>
@@ -333,6 +361,12 @@
             <responce code="401">Unauthorized</responce>
             <responce code="404">OrderItem not found</responce>
             <responce code="500">Internal error</responce>
+        </member>
+        <member name="T:WebStoreAPI.Controllers.OrdersController">
+            <inheritdoc />
+            <summary>
+            Orders controller
+            </summary>
         </member>
         <member name="M:WebStoreAPI.Controllers.OrdersController.Get(WebStoreAPI.Requests.Orders.GetOrdersRequest)">
             <summary>

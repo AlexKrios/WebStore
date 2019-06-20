@@ -27,7 +27,8 @@ namespace CQS.Handlers.UserRoles
         {
             try
             {
-                return await _context.UserRoles.Where(query.Specification).ToListAsync(cancellationToken);
+                return await _context.UserRoles.Where(query.Specification)
+                    .OrderBy(x => x.Id).Skip(query.Skip).Take(query.Take).ToListAsync(cancellationToken);
             }
             catch (Exception e)
             {

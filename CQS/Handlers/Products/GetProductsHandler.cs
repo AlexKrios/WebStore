@@ -27,7 +27,8 @@ namespace CQS.Handlers.Products
         {
             try
             {
-                return await _context.Products.Where(query.Specification).ToListAsync(cancellationToken);
+                return await _context.Products.Where(query.Specification)
+                    .OrderBy(x => x.Id).Skip(query.Skip).Take(query.Take).ToListAsync(cancellationToken);
             }
             catch (Exception e)
             {
