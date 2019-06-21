@@ -63,8 +63,8 @@ namespace WebStoreAPI.Controllers
 
                 var orders = await _mediator.Send(new GetOrdersQuery
                 {
-                    Skip = 0,
-                    Take = 10,
+                    Skip = request.Skip,
+                    Take = request.Take,
                     Specification = specification
                 });
 

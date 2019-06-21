@@ -2,6 +2,7 @@ using AutoMapper;
 using CQS.Commands.Cities;
 using CQS.Queries.Cities;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -18,6 +19,7 @@ namespace WebStoreAPI.Controllers
     /// <summary>
     /// Cities controller
     /// </summary>
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class CitiesController : Controller
@@ -57,8 +59,8 @@ namespace WebStoreAPI.Controllers
 
                 var cities = await _mediator.Send(new GetCitiesQuery
                 {
-                    Skip = 0,
-                    Take = 10,
+                    Skip = request.Skip,
+                    Take = request.Take,
                     Specification = specification
                 });
 

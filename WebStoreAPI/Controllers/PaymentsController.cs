@@ -60,8 +60,8 @@ namespace WebStoreAPI.Controllers
 
                 var payments = await _mediator.Send(new GetPaymentsQuery
                 {
-                    Skip = 0,
-                    Take = 10,
+                    Skip = request.Skip,
+                    Take = request.Take,
                     Specification = specification
                 });
 

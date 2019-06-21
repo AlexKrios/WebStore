@@ -56,8 +56,8 @@ namespace WebStoreAPI.Controllers
 
                 var countries = await _mediator.Send(new GetCountriesQuery
                 {
-                    Skip = 0,
-                    Take = 10,
+                    Skip = request.Skip,
+                    Take = request.Take,
                     Specification = nameSpec
                 });
 

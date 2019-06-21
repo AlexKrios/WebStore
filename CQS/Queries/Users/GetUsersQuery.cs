@@ -7,8 +7,8 @@ namespace CQS.Queries.Users
 {
     public class GetUsersQuery : IRequest<IEnumerable<User>>
     {
-        public int Skip { get; set; }
-        public int Take { get; set; }
+        public int? Skip { get; set; }
+        public int? Take { get; set; }
         public Specification<User> Specification { get; set; }
     }
 }

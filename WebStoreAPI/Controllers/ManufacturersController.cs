@@ -60,8 +60,8 @@ namespace WebStoreAPI.Controllers
 
                 var manufacturers = await _mediator.Send(new GetManufacturersQuery
                 {
-                    Skip = 0,
-                    Take = 10,
+                    Skip = request.Skip,
+                    Take = request.Take,
                     Specification = specification
                 });
 

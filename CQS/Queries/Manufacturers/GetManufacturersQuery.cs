@@ -7,8 +7,8 @@ namespace CQS.Queries.Manufacturers
 {
     public class GetManufacturersQuery : IRequest<IEnumerable<Manufacturer>>
     {
-        public int Skip { get; set; }
-        public int Take { get; set; }
+        public int? Skip { get; set; }
+        public int? Take { get; set; }
         public Specification<Manufacturer> Specification { get; set; }
     }
 }

@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 
 namespace CQS.Handlers.UserRoles
 {
@@ -16,19 +17,31 @@ namespace CQS.Handlers.UserRoles
     {
         private readonly WebStoreContext _context;
         private readonly ILogger<GetUsersRolesHandler> _logger;
+        private readonly IConfiguration _config;
 
-        public GetUsersRolesHandler(WebStoreContext context, ILogger<GetUsersRolesHandler> logger)
+        public GetUsersRolesHandler(WebStoreContext context, ILogger<GetUsersRolesHandler> logger, IConfiguration config)
         {
             _context = context;
             _logger = logger;
+            _config = config;
         }
 
         public async Task<IEnumerable<UserRole>> Handle(GetUsersRolesQuery query, CancellationToken cancellationToken)
         {
             try
             {
+                if (query.Skip == null)
+                {
+                    query.Skip = Convert.ToInt32(_config["Pagination:Skip"]);
+                }
+
+                if (query.Take == null)
+                {
+                    query.Take = Convert.ToInt32(_config["Pagination:Take"]);
+                }
+
                 return await _context.UserRoles.Where(query.Specification)
-                    .OrderBy(x => x.Id).Skip(query.Skip).Take(query.Take).ToListAsync(cancellationToken);
+                    .OrderBy(x => x.Id).Skip((int)query.Skip).Take((int)query.Take).ToListAsync(cancellationToken);
             }
             catch (Exception e)
             {

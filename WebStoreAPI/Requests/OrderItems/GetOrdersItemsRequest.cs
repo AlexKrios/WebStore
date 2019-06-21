@@ -8,5 +8,7 @@
         public decimal? MaxPrice { get; set; }
         public int? ProductId { get; set; }
         public int? OrderId { get; set; }
+        public int? Skip { get; set; }
+        public int? Take { get; set; }
     }
 }

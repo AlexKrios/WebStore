@@ -59,8 +59,8 @@ namespace WebStoreAPI.Controllers
 
                 var usersRoles = await _mediator.Send(new GetUsersRolesQuery
                 {
-                    Skip = 0,
-                    Take = 10,
+                    Skip = request.Skip,
+                    Take = request.Take,
                     Specification = specification
                 });
 

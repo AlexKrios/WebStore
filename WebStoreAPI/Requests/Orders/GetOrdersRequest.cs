@@ -7,5 +7,7 @@
         public int? UserId { get; set; }
         public int? DeliveryId { get; set; }
         public int? PaymentId { get; set; }
+        public int? Skip { get; set; }
+        public int? Take { get; set; }
     }
 }

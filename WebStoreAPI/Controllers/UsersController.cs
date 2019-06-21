@@ -62,8 +62,8 @@ namespace WebStoreAPI.Controllers
 
                 var users = await _mediator.Send(new GetUsersQuery
                 {
-                    Skip = 0,
-                    Take = 10,
+                    Skip = request.Skip,
+                    Take = request.Take,
                     Specification = specification
                 });
 

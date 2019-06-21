@@ -9,5 +9,7 @@
         public decimal? MaxPrice { get; set; }
         public int? TypeId { get; set; }
         public int? ManufacturerId { get; set; }
+        public int? Skip { get; set; }
+        public int? Take { get; set; }
     }
 }

@@ -62,8 +62,8 @@ namespace WebStoreAPI.Controllers
 
                 var deliveries = await _mediator.Send(new GetDeliveriesQuery
                 {
-                    Skip = 0,
-                    Take = 10,
+                    Skip = request.Skip,
+                    Take = request.Take,
                     Specification = specification
                 });
 
